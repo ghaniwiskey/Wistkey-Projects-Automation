@@ -5,6 +5,7 @@
   "description": "Multi-project Playwright E2E automation (Page Object Model), built and operated with Aside",
   "scripts": {
     "test": "playwright test",
+    "test:auto": "node test-manager/run-auto.mjs",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report reports/playwright-html",

@@ -25,13 +25,26 @@ Node: `npx` fails in this shell. Use `$node = 'C:\Users\USER\.aside\runtime\node
 - Manual-only cases (`automated: false`) cannot run here. List them in the report as not run, and offer to automate them (qa-write-tests, Part B) or to step through them in the Test Manager's Manual run.
 - Check the project's README/context for run warnings first (shared test accounts: keep `workers` at 1; MHA UAT writes send emails).
 
-## 2. Run
+## 2. Run (no AI work unless something is broken)
+
+Always run through `test:auto`: plain Playwright with one retry, then it sorts the results itself.
 
 ```powershell
 $env:QA_ENV='staging'; $env:QA_SUITE='smoke'   # only when needed; clear them after: Remove-Item Env:QA_SUITE
-& $node node_modules/playwright/cli.js test --project=<slug> --grep @smoke
+& $node test-manager/run-auto.mjs --project=<slug> --grep @smoke
 ```
+- Exit 0 (all passed, flaky allowed) or 2 (only environment problems, already triaged as `environment` in the run): **stop here.** Report the summary block in 2 to 4 lines (counts, flaky IDs, environment reason, run report path) and do not investigate, browse, or reread files. For exit 2 tell the user to rerun once the site is reachable (respect the SCG firewall limit).
+- Exit 1 (broken tests): it wrote `reports/heal/<stamp>.json`. Continue with Heal mode below for exactly those tests.
+- Exit 3: Playwright recorded nothing; read its output (config or TypeScript error, no matching tests) and fix or report.
 - Long suites: start with `yield_ms` and poll. The reporter prints `[qa] <slug> (...): N pass, N fail ... -> projects/<slug>/runs/<runId>/report.md`.
+
+## Heal mode ("Heal the broken tests in reports/heal/<stamp>.json")
+
+The user ran `npm run test:auto` / `Run Tests.cmd` themselves, or step 2 above ended with exit 1.
+1. Read the request (newest `status: "pending"` file in `reports/heal/` if no path was given). It lists `runs` and the broken `tests` (slug, runId, id, file, first error line). Environment failures and flaky tests in it are for information only; do not work on them.
+2. For each broken test, do section 4 (Triage) below: reproduce, decide product-bug / test-issue / environment, fix test-issues in page objects, file or link bugs, record the triage on the original run.
+3. Verify fixes with `& $node test-manager/run-auto.mjs --project=<slug> --grep "<ID1>:|<ID2>:"` until it exits 0 (or the remaining failures are triaged product bugs).
+4. Update the request file: `status` (`healed`, `bugs-filed`, `partly-healed`, or `blocked`), `finishedAt`, and per test `outcome` + one-line `note`. Then commit and push (section 7) and report.
 - Headed debugging for the user: `--headed`. Never commit `.only`.
 
 ## 3. Read the results

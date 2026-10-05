@@ -40,6 +40,7 @@ cp .env.example .env   # then fill in the credentials (SCG_EMAIL / SCG_PASSWORD,
 ## Run
 
 ```bash
+npm run test:auto                         # run, then ask for AI only if a test is really broken (below)
 npm test                                  # every project, each on its defaultEnv
 npx playwright test --project=scg-store   # one project
 npm run test:smoke                        # @smoke tests of every project
@@ -50,6 +51,18 @@ npm run check                             # typecheck + tm:lint (run before ever
 ```
 
 PowerShell env switches: `$env:QA_ENV='staging'` (run every project on that env), `$env:SCG_BASE_URL='https://...'` (override one project's URL, `<PREFIX>_BASE_URL`), `$env:QA_WORKERS=2` (default 1, since projects may share test accounts), `$env:QA_AUTH_MAX_AGE_MIN=0` (always log in again, see below).
+
+## Run tests, use AI only when something broke
+
+`npm run test:auto` (or double-click **Run Tests.cmd**; Playwright arguments pass through, e.g. `npm run test:auto -- --project=scg-store --grep @smoke`) runs plain Playwright on this PC with one retry. No AI is involved, and nothing starts Aside on its own. Afterwards it sorts the results:
+
+| Result | What happens | Exit code |
+|---|---|---|
+| All passed (flaky = passed on the retry, listed but fine) | "All good. No AI needed." | 0 |
+| Only environment problems (site firewall 403, site down, 5xx, missing `.env` values) | Marked `environment` in the run automatically; rerun later | 2 |
+| Broken (failed twice, not the environment) | Saves a heal request `reports/heal/<stamp>.json` and copies a prompt to the clipboard: *Heal the broken tests in reports/heal/...* | 1 |
+
+Paste that prompt into an Aside task in this project when you want the tests fixed. Aside (skill `qa-run-tests`, Heal mode) works only on those tests: reproduces each failure in its browser, fixes outdated page objects or files a bug for a real product problem, reruns until green, then commits and pushes. When you ask Aside to "run the tests", it uses the same script and stops with a short summary if nothing is broken.
 
 ## Login sessions (log in once, reuse)
 
@@ -86,7 +99,8 @@ projects/
       utils/                   test data
     cases/<feature>/           test cases  SCG-NNN-<slug>.md
     plans/ bugs/ runs/         test plans, bug reports, run results (written by the Playwright reporter)
-test-manager/                  Test Manager web app (see test-manager/README.md)
+test-manager/                  Test Manager web app (see test-manager/README.md); run-auto.mjs = npm run test:auto
+Run Tests.cmd                  double-click: npm run test:auto
 docs/
   conventions.md               priorities, severities, statuses, failure types, test case and bug rules
   exploratory-heuristics.md    test ideas by category (test design and exploratory sessions)

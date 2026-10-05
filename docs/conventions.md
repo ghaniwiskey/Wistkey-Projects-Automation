@@ -98,7 +98,7 @@ How to tell them apart: reproduce the failing steps by hand (or in Aside's brows
 
 ## Retries and flakiness
 
-- Local runs have no retries; CI retries twice (`playwright.config.ts`). Pass on retry = `flaky`.
+- `npm test` has no retries locally; CI retries twice (`playwright.config.ts`); `npm run test:auto` retries once and auto-triages environment failures. Pass on retry = `flaky`.
 - Before triaging a local failure, rerun just that test once (`--grep "SCG-001:"`). If it passes now, treat it as flaky and look for the cause (missing wait in a page object, shared test data) instead of ignoring it.
 - Never "fix" flakiness with `waitForTimeout`; wait for a state (`expect(...).toBeVisible()`, `waitForResponse`) inside the page object.
 
