@@ -1,0 +1,35 @@
+name: MHA SPF
+slug: mha-spf
+testIdPrefix: SPF
+description: e-RFID Asset Tracking System (ATS) for MHA/SPF fixed assets (UAT on Azure).
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with SPF_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+# UAT writes can send real emails (see context.md > Email triggers). Never point this at production.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: https://mhauatweb.southeastasia.cloudapp.azure.com/
+    allowWrites: true
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# A test links to a test case when its title starts with the ID: test('SPF-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium] # chromium | firefox | webkit | mobile; first one is the "mha-spf" Playwright project
+  fullyParallel: false # tests share one account; its active role is server-side state
+  use:
+    viewport: {width: 1440, height: 900} # the header shows "Role:" / "Last Login" labels only at >= 1400px
+
+# Test accounts: usernames only. Passwords (if any) go in .env as SPF_<ROLE>_PASS.
+auth:
+  accounts:
+    - username: SPF-A2216GA
+      roles: [agency-admin, falo, logs1, stocktaker, uao, vet-ic]
+      passwordless: true
+      notes: Officer "Wong Pui Lai Annie". Role slugs map to dropdown labels in tests/utils/test-data.ts.
+      envUser: SPF_AGENCY_ADMIN_USER
+
+suites:
+  smoke: {tags: [smoke], description: Critical paths, under 5 minutes. Run on every deploy.}
+  regression: {tags: [regression, smoke], description: Full functional coverage}

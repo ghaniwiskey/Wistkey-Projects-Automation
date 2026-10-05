@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "runner": "aside-agentic",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "smoke-login",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-05_1147_staging_smoke-login",
+  "workers": [
+    "main"
+  ],
+  "startedAt": "2026-10-05T04:47:11.678Z",
+  "finishedAt": "2026-10-05T04:48:23.902Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-001",
+      "title": "Log in with the passwordless test account",
+      "startedAt": "2026-10-05T04:48:12.744Z",
+      "checks": [
+        {
+          "label": "Base URL redirects to the login page",
+          "pass": true
+        },
+        {
+          "label": "login heading: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "User name field: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Password field: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Login button: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "WOG SSO button: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "URL left the login page (no /Account/Login)",
+          "pass": true
+        },
+        {
+          "label": "Dashboard heading: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "officer name in header: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Last Login in header: expect(locator).toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Role dropdown shows a current role",
+          "pass": true
+        },
+        {
+          "label": "Side menu shows Dashboard",
+          "pass": true
+        },
+        {
+          "label": "Side menu shows Asset",
+          "pass": true
+        },
+        {
+          "label": "Side menu shows Stocktake",
+          "pass": true
+        },
+        {
+          "label": "Side menu shows Report",
+          "pass": true
+        },
+        {
+          "label": "Side menu shows Settings",
+          "pass": true
+        },
+        {
+          "label": "Side menu shows User",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": [],
+      "priority": "P0",
+      "file": "tests/auth/SPF-001-login-passwordless-account.md",
+      "durationMs": 4739,
+      "url": "https://mhauatweb.southeastasia.cloudapp.azure.com/IndexBk",
+      "status": "pass",
+      "attempts": 1
+    }
+  ],
+  "notes": "First run on MHA SPF staging. Context updates: login path /Account/LoginBk, post-login /IndexBk, header/Role/side-menu locators, SPF-A2216GA = Wong Pui Lai Annie with 6 roles. One earlier attempt discarded with qa.forget (automation error: heading lookups)."
+}

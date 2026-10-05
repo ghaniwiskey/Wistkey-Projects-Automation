@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "scg-store",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://scg.next.mystoreberry.com",
+  "runId": "2026-10-05_1716_staging_playwright",
+  "workers": [
+    "chromium"
+  ],
+  "startedAt": "2026-10-05T10:16:58.404Z",
+  "finishedAt": "2026-10-05T10:17:28.673Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SCG-001",
+      "title": "logged-in user can search a product and add it to cart @smoke",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/scg-store/tests/e2e/cart/add-to-cart.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-05T10:16:58.404Z",
+      "durationMs": 29772,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open store",
+          "pass": true
+        },
+        {
+          "label": "Blocked by site firewall (HTTP 200) on /",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Log in",
+          "pass": true
+        },
+        {
+          "label": "Blocked by site firewall (HTTP 200) on /login",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Blocked by site firewall (HTTP 200) on /checkout",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Search \"RA-TECH WE M14 CNC steel Gas Cylinder Plug | NO.72\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. Product page shows the right item",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. Add to cart",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 6. Item is in the cart",
+          "pass": true
+        },
+        {
+          "label": "Blocked by site firewall (HTTP 200) on /checkout",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Blocked by site firewall (HTTP 200) on /checkout",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"chromium\". Full Playwright HTML report: playwright-report/index.html (overwritten by the next run)."
+}

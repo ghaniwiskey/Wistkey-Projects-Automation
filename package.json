@@ -1,0 +1,22 @@
+{
+  "name": "scg-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E tests for the SCG store (scg.next.mystoreberry.com)",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report reports/playwright-html",
+    "test:smoke": "playwright test --grep @smoke",
+    "tm": "node test-manager/cli.mjs app --open",
+    "tm:report": "node test-manager/cli.mjs report",
+    "tm:lint": "node test-manager/cli.mjs lint",
+    "tm:new": "node test-manager/cli.mjs new"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.0.0",
+    "yaml": "^2.9.1"
+  }
+}
