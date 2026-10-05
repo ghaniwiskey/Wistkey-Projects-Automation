@@ -33,4 +33,5 @@ Exploration happens in Aside's browser (REPL `openTab` / `snapshot` / locator ac
    - **test idea**: a behavior that deserves a case (priority and tags suggested).
 5. **Write the session notes** `projects/<slug>/explorations/YYYY-MM-DD-<charter-slug>.md` from the template: scope, coverage notes, findings table with bug links, new test ideas, knowledge updates.
 6. **Write back knowledge:** new quirks, routes and waits into the project's `README.md` / `context.md`; selectors that page objects will need can be listed in the notes for when the case is automated.
-7. **Report:** top findings with a screenshot, bugs filed, questions for the user. Offer to turn test ideas into cases (qa-write-tests) and to automate them.
+7. **Commit and push** the session notes, screenshots, bugs and knowledge updates: `git add -A`, `git commit -m "Explore <area>: <n> bugs, <n> test ideas"`, `git push`.
+8. **Report:** top findings with a screenshot, bugs filed, questions for the user. Offer to turn test ideas into cases (qa-write-tests) and to automate them.

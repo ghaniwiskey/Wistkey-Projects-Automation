@@ -69,3 +69,7 @@ Only when the user asks, or for cases they approve. One case = one Playwright te
    & $node node_modules/playwright/cli.js test --project=<slug> --grep "<ID>:"
    ```
 8. Set `automated: true` in the case, bump `updated:`, add the spec path to its Notes, run lint again, and report the result with the run report path (`projects/<slug>/runs/<run>/report.html`).
+
+## Commit and push (always)
+
+After cases are written (Part A) or a test is automated and green (Part B): `git add -A`, one commit per logical change (`Add SPF-002/003 cases for asset listing`, `Automate SPF-002 with AssetListingPage`), `git push`. Check `git status` first that no secrets are staged (`.env`, auth state). Never force-push. Mention the commit hash in the report.

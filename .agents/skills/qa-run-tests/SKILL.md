@@ -73,3 +73,7 @@ Rerun the tests in the bug's `tests:` list. All pass -> `s.updateBug('<slug>', '
 - Copy `projects/<slug>/runs/<runId>/report.html` into the session artifacts folder (e.g. `<runId>-report.html`) and mention it. Show the most important failure screenshot.
 - Write back what you learned: site quirks in the project's README/context, stale steps in cases.
 - Several projects: run them in one command (no `--project`) or one subagent per project, then summarize per project.
+
+## 7. Commit and push
+
+When the run led to significant edits (page object fixes, updated cases, new or updated bugs, knowledge notes): `git add -A` (includes the new run folders), commit with a message that says what and why (`Fix SCG cart selector after header redesign; file BUG-002`), `git push`. A run with no other edits is not pushed on its own; its folder goes out with the next significant commit. Never force-push.
