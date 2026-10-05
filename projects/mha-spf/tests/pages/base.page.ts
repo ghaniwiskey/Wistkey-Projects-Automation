@@ -2,6 +2,18 @@ import { Page, Locator, expect } from '@playwright/test';
 import { AppPage } from '@shared/pages/app.page';
 
 /**
+ * ATS allows one session per account: a newer login of the same account (another test, a person,
+ * Aside's browser) ends the older session. Pages still open, but the next server action (such as a
+ * role switch) lands on the login page.
+ */
+export class SessionEndedError extends Error {
+  constructor() {
+    super('Logged out: the session was ended, most likely by a newer login of the same account (ATS allows one session per account).');
+    this.name = 'SessionEndedError';
+  }
+}
+
+/**
  * Logged-in layout shared by every ATS page: header (Role dropdown, officer name,
  * last login, Logout) and the side menu. The Role dropdown is a select2 widget over a
  * hidden <select name="role-selection">; its accessible name is the current role.
@@ -40,7 +52,13 @@ export abstract class BasePage extends AppPage {
       this.page.waitForEvent('load'),
       this.page.getByRole('option', { name: label, exact: true }).click(),
     ]);
+    if (this.isLoginUrl()) throw new SessionEndedError();
     await expect(this.currentRole).toHaveText(label);
+  }
+
+  /** True when the app has sent the browser back to the login page. */
+  isLoginUrl(): boolean {
+    return /\/Account\/Login/.test(this.page.url());
   }
 
   async logout(): Promise<void> {

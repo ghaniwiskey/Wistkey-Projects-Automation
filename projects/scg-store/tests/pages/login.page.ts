@@ -27,6 +27,6 @@ export class LoginPage extends BasePage {
     await this.loginButton.click();
     // Successful login redirects away from /login and marks the account icon as logged in.
     await expect(this.page).not.toHaveURL(/\/login/);
-    await expect(this.page.locator('a.icon-button.loggedIn').filter({ visible: true }).first()).toBeVisible();
+    await expect(this.loggedInIcon).toBeVisible();
   }
 }

@@ -20,6 +20,7 @@ How the code is written (Page Object Model, selectors, fixtures) is covered in t
 - **Unique data per run** for anything the server stores (names, emails, references): write `<unique>` in the case, and generate it in the spec or in `tests/utils/test-data.ts`, e.g. `` `QA-${Date.now().toString(36)}` ``.
 - **Preconditions** list only what no step sets up (an account with a role, stock available). Login is a step.
 - Keep `updated:` current when you edit a case.
+- Before committing code: `npm run check` (TypeScript type check + `tm:lint`) must pass.
 
 ### Mapping a case to code (POM)
 
@@ -28,6 +29,8 @@ How the code is written (Page Object Model, selectors, fixtures) is covered in t
 | Steps ("Log in", "Add to cart") | Page object methods (`loginPage.login()`, `productPage.addToCart()`) |
 | Expected bullets | `expect(...)` in the spec, one or more per bullet; group them with `test.step('...')` so they show as checks in the run report |
 | Preconditions / shared setup | Fixtures (`tests/fixtures/pages.fixture.ts`) or page object helpers |
+| "Log in as ..." when the login is not what the case tests | The project's session option: `test.use({ role: 'logs1' })` (mha-spf), `test.use({ loggedIn: true })` (scg-store). Logs in once, reuses the saved session (README > Login sessions) |
+| "Log in ..." when the case tests the login itself | UI steps through the login page object, no session option (SCG-001, SPF-001) |
 | Test data | `tests/utils/test-data.ts`; secrets only via `requireEnv()` from `.env` |
 | Selectors, waits, site quirks | Page objects only, never the spec |
 

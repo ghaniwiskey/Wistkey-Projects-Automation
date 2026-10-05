@@ -11,6 +11,8 @@ export abstract class BasePage {
   readonly searchResults: Locator;
   readonly cartBadge: Locator;
   readonly accountLink: Locator;
+  /** Header account icon in its logged-in state. */
+  readonly loggedInIcon: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,6 +21,7 @@ export abstract class BasePage {
     this.searchResults = page.getByRole('listbox', { name: 'Search results' });
     this.cartBadge = page.locator('a.icon-button[href="/checkout"]').filter({ visible: true }).first();
     this.accountLink = page.locator('a.icon-button[href="/my-account"], a.icon-button[href^="/login"]').filter({ visible: true }).first();
+    this.loggedInIcon = page.locator('a.icon-button.loggedIn').filter({ visible: true }).first();
   }
 
   /**

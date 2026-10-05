@@ -44,6 +44,7 @@ Only when the user asks, or for cases they approve. One case = one Playwright te
 2. **Find stable selectors** in the live app with Aside's browser (`snapshot`), in this order: `getByRole` > `getByLabel` > `getByPlaceholder` > `getByText` > `getByTestId` > CSS (last resort, with a comment saying why).
 3. **Page objects** (`tests/pages/<page>.page.ts`): locators as readonly fields, user-level action methods (`addToCart()`, `filterByStatus(status)`), and `expect...()` helpers for page-level checks. Waits for the app's own quirks (hydration, spinners, modals) belong here. Extend the project's own base page (`tests/pages/base.page.ts`); a project without one starts from `AppPage` in `@shared/pages/app.page`.
 4. **Fixture:** register any new page object in `tests/fixtures/pages.fixture.ts`.
+   - **Login:** if the case only needs a logged-in user, do not script the login: use the project's session option at the top of the spec or describe block, `test.use({ role: '<role-slug>' })` (mha-spf, starts on the dashboard with that role active) or `test.use({ loggedIn: true })` (scg-store). It logs in once and reuses the session (README > Login sessions). Script the login through the login page object only when the case tests the login itself. A project without a session option yet: add one following `projects/scg-store/tests/fixtures/pages.fixture.ts` and `shared/auth/session.ts`.
 5. **Spec** (`tests/e2e/<feature>/<name>.spec.ts`):
    ```ts
    import { test, expect } from '../../fixtures/pages.fixture';
@@ -64,8 +65,9 @@ Only when the user asks, or for cases they approve. One case = one Playwright te
    - Specs read like the case: page object calls and `expect` only.
    - Clean up anything the test changes (before and after), so it can run again.
 6. **This workspace's rules (enforced by `tm:lint`):** page objects come from fixtures (do not `new` them in `beforeEach`), no `page.locator()` in specs, no `waitForTimeout`, no `.only`, no imports from another project (share through `shared/` as `@shared/...`), secrets only via `requireEnv()` from `.env`.
-7. **Run it** (2 green runs in a row before calling it done):
+7. **Type check, then run it** (2 green runs in a row before calling it done):
    ```powershell
+   & $node node_modules/typescript/bin/tsc --noEmit -p tsconfig.json   # must print nothing
    & $node node_modules/playwright/cli.js test --project=<slug> --grep "<ID>:"
    ```
 8. Set `automated: true` in the case, bump `updated:`, add the spec path to its Notes, run lint again, and report the result with the run report path (`projects/<slug>/runs/<run>/report.html`).

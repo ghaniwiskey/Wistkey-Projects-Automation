@@ -14,9 +14,11 @@ const stamp = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDat
 const ID_RE = /^\s*([A-Z][A-Z0-9]*-\d+)\b[:\s-]*/;
 const inside = (dir, file) => { const r = path.relative(dir, file); return r && !r.startsWith('..') && !path.isAbsolute(r); };
 
-// Expect calls and test.step() blocks become the run's checks.
+// Expect calls and test.step() blocks become the run's checks. Fixture setup (e.g. a login that
+// saves a reusable session) is not part of what the test verifies, so its expects are left out.
 function checksOf(steps, out = []) {
   for (const s of steps || []) {
+    if (s.category === 'fixture') continue;
     if ((s.category === 'expect' || s.category === 'test.step') && out.length < 80) {
       out.push({ label: s.category === 'test.step' ? `Step: ${s.title}` : s.title, pass: !s.error, ...(s.error ? { actual: stripAnsi(s.error.message).split('\n').slice(0, 3).join(' ') } : {}) });
     }

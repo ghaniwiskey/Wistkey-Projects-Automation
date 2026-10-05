@@ -1,8 +1,8 @@
 {
-  "name": "scg-e2e",
+  "name": "wistkey-projects-automation",
   "version": "1.0.0",
   "private": true,
-  "description": "Playwright E2E tests for the SCG store (scg.next.mystoreberry.com)",
+  "description": "Multi-project Playwright E2E automation (Page Object Model), built and operated with Aside",
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
@@ -12,11 +12,14 @@
     "tm": "node test-manager/cli.mjs app --open",
     "tm:report": "node test-manager/cli.mjs report",
     "tm:lint": "node test-manager/cli.mjs lint",
-    "tm:new": "node test-manager/cli.mjs new"
+    "tm:new": "node test-manager/cli.mjs new",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check": "npm run typecheck && npm run tm:lint"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
     "@types/node": "^22.0.0",
+    "typescript": "^7.0.2",
     "yaml": "^2.9.1"
   }
 }

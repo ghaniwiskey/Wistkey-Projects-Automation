@@ -45,9 +45,25 @@ npx playwright test --project=scg-store   # one project
 npm run test:smoke                        # @smoke tests of every project
 npm run test:headed / test:ui / report    # headed, UI mode, last HTML report
 npm run tm                                # Test Manager at http://127.0.0.1:7358/ (or "Start Test Manager.cmd")
+npm run typecheck                         # TypeScript check of specs, page objects, fixtures, shared/ and the config
+npm run check                             # typecheck + tm:lint (run before every commit)
 ```
 
-PowerShell env switches: `$env:QA_ENV='staging'` (run every project on that env), `$env:SCG_BASE_URL='https://...'` (override one project's URL, `<PREFIX>_BASE_URL`), `$env:QA_WORKERS=2` (default 1, since projects may share test accounts).
+PowerShell env switches: `$env:QA_ENV='staging'` (run every project on that env), `$env:SCG_BASE_URL='https://...'` (override one project's URL, `<PREFIX>_BASE_URL`), `$env:QA_WORKERS=2` (default 1, since projects may share test accounts), `$env:QA_AUTH_MAX_AGE_MIN=0` (always log in again, see below).
+
+## Login sessions (log in once, reuse)
+
+Tests that need a logged-in user but are not testing the login itself start already logged in. They opt in through their project's fixture:
+
+```ts
+test.use({ role: 'logs1' });   // mha-spf: logged in, LOGS1 active, on the dashboard
+test.use({ loggedIn: true });  // scg-store: logged in as the SCG test account
+```
+
+- The first such test logs in once through the page objects and saves the session (cookies + localStorage) to `playwright/.auth/<project>/<env>/<account>.json` (gitignored). Later tests and later runs reuse it for up to 30 minutes (`QA_AUTH_MAX_AGE_MIN`), after checking it is still valid; otherwise they log in again. Fewer logins means faster runs and fewer requests to sites with a firewall (SCG).
+- Tests of the login itself (SCG-001, SPF-001) do not opt in and start logged out.
+- **mha-spf allows one session per account.** Any newer login of the same account (SPF-001, a person, Aside's browser) ends the saved session; the `role` fixture notices (role switch lands on the login page), logs in again and re-saves the session.
+- Shared code: `shared/auth/session.ts` (`savedSession`, `resaveSession`, `forgetSession`). New projects copy the pattern from `projects/scg-store/tests/fixtures/pages.fixture.ts`.
 
 ## Structure
 
@@ -57,6 +73,7 @@ tsconfig.json                  "@shared/*" import alias
 shared/                        helpers for every project (import from '@shared/...')
   pages/app.page.ts            generic base page (navigate + HTTP error check)
   utils/env.ts                 requireEnv() for credentials from .env
+  auth/session.ts              log in once and reuse the session (storageState) across tests and runs
 projects/
   _template/                   copied for new projects (Test Manager "New project" or npm run tm:new)
   scg-store/                   one app under test
