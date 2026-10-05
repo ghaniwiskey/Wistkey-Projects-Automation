@@ -78,7 +78,7 @@ export default defineConfig({
   use: {
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'off', // screenshots + traces on failure are enough; videos slow runs and fill disk
     actionTimeout: 15_000,
     navigationTimeout: 30_000,
   },

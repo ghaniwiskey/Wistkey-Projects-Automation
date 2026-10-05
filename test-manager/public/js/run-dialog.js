@@ -48,7 +48,7 @@ export function RunDialog({ project, tests, plan, onClose, initial, sandboxed })
     <div class="tabs">${tab('playwright', 'Playwright')}${tab('manual', 'Manual')}</div>
     <${ErrorBox} error=${err} />
     ${mode === 'playwright' ? html`<div>
-      <p class="muted small">Runs <code>playwright test ${(project.playwrightProjects || [project.slug]).map((n) => `--project=${n}`).join(' ')}</code> with live progress, screenshots, videos and traces on failure, on the environment chosen below (<code>QA_ENV</code>).</p>
+      <p class="muted small">Runs <code>playwright test ${(project.playwrightProjects || [project.slug]).map((n) => `--project=${n}`).join(' ')}</code> with live progress, screenshots and traces on failure, on the environment chosen below (<code>QA_ENV</code>).</p>
       ${automated.length < tests.length ? html`<div class="banner">${automated.length} of ${tests.length} selected tests have a Playwright test. ${automated.length ? 'Only those will run.' : `Choose Manual for the others, or automate them in ${project.specDir || 'tests/e2e'}.`}</div>` : null}
       ${specFiles.length ? html`<p class="small muted">Spec files: ${specFiles.map((f) => html`<code>${f}</code> `)}</p>` : null}
       ${sandboxed ? html`<div class="banner">This app is running inside a sandbox where browsers cannot start. Start it with "Start Test Manager.cmd" or <code>npm run tm</code> to run Playwright.</div>` : null}
