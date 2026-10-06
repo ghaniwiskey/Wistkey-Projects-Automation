@@ -209,7 +209,7 @@ export const test = base.extend<Options & PageFixtures>({
   },
   faveTarget: async ({ favePage, returnFaveToVetIc }, use, testInfo) => {
     const costCentre = await favePage.firstNotApproved(FAVE.costCentres);
-    testInfo.skip(!costCentre, `Every cost centre in FAVE.costCentres (${FAVE.costCentres.join(', ')}) is APPROVED in the current FAVE`);
+    testInfo.skip(!costCentre, `Every cost centre in FAVE.costCentres (${FAVE.costCentres.join(', ')}) is APPROVED in the current FAVE. Add a cost centre (the test account can be given another unit in User > User Listing, see context.md)`);
     await returnFaveToVetIc(costCentre as string);
     await favePage.openForCostCentre(costCentre as string);
     await use({ costCentre: costCentre as string, asset: await favePage.firstAssetId() });

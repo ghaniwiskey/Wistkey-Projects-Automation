@@ -121,7 +121,7 @@ test.describe('Stocktake FAVE final approval (writes, irreversible)', () => {
   }) => {
     test.slow();
     const found = await favePage.firstNotApproved(FAVE.approvalCostCentres);
-    test.skip(!found, `Every cost centre in FAVE.approvalCostCentres (${FAVE.approvalCostCentres.join(', ')}) is already approved in the current FAVE`);
+    test.skip(!found, `Every cost centre in FAVE.approvalCostCentres (${FAVE.approvalCostCentres.join(', ')}) is already approved in the current FAVE. Add a cost centre (the test account can be given another unit in User > User Listing, see context.md)`);
     const costCentre = found as string;
     let endorsedBefore = 0;
 
