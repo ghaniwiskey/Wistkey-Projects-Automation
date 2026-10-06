@@ -2,11 +2,11 @@
 id: BUG-010
 title: "FAVE Update Result: SIGHTED + NOT WORKING (To Repair) shows FSSC Outcome \"Working condition\""
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/Fave
 found: 2026-10-06
-foundBy: explorations/2026-10-06-fave-follow-up.md
+foundBy: "explorations/2026-10-06-fave-follow-up.md"
 tests: [SPF-042]
 frequency: always
 ---
@@ -19,7 +19,7 @@ In the FAVE Update Result dialog, Sighted Result SIGHTED with Asset Condition NO
 3. Sighted Result SIGHTED, Asset Condition NOT WORKING
 
 ## Expected
-FSSC Outcome describes an asset to be repaired (the manual says the mapping follows the FSSC guideline; the exact text is not in the manual).
+FSSC Outcome is not "Working condition". Most likely "In FAL, but obsolete or not in working condition": FAVE(HQ) Overview lists the FSSC outcomes as legends a to i, and the only one for a sighted asset that does not work is "e Sighted, In FAL, but obsolete or not in working condition" (follow-up items of FAVE FY24-2001 use the same text). As it is, a broken asset is counted under "a Sighted - Working condition" in the HQ Overview.
 
 ## Actual
 HTD Follow-up "To Repair", FSSC Outcome "Working condition". Same when starting from PENDING and when picking "To Repair" again. Reproduced twice.
@@ -33,3 +33,5 @@ Other mappings seen in the same dialog: SIGHTED+WORKING > No Further Action / "W
 
 ## History
 - 2026-10-06: filed from explorations/2026-10-06-fave-follow-up.md.
+- 2026-10-06: expected outcome narrowed down from the FAVE(HQ) Overview legend (explorations/2026-10-06-fave-hq.md).
+- 2026-10-06: status open -> wont-fix.

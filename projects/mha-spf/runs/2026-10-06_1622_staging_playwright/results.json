@@ -1,0 +1,375 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-06_1622_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-10-06T09:22:38.071Z",
+  "finishedAt": "2026-10-06T09:23:16.278Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-043",
+      "title": "agency admin sees a unit fave result in fave(hq) overview, details and export",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-fave/fave-hq.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T09:22:38.071Z",
+      "durationMs": 37585,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Step: Setup: 111000011358 on 332300 is PENDING",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1. Agency Admin opens the same FAVE in FAVE(HQ) with every cost centre",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/FaveHQ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThanOrEqual\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Cost centre 332300: Overview legend a..i matches the Summary",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toEqual\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "legend \"Sighted - Working condition\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"a Sighted - Working condition\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Sighted - Pending STO transfer\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"b Sighted - Pending STO transfer\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Sighted - Asset is with vendor (temporarily)/on loan to other unit\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"c Sighted - Asset is with vendor (temporarily)/on loan to other unit\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Sighted - Asset is obsolete, pending demolishment / return to SLA [For L&B only]\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"d Sighted - Asset is obsolete, pending demolishment / return to SLA [For L&B only]\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Sighted, In FAL, but obsolete or not in working condition\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"e Sighted, In FAL, but obsolete or not in working condition\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Not Sighted - Asset has been physically disposed\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"f Not Sighted - Asset has been physically disposed\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Not Sighted - Asset is pending physical disposal\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"g Not Sighted - Asset is pending physical disposal\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Not Sighted - Under investigation\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"h Not Sighted - Under investigation\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "legend \"Not Sighted - Cannot be found after investigation, FA record to be disposed\"",
+          "pass": true
+        },
+        {
+          "label": "Overview \"i Not Sighted - Cannot be found after investigation, FA record to be disposed\" vs Summary",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. FAVE(HQ) is read-only: Details has only Search and Clear",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toEqual\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. VET IC records 111000011358 as SIGHTED / WORKING",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toPass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. FAVE(HQ) Overview \"a\" goes up by one and still matches the Summary",
+          "pass": true
+        },
+        {
+          "label": "Step: 6. Details shows the result",
+          "pass": true
+        },
+        {
+          "label": "Step: 7. The cost centre export lists the asset under legend a",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

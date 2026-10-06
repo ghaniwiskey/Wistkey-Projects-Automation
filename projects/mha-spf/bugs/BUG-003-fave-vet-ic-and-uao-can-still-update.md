@@ -2,7 +2,7 @@
 id: BUG-003
 title: "FAVE: VET IC (and UAO) can still update stocktake results after VET IC has submitted the FAVE"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/FaveForm?stktakeFAVEId=<id>
 found: 2026-10-06
@@ -33,3 +33,4 @@ Update Result is shown and the change is saved: "The stocktake result is updated
 
 ## History
 - 2026-10-06: filed from exploratory session 2026-10-06 (Aside) in the Test Manager app.
+- 2026-10-06: status open -> wont-fix.

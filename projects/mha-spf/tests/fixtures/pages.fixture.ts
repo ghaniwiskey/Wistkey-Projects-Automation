@@ -19,6 +19,7 @@ import { RetirementPage } from '../pages/retirement.page';
 import { GroupPage } from '../pages/group.page';
 import { ReportPage } from '../pages/report.page';
 import { FollowUpPage } from '../pages/follow-up.page';
+import { FaveHqPage } from '../pages/fave-hq.page';
 import { ACCOUNT_ENV, ROLES, RoleSlug, testAccount } from '../utils/test-data';
 import type { ListedAsset } from '../pages/asset-listing.page';
 
@@ -61,6 +62,7 @@ type PageFixtures = {
   groupPage: GroupPage;
   reportPage: ReportPage;
   followUpPage: FollowUpPage;
+  faveHqPage: FaveHqPage;
   /**
    * Cleanup for write tests: cancel every SUBMITTED assignment transaction on the asset (as owner,
    * reason Others), so the asset can be selected again. Returns the cancelled transaction numbers.
@@ -239,6 +241,9 @@ export const test = base.extend<Options & PageFixtures>({
   },
   followUpPage: async ({ page }, use) => {
     await use(new FollowUpPage(page));
+  },
+  faveHqPage: async ({ page }, use) => {
+    await use(new FaveHqPage(page));
   },
   cancelCreatedAdHocs: async ({ adHocSetupPage }, use) => {
     await use(async (nameText) => {
