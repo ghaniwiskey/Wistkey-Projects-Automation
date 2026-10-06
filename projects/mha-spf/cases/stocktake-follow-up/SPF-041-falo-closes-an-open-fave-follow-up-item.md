@@ -1,7 +1,7 @@
 ---
 id: SPF-041
 title: "FALO closes an open FAVE follow-up item"
-feature: stocktake-fave
+feature: stocktake-follow-up
 priority: P1
 tags: [regression, writes]
 envs: [staging]
@@ -39,4 +39,4 @@ Open items raised in an approved FAVE (manual Part IV) can be closed from Stockt
 ## Notes
 On UAT (2026-10-06) the list held 225 items from FAVE FY24-2001 (cost centre 332300). No reason or confirmation is asked before closing.
 
-Automated in tests/e2e/stocktake-fave/fave-follow-up.spec.ts.
+Automated in tests/e2e/stocktake-follow-up/follow-up.spec.ts (page object tests/pages/follow-up.page.ts).
