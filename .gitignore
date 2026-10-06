@@ -2,7 +2,7 @@ node_modules/
 .env
 playwright/.auth/
 # Generated output: Playwright HTML report, test-results scratch, JSON results, Test Manager overview report
-reports/
+/reports/
 # Run evidence grows over time. Uncomment to keep results but not images and traces:
 # projects/*/runs/**/screenshots/
 # projects/*/runs/**/traces/
