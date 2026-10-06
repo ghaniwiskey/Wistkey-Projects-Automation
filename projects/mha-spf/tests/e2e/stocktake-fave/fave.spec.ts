@@ -71,7 +71,8 @@ test.describe('Stocktake FAVE', () => {
         expect(await favePage.submitResult()).toBe('The stocktake result is updated.');
       });
 
-      await test.step('4. The row shows the result', async () => {
+      await test.step('4. After reopening the FAVE the row shows the result', async () => {
+        await favePage.openForCostCentre(FAVE.costCentre); // fresh page: the result is really saved
         await favePage.searchDetails(FAVE.asset);
         await expect(favePage.resultOf(FAVE.asset)).toContainText('SIGHTED');
         await expect(favePage.resultOf(FAVE.asset)).toContainText('WORKING');

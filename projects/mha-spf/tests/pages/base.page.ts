@@ -72,6 +72,14 @@ export abstract class BasePage extends AppPage {
     );
     await action();
     await drawn;
+    // Some keyword boxes also search while typing, so a Search click can leave a second, identical
+    // request in flight; its redraw would replace the rows (and drop a tick) a moment later. Wait for
+    // the table's last request (DataTables keeps it in settings.jqXHR) to finish.
+    await this.page.waitForFunction((sel) => {
+      const $ = (window as unknown as { jQuery: (s: string) => { DataTable?: () => { settings: () => { jqXHR?: { readyState: number } }[] } } }).jQuery;
+      const settings = $(sel).DataTable?.().settings()[0];
+      return !settings?.jqXHR || settings.jqXHR.readyState === 4;
+    }, tableSelector);
   }
 
   /** Like reloadsTable, for an action that reloads several tables (e.g. picking a FAVE cost centre). */

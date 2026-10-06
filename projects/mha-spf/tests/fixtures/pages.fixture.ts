@@ -55,6 +55,12 @@ type PageFixtures = {
    * text. One-off setups are SUBMITTED at once and cannot be cancelled, so they stay.
    */
   cancelCreatedAdHocs: (nameText: string) => Promise<string[]>;
+  /**
+   * Setup/cleanup for FAVE approval tests: whatever level the cost centre's FAVE is at (UAO or URO),
+   * reject it down until it is back with VET IC, then make VET IC the active role again.
+   * Returns the roles that rejected. Never approves (UAO approval goes to HQ AO).
+   */
+  returnFaveToVetIc: (costCentre: string) => Promise<string[]>;
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
@@ -179,6 +185,20 @@ export const test = base.extend<Options & PageFixtures>({
         await adHocSetupPage.cancelWithOtherReason('QA cleanup');
       }
       return created;
+    });
+  },
+  returnFaveToVetIc: async ({ favePage }, use) => {
+    await use(async (costCentre) => {
+      const rejected: string[] = [];
+      for (const role of ['uao', 'uro'] as const) {
+        await favePage.reopenAs(ROLES[role], costCentre);
+        if (await favePage.rejectButton.isVisible()) {
+          await favePage.rejectFave('Others', 'QA cleanup');
+          rejected.push(role);
+        }
+      }
+      await favePage.switchRole(ROLES['vet-ic']);
+      return rejected;
     });
   },
   cancelOpenAssignments: async ({ assignmentPage, assignmentFormPage }, use) => {

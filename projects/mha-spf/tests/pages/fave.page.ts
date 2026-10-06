@@ -10,7 +10,14 @@ import { AssetCondition, SightedResult, StocktakeFormPage } from './stocktake-fo
  * Update Result (VET IC, or URO after submission): Sighted Result and Asset Condition fill HTD Follow-up,
  * FSSC Outcome, FAVE Status and Location Status (FSSC mapping); PENDING clears them. Assigning a stocktaker
  * asks "Please confirm ..." first. Ok after either keeps the page and redraws the table.
+ *
+ * Approval (Summary tab, per cost centre): VET IC Submit > URO Submit/Reject > UAO Approve/Reject >
+ * HQ AO. A reject returns the FAVE one level down. Each stage card in #pnlStatus shows the role, a
+ * status badge, officer, time and "Remarks: ..."; a card keeps its last status until that level acts
+ * again. The cost centre row shows the last action (Status, Role).
  */
+export type FaveStage = 'Verification Team IC/2IC' | 'Unit Resource Officer' | 'Unit Approving Officer';
+
 export class FavePage extends StocktakeFormPage {
   static readonly path = 'Stocktake/Fave';
   protected readonly stocktakerKey = 'userStocktakerDropdown';
@@ -20,6 +27,12 @@ export class FavePage extends StocktakeFormPage {
   readonly listInfo: Locator;
   readonly costCentreRows: Locator;
   readonly submitFaveButton: Locator;
+  readonly approveButton: Locator;
+  readonly rejectButton: Locator;
+  readonly rejectModal: Locator;
+  readonly rejectRemarks: Locator;
+  readonly reasonRequired: Locator;
+  readonly remarksRequired: Locator;
   readonly assetCondition: Locator;
   readonly followUp: Locator;
   readonly fsscOutcome: Locator;
@@ -34,6 +47,12 @@ export class FavePage extends StocktakeFormPage {
     this.listInfo = page.locator('#tblist_info');
     this.costCentreRows = page.locator('#tbcostcenter tbody tr');
     this.submitFaveButton = this.summaryPane.getByRole('button', { name: 'Submit', exact: true });
+    this.approveButton = this.summaryPane.getByRole('button', { name: 'Approve', exact: true });
+    this.rejectButton = this.summaryPane.getByRole('button', { name: 'Reject', exact: true });
+    this.rejectModal = page.locator('#modal_reject');
+    this.rejectRemarks = this.rejectModal.locator('textarea[name="ReasonRemarks"]');
+    this.reasonRequired = this.rejectModal.getByText('Reason is required', { exact: true });
+    this.remarksRequired = this.rejectModal.getByText('Remarks is required', { exact: true });
     this.assetCondition = this.selectedIn(this.resultModal, 'AssetCondition');
     this.followUp = this.selectedIn(this.resultModal, 'UnitFollowUp');
     this.fsscOutcome = this.resultModal.locator('input[name="FSSCOutcome"]');
@@ -76,6 +95,81 @@ export class FavePage extends StocktakeFormPage {
       await this.reloadsTables(['#tbsummary', '#tbdetail', '#tbassign'], () => row.click());
     }
     await expect(row).toHaveClass(/\bselected\b/);
+    // The approval panel and its buttons load by a separate request; let it settle before reading them.
+    await this.page.waitForLoadState('networkidle');
+    await expect(this.stage('Unit Approving Officer')).toBeVisible();
+  }
+
+  /** Status (column 4) and role (column 5) of the last approval action, in the cost centre table. */
+  costCentreStatus(code: string): Locator {
+    return this.costCentreRow(code).locator('td').nth(3);
+  }
+
+  costCentreRole(code: string): Locator {
+    return this.costCentreRow(code).locator('td').nth(4);
+  }
+
+  /** One card of the approval panel (#pnlStatus). */
+  stage(role: FaveStage): Locator {
+    return this.page.locator('#pnlStatus .card-body').filter({ has: this.page.getByText(role, { exact: true }) });
+  }
+
+  stageStatus(role: FaveStage): Locator {
+    return this.stage(role).locator('.badge');
+  }
+
+  stageRemarks(role: FaveStage): Locator {
+    return this.stage(role).getByText(/^\s*Remarks:/);
+  }
+
+  /** Switch to another role and reopen the current FAVE on the cost centre. */
+  async reopenAs(roleLabel: string, costCentre: string): Promise<void> {
+    await this.switchRole(roleLabel);
+    await this.openForCostCentre(costCentre);
+  }
+
+  /** Submit (VET IC, URO) or Approve (UAO): confirm, then the result message. Returns [question, message]. */
+  async submitFave(): Promise<[string, string]> {
+    return this.decide(this.submitFaveButton, /submit this FAVE/, /submitted/);
+  }
+
+  async approveFave(): Promise<[string, string]> {
+    return this.decide(this.approveButton, /approve this FAVE/, /approved/);
+  }
+
+  private async decide(button: Locator, question: RegExp, done: RegExp): Promise<[string, string]> {
+    await this.openSummary();
+    await button.click();
+    await expect(this.alertText).toHaveText(question);
+    const asked = (await this.alertText.innerText()).trim();
+    await this.confirm(question);
+    return [asked, await this.acknowledge(done)];
+  }
+
+  async openReject(): Promise<void> {
+    await this.openSummary();
+    await this.rejectButton.click();
+    await expect(this.rejectModal).toBeVisible();
+  }
+
+  async submitReject(): Promise<void> {
+    await this.rejectModal.getByRole('button', { name: 'Submit', exact: true }).click();
+  }
+
+  async pickRejectReason(reason: string): Promise<void> {
+    await this.pickSelect2(this.rejectModal, 'Reason', reason);
+  }
+
+  /** Reject (URO, UAO) with a reason and remarks: confirm, then the result. Returns [question, message]. */
+  async rejectFave(reason: string, remarks: string): Promise<[string, string]> {
+    if (!(await this.rejectModal.isVisible())) await this.openReject();
+    await this.pickRejectReason(reason);
+    await this.rejectRemarks.fill(remarks);
+    await this.submitReject();
+    await expect(this.alertText).toHaveText(/reject this FAVE/);
+    const asked = (await this.alertText.innerText()).trim();
+    await this.confirm(/reject this FAVE/);
+    return [asked, await this.acknowledge(/rejected/)];
   }
 
   /** Open the current FAVE on one cost centre. Returns the FAVE number. */

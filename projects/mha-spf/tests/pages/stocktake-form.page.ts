@@ -102,16 +102,23 @@ export abstract class StocktakeFormPage extends BasePage {
     await expect(this.assignRow(assetId)).toHaveCount(1);
   }
 
-  /** Tick a row's checkbox unless it is already ticked (the selection can survive a table redraw). */
-  protected async tick(row: Locator): Promise<void> {
+  /**
+   * Select exactly one row. The checkbox state is not reliable (it can show ticked on a fresh page while
+   * nothing is selected, and a selection survives redraws), so go by the table's own counter
+   * ("Showing ... 1 row selected") and click until it says one row.
+   */
+  protected async tick(row: Locator, info: Locator): Promise<void> {
     const box = row.getByRole('checkbox');
-    if (!(await box.isChecked())) await box.click();
-    await expect(box).toBeChecked();
+    const oneRow = /records\s*1 row selected/; // "Showing 1 to 1 of 1 records1 row selected" (no space)
+    await expect(async () => {
+      if (!oneRow.test(await info.innerText())) await box.click();
+      await expect(info).toContainText(oneRow, { timeout: 2_000 });
+    }).toPass({ timeout: 20_000 });
   }
 
   /** Tick one asset in the Details table and open Update Result. Single selection pre-loads its saved values. */
   async openUpdateResult(assetId: string): Promise<void> {
-    await this.tick(this.detailRow(assetId));
+    await this.tick(this.detailRow(assetId), this.page.locator('#tbdetail_info'));
     await this.updateResultButton.click();
     await expect(this.resultModal).toBeVisible();
   }
@@ -138,7 +145,7 @@ export abstract class StocktakeFormPage extends BasePage {
 
   /** Tick one asset in the Assignment table and open Assign Stocktaker. */
   async openAssign(assetId: string): Promise<void> {
-    await this.tick(this.assignRow(assetId));
+    await this.tick(this.assignRow(assetId), this.page.locator('#tbassign_info'));
     await this.assignStocktakerButton.click();
     await expect(this.assignModal).toBeVisible();
   }
