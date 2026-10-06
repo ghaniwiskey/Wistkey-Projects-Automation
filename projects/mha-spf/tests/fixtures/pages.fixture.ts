@@ -58,7 +58,7 @@ type PageFixtures = {
   /**
    * Setup/cleanup for FAVE approval tests: whatever level the cost centre's FAVE is at (UAO or URO),
    * reject it down until it is back with VET IC, then make VET IC the active role again.
-   * Returns the roles that rejected. Never approves (UAO approval goes to HQ AO).
+   * Returns the roles that rejected. Never approves (UAO approval is final).
    */
   returnFaveToVetIc: (costCentre: string) => Promise<string[]>;
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */

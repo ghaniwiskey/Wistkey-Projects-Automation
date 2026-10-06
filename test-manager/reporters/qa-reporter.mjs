@@ -19,7 +19,8 @@ const inside = (dir, file) => { const r = path.relative(dir, file); return r && 
 function checksOf(steps, out = []) {
   for (const s of steps || []) {
     if (s.category === 'fixture') continue;
-    if ((s.category === 'expect' || s.category === 'test.step') && out.length < 80) {
+    // Steps are always listed; single expects are capped so long tests keep a readable report.
+    if (s.category === 'test.step' || (s.category === 'expect' && out.length < 80)) {
       out.push({ label: s.category === 'test.step' ? `Step: ${s.title}` : s.title, pass: !s.error, ...(s.error ? { actual: stripAnsi(s.error.message).split('\n').slice(0, 3).join(' ') } : {}) });
     }
     checksOf(s.steps, out);

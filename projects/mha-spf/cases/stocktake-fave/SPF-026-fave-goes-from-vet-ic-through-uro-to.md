@@ -35,6 +35,6 @@ The approval chain VET IC > URO > UAO: each level submits to the next, and a UAO
 - The URO sees **Submit** and **Reject** again (the FAVE is back with the URO)
 
 ## Notes
-Cleanup: URO rejects it back to VET IC. UAO Approve is not tested (goes to HQ AO, see SPF-025).
+Cleanup: URO rejects it back to VET IC. UAO Approve is final, so it is covered by SPF-027 on another cost centre.
 
 Automated in tests/e2e/stocktake-fave/fave-approval.spec.ts (FavePage approval methods; fixture returnFaveToVetIc rejects the FAVE back to VET IC before and after).

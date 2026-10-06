@@ -71,6 +71,16 @@ export abstract class StocktakeFormPage extends BasePage {
     await expect(this.summaryPane).toBeVisible();
   }
 
+  async openDetails(): Promise<void> {
+    await this.detailsTab.click();
+    await expect(this.page.locator('#detail_tab')).toBeVisible();
+  }
+
+  async openAssignment(): Promise<void> {
+    await this.assignmentTab.click();
+    await expect(this.page.locator('#assign_tab')).toBeVisible();
+  }
+
   detailRow(assetId: string): Locator {
     return this.detailRows.filter({ hasText: `Asset ID: ${assetId}` });
   }

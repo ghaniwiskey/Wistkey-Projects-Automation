@@ -79,6 +79,12 @@ export const FAVE = {
   asset: '111000010977',
   /** Stocktakers offered for APD in the FAVE Assign dialog (2026-10-06). */
   stocktakers: ['Mohammad Shahrul Bin Ismail', 'Wong Pui Lai Annie'],
+  /**
+   * Cost centres SPF-027 may approve (UAO approval is final: one run per cost centre per FAVE).
+   * Never APD (the repeatable FAVE tests need it). FY26-2007: 332370 CAD approved by hand on
+   * 2026-10-06; the user allowed two approvals, so only A&F is listed. Add more only with the team's OK.
+   */
+  approvalCostCentres: ['332100'],
 } as const;
 
 /** Ad hoc stocktake data: an AVAILABLE APD asset owned by the test account as LOGS1, not used by other tests. */

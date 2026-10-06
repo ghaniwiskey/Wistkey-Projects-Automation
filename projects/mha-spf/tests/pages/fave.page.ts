@@ -11,8 +11,9 @@ import { AssetCondition, SightedResult, StocktakeFormPage } from './stocktake-fo
  * FSSC Outcome, FAVE Status and Location Status (FSSC mapping); PENDING clears them. Assigning a stocktaker
  * asks "Please confirm ..." first. Ok after either keeps the page and redraws the table.
  *
- * Approval (Summary tab, per cost centre): VET IC Submit > URO Submit/Reject > UAO Approve/Reject >
- * HQ AO. A reject returns the FAVE one level down. Each stage card in #pnlStatus shows the role, a
+ * Approval (Summary tab, per cost centre): VET IC Submit > URO Submit/Reject > UAO Approve/Reject.
+ * There is no HQ AO on SPF, so UAO approval is final (APPROVED, read-only for everyone). A reject
+ * returns the FAVE one level down. Each stage card in #pnlStatus shows the role, a
  * status badge, officer, time and "Remarks: ..."; a card keeps its last status until that level acts
  * again. The cost centre row shows the last action (Status, Role).
  */
@@ -170,6 +171,16 @@ export class FavePage extends StocktakeFormPage {
     const asked = (await this.alertText.innerText()).trim();
     await this.confirm(/reject this FAVE/);
     return [asked, await this.acknowledge(/rejected/)];
+  }
+
+  /** First of these cost centres in the current FAVE that is not APPROVED yet (approval is final). */
+  async firstNotApproved(costCentres: readonly string[]): Promise<string | undefined> {
+    await this.openFirst();
+    for (const code of costCentres) {
+      if ((await this.costCentreRow(code).count()) === 0) continue;
+      if ((await this.costCentreStatus(code).innerText()).trim() !== 'APPROVED') return code;
+    }
+    return undefined;
   }
 
   /** Open the current FAVE on one cost centre. Returns the FAVE number. */

@@ -22,4 +22,28 @@ export class DashboardPage extends BasePage {
     await expect(this.heading).toBeVisible();
     await expect(this.roleDropdown).toBeVisible();
   }
+
+  /**
+   * The number shown above a figure label, e.g. "Total Stocktake Report (Endorsed)". The same figures
+   * also sit in the hidden overview tabs, so only the visible one counts.
+   */
+  figure(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=preceding-sibling::h5[1]').filter({ visible: true }).first();
+  }
+
+  /**
+   * Value of a figure once it stops changing: the dashboard renders in two passes (first partial
+   * values, then the full figures ~1-2 s later), so read until two reads 1.5 s apart agree.
+   */
+  async settledFigure(label: string): Promise<number> {
+    const read = async () => Number((await this.figure(label).innerText()).replace(/[^\d]/g, ''));
+    let last = Number.NaN;
+    await expect(async () => {
+      const now = await read();
+      const same = now === last;
+      last = now;
+      expect(same, `${label} is stable`).toBe(true);
+    }).toPass({ intervals: [1_500], timeout: 30_000 });
+    return last;
+  }
 }
