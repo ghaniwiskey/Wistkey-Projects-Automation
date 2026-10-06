@@ -65,7 +65,7 @@ Only when the user asks, or for cases they approve. One case = one Playwright te
    - Specs read like the case: page object calls and `expect` only.
    - Clean up anything the test changes (before and after), so it can run again.
 6. **This workspace's rules (enforced by `tm:lint`):** page objects come from fixtures (do not `new` them in `beforeEach`), no `page.locator()` in specs, no `waitForTimeout`, no `.only`, no imports from another project (share through `shared/` as `@shared/...`), secrets only via `requireEnv()` from `.env`.
-7. **Type check, then run it** (2 green runs in a row before calling it done):
+7. **Type check, then run it** (2 green runs in a row before calling it done). Run only the new or updated tests (grep their IDs); never the whole suite after automating, unless the user asks for it:
    ```powershell
    & $node node_modules/typescript/bin/tsc --noEmit -p tsconfig.json   # must print nothing
    & $node node_modules/playwright/cli.js test --project=<slug> --grep "<ID>:"
