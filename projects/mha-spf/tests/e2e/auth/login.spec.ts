@@ -2,7 +2,7 @@ import { test, expect, testAccount } from '../../fixtures/pages.fixture';
 
 // Test case: projects/mha-spf/cases/auth/SPF-001-*.md (the "SPF-001:" title prefix links results to it).
 test.describe('Login', () => {
-  test('SPF-001: log in with the passwordless test account @smoke', async ({ loginPage, dashboardPage }) => {
+  test('SPF-001: log in with the test account from .env @smoke', async ({ loginPage, dashboardPage }) => {
     const account = testAccount(); // SPF_USER / SPF_PASS from .env
 
     await test.step('1. Base URL shows the ATS login page', async () => {

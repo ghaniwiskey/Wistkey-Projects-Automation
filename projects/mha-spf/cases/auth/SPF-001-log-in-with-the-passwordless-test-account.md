@@ -1,6 +1,6 @@
 ---
 id: SPF-001
-title: "Log in with the passwordless test account"
+title: "Log in with the test account from .env"
 feature: auth
 priority: P0
 tags: [smoke]
@@ -11,17 +11,18 @@ updated: 2026-10-06
 ---
 
 ## Goal
-A user with a valid passwordless UAT account can log in with the User name only and reach the Dashboard.
+A user can log in with the test account configured in .env and reach the Dashboard. On UAT the account is passwordless (User name only).
 
 ## Preconditions
 - Not logged in to ATS in this browser (Playwright starts every test with a fresh browser context).
 
 ## Data
-- User name: `the test account (`SPF_USER` in .env)` (.env `SPF_AGENCY_ADMIN_USER`, passwordless)
+- User name: the value of `SPF_USER` in .env
+- Password: the value of `SPF_PASS` in .env (empty on UAT: passwordless account)
 
 ## Steps
 1. Open the base URL. -> Expect: it redirects to `/Account/LoginBk` and shows "Asset Tracking System (ATS)" with **User name**, **Password**, **Login** and **WOG SSO**.
-2. Type `the test account (`SPF_USER` in .env)` into **User name** and leave **Password** empty.
+2. Type the `SPF_USER` value into **User name**. Type the `SPF_PASS` value into **Password** only if it is set (on UAT leave it empty).
 3. Click **Login**.
 
 ## Expected

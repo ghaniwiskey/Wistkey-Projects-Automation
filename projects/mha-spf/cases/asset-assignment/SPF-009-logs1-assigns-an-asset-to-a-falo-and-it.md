@@ -19,7 +19,7 @@ Assignment from LOGS1 to FALO needs no approval (manual > Asset Assignment rules
 
 ## Data
 - Asset `<asset>`: found when the test runs (writableAsset): selectable in Assign > Choose Asset, preferably with the test account as current LOGS1; all assignment write tests of a run share it (UAT 2026-10-06: `<asset>`)
-- Assignee: Fixed Asset Liaison Officer (FALO) `<officer>` (the test account's officer, read from the page header) (the test account (`SPF_USER` in .env) (holds both LOGS1 and FALO; officer `<officer>`))
+- Assignee: Role Fixed Asset Liaison Officer (FALO), officer `<officer>`: the test account's own officer name (the account holds both LOGS1 and FALO), read from the page header
 
 ## Steps
 1. Open **Asset > Assignment**, click **Create**, keep **Assign** and click **Next**.

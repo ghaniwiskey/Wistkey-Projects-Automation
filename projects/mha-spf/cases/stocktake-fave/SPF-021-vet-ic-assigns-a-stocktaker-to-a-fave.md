@@ -19,18 +19,18 @@ VET IC can assign (and reassign) the stocktaker who sights a FAVE asset in the m
 
 ## Data
 - Cost centre `<cc>`: the first cost centre in the current FAVE's table that is not APPROVED (never one reserved for SPF-027), brought back to VET IC first; asset `<asset>`: its first asset in the Details tab. Found when the test runs (fixture faveTarget); the test skips when every cost centre is approved.
-- Stocktakers: the first two names in the Assign dropdown (APD: Mohammad Shahrul Bin Ismail, `<officer>`)
+- Stocktakers `<stocktaker 1>` and `<stocktaker 2>`: the first two names in the Assign dropdown of `<cc>`, found when the test runs
 
 ## Steps
 1. Open the first FAVE, pick cost centre `<cc>`, open **Assignment** and search `<asset>`
 2. Tick the asset, click **Assign Stocktaker** and **Submit** without a stocktaker
-3. Pick **Mohammad Shahrul Bin Ismail**, **Submit**, answer **Yes**
-4. Tick the asset again and assign **`<officer>`** the same way
+3. Pick `<stocktaker 1>`, **Submit**, answer **Yes**
+4. If there is a second stocktaker: tick the asset again and assign `<stocktaker 2>` the same way
 
 ## Expected
 - Step 2 shows "User is required" and the dialog stays open
-- Step 3 asks "Please confirm if you would like to proceed with assigning a stocktaker to this FAVE." and then shows "The stocktaker has been assigned."; the Stocktaker column shows Mohammad Shahrul Bin Ismail
-- After step 4 the Stocktaker column shows `<officer>` (reassigning replaces the stocktaker)
+- Step 3 asks "Please confirm if you would like to proceed with assigning a stocktaker to this FAVE." and then shows "The stocktaker has been assigned."; the Stocktaker column shows `<stocktaker 1>`
+- After step 4 the Stocktaker column shows `<stocktaker 2>` (reassigning replaces the stocktaker)
 
 ## Notes
 There is no unassign. The reassign step runs only when the cost centre has two or more stocktakers.

@@ -17,7 +17,7 @@ A user holding several roles can change the active role from the header, and the
 - Logged in as the test account (`SPF_USER` in .env) with Agency Admin active
 
 ## Data
-- User name: `the test account (`SPF_USER` in .env)` (.env `SPF_AGENCY_ADMIN_USER`)
+- Account: the test account from .env (`SPF_USER` / `SPF_PASS`); it must hold Agency Admin and Logistics Officer 1
 - Roles: Agency Admin, Logistics Officer 1
 
 ## Steps
