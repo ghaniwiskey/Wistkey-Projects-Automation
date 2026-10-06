@@ -1,7 +1,7 @@
 # MHA SPF: testing context
 
 Knowledge base for testing this app. Keep it short, factual and current; no dated counts or record IDs (tests find data at runtime). Selectors live in tests/pages, not here.
-Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; screenshots in `docs/images/`) and live checks on UAT (2026-10-05/06, SPF-001..043; `explorations/`). Pages marked "manual only" below are not verified live: confirm paths and locators on first visit.
+Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; screenshots in `docs/images/`) and live checks on UAT (2026-10-05/06, SPF-001..052; `explorations/`). Pages marked "manual only" below are not verified live: confirm paths and locators on first visit.
 
 ## Product
 - **e-RFID Asset Tracking System (ATS)** for MHA agencies (SPF, HTA, ...). Fixed-asset lifecycle: registration (Building/Level/Room location, ownership, RFID tag printing), assignment (ownership transfer, relocation), verification (annual FAVE stocktake, ad-hoc stocktake), retirement/disposal. Web app plus a mobile app (stocktakers sight assets with RFID scanners).
@@ -86,7 +86,12 @@ Registration reminders (1st and 15th); partial registration assigned to a FALO; 
 | FAVE(HQ) | /Stocktake/FaveHQ -> /Stocktake/FaveHQForm?stktakeFAVEId=<enc> | FaveHqPage (#tbcostcenter filtered in the browser, #tboverview, #tbsummary, #tbdetail) |
 | Reports | `/Report/...` (AssetSummary, Asset, AssetAging, AssetRejection, AssetRetirement, AssetNew, AssetLoan, AssetMaintenance, StktakeFollowup) | AssetReportPage (`/Report/Asset`), ReportPage + TABLE_REPORTS (Export `#exportBtn`) |
 | Settings > Group | `/Setting/Location`, `/Setting/LocationForm[?locId=]` | GroupPage (LOGS1 sees only Group) |
-| Settings (rest), User | Agency Admin | Manual only, not automated |
+| User Listing | `/User/User`, `/User/UserForm[?userId=]` | UserListingPage (Agency Admin; `#tblist` one row per user and role, `#user_form`) |
+| Role Listing | `/User/Role`, `/User/RoleForm?roleId=` | RoleListingPage (tabs Functions, Users(n) `#tbuser` + `#modal_user`, Periods `#tbperiod` + `#modal_period`) |
+| Settings > Announcement | `/Setting/Announcement`, `/Setting/AnnouncementForm[?announceId=]` | AnnouncementPage (Create opens a new tab) |
+| Settings > Cost Centre | `/Setting/CostCenter`, `/Setting/CostCenterForm?costCenterId=` | CostCentrePage |
+| Settings > Email Template | `/Setting/EmailTemplate`, `/Setting/EmailTemplateForm?tempId=` | EmailTemplatePage |
+| Settings > Master Setup | `/Setting/MasterSetup` | Not automated (Update sets the yearly FAVE trigger) |
 
 Menus by role: LOGS1 and Agency Admin see Ad Hoc Setup/Listing; VET IC only FAVE; URO/UAO/FALO FAVE (+ Follow up); FAVE(HQ) only Agency Admin and HQ roles; URO has no Registration, Rejection or Print Tag. A page without a menu entry for the role shows "Unauthorised access." or lands on the dashboard.
 
@@ -99,7 +104,9 @@ Menus by role: LOGS1 and Agency Admin see Ad Hoc Setup/Listing; VET IC only FAVE
 - FAVE relocation (SPF-039): first non-approved cost centre with a PENDING asset whose Assignee (LOGS1) is the test account (Details filters), fixture `faveRelocateTarget`. Each run uses one asset up (result locked after approval, BUG-009); skips when none is left.
 - Follow up (SPF-041): first item in the Follow up list (FALO). Closing cannot be undone, so each run uses one item up; skips when the list is empty.
 - Ad hoc: first asset in Choose Asset; stocktaker = first other name in the Assign list. Each SPF-022 run leaves a one-off setup "QA auto adhoc ..." (one-offs cannot be cancelled, BUG-002).
-- Name prefixes for cleanup: New Asset descriptions "QA auto", groups "QA auto g<time>". Upload files in `data/` (photo `qa-asset.png`); FAVE import files are built with `writeXlsx` (@shared/utils/xlsx).
+- User admin (SPF-044..046): SPF has no user delete, so SPF-044 creates one user per run (`QA-AUTO-<TIME>`, name "QA auto user <time>", first unit offered) and leaves it INACTIVE; SPF-045/046 reuse the first "QA auto user" User Listing finds (fixture `qaUser`, set ACTIVE first; created when none). Role tests use End User (fewest rights, no real users on UAT). New users log in in a second browser context (fixture `otherSession`), so the test account's session survives.
+- Admin settings (SPF-049/050/052) edit records found at runtime and restore them: the first HEADER announcement that has ended (skip when none; announcements cannot be deleted), the first cost centre (Building), the first email template (Remarks only, never Subject/Content).
+- Name prefixes for cleanup: New Asset descriptions "QA auto", groups "QA auto g<time>", users "QA auto user". Upload files in `data/` (photo `qa-asset.png`); FAVE import files are built with `writeXlsx` (@shared/utils/xlsx).
 
 ## Observed behaviour (UAT)
 ### Assignment and registration
@@ -131,7 +138,19 @@ Menus by role: LOGS1 and Agency Admin see Ad Hoc Setup/Listing; VET IC only FAVE
 - Settings > Group: the Create form button says "Update"; "Cost Center/Code/Name is required"; "Group has been successfully created./updated."; Delete "Are you sure? You won't be able to revert this!" (Yes, delete it!) -> "Group has been successfully deleted". Description has no limit and is cut to 200 (BUG-008).
 - Exports: FAVE `StocktakeFAVEReport_<yyyyMMddHHmmss>.xlsx`; Asset Listing (Detailed) `AssetListingDetailedReport_<stamp>.xlsx` (27 columns, follows on-screen filters; Status filter AVAILABLE, LOAN, MAINTENANCE, NEW, PROGRESS, TRANSFER only). All table reports export .xlsx.
 
+### Admin (Agency Admin)
+- User Listing: one row per user and mapped role (a user without a role has one row, Role Mapped empty). Create with an empty form: "Web Login ID or Mobile Login ID is required.", "Unit is required.", "Name is required.", "Status is required.". Create -> "User has been successfully created." (back to the list); Update -> "User has been successfully updated." (stays on the form). Duplicate Web Login ID: "Login ID already exist!". INACTIVE user login: "Invalid username/password.". A new user can log in (LoginBk, empty password) as soon as it has a role; the role shows in the header.
+- Role Listing > Users: Add User (dialog filters while typing, tick, Submit) -> "User assign into role have been successfully updated."; trash (no confirmation) -> "<Role> role has been removed from User <name>."; the user form then keeps a blank EXPIRED role row (BUG-013).
+- Role Listing > Periods: "Start date is required.", "End date is required.", "The start date must be ealier than the end date" (BUG-015). Dates are dd/mm/yyyy in the dialog but read as mm/dd/yyyy by the server: day > 12 gives "SqlDateTime overflow...", day <= 12 is saved swapped (BUG-011). Delete (no confirmation): "Period <start> to <end> has been successfully deleted.". A role without a valid period is unusable.
+- Announcement: "Content is required", "Start Date is required", "End Date is required"; "Announcement has been updated." (stays on the form). HEADER = banner at the top of the login page while today is within its dates (not shown on the Dashboard); FOOTER = text under the login card (the SPF warning, until 2033). No delete.
+- Cost Centre: code read-only; "Name is required"; "Cost Center has been successfully updated." (stays on the form). Keyword search matches code and name, not the description (BUG-012).
+- Email Template: "Subject is required"; "Email template has been saved."; Remarks is an internal note (max 200, counter shows / 250, BUG-014).
+- Master Setup: Agency Name (read-only) and "Stocktake FAVE Start (MMDD-00:00)" (e.g. 0917). Not touched by tests.
+
 ## Known quirks and waits
+- **A GET of /Account/LoginBk ends the browser's session** (even a fetch). Logging in in Aside's browser also ends the tests' saved session; if the role is already active, the fixture only notices on the next page load (login page). Stay logged out in Aside during runs.
+- Inside a test, `browser.newContext()` reuses the test's saved login unless given an empty `storageState` (fixture `otherSession` does this).
+- Flatpickr dialogs (Role period, Announcement): picking the start date opens the end date's calendar, and a refused Submit refocuses the date field and reopens it; it covers the dialog buttons. Page objects close the calendars before clicking.
 - **Search assets as LOGS1 (or another unit role), not Agency Admin**: ~48k assets, searching hangs.
 - Results and confirmations are SweetAlert2 popups (`.swal2-popup`, Yes / Ok).
 - Role dropdown: select2 `span[role=combobox]` (name = current role) over hidden `select[name="role-selection"]`; click it, then the option (Escape changes nothing). Header labels "Role:" / "Last Login" hide below 1400px (d-xxl), so the viewport is 1440x900.
