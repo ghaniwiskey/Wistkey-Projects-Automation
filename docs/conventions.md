@@ -96,6 +96,7 @@ How to tell them apart: reproduce the failing steps by hand (or in Aside's brows
 - Title says what is wrong and where, searchable: "Cart badge does not update after adding an item from search results".
 - Bug statuses: `open`, `fixed` (developer says fixed), `verified` (retest passed; only after rerunning the linked tests), `wont-fix`, `duplicate`.
 - Retest a fix by rerunning the tests in the bug's `tests:` list, then set `verified` or back to `open` with a History line.
+- **`wont-fix` means the behavior is accepted.** Then the tests must stop treating it as a bug: in every case and spec that refers to it, remove `test.fail(...)` and the "known bug / expected to fail" notes, and either expect the accepted behavior (e.g. SPF-042 for BUG-010) or test the feature around it without checking that detail (e.g. SPF-032 for BUG-005). Say in the case's Notes that the behavior is accepted ("BUG-005, closed as wont-fix"), fix the wording in the project's `context.md`, empty the bug's `tests:` list and add a History line naming the updated tests. `tm:lint` reports a `test.fail()` that still expects a wont-fix bug (error) and a wont-fix bug that still lists tests (warning).
 
 ## Retries and flakiness
 

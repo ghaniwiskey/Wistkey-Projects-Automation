@@ -102,6 +102,23 @@ export function lintProject(p, prefixes) {
     if (!fm.title) E.push(`${f}: missing title`);
     if (!SEVERITIES.includes(fm.severity)) E.push(`${f}: severity must be one of ${SEVERITIES.join(', ')}`);
     if (!BUG_STATUSES.includes(fm.status)) E.push(`${f}: status must be one of ${BUG_STATUSES.join(', ')}`);
+    // wont-fix = the behavior is accepted: no test may keep it linked or expect it as a failure.
+    if (fm.status === 'wont-fix' && Array.isArray(fm.tests) && fm.tests.length) {
+      W.push(`${f}: ${fm.id} is wont-fix but still lists tests [${fm.tests.join(', ')}]; update those cases/specs to the accepted behavior, then empty tests: (docs/conventions.md > Bugs)`);
+    }
+  }
+  const wontFix = new Set(p.bugs.filter((b) => !b.error && b.fm.status === 'wont-fix').map((b) => b.fm.id));
+  for (const s of p.specs) {
+    for (const m of s.src.matchAll(/\btest\.fail\([^)]*?\b(BUG-\d{3,})\b/g)) {
+      if (wontFix.has(m[1])) E.push(`${at(s.file)}: test.fail() still expects ${m[1]}, which is wont-fix (accepted behavior); remove test.fail() and test the accepted behavior (docs/conventions.md > Bugs)`);
+    }
+  }
+  for (const t of p.tests) {
+    if (t.error) continue;
+    for (const m of t.body.matchAll(/\b(BUG-\d{3,})\b[^\n]*\bexpected to fail\b|\bexpected to fail\b[^\n]*\b(BUG-\d{3,})\b/gi)) {
+      const id = m[1] || m[2];
+      if (wontFix.has(id)) W.push(`${at(t.file)}: says ${id} is expected to fail, but ${id} is wont-fix; describe the accepted behavior instead`);
+    }
   }
   const planIds = new Set();
   for (const pl of p.plans) {
