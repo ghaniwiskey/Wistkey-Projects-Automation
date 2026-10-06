@@ -31,7 +31,7 @@ How the code is written (Page Object Model, selectors, fixtures) is covered in t
 | Preconditions / shared setup | Fixtures (`tests/fixtures/pages.fixture.ts`) or page object helpers |
 | "Log in as ..." when the login is not what the case tests | The project's session option: `test.use({ role: 'logs1' })` (mha-spf), `test.use({ loggedIn: true })` (scg-store). Logs in once, reuses the saved session (README > Login sessions) |
 | "Log in ..." when the case tests the login itself | UI steps through the login page object, no session option (SCG-001, SPF-001) |
-| Test data | `tests/utils/test-data.ts`; secrets only via `requireEnv()` from `.env` |
+| Test data | Found at runtime where possible (first row with the needed status, first non-approved item, options read from the page, IDs from result messages) through page object methods or fixtures, with `test.skip()` and a clear message when nothing suitable exists. Fixed values in `tests/utils/test-data.ts` only when there is no other way, each with a comment saying why. Secrets only via `requireEnv()` from `.env` |
 | Selectors, waits, site quirks | Page objects only, never the spec |
 
 ## Tags

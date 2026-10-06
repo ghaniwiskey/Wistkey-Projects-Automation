@@ -64,6 +64,7 @@ Only when the user asks, or for cases they approve. One case = one Playwright te
    - Each Expected bullet becomes at least one `expect`; wrap steps in `test.step(...)` so they show as checks in the run report.
    - Specs read like the case: page object calls and `expect` only.
    - Clean up anything the test changes (before and after), so it can run again.
+   - **Avoid hard-coded data** (user rule): find it at runtime so the test survives data changes (status changes, approvals, a new year's records, other users' edits). Examples: the first row with the needed status, the first non-approved cost centre, dropdown options read from the page, the newest record, an ID taken from the result message. Put the lookup in a page object method or a fixture (e.g. mha-spf `faveTarget`), and `test.skip()` with a clear message when nothing suitable exists. Hard-code only when there is no other way, and add a comment saying why. Cases describe the rule ("the first NEW asset"), not a fixed ID.
 6. **This workspace's rules (enforced by `tm:lint`):** page objects come from fixtures (do not `new` them in `beforeEach`), no `page.locator()` in specs, no `waitForTimeout`, no `.only`, no imports from another project (share through `shared/` as `@shared/...`), secrets only via `requireEnv()` from `.env`.
 7. **Type check, then run it** (2 green runs in a row before calling it done). Run only the new or updated tests (grep their IDs); never the whole suite after automating, unless the user asks for it:
    ```powershell
