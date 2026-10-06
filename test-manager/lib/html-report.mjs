@@ -157,10 +157,12 @@ export function buildModel(p) {
     if (!bugsByTest.has(testId)) bugsByTest.set(testId, new Set());
     bugsByTest.get(testId).add(bugId);
   };
-  for (const b of bugs) for (const id of b.tests || []) linkBug(id, b.id);
+  // A test's Bugs column lists only OPEN bugs: once a bug is fixed, verified, wont-fix or duplicate it no
+  // longer marks the test (the bug page keeps its tests: list for retests and history).
+  const openBugIds = new Set(bugs.filter((b) => (b.status || 'open') === 'open').map((b) => b.id));
+  for (const b of bugs) if (openBugIds.has(b.id)) for (const id of b.tests || []) linkBug(id, b.id);
   // A run links a bug to a result (triage, or a known-bug expected failure). Only the test's latest result
-  // counts (added below): an old run's link must not stick to a test that changed since, e.g. when the
-  // bug was closed as wont-fix and the test no longer expects it.
+  // counts (added below), and only while that bug is open: an old run's link must not stick to a test.
   const tests = p.tests.filter((t) => t.fm && t.fm.id).map((t) => {
     const h = hist.get(t.fm.id) || [];
     const last = h[h.length - 1] || null;
@@ -170,7 +172,7 @@ export function buildModel(p) {
       lastStatus: last ? last.t.status : 'never',
       flaky: recent.includes('flaky') || (recent.includes('pass') && recent.includes('fail')),
       lastMs: last ? last.t.durationMs : null,
-      bugs: [...new Set([...(bugsByTest.get(t.fm.id) || []), ...(last && last.t.bug ? [last.t.bug] : [])])],
+      bugs: [...new Set([...(bugsByTest.get(t.fm.id) || []), ...(last && last.t.bug && openBugIds.has(last.t.bug) ? [last.t.bug] : [])])],
     };
   }).sort((a, b) => String(a.id).localeCompare(String(b.id), undefined, { numeric: true }));
 

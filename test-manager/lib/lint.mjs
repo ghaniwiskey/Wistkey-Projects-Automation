@@ -102,22 +102,26 @@ export function lintProject(p, prefixes) {
     if (!fm.title) E.push(`${f}: missing title`);
     if (!SEVERITIES.includes(fm.severity)) E.push(`${f}: severity must be one of ${SEVERITIES.join(', ')}`);
     if (!BUG_STATUSES.includes(fm.status)) E.push(`${f}: status must be one of ${BUG_STATUSES.join(', ')}`);
-    // wont-fix = the behavior is accepted: no test may keep it linked or expect it as a failure.
-    if (fm.status === 'wont-fix' && Array.isArray(fm.tests) && fm.tests.length) {
-      W.push(`${f}: ${fm.id} is wont-fix but still lists tests [${fm.tests.join(', ')}]; update those cases/specs to the accepted behavior, then empty tests: (docs/conventions.md > Bugs)`);
+    // wont-fix = accepted behavior, duplicate = tracked by another bug: neither keeps tests linked.
+    // (fixed/verified keep their tests: list, it is the retest record.)
+    if (['wont-fix', 'duplicate'].includes(fm.status) && Array.isArray(fm.tests) && fm.tests.length) {
+      W.push(`${f}: ${fm.id} is ${fm.status} but still lists tests [${fm.tests.join(', ')}]; update those cases/specs (wont-fix: accepted behavior; duplicate: link the original bug), then empty tests: (docs/conventions.md > Bugs)`);
     }
   }
-  const wontFix = new Set(p.bugs.filter((b) => !b.error && b.fm.status === 'wont-fix').map((b) => b.fm.id));
+  // Only an OPEN bug may be expected to fail. fixed/verified: the test must pass now; wont-fix: test the
+  // accepted behavior; duplicate: refer to the original bug.
+  const closedStatus = new Map(p.bugs.filter((b) => !b.error && b.fm.id && b.fm.status && b.fm.status !== 'open').map((b) => [b.fm.id, b.fm.status]));
   for (const s of p.specs) {
     for (const m of s.src.matchAll(/\btest\.fail\([^)]*?\b(BUG-\d{3,})\b/g)) {
-      if (wontFix.has(m[1])) E.push(`${at(s.file)}: test.fail() still expects ${m[1]}, which is wont-fix (accepted behavior); remove test.fail() and test the accepted behavior (docs/conventions.md > Bugs)`);
+      const st = closedStatus.get(m[1]);
+      if (st) E.push(`${at(s.file)}: test.fail() still expects ${m[1]}, which is ${st} (only open bugs may be expected to fail); remove test.fail() (${st === 'wont-fix' ? 'test the accepted behavior' : st === 'duplicate' ? 'refer to the original bug' : 'the test must pass now'}) (docs/conventions.md > Bugs)`);
     }
   }
   for (const t of p.tests) {
     if (t.error) continue;
     for (const m of t.body.matchAll(/\b(BUG-\d{3,})\b[^\n]*\bexpected to fail\b|\bexpected to fail\b[^\n]*\b(BUG-\d{3,})\b/gi)) {
       const id = m[1] || m[2];
-      if (wontFix.has(id)) W.push(`${at(t.file)}: says ${id} is expected to fail, but ${id} is wont-fix; describe the accepted behavior instead`);
+      if (closedStatus.has(id)) W.push(`${at(t.file)}: says ${id} is expected to fail, but ${id} is ${closedStatus.get(id)}; update the note (only open bugs are expected to fail)`);
     }
   }
   const planIds = new Set();

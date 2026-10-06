@@ -96,7 +96,12 @@ How to tell them apart: reproduce the failing steps by hand (or in Aside's brows
 - Title says what is wrong and where, searchable: "Cart badge does not update after adding an item from search results".
 - Bug statuses: `open`, `fixed` (developer says fixed), `verified` (retest passed; only after rerunning the linked tests), `wont-fix`, `duplicate`.
 - Retest a fix by rerunning the tests in the bug's `tests:` list, then set `verified` or back to `open` with a History line.
-- **`wont-fix` means the behavior is accepted.** Then the tests must stop treating it as a bug: in every case and spec that refers to it, remove `test.fail(...)` and the "known bug / expected to fail" notes, and either expect the accepted behavior (e.g. SPF-042 for BUG-010) or test the feature around it without checking that detail (e.g. SPF-032 for BUG-005). Say in the case's Notes that the behavior is accepted ("BUG-005, closed as wont-fix"), fix the wording in the project's `context.md`, empty the bug's `tests:` list and add a History line naming the updated tests. `tm:lint` reports a `test.fail()` that still expects a wont-fix bug (error) and a wont-fix bug that still lists tests (warning).
+- **Only `open` bugs mark tests.** The Test Manager's Bugs column shows a bug on a test only while the bug is `open`. As soon as a bug gets any other status, update every case and spec that refers to it the same session: remove `test.fail(...)` and the "known bug / expected to fail" notes, then
+  - `fixed` / `verified`: the test must simply pass (rerun it; that is the retest). Keep the bug's `tests:` list as the retest record.
+  - `wont-fix` (behavior accepted): expect the accepted behavior (e.g. SPF-042 for BUG-010) or test the feature around it without checking that detail (e.g. SPF-032 for BUG-005); say so in the case's Notes ("BUG-005, closed as wont-fix"), fix the wording in `context.md`, empty the bug's `tests:` list.
+  - `duplicate`: point the tests and notes at the original bug; empty the duplicate's `tests:` list.
+
+  Add a History line to the bug naming the updated tests. `tm:lint` reports a `test.fail()` that expects a non-open bug (error), a case note calling a non-open bug "expected to fail" (warning), and a wont-fix/duplicate bug that still lists tests (warning).
 
 ## Retries and flakiness
 
