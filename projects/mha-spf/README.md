@@ -20,7 +20,7 @@ Or the Test Manager (`npm run tm`, http://127.0.0.1:7358) > MHA SPF > Playwright
 | `cases/` | Test cases (`SPF-NNN`) |
 | `tests/pages` | `LoginPage`, `BasePage` (header: Role dropdown, officer, Logout, side menu), `DashboardPage`, asset pages (listing, details, assignment, registration, rejection, new asset), stocktake pages (`FavePage`, `AdHocSetupPage`, `AdHocCreatePage`, `AdHocListingPage` on `StocktakeFormPage`), `AssetReportPage` |
 | `tests/fixtures/pages.fixture.ts` | Page-object fixtures plus `loginAs(role)` (replaces the old `flows/login.md`) |
-| `tests/utils/test-data.ts` | Role slug -> dropdown label map, `testAccount()` (login from .env), FAVE approval permission list |
+| `tests/utils/test-data.ts` | Role slug -> dropdown label map, `testAccount()` (login from .env) |
 | `tests/e2e` | Specs; titles start with the case ID |
 | `data/` | Upload files (asset photos < 3 MB, FAVE import template, user import template) |
 | `runs/` | Run history, including the first agentic run carried over from web-automation |

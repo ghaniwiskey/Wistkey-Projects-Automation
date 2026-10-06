@@ -34,21 +34,6 @@ export function testAccount(): { username: string; password: string } {
   return { username: env[ACCOUNT_ENV.user], password: process.env[ACCOUNT_ENV.pass] ?? '' };
 }
 
-/**
- * FAVE. Tests open the first (newest) FAVE in the list and read its cost centres from the page: the
- * repeatable tests (faveTarget) take the first cost centre that is not APPROVED, the read-only SPF-019 the
- * first one listed. Nothing here is test data.
- */
-export const FAVE = {
-  /**
-   * Permission list, not test data: cost centres SPF-027 is ALLOWED to approve. UAO approval is final
-   * (one approval per cost centre per FAVE), so every entry needs the team's OK; the repeatable FAVE tests
-   * never use these. Leave it empty for another agency (e.g. HTA) until approvals are agreed; SPF-027 then
-   * skips. SPF UAT FY26-2007: 332370 CAD approved by hand and 332100 A&F by SPF-027 on 2026-10-06.
-   */
-  approvalCostCentres: ['332100'] as readonly string[],
-} as const;
-
 /** Option texts of the Assign step Role dropdown. */
 export const ASSIGN_ROLES = {
   logs1: 'Logistics Officer 1 (LOGS1)',

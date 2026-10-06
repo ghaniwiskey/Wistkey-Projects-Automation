@@ -1,11 +1,11 @@
-import { test, expect, FAVE, ROLES, unique } from '../../fixtures/pages.fixture';
+import { test, expect, ROLES, unique } from '../../fixtures/pages.fixture';
 
 const SUBMIT_Q = 'Please confirm that you want to submit this FAVE.';
 const APPROVE_Q = 'Please confirm that you want to approve this FAVE.';
 const ENDORSED = 'Total Stocktake Report (Endorsed)';
 const REJECT_Q = 'Please confirm that you want to reject this FAVE.';
 
-// Moves the live FAVE of the first non-approved cost centre (APD) through the approval chain and back. Emails the next level on UAT.
+// Moves the live FAVE of the first non-approved cost centre through the approval chain and back. Emails the next level on UAT.
 // Before and after each test the FAVE is rejected back down to VET IC. UAO Approve is final, so these
 // tests never approve APD (SPF-027 below approves another cost centre).
 test.describe('Stocktake FAVE approval (writes)', () => {
@@ -108,8 +108,9 @@ test.describe('Stocktake FAVE approval (writes)', () => {
 });
 
 // UAO approval is the last level on SPF (no HQ AO role) and cannot be undone: the cost centre stays
-// APPROVED for this FAVE. The test uses the first cost centre in FAVE.approvalCostCentres that is not
-// approved yet (never APD) and skips when none is left; a new FAVE (next FY) makes it run again.
+// APPROVED for this FAVE. The test approves the first cost centre of the current FAVE that is not
+// approved yet, but never the last one: that one stays for the repeatable FAVE tests (faveTarget), so the
+// test skips when only one is left. A new FAVE (next FY) makes it run again. Tagged @final.
 test.describe('Stocktake FAVE final approval (writes, irreversible)', () => {
   test.use({ role: 'vet-ic' });
 
@@ -120,9 +121,12 @@ test.describe('Stocktake FAVE final approval (writes, irreversible)', () => {
     returnFaveToVetIc,
   }) => {
     test.slow();
-    const found = await favePage.firstNotApproved(FAVE.approvalCostCentres);
-    test.skip(!found, `Every cost centre in FAVE.approvalCostCentres (${FAVE.approvalCostCentres.join(', ')}) is already approved in the current FAVE. Add a cost centre (the test account can be given another unit in User > User Listing, see context.md)`);
-    const costCentre = found as string;
+    const open = await favePage.notApprovedCostCentres();
+    test.skip(
+      open.length < 2,
+      `Only ${open.length} cost centre(s) of the current FAVE not approved (${open.join(', ') || 'none'}); the last one is kept for the repeatable FAVE tests. Give the test account another unit (User > User Listing) or wait for the next FAVE.`,
+    );
+    const costCentre = open[0];
     let endorsedBefore = 0;
 
     await test.step(`Start: the FAVE of ${costCentre} is with VET IC`, async () => {

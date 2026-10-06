@@ -14,7 +14,7 @@ import { NewAssetCreatePage, NewAssetFormPage, NewAssetListPage } from '../pages
 import { FavePage } from '../pages/fave.page';
 import { AdHocCreatePage, AdHocListingPage, AdHocSetupPage } from '../pages/adhoc.page';
 import { AssetReportPage } from '../pages/asset-report.page';
-import { ACCOUNT_ENV, FAVE, ROLES, RoleSlug, testAccount } from '../utils/test-data';
+import { ACCOUNT_ENV, ROLES, RoleSlug, testAccount } from '../utils/test-data';
 import type { ListedAsset } from '../pages/asset-listing.page';
 
 /** The assignment write tests share one asset per worker, so their cleanup always targets it. */
@@ -70,8 +70,8 @@ type PageFixtures = {
    */
   returnFaveToVetIc: (costCentre: string) => Promise<string[]>;
   /**
-   * The FAVE cost centre the repeatable FAVE tests work on: the first of FAVE.costCentres that is not
-   * APPROVED in the current FAVE, brought back to VET IC (VET IC active), with its first asset.
+   * The FAVE cost centre the repeatable FAVE tests work on: the first cost centre of the current FAVE that
+   * is not APPROVED, brought back to VET IC (VET IC active), with its first asset.
    * Skips the test when every listed cost centre is approved.
    */
   faveTarget: { costCentre: string; asset: string };
@@ -263,8 +263,8 @@ export const test = base.extend<Options & PageFixtures>({
     await use(writableAssetId);
   },
   faveTarget: async ({ favePage, returnFaveToVetIc }, use, testInfo) => {
-    // The first cost centre of the current FAVE that is not approved, never one reserved for SPF-027.
-    const costCentre = await favePage.firstNotApproved(undefined, FAVE.approvalCostCentres);
+    // The first cost centre of the current FAVE that is not approved (SPF-027 always leaves one).
+    const costCentre = await favePage.firstNotApproved();
     testInfo.skip(!costCentre, 'Every cost centre of the current FAVE is APPROVED. Give the test account another unit (User > User Listing, see context.md)');
     await returnFaveToVetIc(costCentre as string);
     await favePage.openForCostCentre(costCentre as string);
@@ -304,5 +304,5 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ROLES };
-export { ASSIGN_ROLES, FAVE, PHOTO, QA_PREFIX, testAccount, unique } from '../utils/test-data';
+export { ASSIGN_ROLES, PHOTO, QA_PREFIX, testAccount, unique } from '../utils/test-data';
 export { readXlsxDownload } from '@shared/utils/download';

@@ -15,10 +15,10 @@ The full FAVE approval: VET IC submits, URO submits, UAO approves (the last leve
 
 ## Preconditions
 - The test account holds VET IC, URO, UAO and Agency Admin (the test account (`SPF_USER` in .env))
-- The current FAVE has a cost centre from FAVE.approvalCostCentres (332100 A&F) that is not approved yet. Approval cannot be undone, so each FAVE allows one run; the test skips when none is left
+- The current FAVE has at least two cost centres that are not APPROVED. Approval cannot be undone, so the test never approves the last one (kept for the repeatable FAVE tests) and skips when only one is left
 
 ## Data
-- Cost centre: the first one in FAVE.approvalCostCentres (a permission list agreed with the team, not test data) that is not approved yet; the repeatable FAVE tests never use these
+- Cost centre `<cc>`: the first cost centre of the current FAVE that is not APPROVED, found when the test runs (the same one the repeatable tests use until then; they move to the next one afterwards)
 
 ## Steps
 1. As **Agency Admin** read **Total Stocktake Report (Endorsed)** on the Dashboard (FAVE Stocktake Overview)
@@ -36,6 +36,6 @@ The full FAVE approval: VET IC submits, URO submits, UAO approves (the last leve
 - Total Stocktake Report (Endorsed) is one higher than in step 1
 
 ## Notes
-Irreversible on UAT: an approved cost centre stays APPROVED for that FAVE. Approved so far on FAVE FY26-2007: 332370 CAD (by hand, 2026-10-06). The user allowed two approvals (CAD by hand + A&F by the test); add more cost centres to FAVE.approvalCostCentres only with the team's OK. A new FAVE (next FY) makes the test run again.
+Irreversible on UAT (tagged `final`): an approved cost centre stays APPROVED for that FAVE. Each run approves one more cost centre until only one is left. Approved on FAVE FY26-2007: 332370 CAD (by hand) and 332100 A&F (SPF-027), both on 2026-10-06; the next run would approve 332300 CID and leave 332600 APD. A new FAVE (next FY) or another unit for the test account (User > User Listing) makes it run again.
 
-Automated in tests/e2e/stocktake-fave/fave-approval.spec.ts (describe 'final approval'). Run once on 2026-10-06: approved 332100 A&F in FAVE FY26-2007 (passed). With A&F and CAD approved, the test now skips until the next FAVE or until more cost centres are added to FAVE.approvalCostCentres.
+Automated in tests/e2e/stocktake-fave/fave-approval.spec.ts (describe 'final approval'). Run once on 2026-10-06: approved 332100 A&F in FAVE FY26-2007 (passed).

@@ -179,18 +179,19 @@ export class FavePage extends StocktakeFormPage {
     return (await this.costCentreRows.locator('td:first-child').allInnerTexts()).map((t) => t.trim()).filter(Boolean);
   }
 
-  /**
-   * First cost centre of the current FAVE that is not APPROVED yet (approval is final): from `costCentres`
-   * if given, else from the FAVE's own cost centre table; `exclude` is skipped.
-   */
-  async firstNotApproved(costCentres?: readonly string[], exclude: readonly string[] = []): Promise<string | undefined> {
+  /** Cost centres of the current FAVE that are not APPROVED yet (approval is final), in table order. */
+  async notApprovedCostCentres(): Promise<string[]> {
     await this.openFirst();
-    const candidates = (costCentres ?? (await this.costCentreCodes())).filter((c) => !exclude.includes(c));
-    for (const code of candidates) {
-      if ((await this.costCentreRow(code).count()) === 0) continue;
-      if ((await this.costCentreStatus(code).innerText()).trim() !== 'APPROVED') return code;
+    const open: string[] = [];
+    for (const code of await this.costCentreCodes()) {
+      if ((await this.costCentreStatus(code).innerText()).trim() !== 'APPROVED') open.push(code);
     }
-    return undefined;
+    return open;
+  }
+
+  /** First cost centre of the current FAVE that is not APPROVED yet, or undefined when all are. */
+  async firstNotApproved(): Promise<string | undefined> {
+    return (await this.notApprovedCostCentres())[0];
   }
 
   /** Asset ID of the first row in the Details table of the selected cost centre. */

@@ -41,7 +41,7 @@ How the code is written (Page Object Model, selectors, fixtures) is covered in t
 | `@smoke` | The few critical journeys; the whole suite should run in a few minutes |
 | `@regression` | Everything else that is automated |
 | `@writes` | The test creates, changes or deletes server data, sends messages or emails, or places orders. Skipped automatically on envs with `allowWrites: false` |
-| `@final` | Also `@writes`, and the change cannot be undone or uses up limited data (e.g. mha-spf SPF-027: UAO approval makes a FAVE cost centre final). Leave it out of a run with `--grep-invert @final` |
+| `@final` | Also `@writes`, and the change cannot be undone or uses up limited data (e.g. mha-spf SPF-027: UAO approval makes a FAVE cost centre final; each run approves one more). Leave it out of a run with `--grep-invert @final` |
 
 Tags go at the end of the Playwright test title (`... @smoke`) and in the case's `tags:` list (without `@`).
 
