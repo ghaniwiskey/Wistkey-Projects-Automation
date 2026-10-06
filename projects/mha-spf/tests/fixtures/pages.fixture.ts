@@ -83,6 +83,13 @@ type PageFixtures = {
    * Skips the test when every listed cost centre is approved.
    */
   faveTarget: { costCentre: string; asset: string };
+  /**
+   * FAVE relocation test (SPF-039): the first cost centre of the current FAVE that is not APPROVED and has a
+   * PENDING asset whose Assignee (LOGS1) is the test account, so the account can approve the relocation.
+   * Brought back to VET IC (VET IC active). Skips when none is left: an approved FAVE relocation locks the
+   * asset's result (BUG-009), so every run uses one asset up.
+   */
+  faveRelocateTarget: { costCentre: string; asset: string };
   /** Read-only tests: the first AVAILABLE asset in Asset Listing (as LOGS1), with what its row shows. Skips when none. */
   availableAsset: ListedAsset;
   /**
@@ -289,6 +296,25 @@ export const test = base.extend<Options & PageFixtures>({
     await returnFaveToVetIc(costCentre as string);
     await favePage.openForCostCentre(costCentre as string);
     await use({ costCentre: costCentre as string, asset: await favePage.firstAssetId() });
+  },
+  faveRelocateTarget: async ({ favePage, officer, returnFaveToVetIc }, use, testInfo) => {
+    let target: { costCentre: string; asset: string } | undefined;
+    for (const costCentre of await favePage.notApprovedCostCentres()) {
+      await favePage.openSummary(); // selectCostCentre waits for the approval panel on the Summary tab
+      await favePage.selectCostCentre(costCentre);
+      const asset = await favePage.firstPendingAssetOf(officer);
+      if (asset) {
+        target = { costCentre, asset };
+        break;
+      }
+    }
+    testInfo.skip(
+      !target,
+      `No cost centre of the current FAVE that is not APPROVED has a PENDING asset with ${officer} as Assignee (LOGS1). Each SPF-039 run uses one up; give the test account another unit (context.md > Test data)`,
+    );
+    const { costCentre, asset } = target as { costCentre: string; asset: string };
+    await returnFaveToVetIc(costCentre);
+    await use({ costCentre, asset });
   },
   cancelOpenAssignments: async ({ assignmentPage, assignmentFormPage }, use) => {
     await use(async (assetId) => {

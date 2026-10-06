@@ -20,6 +20,8 @@ export class AssetDetailsPage extends BasePage {
 
   readonly breadcrumb: Locator;
   readonly activePanel: Locator;
+  /** Location tab, "Asset Location" card (the tab also has a "Cost Centre Location" card with its own Postal Code). */
+  readonly assetLocation: Locator;
   readonly editPictureButton: Locator;
   readonly pictureDialog: Locator;
   readonly pictureFile: Locator;
@@ -37,6 +39,7 @@ export class AssetDetailsPage extends BasePage {
     super(page);
     this.breadcrumb = page.locator('.breadcrumb');
     this.activePanel = page.locator('.tab-content .tab-pane.active');
+    this.assetLocation = this.activePanel.locator('.card').filter({ has: page.getByRole('heading', { name: 'Asset Location', exact: true }) });
     this.editPictureButton = page.locator('label[data-bs-target="#modal_upload"]');
     this.pictureDialog = page.locator('#modal_upload');
     this.pictureFile = this.pictureDialog.locator('input[type="file"][name="Image"]');
@@ -83,6 +86,19 @@ export class AssetDetailsPage extends BasePage {
   async reload(): Promise<void> {
     await this.page.reload();
     await this.expectLoaded();
+  }
+
+  /** Location tab: the asset's own location (Asset Location card), e.g. { level: '1', roomNo: 'NA', ... }. */
+  async readAssetLocation(): Promise<{ postalCode: string; block: string; level: string; roomNo: string; remarks: string }> {
+    await this.openTab('Location');
+    const read = async (label: string) => (await this.field(label, this.assetLocation).innerText()).trim();
+    return {
+      postalCode: await read('Postal Code'),
+      block: await read('Block'),
+      level: await read('Level'),
+      roomNo: await read('Room No'),
+      remarks: await read('Remarks'),
+    };
   }
 
   /** True when Main Data says Asset Sensitivity "Yes". */

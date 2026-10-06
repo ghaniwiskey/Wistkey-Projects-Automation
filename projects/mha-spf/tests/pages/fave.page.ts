@@ -19,6 +19,9 @@ import { AssetCondition, SightedResult, StocktakeFormPage } from './stocktake-fo
  */
 export type FaveStage = 'Verification Team IC/2IC' | 'Unit Resource Officer' | 'Unit Approving Officer';
 
+/** New Asset Location typed in Update Result (field limits: Block 10, Level 3, Room No 5, Remarks 200). */
+export type FaveNewLocation = { block?: string; level?: string; roomNo?: string; remarks?: string };
+
 export class FavePage extends StocktakeFormPage {
   static readonly path = 'Stocktake/Fave';
   protected readonly stocktakerKey = 'userStocktakerDropdown';
@@ -44,6 +47,12 @@ export class FavePage extends StocktakeFormPage {
   readonly importDialog: Locator;
   readonly importRows: Locator;
   readonly importTemplateButton: Locator;
+  readonly newLocationHeading: Locator;
+  readonly newBuilding: Locator;
+  readonly newBlock: Locator;
+  readonly newLevel: Locator;
+  readonly newRoomNo: Locator;
+  readonly newLocationRemarks: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -70,6 +79,83 @@ export class FavePage extends StocktakeFormPage {
     this.importDialog = page.locator('#modal_import');
     this.importRows = page.locator('#tbimport tbody tr');
     this.importTemplateButton = this.importDialog.getByRole('button', { name: 'Import Template', exact: true });
+    // New Asset Location (Update Result, SIGHTED with Correct Location unticked). The inputs have <label>s
+    // that are not linked to them, so they are found by name.
+    this.newLocationHeading = this.resultModal.getByRole('heading', { name: 'New Asset Location' });
+    this.newBuilding = this.resultModal.locator('input[name="Building"]');
+    this.newBlock = this.resultModal.locator('input[name="Block"]');
+    this.newLevel = this.resultModal.locator('input[name="Level"]');
+    this.newRoomNo = this.resultModal.locator('input[name="RoomNo"]');
+    this.newLocationRemarks = this.resultModal.locator('textarea[name="LocRemarks"]');
+  }
+
+  /**
+   * Tick or untick "Correct Location?" in the open Update Result dialog. Unticking (with SIGHTED) sets
+   * Location Status OPEN and shows the New Asset Location section; the location then goes to the asset's
+   * LOGS1 as a RELOCATE assignment transaction (SUBMITTED) when the result is submitted.
+   */
+  async setCorrectLocation(correct: boolean): Promise<void> {
+    await this.correctLocation.setChecked(correct);
+    if (!correct) await expect(this.newLocationHeading).toBeVisible();
+  }
+
+  /** Pick the first Group / NPC / Base offered in New Asset Location. Returns its name. */
+  async pickFirstNewGroup(): Promise<string> {
+    // The select has id subLocList (name LocId); its first option is the "Group / NPC / Base" placeholder (value 0).
+    const first = this.resultModal.locator('select#subLocList option:not([value="0"]):not([value=""])').first();
+    await expect(first).toBeAttached({ timeout: 30_000 });
+    const group = ((await first.textContent()) ?? '').trim();
+    await this.pickSelect2(this.resultModal, 'subLocList', group);
+    return group;
+  }
+
+  /** Search a postal code in New Asset Location and pick the first address. Building/Address fill by XHR. */
+  async pickNewPostalCode(postalCode: string): Promise<string> {
+    const picked = await this.searchSelect2(this.resultModal, 'postalCode', postalCode, this.postalResult(postalCode));
+    await expect(this.newBuilding).not.toHaveValue('', { timeout: 30_000 });
+    return picked;
+  }
+
+  async fillNewLocation(loc: FaveNewLocation): Promise<void> {
+    if (loc.block !== undefined) await this.newBlock.fill(loc.block);
+    if (loc.level !== undefined) await this.newLevel.fill(loc.level);
+    if (loc.roomNo !== undefined) await this.newRoomNo.fill(loc.roomNo);
+    if (loc.remarks !== undefined) await this.newLocationRemarks.fill(loc.remarks);
+  }
+
+  /** Submit the Update Result dialog when a validation message is expected; returns it. The dialog stays open. */
+  async submitResultRejected(message: string | RegExp): Promise<string> {
+    await this.resultModal.getByRole('button', { name: 'Submit', exact: true }).click();
+    const text = await this.acknowledge(message);
+    await expect(this.resultModal).toBeVisible();
+    return text;
+  }
+
+  /**
+   * Details tab filters (they apply on Search): Assignee (LOGS1) and Result. Clears the keyword box.
+   * Returns false, without searching, when the LOGS1 is not offered for this unit.
+   */
+  async filterDetails(f: { logs1: string; result?: SightedResult }): Promise<boolean> {
+    await this.openDetails();
+    const pane = this.page.locator('#detail_tab');
+    const logs1Options = pane.locator('select[name="UserIdLogs1"] option');
+    await expect(logs1Options.nth(1)).toBeAttached({ timeout: 30_000 });
+    if ((await logs1Options.filter({ hasText: new RegExp(`^\\s*${f.logs1}\\s*$`) }).count()) === 0) return false;
+    await this.pickSelect2(pane, 'UserIdLogs1', f.logs1);
+    if (f.result) await this.pickSelect2(pane, 'SightedResult2', f.result);
+    await pane.getByPlaceholder('Asset ID/Asset ID2/Serial No/Desc').fill('');
+    await this.reloadsTable('#tbdetail', () => pane.getByRole('button', { name: 'Search', exact: true }).click());
+    return true;
+  }
+
+  /**
+   * First asset of the selected cost centre whose Assignee (LOGS1) is this officer and whose result is still
+   * PENDING, or undefined when there is none.
+   */
+  async firstPendingAssetOf(logs1: string): Promise<string | undefined> {
+    if (!(await this.filterDetails({ logs1, result: 'PENDING' }))) return undefined;
+    if ((await this.tableTotal(this.page.locator('#tbdetail_info'))) === 0) return undefined;
+    return (await this.detailRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
   }
 
   async openImport(): Promise<void> {

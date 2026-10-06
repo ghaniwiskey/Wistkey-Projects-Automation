@@ -18,6 +18,9 @@ export class AssignmentFormPage extends BasePage {
   readonly rejectModal: Locator;
   /** Main content (details, approval trail with Rejected By / reason, asset table). */
   readonly content: Locator;
+  /** "Asset Location" card of a RELOCATE / ASSIGN & RELOCATE transaction (the new location). */
+  readonly assetLocation: Locator;
+  readonly assetRows: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -30,6 +33,21 @@ export class AssignmentFormPage extends BasePage {
     this.cancelModal = page.locator('#modal_cancel');
     this.rejectModal = page.locator('#modal_reject');
     this.content = page.locator('#kt_content');
+    this.assetLocation = page.locator('.card').filter({ has: page.getByRole('heading', { name: 'Asset Location', exact: true }) });
+    this.assetRows = page.locator('#kt_content table').filter({ has: page.getByText('Asset Category', { exact: true }) }).locator('tbody tr');
+  }
+
+  /**
+   * Value next to a label cell in the header Details table ("Transaction Type:", "Cost Centre:") or, with
+   * `scope`, in another table such as assetLocation ("Level:", "Room No.:", "Remarks:"). Label and value are
+   * sibling <td>s without ids, hence the XPath sibling step.
+   */
+  value(label: string, scope: Locator = this.content): Locator {
+    return scope.getByRole('cell', { name: label, exact: true }).first().locator('xpath=following-sibling::td[1]');
+  }
+
+  assetRow(assetId: string): Locator {
+    return this.assetRows.filter({ hasText: `Asset ID: ${assetId}` });
   }
 
   async expectLoaded(transactionNo: string): Promise<void> {

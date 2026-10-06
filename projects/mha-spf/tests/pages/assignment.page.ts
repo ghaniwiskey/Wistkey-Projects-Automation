@@ -56,13 +56,17 @@ export class AssignmentPage extends BasePage {
     return this.rows.filter({ hasText: transactionNo });
   }
 
-  /** Cell of a row by column (0-based): 2 type, 4 approver role, 6 status. */
+  /** Cell of a row by column (0-based): 2 type, 3 created by, 4 approver role, 6 status. */
   cell(transactionNo: string, column: number): Locator {
     return this.row(transactionNo).locator('td').nth(column);
   }
 
   type(transactionNo: string): Locator {
     return this.cell(transactionNo, 2);
+  }
+
+  createdBy(transactionNo: string): Locator {
+    return this.cell(transactionNo, 3);
   }
 
   approverRole(transactionNo: string): Locator {
