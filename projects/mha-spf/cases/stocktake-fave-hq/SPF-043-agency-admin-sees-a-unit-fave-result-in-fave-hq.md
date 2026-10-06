@@ -1,7 +1,7 @@
 ---
 id: SPF-043
 title: "Agency Admin sees a unit FAVE result in FAVE(HQ) Overview, Details and export"
-feature: stocktake-fave
+feature: stocktake-fave-hq
 priority: P1
 tags: [regression, writes]
 envs: [staging]
@@ -42,4 +42,4 @@ HQ (Agency Admin) monitors every unit's FAVE in FAVE(HQ): a result recorded by t
 ## Notes
 The Export above the cost centre table exports the whole FAVE (all cost centres, several MB); not used here. Overview also shows "No. of Open Items for Unit's Follow-up".
 
-Automated in tests/e2e/stocktake-fave/fave-hq.spec.ts (page object tests/pages/fave-hq.page.ts).
+Automated in tests/e2e/stocktake-fave-hq/fave-hq.spec.ts (page object tests/pages/fave-hq.page.ts).

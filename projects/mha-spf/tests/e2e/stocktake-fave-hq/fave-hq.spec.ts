@@ -27,7 +27,7 @@ test.describe('Stocktake FAVE(HQ)', () => {
     await favePage.ensurePending(faveTarget.costCentre, faveTarget.asset);
   });
 
-  // Test case: projects/mha-spf/cases/stocktake-fave/SPF-043-*.md
+  // Test case: projects/mha-spf/cases/stocktake-fave-hq/SPF-043-*.md
   test('SPF-043: agency admin sees a unit fave result in fave(hq) overview, details and export @regression @writes', async ({
     favePage,
     faveHqPage,
