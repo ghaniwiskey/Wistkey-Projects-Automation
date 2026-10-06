@@ -33,4 +33,24 @@ export class LoginPage extends AppPage {
     await this.loginButton.click();
     await expect(this.page).not.toHaveURL(/\/Account\/Login/);
   }
+
+  /**
+   * Username login that the app refuses (e.g. an INACTIVE user): returns the error popup's message after
+   * closing it. The popup is SweetAlert2 (no stable accessible name, so its class names are used).
+   */
+  async attemptLogin(username: string, password = ''): Promise<string> {
+    await this.usernameInput.fill(username);
+    if (password) await this.passwordInput.fill(password);
+    await this.loginButton.click();
+    const message = this.page.locator('.swal2-popup .swal2-html-container');
+    await expect(message).toHaveText(/\S/);
+    const text = (await message.innerText()).trim();
+    await this.page.locator('.swal2-popup').getByRole('button', { name: 'Ok', exact: true }).click();
+    return text;
+  }
+
+  /** Announcement text on the login page (HEADER banner at the top, FOOTER under the login card). */
+  announcement(text: string): Locator {
+    return this.page.getByText(text, { exact: false });
+  }
 }

@@ -1,0 +1,1234 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-06_1720_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-10-06T10:20:51.883Z",
+  "finishedAt": "2026-10-06T10:22:13.711Z",
+  "summary": {
+    "total": 9,
+    "pass": 9,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-044",
+      "title": "agency admin creates a user in user listing",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/user-admin/users.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 9597,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. An empty Create form shows the required messages",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Create QA-AUTO-MUWJ47JD under the first unit offered",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. User Listing shows the new user, ACTIVE, no role mapped",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toEqual\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. The same Web Login ID cannot be created again",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. Cleanup: set the user INACTIVE",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-045",
+      "title": "agency admin assigns a user to a role, the user logs in with it, and the role is removed again",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/user-admin/users.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 13119,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1. Add QA auto user muwi0jcz to End User",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. User Listing shows the role mapped",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. The user logs in (second session) with that role",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. Remove the user from the role (no confirmation)",
+          "pass": true
+        },
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. User Listing shows no role mapped",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-046",
+      "title": "a user set to inactive in user listing can no longer log in",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/user-admin/users.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 6258,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1-2. Set QA-AUTO-MUWI0JCZ INACTIVE",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "User/User responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Its login is refused (second session)",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-047",
+      "title": "role period dialog checks required dates and the date order",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/user-admin/role-periods.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 5120,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. End User > Periods > Add Period, Submit with empty dates",
+          "pass": true
+        },
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. A start date after the end date is refused (BUG-015 spelling)",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Cancel: the Periods table is unchanged",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toEqual\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-048",
+      "title": "role period is saved with the dates picked in the calendar",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/user-admin/role-periods.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 18500,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1-2. Add the period 13-Nov-2026 to 20-Nov-2026",
+          "pass": false,
+          "actual": "TimeoutError: locator.click: Timeout 15000ms exceeded. Call log:   - waiting for locator('.swal2-popup').getByRole('button', { name: 'Ok', exact: true })"
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Expected failure, known bug: BUG-011: the server reads the dd/mm/yyyy period dates as mm/dd/yyyy; a day above 12 fails with \"SqlDateTime overflow\""
+      ],
+      "bug": "BUG-011"
+    },
+    {
+      "id": "SPF-049",
+      "title": "a header announcement for today shows on the login page",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/settings/admin-settings.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 7973,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the first HEADER announcement that has ended",
+          "pass": true
+        },
+        {
+          "label": "Setting/Announcement responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Set the QA content for today only",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Setting/Announcement responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. The login page (logged-out session) shows the banner",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. Put the original back: the banner is gone",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-050",
+      "title": "agency admin updates a cost centre and name is required",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/settings/admin-settings.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 6372,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Setting/CostCenter responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1. Open cost centre 332100: the code is read-only",
+          "pass": true
+        },
+        {
+          "label": "Setting/CostCenter responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toBeEditable\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. An empty Name is refused",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3-4. Building change is saved",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. Put the original Building back",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-051",
+      "title": "cost centre search finds a cost centre by its description",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/settings/admin-settings.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 8876,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Setting/CostCenter responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1. Read the description of 332100",
+          "pass": true
+        },
+        {
+          "label": "Setting/CostCenter responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toMatch\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Searching the code lists it",
+          "pass": true
+        },
+        {
+          "label": "Setting/CostCenter responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Searching the description \"Administration and Finance Department\" lists it (BUG-012)",
+          "pass": false,
+          "actual": "Error: expect(locator).toHaveCount(expected) failed  Locator:  locator('#tblist tbody tr').filter({ has: locator('td:first-child').filter({ hasText: /^\\s*332100(?!\\d)/ }) })"
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toHaveCount(expected) failed  Locator:  locator('#tblist tbody tr').filter({ has: locator('td:first-child').filter({ hasText: /^\\s*332100(?!\\d)/ }) })"
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Expected failure, known bug: BUG-012: the Cost Centre keyword box does not match descriptions"
+      ],
+      "bug": "BUG-012"
+    },
+    {
+      "id": "SPF-052",
+      "title": "agency admin updates an email template and subject is required",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/settings/admin-settings.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-06T10:20:51.883Z",
+      "durationMs": 5169,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the first template",
+          "pass": true
+        },
+        {
+          "label": "Setting/EmailTemplate responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. An empty Email Subject is refused",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3-4. Remarks change is saved, Subject unchanged",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. Put the original Remarks back",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

@@ -44,6 +44,15 @@ export const ASSIGN_ROLES = {
 /** Prefix of every text a write test types, so leftovers are easy to find and clean up. */
 export const QA_PREFIX = 'QA auto';
 
+/** Name prefix of the users the user admin tests create (User Listing search finds them by it). */
+export const QA_USER_NAME = `${QA_PREFIX} user`;
+
+/** A new test user: Web Login ID "QA-AUTO-MFX3K2", name "QA auto user mfx3k2". */
+export function newQaUser(): { loginId: string; name: string } {
+  const id = Date.now().toString(36);
+  return { loginId: `QA-AUTO-${id.toUpperCase()}`, name: `${QA_USER_NAME} ${id}` };
+}
+
 /** Unique, readable value for one run: "QA auto relocate mfx3k2". */
 export function unique(what: string): string {
   return `${QA_PREFIX} ${what} ${Date.now().toString(36)}`;

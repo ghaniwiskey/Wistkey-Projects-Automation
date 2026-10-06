@@ -20,7 +20,9 @@ import { GroupPage } from '../pages/group.page';
 import { ReportPage } from '../pages/report.page';
 import { FollowUpPage } from '../pages/follow-up.page';
 import { FaveHqPage } from '../pages/fave-hq.page';
-import { ACCOUNT_ENV, ROLES, RoleSlug, testAccount } from '../utils/test-data';
+import { RoleListingPage, UserListingPage } from '../pages/user-admin.page';
+import { AnnouncementPage, CostCentrePage, EmailTemplatePage } from '../pages/settings-admin.page';
+import { ACCOUNT_ENV, QA_USER_NAME, ROLES, RoleSlug, newQaUser, testAccount } from '../utils/test-data';
 import type { ListedAsset } from '../pages/asset-listing.page';
 
 /** The assignment write tests share one asset per worker, so their cleanup always targets it. */
@@ -63,6 +65,22 @@ type PageFixtures = {
   reportPage: ReportPage;
   followUpPage: FollowUpPage;
   faveHqPage: FaveHqPage;
+  userListingPage: UserListingPage;
+  roleListingPage: RoleListingPage;
+  announcementPage: AnnouncementPage;
+  costCentrePage: CostCentrePage;
+  emailTemplatePage: EmailTemplatePage;
+  /**
+   * A second, logged-out browser session (own cookies) for logging in as another user or looking at the
+   * login page without ending the test account's session. Closed after the test.
+   */
+  otherSession: { loginPage: LoginPage; dashboardPage: DashboardPage };
+  /**
+   * User admin tests (SPF-045/046, Agency Admin active): a "QA auto user" made ACTIVE, the first one User
+   * Listing finds, created (first unit offered) when none exists. SPF has no user delete, so the tests
+   * reuse these users instead of creating one per test.
+   */
+  qaUser: { loginId: string; name: string };
   /**
    * Cleanup for write tests: cancel every SUBMITTED assignment transaction on the asset (as owner,
    * reason Others), so the asset can be selected again. Returns the cancelled transaction numbers.
@@ -245,6 +263,43 @@ export const test = base.extend<Options & PageFixtures>({
   faveHqPage: async ({ page }, use) => {
     await use(new FaveHqPage(page));
   },
+  userListingPage: async ({ page }, use) => {
+    await use(new UserListingPage(page));
+  },
+  roleListingPage: async ({ page }, use) => {
+    await use(new RoleListingPage(page));
+  },
+  announcementPage: async ({ page }, use) => {
+    await use(new AnnouncementPage(page));
+  },
+  costCentrePage: async ({ page }, use) => {
+    await use(new CostCentrePage(page));
+  },
+  emailTemplatePage: async ({ page }, use) => {
+    await use(new EmailTemplatePage(page));
+  },
+  otherSession: async ({ browser, baseURL, viewport }, use) => {
+    // Empty storageState: inside a test, newContext() would otherwise reuse the test's saved login.
+    const context = await browser.newContext({ baseURL, viewport, storageState: { cookies: [], origins: [] } });
+    const page = await context.newPage();
+    await use({ loginPage: new LoginPage(page), dashboardPage: new DashboardPage(page) });
+    await context.close();
+  },
+  qaUser: async ({ userListingPage }, use) => {
+    let user = await userListingPage.firstMatching(QA_USER_NAME);
+    if (!user) {
+      const created = newQaUser();
+      await userListingPage.goto();
+      await userListingPage.openCreate();
+      await userListingPage.fillNewUser({ ...created, unit: await userListingPage.firstUnit() });
+      await userListingPage.save();
+      user = await userListingPage.firstMatching(created.loginId);
+    } else if (user.status !== 'ACTIVE') {
+      await userListingPage.changeStatus(user.loginId, 'ACTIVE');
+    }
+    const { loginId, name } = user as { loginId: string; name: string };
+    await use({ loginId, name });
+  },
   cancelCreatedAdHocs: async ({ adHocSetupPage }, use) => {
     await use(async (nameText) => {
       const created = await adHocSetupPage.createdSetups(nameText);
@@ -360,7 +415,9 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ROLES };
-export { ASSIGN_ROLES, PHOTO, QA_PREFIX, testAccount, unique } from '../utils/test-data';
+export { ASSIGN_ROLES, PHOTO, QA_PREFIX, QA_USER_NAME, newQaUser, testAccount, unique } from '../utils/test-data';
+export { isoDate } from '../pages/settings-admin.page';
+export { periodFieldDate } from '../pages/user-admin.page';
 export { readXlsxDownload } from '@shared/utils/download';
 export { writeXlsx } from '@shared/utils/xlsx';
 export { TABLE_REPORTS } from '../pages/report.page';
