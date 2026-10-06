@@ -1,0 +1,38 @@
+---
+id: SPF-013
+title: "LOGS1 registers a NEW asset with a complete location"
+feature: asset-registration
+priority: P0
+tags: [regression, writes]
+envs: [staging]
+automated: false
+created: 2026-10-06
+updated: 2026-10-06
+---
+
+## Goal
+The 7-step Register wizard turns a NEW asset into AVAILABLE when the location is complete.
+
+## Preconditions
+- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- At least one NEW asset exists for the unit (Asset Listing, Status NEW)
+
+## Data
+- Asset: the first NEW asset in Asset Listing (consumed: it stays AVAILABLE)
+- Group: APD; Postal Code 819645 "35 AIRPORT BOULEVARD AIRPORT POLICE STATION"; Remarks `QA register <unique>`
+- Sensitivity: NO; Tag printing: NO
+
+## Steps
+1. Open **Asset > Registration**, keep **Register** and click **Next**.
+2. Search for the asset, tick it and click **Next** twice (Choose Asset, Review).
+3. Leave the FALO assignee empty, pick Group **APD**, Postal Code **819645 - 35 AIRPORT BOULEVARD AIRPORT POLICE STATION SINGAPORE 819645**, Remarks `QA register <unique>`, click **Next**.
+4. Keep Sensitivity **NO**, click **Next**.
+5. Choose Tag Printing **NO** and click **Submit**.
+
+## Expected
+- Choosing Tag Printing NO sets Tag Type to NA.
+- The End step shows "Asset Registration completed." and "1 Asset successfully registered."
+- Asset Listing shows the asset with status AVAILABLE and its Location tab shows Remarks `QA register <unique>`.
+
+## Notes
+Consumes one NEW asset per run (iLMS data, cannot be reset from the UI). The test skips when no NEW asset is left.
