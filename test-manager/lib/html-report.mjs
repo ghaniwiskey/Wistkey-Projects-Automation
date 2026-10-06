@@ -158,7 +158,9 @@ export function buildModel(p) {
     bugsByTest.get(testId).add(bugId);
   };
   for (const b of bugs) for (const id of b.tests || []) linkBug(id, b.id);
-  for (const r of p.runs) for (const t of r.tests || []) if (t.bug) linkBug(t.id, t.bug);
+  // A run links a bug to a result (triage, or a known-bug expected failure). Only the test's latest result
+  // counts (added below): an old run's link must not stick to a test that changed since, e.g. when the
+  // bug was closed as wont-fix and the test no longer expects it.
   const tests = p.tests.filter((t) => t.fm && t.fm.id).map((t) => {
     const h = hist.get(t.fm.id) || [];
     const last = h[h.length - 1] || null;
@@ -168,7 +170,7 @@ export function buildModel(p) {
       lastStatus: last ? last.t.status : 'never',
       flaky: recent.includes('flaky') || (recent.includes('pass') && recent.includes('fail')),
       lastMs: last ? last.t.durationMs : null,
-      bugs: [...(bugsByTest.get(t.fm.id) || [])],
+      bugs: [...new Set([...(bugsByTest.get(t.fm.id) || []), ...(last && last.t.bug ? [last.t.bug] : [])])],
     };
   }).sort((a, b) => String(a.id).localeCompare(String(b.id), undefined, { numeric: true }));
 
