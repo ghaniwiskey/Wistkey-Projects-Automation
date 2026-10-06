@@ -5,7 +5,7 @@ feature: stocktake-fave
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -34,3 +34,5 @@ VET IC can assign (and reassign) the stocktaker who sights a FAVE asset in the m
 
 ## Notes
 There is no unassign; the test always ends with the test account as stocktaker.
+
+Automated in tests/e2e/stocktake-fave/fave.spec.ts.

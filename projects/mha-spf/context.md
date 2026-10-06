@@ -1,7 +1,7 @@
 # MHA SPF: testing context
 
 Knowledge base for testing this app. Keep it short, factual, and current; update it when tests reveal something new. Selectors live in tests/pages, not here.
-Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; screenshots in `docs/images/`) and live checks on staging. Verified live so far: login, Dashboard header, role list, logout (2026-10-05); role switching, Asset Listing search/filter, Asset Details, Assignment list and the Relocate wizard up to the location step (2026-10-06, SPF-002..007). Other pages are from the manual only; confirm paths and locators on first visit.
+Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; screenshots in `docs/images/`) and live checks on staging. Verified live so far: login, Dashboard header, role list, logout (2026-10-05); role switching, Asset Listing search/filter, Asset Details, Assignment list and the Relocate wizard up to the location step (2026-10-06, SPF-002..007); FAVE details/update result/assign stocktaker/export, Ad Hoc Setup/Create/Listing, Report > Asset Listing (Detailed) (2026-10-06, SPF-019..024). Other pages are from the manual only; confirm paths and locators on first visit.
 
 ## Product
 - **e-RFID Asset Tracking System (ATS)** for MHA agencies (SPF, HTA, ...). Digitalises the fixed-asset lifecycle: registration (exact Building/Level/Room location, ownership, RFID tag printing), assignment (ownership transfer, relocation), verification (annual FAVE stocktake, ad-hoc stocktake) and retirement/disposal. Web app plus a separate mobile app (stocktakers sight assets with RFID scanners).
@@ -87,8 +87,11 @@ From the manual's menu (`docs/images/app-overview.png`); URL paths and locators 
 | Print Tag | Asset > Print Tag | Reprint RFID tag wizard | |
 | Retirement/Disposal | Asset > Retirement/Disposal | Update disposal date | |
 | New Asset | Asset > New Asset | Report / close / cancel potential assets | |
-| Stocktake | Stocktake > FAVE, FAVE(HQ), Follow up, Adhoc Setup, Adhoc Listing | FAVE and ad-hoc stocktakes | |
-| Reports | Report > Asset Listing (Detailed), Stocktake Follow up | Excel exports | |
+| FAVE | `/Stocktake/Fave` -> `/Stocktake/FaveForm?stktakeFAVEId=<enc>` (Stocktake > FAVE) | Cost centres (#tbcostcenter, first row selected on load) + tabs Summary (approval panel VET IC > URO > UAO, Submit, Export), Details (Update Result, Import Working Result), Assignment (Assign Stocktaker) | FavePage, StocktakeFormPage; tables #tbsummary/#tbdetail/#tbassign, panes #summary_tab/#detail_tab/#assign_tab, dialogs #modal_result/#modal_assign |
+| Ad Hoc Setup | `/Stocktake/Stocktake`, Create -> `/Stocktake/StocktakeCreate`, details `/Stocktake/StocktakeForm?stktakeId=<enc>` | Setups (ADST numbers), Cancel (#modal_cancel), Delete Asset(s) | AdHocSetupPage, AdHocCreatePage (Choose Asset #tbSearch, Review #tbList) |
+| Ad Hoc Listing | `/Stocktake/StocktakeListing` -> `/Stocktake/StocktakeListingForm?stktakeId=<enc>` | Same tabs and dialogs as FAVE, no cost centres or condition | AdHocListingPage |
+| Stocktake (other) | Stocktake > FAVE(HQ) (Agency Admin, HQ roles), Follow up | Not automated | |
+| Reports | `/Report/...`: AssetSummary, Asset (Detailed), AssetAging, AssetRejection, AssetRetirement, AssetNew, AssetLoan, AssetMaintenance, StktakeFollowup | Excel exports | AssetReportPage (`/Report/Asset`, Export `#exportBtn`) |
 | Settings | Settings > Cost Centre, Group, Email Template, Announcement, Master Setup | Admin config | |
 | User | User > User Listing, Role Listing | Users, roles, periods | |
 
@@ -105,6 +108,8 @@ Common UI patterns: list pages with a pencil icon in the Actions column to open/
   - Registration tests take the first NEW asset in Asset Listing (Status NEW). SPF-013 and SPF-014 leave it AVAILABLE (one NEW asset each per run, cannot be undone in the UI); SPF-015 returns it to NEW. They skip when no NEW asset is left.
   - New Asset tests type descriptions starting "QA auto"; cleanup cancels OPEN reports matching it. Photo: `data/qa-asset.png`.
 - As LOGS1 (2026-10-06): Asset Listing 2,737 assets, 87 NEW; Registration > Register lists 91 assets; Assignment list 342 transactions.
+- FAVE: UAT FAVE FY26-2007 (created 02-Oct-2026) covers 332100 A&F, 332300 CID, 332370 CAD, 332600 APD; APD has 468 FAVE assets, all PENDING on 2026-10-06 (dashboard: 47,849 assets, 8 sighted). `FAVE.asset` 111000010977 is the FAVE test asset (SPF-020 sets it SIGHTED and back to PENDING; SPF-021 leaves stocktaker Wong Pui Lai Annie). APD stocktakers: Mohammad Shahrul Bin Ismail, Wong Pui Lai Annie. Tests open the first FAVE in the list, so a new FY FAVE is picked up automatically.
+- Ad hoc: `ADHOC.asset` 111000020724 (APD fire alarm, LOGS1 = test account). Assets stay selectable while in another ad hoc stocktake. Leftovers from 2026-10-06 exploration/runs: ADST00000011 (one-off, SUBMITTED), ADST00000013 (one-off, CREATED, cannot be cancelled); ADST00000012 cancelled. Each SPF-022 run adds one more one-off setup named "QA auto adhoc ...".
 - Upload files go in `data/` (asset photos under 3 MB, FAVE Import Working Result template, Role Listing user import template).
 
 ## Write flows observed on UAT (2026-10-06)
@@ -117,6 +122,15 @@ Common UI patterns: list pages with a pencil icon in the Actions column to open/
 - Registration Register: Locate & Assign (FALO optional, Group, Postal Code search, Block/Level/Room No/Remarks) > Sensitivity (default NO) > RFID Tag (YES default; NO sets Tag Type NA). Complete location: "Asset Registration completed."; empty Block/Level/Room/Remarks: "Asset Registration incomplete." (PROGRESS).
 - Registration Reject: native select Reason (Incorrect Cost Centre, Others, Wrongly Capitalised): "Assets Rejected.". Rejection > Reinstate (reasons Others, Wrongly Assigned, Wrongly Rejected): "Reinstatement Completed"; status goes back to the one before rejection (NEW stays NEW, PROGRESS stays PROGRESS).
 - New Asset report: Cost Centre*, Remarks*, Postal Code*, location Remarks*, photo* (.png/.jpg/.jpeg < 3 MB) > "New Asset #RNA... has been created." (OPEN). Close Item (Asset Pending Capitalisation, Item Belongs to Other Unit, Not an Asset, Others) shows "The reported new asset has been closed." with no confirmation; Cancel Item reasons: Mistaken as Asset, Others.
+
+## Stocktake and reports observed on UAT (2026-10-06)
+- Menus: LOGS1 and Agency Admin see Ad Hoc Setup/Listing; VET IC only FAVE; URO/UAO/FALO FAVE (+ Follow up); FAVE(HQ) only Agency Admin (and HQ roles). Opening a page the role has no menu for shows "Unauthorised access." or lands on the dashboard.
+- FAVE Update Result (VET IC): SIGHTED + WORKING -> HTD Follow-up "No Further Action", FSSC Outcome "Working condition", FAVE Status CLOSED, Correct Location ticked, Location Status CLOSED; SIGHTED with no condition -> "To Dispose (FA5)"; HTD options for SIGHTED/WORKING: No Further Action, To Transfer to another Unit (STO). PENDING clears everything (Remarks counter keeps the old count, cosmetic). Message "The stocktake result is updated.". A single asset pre-loads its saved values.
+- FAVE Assign Stocktaker: "User is required" when empty; "Please confirm if you would like to proceed with assigning a stocktaker to this FAVE." Yes -> "The stocktaker has been assigned.". No unassign.
+- FAVE Submit (Summary tab) asks "Please confirm that you want to submit this FAVE." with no pre-check (even with 468 PENDING). Not automated: it would send the unit's whole FAVE to the URO and email people. Needs a decision before testing the approval chain (VET IC > URO > UAO; UAO approval needs HQ AO, which the test account lacks).
+- FAVE Export: StocktakeFAVEReport_<yyyyMMddHHmmss>.xlsx. Report Asset Listing (Detailed) Export: AssetListingDetailedReport_<stamp>.xlsx, 27 columns (Asset ID ... Asset Status, Logs1, Falo, ... Asset Sensitivity Remarks), follows the on-screen filters. Its Status filter offers AVAILABLE, LOAN, MAINTENANCE, NEW, PROGRESS, TRANSFER only. As LOGS1 it lists 2,737 assets.
+- Ad hoc Create: Start (Frequency One-Off/Periodic, default Periodic; Selection Manual/Random; Name*; Periodic: Recurrence Type*, Number of Recurrence (1), Start Date (tomorrow)) > Choose Asset > Review > End "Ad Hoc Stocktake No. ADST<n> has been created". Errors: "Stocktake Name is required", "Please tick at least one asset to process.". New setups are CREATED; a one-off becomes SUBMITTED once a result is recorded. Periodic + future start stays CREATED and can be cancelled ("Stocktake Ad Hoc has been cancelled."); one-off answers "Can't cancel one-off stocktake type." (BUG-002). The Cancel reason has an empty label (BUG-001; the option value is OTHER, then Remarks is required).
+- Ad hoc Listing: Update Result (SIGHTED/NOT SIGHTED/PENDING + Remarks) -> "The stocktake has been updated." and the page reloads to Summary. Assign Stocktaker has no confirmation (the list offers all unit officers) -> "The stocktaker has been assigned.".
 
 ## Known quirks and waits
 - Wizard steps that show a location (Relocate, Complete Register) load it by XHR AFTER the step opens and overwrite every field; anything typed earlier is lost. Wait for Building to have a value. Picking a postal code also fills Building/Address by XHR.

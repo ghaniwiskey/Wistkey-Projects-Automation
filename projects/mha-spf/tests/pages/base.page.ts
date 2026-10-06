@@ -74,6 +74,13 @@ export abstract class BasePage extends AppPage {
     await drawn;
   }
 
+  /** Like reloadsTable, for an action that reloads several tables (e.g. picking a FAVE cost centre). */
+  protected async reloadsTables(tableSelectors: string[], action: () => Promise<void>): Promise<void> {
+    await this.reloadsTable(tableSelectors[0], () =>
+      tableSelectors.length > 1 ? this.reloadsTables(tableSelectors.slice(1), action) : action(),
+    );
+  }
+
   /**
    * The visible select2 box of a hidden <select> with this id or name (e.g. "Status", "PostalCode").
    * select2 builds the container id from it ("select2-Status-ov-container"); some pages render the

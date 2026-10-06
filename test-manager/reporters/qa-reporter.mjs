@@ -79,6 +79,10 @@ export default class QaReporter {
         const status = outcome === 'skipped' ? 'skipped' : outcome === 'flaky' ? 'flaky' : outcome === 'expected' ? 'pass' : 'fail';
         const id = (ID_RE.exec(test.title) || [])[1] || test.titlePath().slice(2).join(' > ');
         const last = attempts[attempts.length - 1];
+        // test.fail('BUG-001 ...'): a known product bug. It counts as a pass while the bug is still there.
+        const knownBug = test.expectedStatus === 'failed' ? test.annotations.find((a) => a.type === 'fail') : undefined;
+        const notes = knownBug ? [`Expected failure, known bug: ${knownBug.description || 'see the test'}`] : [];
+        const bug = knownBug?.description?.match(/\bBUG-\d+\b/)?.[0];
         const evidence = [];
         attempts.forEach((a, ai) => {
           a.attachments.forEach((att, k) => {
@@ -105,7 +109,8 @@ export default class QaReporter {
           attempts: attempts.length,
           checks: last.checks,
           evidence,
-          notes: [],
+          notes,
+          ...(bug ? { bug } : {}),
           ...(status === 'fail' ? { error: last.error.slice(0, 800), failureType: 'untriaged' } : {}),
           ...(attempts.length > 1
             ? { history: attempts.slice(0, -1).map((a) => ({ status: a.status === 'passed' ? 'pass' : 'fail', failed: a.checks.filter((c) => !c.pass).map((c) => c.label), error: a.error.slice(0, 300) })) }

@@ -70,6 +70,23 @@ export const ASSETS = {
   },
 } as const;
 
+/**
+ * FAVE stocktake data (UAT FAVE FY26-2007, created 02-Oct-2026; tests open the first FAVE in the list).
+ * The asset is in the FAVE for cost centre 332600 APD and is used only by the FAVE tests.
+ */
+export const FAVE = {
+  costCentre: '332600',
+  asset: '111000010977',
+  /** Stocktakers offered for APD in the FAVE Assign dialog (2026-10-06). */
+  stocktakers: ['Mohammad Shahrul Bin Ismail', 'Wong Pui Lai Annie'],
+} as const;
+
+/** Ad hoc stocktake data: an AVAILABLE APD asset owned by the test account as LOGS1, not used by other tests. */
+export const ADHOC = {
+  asset: '111000020724',
+  stocktaker: 'Chia Shu Hui',
+} as const;
+
 /** The test account's officer, who holds both LOGS1 and FALO (assign to yourself in another role). */
 export const OFFICER = 'Wong Pui Lai Annie';
 

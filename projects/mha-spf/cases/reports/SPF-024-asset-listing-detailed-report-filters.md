@@ -5,7 +5,7 @@ feature: reports
 priority: P1
 tags: [regression]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -33,3 +33,5 @@ LOGS1 can list the unit's capitalised assets in Report > Asset Listing (Detailed
 
 ## Notes
 Read-only.
+
+Automated in tests/e2e/reports/asset-report.spec.ts (page object tests/pages/asset-report.page.ts).

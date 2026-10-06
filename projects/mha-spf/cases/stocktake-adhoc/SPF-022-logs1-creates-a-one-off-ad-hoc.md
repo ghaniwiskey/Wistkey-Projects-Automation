@@ -5,7 +5,7 @@ feature: stocktake-adhoc
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -30,15 +30,19 @@ LOGS1 can set up a one-off ad hoc stocktake with manually chosen assets, then up
 6. Open **Stocktake > Ad Hoc Listing**, open the new number, read the **Summary** tab
 7. Open **Details**, tick the asset, **Update Result**, pick **SIGHTED**, type remarks, **Submit**
 8. Open **Assignment**, tick the asset, **Assign Stocktaker**, pick **Chia Shu Hui**, **Submit**
+9. Open **Ad Hoc Setup** again and search the number
 
 ## Expected
 - Step 1 shows "Stocktake Name is required"; One-Off hides Recurrence Type, Number of Recurrence and Start Date
 - Step 3 shows "Please tick at least one asset to process."
 - Step 4: the counter shows "1 asset(s) selected", Review lists 111000020724 and the End step shows "Ad Hoc Stocktake No. ADST<number> has been created"
-- Ad Hoc Setup lists the number with the name, MANUAL, ONE-OFF and status SUBMITTED
+- Ad Hoc Setup lists the number with the name, MANUAL, ONE-OFF and status CREATED
 - Ad Hoc Listing lists it; its Summary shows PENDING with count 1
 - Step 7 shows "The stocktake has been updated." and the Summary shows SIGHTED with count 1
-- Step 8 shows "The stocktaker has been assigned." and the Ad Hoc Stocktaker column shows Chia Shu Hui
+- Step 8 shows "The stocktaker has been assigned." (no confirmation, unlike FAVE) and the Ad Hoc Stocktaker column shows Chia Shu Hui
+- After step 9 the status is SUBMITTED (a result has been recorded)
 
 ## Notes
-Leaves one SUBMITTED ad hoc stocktake per run: SUBMITTED setups have no Cancel button for LOGS1 or Agency Admin. Names start with "QA auto".
+Leaves one ad hoc stocktake per run: one-off setups cannot be cancelled ("Can't cancel one-off stocktake type.", see BUG-002) and SUBMITTED ones have no Cancel button. Names start with "QA auto adhoc".
+
+Automated in tests/e2e/stocktake-adhoc/adhoc.spec.ts (page objects tests/pages/adhoc.page.ts and stocktake-form.page.ts).

@@ -5,7 +5,7 @@ feature: stocktake-fave
 priority: P0
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -38,3 +38,5 @@ VET IC can record a sighting result for a FAVE asset; HTD Follow-up, FSSC Outcom
 
 ## Notes
 Writes to the live FAVE on UAT; step 5 restores the asset to PENDING, and cleanup resets it if the test stops halfway. Known cosmetic issue: after picking PENDING the Remarks box is cleared but its counter keeps the old count (e.g. "20 / 200").
+
+Automated in tests/e2e/stocktake-fave/fave.spec.ts (afterEach resets the asset to PENDING with FavePage.ensurePending).

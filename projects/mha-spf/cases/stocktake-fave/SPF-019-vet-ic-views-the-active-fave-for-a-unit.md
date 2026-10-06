@@ -5,7 +5,7 @@ feature: stocktake-fave
 priority: P1
 tags: [regression]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -37,3 +37,5 @@ VET IC can open the current FAVE stocktake, see one cost centre's approval panel
 
 ## Notes
 Read-only. Does not click Submit: that sends the whole unit's FAVE to the URO and emails people (manual > Follow up > How to approve FAVE). The FAVE number changes every financial year; the test opens the first one in the list.
+
+Automated in tests/e2e/stocktake-fave/fave.spec.ts (page objects tests/pages/fave.page.ts and stocktake-form.page.ts; Excel check via shared/utils/xlsx.ts).

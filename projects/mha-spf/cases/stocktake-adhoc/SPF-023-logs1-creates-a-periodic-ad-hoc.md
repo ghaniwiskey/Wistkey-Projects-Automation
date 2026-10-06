@@ -5,7 +5,7 @@ feature: stocktake-adhoc
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -37,3 +37,5 @@ A periodic ad hoc stocktake that has not started yet stays CREATED and its owner
 
 ## Notes
 BUG-001: the only Reason option has an empty label, so a user cannot pick it by name and gets "Reason is required". The automated test is marked as an expected failure until the bug is fixed; its cleanup cancels the setup by selecting the hidden option value OTHER.
+
+Automated in tests/e2e/stocktake-adhoc/adhoc.spec.ts, marked test.fail() for BUG-001 (it counts as passing while the bug is open; when the bug is fixed the run reports an unexpected pass: remove test.fail()). Cleanup fixture cancelCreatedAdHocs cancels CREATED periodic QA setups.

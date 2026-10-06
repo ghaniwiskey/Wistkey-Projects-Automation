@@ -11,6 +11,9 @@ import { AssignmentFormPage } from '../pages/assignment-form.page';
 import { RegistrationPage } from '../pages/registration.page';
 import { RejectionPage } from '../pages/rejection.page';
 import { NewAssetCreatePage, NewAssetFormPage, NewAssetListPage } from '../pages/new-asset.page';
+import { FavePage } from '../pages/fave.page';
+import { AdHocCreatePage, AdHocListingPage, AdHocSetupPage } from '../pages/adhoc.page';
+import { AssetReportPage } from '../pages/asset-report.page';
 import { ACCOUNTS, ROLES, RoleSlug, accountFor } from '../utils/test-data';
 
 type Options = {
@@ -35,6 +38,11 @@ type PageFixtures = {
   newAssetListPage: NewAssetListPage;
   newAssetCreatePage: NewAssetCreatePage;
   newAssetFormPage: NewAssetFormPage;
+  favePage: FavePage;
+  adHocSetupPage: AdHocSetupPage;
+  adHocCreatePage: AdHocCreatePage;
+  adHocListingPage: AdHocListingPage;
+  assetReportPage: AssetReportPage;
   /**
    * Cleanup for write tests: cancel every SUBMITTED assignment transaction on the asset (as owner,
    * reason Others), so the asset can be selected again. Returns the cancelled transaction numbers.
@@ -42,6 +50,11 @@ type PageFixtures = {
   cancelOpenAssignments: (assetId: string) => Promise<string[]>;
   /** Cleanup for write tests: cancel OPEN new-asset reports whose description contains the text. */
   cancelOpenNewAssets: (descriptionText: string) => Promise<string[]>;
+  /**
+   * Cleanup for write tests: cancel CREATED (not yet started) ad hoc stocktakes whose name contains the
+   * text. One-off setups are SUBMITTED at once and cannot be cancelled, so they stay.
+   */
+  cancelCreatedAdHocs: (nameText: string) => Promise<string[]>;
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
@@ -142,6 +155,32 @@ export const test = base.extend<Options & PageFixtures>({
   newAssetFormPage: async ({ page }, use) => {
     await use(new NewAssetFormPage(page));
   },
+  favePage: async ({ page }, use) => {
+    await use(new FavePage(page));
+  },
+  adHocSetupPage: async ({ page }, use) => {
+    await use(new AdHocSetupPage(page));
+  },
+  adHocCreatePage: async ({ page }, use) => {
+    await use(new AdHocCreatePage(page));
+  },
+  adHocListingPage: async ({ page }, use) => {
+    await use(new AdHocListingPage(page));
+  },
+  assetReportPage: async ({ page }, use) => {
+    await use(new AssetReportPage(page));
+  },
+  cancelCreatedAdHocs: async ({ adHocSetupPage }, use) => {
+    await use(async (nameText) => {
+      const created = await adHocSetupPage.createdSetups(nameText);
+      for (const no of created) {
+        await adHocSetupPage.open(no);
+        // Reason picked by value: BUG-001 (the reason has an empty label).
+        await adHocSetupPage.cancelWithOtherReason('QA cleanup');
+      }
+      return created;
+    });
+  },
   cancelOpenAssignments: async ({ assignmentPage, assignmentFormPage }, use) => {
     await use(async (assetId) => {
       const open = await assignmentPage.openTransactions(assetId);
@@ -176,4 +215,5 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ACCOUNTS, ROLES };
-export { ASSETS, ASSIGN_ROLES, LOCATION, OFFICER, OTHER_FALO, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
+export { ADHOC, ASSETS, ASSIGN_ROLES, FAVE, LOCATION, OFFICER, OTHER_FALO, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
+export { readXlsxDownload } from '@shared/utils/download';
