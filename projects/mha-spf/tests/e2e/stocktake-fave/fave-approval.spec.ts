@@ -114,7 +114,7 @@ test.describe('Stocktake FAVE final approval (writes, irreversible)', () => {
   test.use({ role: 'vet-ic' });
 
   // Test case: projects/mha-spf/cases/stocktake-fave/SPF-027-*.md
-  test('SPF-027: uao approves a unit fave after vet ic and uro submit, and it becomes final @regression @writes', async ({
+  test('SPF-027: uao approves a unit fave after vet ic and uro submit, and it becomes final @regression @writes @final', async ({
     favePage,
     dashboardPage,
     returnFaveToVetIc,

@@ -3,7 +3,7 @@ id: SPF-027
 title: "UAO approves a unit FAVE after VET IC and URO submit, and it becomes final"
 feature: stocktake-fave
 priority: P0
-tags: [regression, writes]
+tags: [regression, writes, final]
 envs: [staging]
 automated: true
 created: 2026-10-06
