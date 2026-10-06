@@ -34,6 +34,6 @@ Recall (manual > How to recall the asset): LOGS1 assigns an asset held by a FALO
 - Ownership shows Current LOGS1 "Wong Pui Lai Annie" and Current FALO "-" (empty).
 
 ## Notes
-Verified manually 2026-10-06 (ASG00006318/ASG00006319). With a different FALO the FALO ownership is cleared as the manual says; in SPF-010 (FALO and LOGS1 are the same officer) it is not. Emails go to Chia Shu Hui and the URO. Cleanup: cancel any SUBMITTED transaction on 111000010979 before and after.
+Verified manually 2026-10-06 (ASG00006318/ASG00006319). With a different FALO the FALO ownership is cleared as the manual says; retested the same day with the test account as FALO and it is cleared too (ASG00006333). Emails go to Chia Shu Hui and the URO. Cleanup: cancel any SUBMITTED transaction on 111000010979 before and after.
 
 Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts.

@@ -31,9 +31,9 @@ Assignment from FALO to LOGS1 waits for LOGS1 approval; after approval the LOGS1
 - After step 2 the End step shows "Asset Assignment #ASG<number> is created and pending approval."
 - In the list the transaction is SUBMITTED with Approver Role "Logistics Officer 1"; the detail page shows **Approve**, **Reject** and **Cancel** for LOGS1.
 - After step 4 the message "Assignment has been approved" is shown and the status is APPROVED.
-- The asset Ownership tab shows Current LOGS1 "Wong Pui Lai Annie".
+- The asset Ownership tab shows Current LOGS1 "Wong Pui Lai Annie" and Current FALO "-" (FALO ownership emptied, as the manual says).
 
 ## Notes
-Before and after: cancel any SUBMITTED assignment transaction on asset 111000010979 (owner Cancel, reason Others "QA cleanup"). Observed 2026-10-06: after the return is approved, Current FALO still shows "Wong Pui Lai Annie" although the manual says the FALO ownership is emptied; because the FALO and LOGS1 are the same officer: with a different FALO the FALO is cleared (verified 2026-10-06, see SPF-018). Not asserted here.
+Before and after: cancel any SUBMITTED assignment transaction on asset 111000010979 (owner Cancel, reason Others "QA cleanup"). Retested 2026-10-06 with every step approved (ASG00006334/ASG00006335): Current FALO is cleared even though the FALO and LOGS1 are the same officer. An earlier check (ASG00006278) kept the FALO; the only difference was that the asset had no LOGS1 owner before the return, which cannot be recreated in the UI.
 
 Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

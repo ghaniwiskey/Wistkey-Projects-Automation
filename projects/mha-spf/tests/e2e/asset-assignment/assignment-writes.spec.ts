@@ -118,11 +118,12 @@ test.describe('Asset Assignment (writes)', () => {
         await expect(assignmentPage.status(transactionNo)).toHaveText('APPROVED');
       });
 
-      await test.step('LOGS1 owns the asset', async () => {
+      await test.step('LOGS1 owns the asset and the FALO is cleared', async () => {
         await assetListingPage.find(asset.id);
         await assetListingPage.openAsset(asset.id);
         await assetDetailsPage.openTab('Ownership');
         await expect(assetDetailsPage.field('Current LOGS1', assetDetailsPage.activePanel)).toHaveText(OFFICER);
+        await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText('-');
       });
     });
 
