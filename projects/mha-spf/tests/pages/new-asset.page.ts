@@ -51,10 +51,16 @@ export class NewAssetListPage extends BasePage {
     return this.row(requestNo).locator('td').nth(1);
   }
 
+  /**
+   * Search one request. A report created a moment ago sometimes comes back empty on the first
+   * search (seen once in SPF-016, 2026-10-06), so search again until the row shows up.
+   */
   async find(requestNo: string): Promise<void> {
     await this.goto();
-    await this.search(requestNo);
-    await expect(this.row(requestNo)).toHaveCount(1);
+    await expect(async () => {
+      await this.search(requestNo);
+      await expect(this.row(requestNo)).toHaveCount(1, { timeout: 3_000 });
+    }).toPass({ timeout: 30_000 });
   }
 
   async open(requestNo: string): Promise<void> {
