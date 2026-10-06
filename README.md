@@ -15,7 +15,7 @@ Aside is the QA engineer at the keyboard; Playwright is the test runner. The tes
 | Automates cases as POM Playwright tests: page objects, fixtures, specs linked by test ID | `qa-write-tests` (Part B) + `.agents/skills/playwright-e2e` |
 | Runs suites, reproduces failures by hand in its browser, decides product-bug / test-issue / environment, fixes stale page objects, files or links bugs, retests fixes | `.agents/skills/qa-run-tests` |
 | Runs time-boxed exploratory sessions and turns findings into bugs and new cases | `.agents/skills/qa-explore` + `docs/exploratory-heuristics.md` |
-| Keeps project knowledge current (site quirks, waits, routes) and can schedule recurring runs | project `README.md` / `context.md`, Aside routines |
+| Keeps project knowledge current (site quirks, waits, routes) | project `README.md` / `context.md` |
 
 Just ask in Aside:
 
@@ -25,7 +25,6 @@ Just ask in Aside:
 | "Automate SPF-002" | `qa-write-tests` Part B: page objects, fixture, spec titled `SPF-002: ...`, two green runs |
 | "Run the scg-store smoke tests" / "retest BUG-003" | `qa-run-tests`: runs Playwright, triages failures, fixes stale page objects, files or links bugs |
 | "Explore the cart for 20 minutes" | `qa-explore`: charter-based bug hunt in Aside's browser, session notes in `projects/<slug>/explorations/` |
-| "Run the smoke tests every weekday at 8am" | an Aside routine that runs `qa-run-tests` on schedule |
 
 Without Aside, everything below still works by hand: `npm test`, the Test Manager app, and the docs.
 
