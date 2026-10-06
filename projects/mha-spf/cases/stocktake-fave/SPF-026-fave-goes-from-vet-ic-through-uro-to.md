@@ -18,6 +18,7 @@ The approval chain VET IC > URO > UAO: each level submits to the next, and a UAO
 - The current FAVE for 332600 APD is with VET IC (Submit button shown to VET IC); the test puts it back there before and after
 
 ## Data
+- The test works on the first cost centre of FAVE.costCentres (332600 APD, then 332300 CID) that is not APPROVED in the current FAVE, brought back to VET IC first, and on its first asset (APD: 111000010977); it skips when all are approved (fixture faveTarget).
 - Cost centre 332600 APD
 - UAO reject reason Others, remarks `QA auto fave uao reject <unique>`
 

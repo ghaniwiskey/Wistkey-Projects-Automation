@@ -18,6 +18,7 @@ VET IC can record a sighting result for a FAVE asset; HTD Follow-up, FSSC Outcom
 - Asset 111000010977 is in the current FAVE for 332600 APD
 
 ## Data
+- The test works on the first cost centre of FAVE.costCentres (332600 APD, then 332300 CID) that is not APPROVED in the current FAVE, brought back to VET IC first, and on its first asset (APD: 111000010977); it skips when all are approved (fixture faveTarget).
 - Asset 111000010977
 - Sighted Result SIGHTED, Asset Condition WORKING
 - Remarks `QA auto fave <unique>`

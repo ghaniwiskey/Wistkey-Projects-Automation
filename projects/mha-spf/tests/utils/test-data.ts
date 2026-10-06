@@ -71,14 +71,17 @@ export const ASSETS = {
 } as const;
 
 /**
- * FAVE stocktake data (UAT FAVE FY26-2007, created 02-Oct-2026; tests open the first FAVE in the list).
- * The asset is in the FAVE for cost centre 332600 APD and is used only by the FAVE tests.
+ * FAVE stocktake data. Tests open the first (newest) FAVE in the list (UAT: FAVE FY26-2007, created
+ * 02-Oct-2026).
  */
 export const FAVE = {
-  costCentre: '332600',
-  asset: '111000010977',
-  /** Stocktakers offered for APD in the FAVE Assign dialog (2026-10-06). */
-  stocktakers: ['Mohammad Shahrul Bin Ismail', 'Wong Pui Lai Annie'],
+  /**
+   * Cost centres the repeatable FAVE tests (SPF-019..021, 025, 026) may work on, in order of preference.
+   * The faveTarget fixture takes the first one that is not APPROVED in the current FAVE (approval is
+   * final), brings it back to VET IC and uses its first asset (APD: 111000010977). FY26-2007: 332100 A&F
+   * and 332370 CAD are approved, so they are not listed.
+   */
+  costCentres: ['332600', '332300'],
   /**
    * Cost centres SPF-027 may approve (UAO approval is final: one run per cost centre per FAVE).
    * Never APD (the repeatable FAVE tests need it). FY26-2007: 332370 CAD approved by hand on

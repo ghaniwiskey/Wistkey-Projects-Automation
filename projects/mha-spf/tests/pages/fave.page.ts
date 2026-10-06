@@ -183,6 +183,21 @@ export class FavePage extends StocktakeFormPage {
     return undefined;
   }
 
+  /** Asset ID of the first row in the Details table of the selected cost centre. */
+  async firstAssetId(): Promise<string> {
+    await expect(this.page.locator('#tbdetail_info')).toHaveText(/Showing \d/, { timeout: 30_000 });
+    const id = (await this.detailRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+    if (!id) throw new Error('No asset in the FAVE details of the selected cost centre');
+    return id;
+  }
+
+  /** Stocktakers offered in the Assign dialog for the selected cost centre (loaded by XHR). */
+  async stocktakerOptions(): Promise<string[]> {
+    const options = this.assignModal.locator(`select[id="${this.stocktakerKey}"] option:not([value=""])`);
+    await expect(options.first()).toBeAttached({ timeout: 30_000 });
+    return (await options.allTextContents()).map((t) => t.trim()).filter(Boolean);
+  }
+
   /** Open the current FAVE on one cost centre. Returns the FAVE number. */
   async openForCostCentre(code: string): Promise<string> {
     const faveNo = await this.openFirst();

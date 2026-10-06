@@ -18,6 +18,7 @@ The first approval step of FAVE: VET IC submits the unit's FAVE to the URO, and 
 - The current FAVE for 332600 APD is with VET IC (Submit button shown to VET IC); the test puts it back there before and after
 
 ## Data
+- The test works on the first cost centre of FAVE.costCentres (332600 APD, then 332300 CID) that is not APPROVED in the current FAVE, brought back to VET IC first, and on its first asset (APD: 111000010977); it skips when all are approved (fixture faveTarget).
 - Cost centre 332600 APD
 - Reject reason Others, remarks `QA auto fave reject <unique>`
 

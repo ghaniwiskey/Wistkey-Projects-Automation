@@ -14,7 +14,7 @@ import { NewAssetCreatePage, NewAssetFormPage, NewAssetListPage } from '../pages
 import { FavePage } from '../pages/fave.page';
 import { AdHocCreatePage, AdHocListingPage, AdHocSetupPage } from '../pages/adhoc.page';
 import { AssetReportPage } from '../pages/asset-report.page';
-import { ACCOUNTS, ROLES, RoleSlug, accountFor } from '../utils/test-data';
+import { ACCOUNTS, FAVE, ROLES, RoleSlug, accountFor } from '../utils/test-data';
 
 type Options = {
   /**
@@ -61,6 +61,12 @@ type PageFixtures = {
    * Returns the roles that rejected. Never approves (UAO approval is final).
    */
   returnFaveToVetIc: (costCentre: string) => Promise<string[]>;
+  /**
+   * The FAVE cost centre the repeatable FAVE tests work on: the first of FAVE.costCentres that is not
+   * APPROVED in the current FAVE, brought back to VET IC (VET IC active), with its first asset.
+   * Skips the test when every listed cost centre is approved.
+   */
+  faveTarget: { costCentre: string; asset: string };
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
@@ -200,6 +206,13 @@ export const test = base.extend<Options & PageFixtures>({
       await favePage.switchRole(ROLES['vet-ic']);
       return rejected;
     });
+  },
+  faveTarget: async ({ favePage, returnFaveToVetIc }, use, testInfo) => {
+    const costCentre = await favePage.firstNotApproved(FAVE.costCentres);
+    testInfo.skip(!costCentre, `Every cost centre in FAVE.costCentres (${FAVE.costCentres.join(', ')}) is APPROVED in the current FAVE`);
+    await returnFaveToVetIc(costCentre as string);
+    await favePage.openForCostCentre(costCentre as string);
+    await use({ costCentre: costCentre as string, asset: await favePage.firstAssetId() });
   },
   cancelOpenAssignments: async ({ assignmentPage, assignmentFormPage }, use) => {
     await use(async (assetId) => {
