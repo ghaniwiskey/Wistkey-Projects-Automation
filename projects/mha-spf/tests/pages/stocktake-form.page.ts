@@ -122,8 +122,9 @@ export abstract class StocktakeFormPage extends BasePage {
     const oneRow = /records\s*1 row selected/; // "Showing 1 to 1 of 1 records1 row selected" (no space)
     await expect(async () => {
       if (!oneRow.test(await info.innerText())) await box.click();
-      await expect(info).toContainText(oneRow, { timeout: 2_000 });
-    }).toPass({ timeout: 20_000 });
+      // The counter can take a few seconds after a click on a busy UAT; clicking again too early deselects.
+      await expect(info).toContainText(oneRow, { timeout: 5_000 });
+    }).toPass({ timeout: 30_000 });
   }
 
   /** Tick one asset in the Details table and open Update Result. Single selection pre-loads its saved values. */

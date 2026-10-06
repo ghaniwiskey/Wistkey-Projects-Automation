@@ -363,13 +363,26 @@ export class FavePage extends StocktakeFormPage {
   }
 
   /** Fill the open Update Result dialog (no Submit). Condition and remarks are skipped for PENDING. */
-  async fillResult(r: { sighted: SightedResult; condition?: AssetCondition; remarks?: string }): Promise<void> {
+  async fillResult(r: { sighted: SightedResult; condition?: AssetCondition; followUp?: string; remarks?: string }): Promise<void> {
     await this.pickSightedResult(r.sighted);
     if (r.condition) {
       await this.pickSelect2(this.resultModal, 'AssetCondition', r.condition);
       await expect(this.assetCondition).toHaveText(r.condition);
     }
+    if (r.followUp) await this.pickFollowUp(r.followUp);
     if (r.remarks !== undefined) await this.remarks.fill(r.remarks);
+  }
+
+  /** HTD Follow-up choices the dialog offers for the current Sighted Result and Asset Condition. */
+  async followUpOptions(): Promise<string[]> {
+    const options = this.resultModal.locator('select[name="UnitFollowUp"] option:not([value=""])');
+    return (await options.allTextContents()).map((t) => t.trim()).filter(Boolean);
+  }
+
+  /** Pick an HTD Follow-up (FSSC Outcome follows it). */
+  async pickFollowUp(followUp: string): Promise<void> {
+    await this.pickSelect2(this.resultModal, 'UnitFollowUp', followUp);
+    await expect(this.followUp).toHaveText(followUp);
   }
 
   /** Cleanup: set the asset's result back to PENDING if a test left it otherwise. */
