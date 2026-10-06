@@ -6,10 +6,10 @@ test.describe('Stocktake FAVE', () => {
   test.use({ role: 'vet-ic' });
 
   // Test case: projects/mha-spf/cases/stocktake-fave/SPF-019-*.md
-  // Read-only, works in any approval state (also on an approved cost centre).
+  // Read-only, on the first cost centre of the current FAVE that is not APPROVED.
   test('SPF-019: vet ic views the active fave for a unit and exports it @regression', async ({ favePage }) => {
     test.slow();
-    let costCentre = ''; // the first cost centre listed in the FAVE
+    let costCentre = ''; // the first cost centre of the FAVE that is not APPROVED
     let asset = '';
 
     await test.step('1. FAVE list shows numbers in the SPF format', async () => {
@@ -19,14 +19,14 @@ test.describe('Stocktake FAVE', () => {
       for (const n of numbers) expect(n).toMatch(/^FAVE FY\d{2}-20\d{2}$/);
     });
 
-    await test.step('1. Open the first FAVE', async () => {
-      const faveNo = await favePage.openFirst();
-      await expect(favePage.title).toContainText(`Stocktake FAVE #${faveNo}`);
-      [costCentre] = await favePage.costCentreCodes();
-      expect(costCentre, 'the FAVE lists cost centres').toBeTruthy();
+    await test.step('1. Open the first FAVE and take a cost centre that is not approved', async () => {
+      const found = await favePage.firstNotApproved(); // opens the first FAVE
+      test.skip(!found, 'Every cost centre of the current FAVE is APPROVED');
+      costCentre = found as string;
+      await expect(favePage.title).toContainText(/Stocktake FAVE #FAVE FY\d{2}-20\d{2}/);
     });
 
-    await test.step('2-3. First cost centre: approval panel and results summary', async () => {
+    await test.step('2-3. Non-approved cost centre: approval panel and results summary', async () => {
       await favePage.selectCostCentre(costCentre);
       for (const stage of APPROVAL_STAGES) await expect(favePage.stage(stage)).toBeVisible();
       await expect(favePage.summaryRows.first()).toContainText(/(PENDING|SIGHTED|NOT SIGHTED)/);

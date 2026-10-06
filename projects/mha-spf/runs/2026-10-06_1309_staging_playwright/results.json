@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-06_1309_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-10-06T06:09:06.310Z",
+  "finishedAt": "2026-10-06T06:09:32.244Z",
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-019",
+      "title": "vet ic views the active fave for a unit and exports it",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-fave/fave.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-06T06:09:06.310Z",
+      "durationMs": 13288,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. FAVE list shows numbers in the SPF format",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThan\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toMatch\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1. Open the first FAVE and take a cost centre that is not approved",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })"
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })"
+        }
+      ],
+      "evidence": [
+        "screenshots/SPF-019-a1-1.png",
+        "traces/SPF-019-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })\nTimeout: 5000ms\nExpected pattern: /^Stocktake FAVE #FAVE FY\\d{2}-20\\d{2}/\nReceived string:  \"\n                    Stocktake FAVE #FAVE FY26-2007\n                    Created Date: 02-Oct-2026\n                \"\n\nCall log:\n  - Expect \"toContainText\" getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 }) with timeout 5000ms\n  - waiting for getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })\n    14 × locator resolved to <h1 class=\"card-title align-items-start flex-column\">…</h1>\n       - unexpected value \"\n                    Stocktake FAVE #FAVE FY26-2007\n                    Created Date: 02-Oct-2026\n                \"\n",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "SPF-019",
+      "title": "vet ic views the active fave for a unit and exports it",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-fave/fave.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-06T06:09:06.310Z",
+      "durationMs": 11307,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. FAVE list shows numbers in the SPF format",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThan\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toMatch\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1. Open the first FAVE and take a cost centre that is not approved",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })"
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })"
+        }
+      ],
+      "evidence": [
+        "screenshots/SPF-019-a1-1.png",
+        "traces/SPF-019-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })\nTimeout: 5000ms\nExpected pattern: /^Stocktake FAVE #FAVE FY\\d{2}-20\\d{2}/\nReceived string:  \"\n                    Stocktake FAVE #FAVE FY26-2007\n                    Created Date: 02-Oct-2026\n                \"\n\nCall log:\n  - Expect \"toContainText\" getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 }) with timeout 5000ms\n  - waiting for getByRole('heading', { name: /^Stocktake (FAVE|No) #/, level: 1 })\n    14 × locator resolved to <h1 class=\"card-title align-items-start flex-column\">…</h1>\n       - unexpected value \"\n                    Stocktake FAVE #FAVE FY26-2007\n                    Created Date: 02-Oct-2026\n                \"\n",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}
