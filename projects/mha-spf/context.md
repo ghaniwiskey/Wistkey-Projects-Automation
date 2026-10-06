@@ -100,11 +100,28 @@ Common UI patterns: list pages with a pencil icon in the Actions column to open/
 ## Test data
 - Accounts (no passwords): **SPF-A2216GA** = officer "Wong Pui Lai Annie", passwordless. Roles in the Role dropdown (2026-10-05): Agency Admin (default after login), Fixed Asset Liaison Officer, Logistics Officer 1, Stocktaker, Unit Approving Officer, Verification Team IC/2IC. Missing for approval chains: URO, HQ AO, HQ FALO, End User, and a second LOGS1/FALO user.
 - Asset data comes from iLMS; record reusable UAT asset IDs per status (NEW, TRANSFER, PROGRESS, AVAILABLE, REJECTED, RETIRED) here once found.
-  - AVAILABLE: `111000010978` (VRV air con, 332600 APD, Group APD, postal 819645, no LOGS1/FALO owner). Used by SPF-004/006/007 (`ASSETS.available` in tests/utils/test-data.ts).
+  - AVAILABLE: `111000010978` (VRV air con, 332600 APD, Group APD, postal 819645, no LOGS1/FALO owner). Used by SPF-004/006/007 (`ASSETS.available` in tests/utils/test-data.ts). Read-only tests only.
+  - Write-test asset: `111000010979` (`ASSETS.writable`, same unit/location). SPF-008..012 relocate/assign/return it; since 2026-10-06 its Current LOGS1 and Current FALO are both "Wong Pui Lai Annie". The specs cancel any SUBMITTED transaction on it before and after each test.
+  - Registration tests take the first NEW asset in Asset Listing (Status NEW). SPF-013 and SPF-014 leave it AVAILABLE (one NEW asset each per run, cannot be undone in the UI); SPF-015 returns it to NEW. They skip when no NEW asset is left.
+  - New Asset tests type descriptions starting "QA auto"; cleanup cancels OPEN reports matching it. Photo: `data/qa-asset.png`.
 - As LOGS1 (2026-10-06): Asset Listing 2,737 assets, 87 NEW; Registration > Register lists 91 assets; Assignment list 342 transactions.
 - Upload files go in `data/` (asset photos under 3 MB, FAVE Import Working Result template, Role Listing user import template).
 
+## Write flows observed on UAT (2026-10-06)
+- Relocate (LOGS1): "Relocation request #ASG... is created", auto-APPROVED, asset Location updated.
+- Assign LOGS1 > FALO: "... is created and approved." Current FALO set.
+- Assign FALO > LOGS1 (return): "... is created and pending approval.", Approver Role LOGS1; the same officer can Approve/Reject it as LOGS1. After approval Current LOGS1 = officer, but Current FALO is NOT cleared (manual says it is emptied; maybe because FALO and LOGS1 are the same person; open question).
+- Assign LOGS1 > LOGS1 (also "recall" to yourself): always pending, Approver Role "Unit Resource Officer" (no URO test account), so only Cancel is testable.
+- Cancel / Reject: modal with select2 Reason (Cancel: Others only, needs Remarks max 200, "Remarks is required"; Reject: Incorrect Assignee, Incorrect Location, Incorrect Location and Assignee, Others), then "Are you sure to ...?" Yes, then "Assignment has been cancelled./rejected." Ok.
+- Registration Register: Locate & Assign (FALO optional, Group, Postal Code search, Block/Level/Room No/Remarks) > Sensitivity (default NO) > RFID Tag (YES default; NO sets Tag Type NA). Complete location: "Asset Registration completed."; empty Block/Level/Room/Remarks: "Asset Registration incomplete." (PROGRESS).
+- Registration Reject: native select Reason (Incorrect Cost Centre, Others, Wrongly Capitalised): "Assets Rejected.". Rejection > Reinstate (reasons Others, Wrongly Assigned, Wrongly Rejected): "Reinstatement Completed"; status goes back to the one before rejection (NEW stays NEW, PROGRESS stays PROGRESS).
+- New Asset report: Cost Centre*, Remarks*, Postal Code*, location Remarks*, photo* (.png/.jpg/.jpeg < 3 MB) > "New Asset #RNA... has been created." (OPEN). Close Item (Asset Pending Capitalisation, Item Belongs to Other Unit, Not an Asset, Others) shows "The reported new asset has been closed." with no confirmation; Cancel Item reasons: Mistaken as Asset, Others.
+
 ## Known quirks and waits
+- Wizard steps that show a location (Relocate, Complete Register) load it by XHR AFTER the step opens and overwrite every field; anything typed earlier is lost. Wait for Building to have a value. Picking a postal code also fills Building/Address by XHR.
+- The Assign step's Assignee list reloads by XHR when the Role changes; an already open select2 keeps the stale list. Wait for the officer to appear in the hidden <select> first.
+- Postal Code is a server-side select2 search: type into `.select2-container--open .select2-search__field`.
+- Results and confirmations are SweetAlert2 popups (`.swal2-popup`, buttons Yes / Ok).
 - **Use LOGS1 (or another unit role) for asset searches, not Agency Admin**: as Agency Admin the listing holds ~48k assets and searching hangs (user tip, confirmed 2026-10-06).
 - DataTables lists: filters apply only on **Search**; **Clear** reloads the whole page. A search first redraws the table empty, then again with data: wait for the `xhr.dt` event and then the next `draw.dt` (BasePage.reloadsTable), not just any draw.
 - Assignment type radios (Assign / Relocate / Assign & Relocate) are hidden `btn-check` inputs; click their `label[for=...]` cards.

@@ -5,7 +5,7 @@ feature: new-asset
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -37,3 +37,5 @@ Any user can report a potential asset (photo mandatory); LOGS1 can close it with
 
 ## Notes
 Emails all LOGS1 and VET IC (manual). Cleanup cancels any OPEN request whose description starts with "QA auto".
+
+Automated in tests/e2e/new-asset/new-asset.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

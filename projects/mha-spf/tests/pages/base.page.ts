@@ -74,10 +74,72 @@ export abstract class BasePage extends AppPage {
     await drawn;
   }
 
-  /** Pick an option in a select2 dropdown whose hidden <select> has this id or name (e.g. "Status"). */
+  /**
+   * The visible select2 box of a hidden <select> with this id or name (e.g. "Status", "PostalCode").
+   * select2 builds the container id from it ("select2-Status-ov-container"); some pages render the
+   * same field in several wizard panels, so only the visible one counts.
+   */
+  protected select2(scope: Locator | Page, selectKey: string): Locator {
+    return scope
+      .locator(`span[role="combobox"][aria-labelledby^="select2-${selectKey}" i]`)
+      .filter({ visible: true })
+      .first();
+  }
+
+  /**
+   * Pick an option in a select2 dropdown (only one dropdown is open at a time).
+   * Many ATS dropdowns (Group, Assignee, ...) get their options by XHR after the step opens, and an
+   * open select2 does not refresh its list, so first wait for the option in the hidden <select>.
+   */
   protected async pickSelect2(scope: Locator | Page, selectKey: string, option: string): Promise<void> {
-    await scope.locator(`span[role="combobox"][aria-labelledby^="select2-${selectKey}"]`).click();
+    const exact = new RegExp(`^\\s*${option.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`);
+    const loaded = scope
+      .locator(`select[id="${selectKey}" i] option, select[name="${selectKey}" i] option`)
+      .filter({ hasText: exact });
+    await expect(loaded.first()).toBeAttached({ timeout: 30_000 });
+    await this.select2(scope, selectKey).click();
     await this.page.getByRole('option', { name: option, exact: true }).click();
+  }
+
+  /** select2 with server-side search (e.g. postal code): open, type the query, pick the option. */
+  protected async searchSelect2(scope: Locator | Page, selectKey: string, query: string, option: string): Promise<void> {
+    await this.select2(scope, selectKey).click();
+    // The search box of the open select2 (in the dropdown, or inline for multi-selects).
+    const search = this.page.locator('.select2-container--open .select2-search__field').filter({ visible: true }).first();
+    await search.pressSequentially(query, { delay: 30 });
+    await this.page.getByRole('option', { name: option, exact: true }).click({ timeout: 30_000 });
+  }
+
+  /** Total from a DataTables info line "Showing 1 to 10 of 2,737 records" (0 for "Showing no records"). */
+  protected async tableTotal(info: Locator): Promise<number> {
+    await expect(info).toHaveText(/Showing/);
+    const m = (await info.innerText()).match(/of ([\d,]+) records/);
+    return m ? Number(m[1].replace(/,/g, '')) : 0;
+  }
+
+  // SweetAlert2 popups (confirmations and result messages). They have no stable accessible name,
+  // so the library's class names are the most stable hook.
+  get alert(): Locator {
+    return this.page.locator('.swal2-popup');
+  }
+
+  get alertText(): Locator {
+    return this.alert.locator('.swal2-html-container');
+  }
+
+  /** Answer a SweetAlert confirmation ("Are you sure ...?") with Yes. */
+  async confirm(question: RegExp = /Are you sure/): Promise<void> {
+    await expect(this.alertText).toHaveText(question);
+    await this.alert.getByRole('button', { name: 'Yes', exact: true }).click();
+  }
+
+  /** Wait for a SweetAlert result message, then close it with Ok. Returns the message. */
+  async acknowledge(message: string | RegExp): Promise<string> {
+    await expect(this.alertText).toHaveText(message);
+    const text = (await this.alertText.innerText()).trim();
+    await this.alert.getByRole('button', { name: 'Ok', exact: true }).click();
+    await expect(this.alert).toBeHidden();
+    return text;
   }
 
   /** True when the app has sent the browser back to the login page. */

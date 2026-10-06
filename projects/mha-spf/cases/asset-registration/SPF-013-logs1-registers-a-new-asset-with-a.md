@@ -5,7 +5,7 @@ feature: asset-registration
 priority: P0
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -36,3 +36,5 @@ The 7-step Register wizard turns a NEW asset into AVAILABLE when the location is
 
 ## Notes
 Consumes one NEW asset per run (iLMS data, cannot be reset from the UI). The test skips when no NEW asset is left.
+
+Automated in tests/e2e/asset-registration/registration.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

@@ -5,7 +5,7 @@ feature: asset-assignment
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -35,3 +35,5 @@ The creator of a SUBMITTED transaction can cancel it; Others needs remarks.
 
 ## Notes
 Before and after: cancel any SUBMITTED assignment transaction on asset 111000010979 (owner Cancel, reason Others "QA cleanup"). The manual says LOGS1 taking an asset back to himself is auto-approved, but on UAT (2026-10-06) LOGS1 > LOGS1 "Wong Pui Lai Annie" always goes to the URO; the manual's own example also says "after it approved".
+
+Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

@@ -76,6 +76,26 @@ export class AssetListingPage extends BasePage {
     return this.rows.locator('td:last-child .badge');
   }
 
+  /** Status badge of one asset row. */
+  statusOf(assetId: string): Locator {
+    return this.row(assetId).locator('td:last-child .badge');
+  }
+
+  /** Fresh search for one asset (use with statusOf / openAsset). */
+  async find(assetId: string): Promise<void> {
+    await this.goto();
+    await this.search(assetId);
+    await expect(this.row(assetId)).toHaveCount(1);
+  }
+
+  /** Asset ID of the first asset with this status, or undefined when there is none. */
+  async firstAssetIdWithStatus(status: string): Promise<string | undefined> {
+    await this.goto();
+    await this.filterByStatus(status);
+    if ((await this.totalRecords()) === 0) return undefined;
+    return (await this.rows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+  }
+
   async openAsset(assetId: string): Promise<void> {
     await this.row(assetId).getByRole('link', { name: `Asset ID: ${assetId}` }).click();
     await expect(this.page).toHaveURL(/\/Asset\/AssetForm\?assetId=/);

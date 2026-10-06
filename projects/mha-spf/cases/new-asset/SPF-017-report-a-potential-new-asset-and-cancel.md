@@ -5,7 +5,7 @@ feature: new-asset
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -30,3 +30,5 @@ The reporter can cancel an OPEN new-asset report with a reason.
 
 ## Notes
 Cleanup cancels any OPEN request whose description starts with "QA auto".
+
+Automated in tests/e2e/new-asset/new-asset.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

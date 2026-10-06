@@ -5,7 +5,7 @@ feature: asset-registration
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -35,3 +35,5 @@ A wrongly rejected asset can be reinstated and returns to its previous status (N
 
 ## Notes
 Non-consuming. Observed 2026-10-06: an asset rejected from PROGRESS is reinstated to PROGRESS (previous status), not NEW. If the test fails between the two steps it reinstates the asset in cleanup.
+
+Automated in tests/e2e/asset-registration/registration.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

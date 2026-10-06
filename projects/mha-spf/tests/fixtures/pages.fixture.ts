@@ -7,6 +7,10 @@ import { AssetListingPage } from '../pages/asset-listing.page';
 import { AssetDetailsPage } from '../pages/asset-details.page';
 import { AssignmentPage } from '../pages/assignment.page';
 import { AssignmentCreatePage } from '../pages/assignment-create.page';
+import { AssignmentFormPage } from '../pages/assignment-form.page';
+import { RegistrationPage } from '../pages/registration.page';
+import { RejectionPage } from '../pages/rejection.page';
+import { NewAssetCreatePage, NewAssetFormPage, NewAssetListPage } from '../pages/new-asset.page';
 import { ACCOUNTS, ROLES, RoleSlug, accountFor } from '../utils/test-data';
 
 type Options = {
@@ -25,6 +29,19 @@ type PageFixtures = {
   assetDetailsPage: AssetDetailsPage;
   assignmentPage: AssignmentPage;
   assignmentCreatePage: AssignmentCreatePage;
+  assignmentFormPage: AssignmentFormPage;
+  registrationPage: RegistrationPage;
+  rejectionPage: RejectionPage;
+  newAssetListPage: NewAssetListPage;
+  newAssetCreatePage: NewAssetCreatePage;
+  newAssetFormPage: NewAssetFormPage;
+  /**
+   * Cleanup for write tests: cancel every SUBMITTED assignment transaction on the asset (as owner,
+   * reason Others), so the asset can be selected again. Returns the cancelled transaction numbers.
+   */
+  cancelOpenAssignments: (assetId: string) => Promise<string[]>;
+  /** Cleanup for write tests: cancel OPEN new-asset reports whose description contains the text. */
+  cancelOpenNewAssets: (descriptionText: string) => Promise<string[]>;
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
@@ -107,6 +124,44 @@ export const test = base.extend<Options & PageFixtures>({
   assignmentCreatePage: async ({ page }, use) => {
     await use(new AssignmentCreatePage(page));
   },
+  assignmentFormPage: async ({ page }, use) => {
+    await use(new AssignmentFormPage(page));
+  },
+  registrationPage: async ({ page }, use) => {
+    await use(new RegistrationPage(page));
+  },
+  rejectionPage: async ({ page }, use) => {
+    await use(new RejectionPage(page));
+  },
+  newAssetListPage: async ({ page }, use) => {
+    await use(new NewAssetListPage(page));
+  },
+  newAssetCreatePage: async ({ page }, use) => {
+    await use(new NewAssetCreatePage(page));
+  },
+  newAssetFormPage: async ({ page }, use) => {
+    await use(new NewAssetFormPage(page));
+  },
+  cancelOpenAssignments: async ({ assignmentPage, assignmentFormPage }, use) => {
+    await use(async (assetId) => {
+      const open = await assignmentPage.openTransactions(assetId);
+      for (const no of open) {
+        await assignmentPage.open(no);
+        await assignmentFormPage.cancel('Others', 'QA cleanup');
+      }
+      return open;
+    });
+  },
+  cancelOpenNewAssets: async ({ newAssetListPage, newAssetFormPage }, use) => {
+    await use(async (descriptionText) => {
+      const open = await newAssetListPage.openRequests(descriptionText);
+      for (const no of open) {
+        await newAssetListPage.open(no);
+        await newAssetFormPage.cancelItem('Others', 'QA cleanup');
+      }
+      return open;
+    });
+  },
   loginAs: async ({ loginPage, dashboardPage }, use) => {
     await use(async (role) => {
       const account = accountFor(role);
@@ -121,4 +176,4 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ACCOUNTS, ROLES };
-export { ASSETS } from '../utils/test-data';
+export { ASSETS, ASSIGN_ROLES, LOCATION, OFFICER, PHOTO, QA_PREFIX, unique } from '../utils/test-data';

@@ -5,7 +5,7 @@ feature: asset-assignment
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -35,3 +35,5 @@ Assignment from FALO to LOGS1 waits for LOGS1 approval; after approval the LOGS1
 
 ## Notes
 Before and after: cancel any SUBMITTED assignment transaction on asset 111000010979 (owner Cancel, reason Others "QA cleanup"). Observed 2026-10-06: after the return is approved, Current FALO still shows "Wong Pui Lai Annie" although the manual says the FALO ownership is emptied; possibly because the FALO and LOGS1 are the same officer. Not asserted.
+
+Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

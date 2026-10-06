@@ -5,7 +5,7 @@ feature: asset-assignment
 priority: P0
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -34,3 +34,5 @@ Assignment from LOGS1 to FALO needs no approval (manual > Asset Assignment rules
 
 ## Notes
 Before and after: cancel any SUBMITTED assignment transaction on asset 111000010979 (owner Cancel, reason Others "QA cleanup").
+
+Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).
