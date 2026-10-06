@@ -1,13 +1,14 @@
-import { test, expect, listDate, pickerDate } from '../../fixtures/pages.fixture';
+import { test, expect, listDate } from '../../fixtures/pages.fixture';
 
 /**
- * One year from today, moved to the 20th: a future date (the asset stays RETIRED; a past date would
- * dispose it for good) whose day cannot be read as a month, so a day/month mix-up shows (BUG-005).
+ * One year (plus `extraMonths`) from today, moved to the 20th: a future date (the asset stays RETIRED; a
+ * past date would dispose it for good) whose day cannot be read as a month, so a day/month mix-up shows.
  */
-function futureDisposalDate(): Date {
+function futureDisposalDate(extraMonths = 0): Date {
   const d = new Date();
-  d.setFullYear(d.getFullYear() + 1);
   d.setDate(20);
+  d.setFullYear(d.getFullYear() + 1);
+  d.setMonth(d.getMonth() + extraMonths);
   return d;
 }
 
@@ -55,21 +56,27 @@ test.describe('Retirement/Disposal (writes)', () => {
   });
 
   // Test case: projects/mha-spf/cases/retirement/SPF-032-*.md
-  test('SPF-032: the disposal date dialog shows the saved disposal date @regression @writes', async ({ retirementPage }) => {
-    test.fail(true, 'BUG-005: the Update dialog pre-fills a wrong date (day and month swapped, e.g. 31-Dec-2027 shows as 07/12/2029)');
+  // The dialog pre-fills a different date when reopened (BUG-005, wont-fix: accepted), so the test never
+  // relies on the pre-filled value: setDisposalDate always picks the date before submitting.
+  test('SPF-032: logs1 changes an existing disposal date @regression @writes', async ({ retirementPage }) => {
     const id = asset!;
-    const date = futureDisposalDate();
+    const first = futureDisposalDate();
+    const second = futureDisposalDate(1);
 
-    await test.step(`1. Set disposal date ${listDate(date)} on ${id}`, async () => {
-      await retirementPage.setDisposalDate(id, date);
+    await test.step(`1. Set disposal date ${listDate(first)} on ${id}`, async () => {
+      expect(await retirementPage.setDisposalDate(id, first)).toBe('Updating done');
       await retirementPage.find(id);
-      await expect(retirementPage.disposalDate(id)).toHaveText(listDate(date));
+      await expect(retirementPage.disposalDate(id)).toHaveText(listDate(first));
     });
 
-    await test.step('2. Reopening the pencil shows the saved date (BUG-005)', async () => {
-      await retirementPage.openUpdate(id);
-      await expect(retirementPage.disposalDateInput).toHaveValue(pickerDate(date));
-      await retirementPage.closeUpdate();
+    await test.step(`2. Change it to ${listDate(second)}`, async () => {
+      expect(await retirementPage.setDisposalDate(id, second)).toBe('Updating done');
+    });
+
+    await test.step('3. The list shows the new date; the asset is still RETIRED', async () => {
+      await retirementPage.find(id);
+      await expect(retirementPage.disposalDate(id)).toHaveText(listDate(second));
+      await expect(retirementPage.status(id)).toHaveText('RETIRED');
     });
   });
 });

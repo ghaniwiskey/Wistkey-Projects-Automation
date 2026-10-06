@@ -7,7 +7,7 @@ env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/FaveForm?stktakeFAVEId=<id>
 found: 2026-10-06
 foundBy: "exploratory session 2026-10-06 (Aside)"
-tests: [SPF-025]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,4 @@ Update Result is shown and the change is saved: "The stocktake result is updated
 ## History
 - 2026-10-06: filed from exploratory session 2026-10-06 (Aside) in the Test Manager app.
 - 2026-10-06: status open -> wont-fix.
+- 2026-10-06: wont-fix accepted: VET IC (and UAO) may still update results after VET IC submits. No test checks it (SPF-025 never asserted it); unlinked.

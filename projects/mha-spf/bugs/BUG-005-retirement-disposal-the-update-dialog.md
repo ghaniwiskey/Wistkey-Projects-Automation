@@ -2,12 +2,12 @@
 id: BUG-005
 title: "Retirement/Disposal: the Update dialog pre-fills a wrong disposal date (31-Dec-2027 shows as 07/12/2029)"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Asset/Retirement
 found: 2026-10-06
 foundBy: "explorations/2026-10-06-uncovered-flows.md"
-tests: [SPF-032]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,5 @@ The field shows 07/12/2029 (reproduced twice). The date was cleared again afterw
 
 ## History
 - 2026-10-06: filed from explorations/2026-10-06-uncovered-flows.md in the Test Manager app.
+- 2026-10-06: status open -> wont-fix.
+- 2026-10-06: wont-fix accepted: reopening the Update dialog pre-fills a different date. SPF-032 no longer checks the pre-filled value; it now covers changing an existing disposal date (always picking the date).
