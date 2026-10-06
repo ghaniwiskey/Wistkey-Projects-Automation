@@ -1,4 +1,4 @@
-import { test, expect, OFFICER, unique } from '../../fixtures/pages.fixture';
+import { test, expect, unique } from '../../fixtures/pages.fixture';
 
 // Registration works on iLMS assets in status NEW. SPF-013 and SPF-014 consume one NEW asset per run
 // (they end AVAILABLE; the UI cannot reset that). SPF-015 puts its asset back to NEW.
@@ -85,6 +85,7 @@ test.describe('Asset Registration (writes)', () => {
 
   // Test case: projects/mha-spf/cases/asset-registration/SPF-015-*.md
   test('SPF-015: reject a new asset from registration and reinstate it @regression @writes', async ({
+    officer,
     registrationPage,
     rejectionPage,
     assetListingPage,
@@ -100,7 +101,7 @@ test.describe('Asset Registration (writes)', () => {
     await test.step('3. Asset is in the Reinstate list, rejected by the officer', async () => {
       await rejectionPage.start();
       await rejectionPage.searchAsset(id);
-      await expect(rejectionPage.rejectedRow(id)).toContainText(OFFICER);
+      await expect(rejectionPage.rejectedRow(id)).toContainText(officer);
     });
 
     await test.step('4. Reinstate as Wrongly Rejected', async () => {

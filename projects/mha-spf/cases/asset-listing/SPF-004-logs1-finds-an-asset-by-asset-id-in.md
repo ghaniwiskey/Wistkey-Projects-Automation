@@ -14,7 +14,7 @@ updated: 2026-10-06
 A Logistics Officer 1 can find a specific asset of their unit by its Asset ID.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active (Agency Admin cannot search reliably: too many assets, the listing hangs)
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active (Agency Admin cannot search reliably: too many assets, the listing hangs)
 
 ## Data
 - Asset `<asset>`: the first AVAILABLE asset in Asset Listing, found when the test runs (UAT 2026-10-06: 111000010977)

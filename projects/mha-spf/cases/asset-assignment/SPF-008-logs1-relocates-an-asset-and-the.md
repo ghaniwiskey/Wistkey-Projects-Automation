@@ -14,7 +14,7 @@ updated: 2026-10-06
 A relocation transaction is approved by the system immediately and updates the asset location.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 - Asset `<asset>` is not in an ongoing transaction
 
 ## Data

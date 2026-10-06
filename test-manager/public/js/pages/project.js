@@ -81,7 +81,7 @@ export function ProjectOverview({ slug, sandboxed }) {
           <span class="k">Automated</span><span>${p.automated} of ${p.tests} test cases</span></div>
           <p class="muted" style="margin-bottom:0">A Playwright test links to a test case when its title starts with the ID: <code>${p.prefix}-001: ...</code></p></div></div>
         <div class="card section"><div class="head"><h2>Accounts</h2><a class="btn sm right" href=${`#/p/${slug}/settings`}>Edit</a></div><div class="body small">
-          ${p.accounts.length ? p.accounts.map((a) => html`<div class="row" style="margin-bottom:4px"><span><strong>${a.username || '(no username)'}</strong> ${a.roles.map((r) => html`<span class="tag">${r}</span>`)}</span><span class="right muted">${pwLabel(a)}</span></div>`) : html`<p class="muted">No test accounts yet. Add them in settings.</p>`}
+          ${p.accounts.length ? p.accounts.map((a) => html`<div class="row" style="margin-bottom:4px"><span><strong>${a.username || (a.envUser ? `from .env ${a.envUser}` : '(no username)')}</strong> ${a.roles.map((r) => html`<span class="tag">${r}</span>`)}</span><span class="right muted">${pwLabel(a)}</span></div>`) : html`<p class="muted">No test accounts yet. Add them in settings.</p>`}
         </div></div>
         <div class="card section"><div class="head"><h2>Features</h2></div><div class="body">${Object.entries(p.features).map(([f, n]) => html`<div class="row small"><a href=${`#/p/${slug}/tests?feature=${encodeURIComponent(f)}`}>${f}</a><span class="right muted">${n}</span></div>`)}</div></div>
         ${p.lint.errors.length || p.lint.warnings.length ? html`<div class="card section"><div class="head"><h2>Quality checks</h2></div><div class="body small">
@@ -130,7 +130,7 @@ export function ProjectSettings({ slug }) {
         <span class="lbl" style="font-weight:600;font-size:13px">Accounts</span>
         <table class="t" style="margin:6px 0 10px"><thead><tr><th>Username</th><th>Roles</th><th>No password</th><th>Password manager item</th><th>Notes</th><th></th></tr></thead><tbody>
           ${f.accounts.map((a, i) => html`<tr>
-            <td style="min-width:150px"><input value=${a.username} placeholder="Login ID or email" onInput=${(ev) => setAcc(i, 'username', ev.target.value)} /></td>
+            <td style="min-width:150px"><input value=${a.username} placeholder=${a.envUser ? `from .env ${a.envUser}` : 'Login ID or email'} onInput=${(ev) => setAcc(i, 'username', ev.target.value)} /></td>
             <td style="min-width:220px"><${RolePicker} value=${a.roles} onChange=${(v) => setAcc(i, 'roles', v)} suggestions=${allRoles} /></td>
             <td><input type="checkbox" checked=${a.passwordless} onChange=${(ev) => setAcc(i, 'passwordless', ev.target.checked)} /></td>
             <td><input value=${a.vaultItem} disabled=${a.passwordless} placeholder=${a.passwordless ? '' : 'Vault item title'} onInput=${(ev) => setAcc(i, 'vaultItem', ev.target.value)} /></td>

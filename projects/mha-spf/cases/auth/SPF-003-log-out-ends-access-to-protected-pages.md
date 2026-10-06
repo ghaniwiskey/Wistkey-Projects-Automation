@@ -14,7 +14,7 @@ updated: 2026-10-06
 Logout ends the session: the user lands on the login page and cannot open app pages without logging in again.
 
 ## Preconditions
-- Logged in as SPF-A2216GA (any role)
+- Logged in as the test account (`SPF_USER` in .env) (any role)
 
 ## Data
 - Protected page: `/Asset/Asset` (Asset Listing)

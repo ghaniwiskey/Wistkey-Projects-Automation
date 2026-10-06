@@ -14,7 +14,7 @@ updated: 2026-10-06
 The reporter can cancel an OPEN new-asset report with a reason.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 
 ## Data
 - Same report data as the close case

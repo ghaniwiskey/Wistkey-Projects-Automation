@@ -14,7 +14,7 @@ updated: 2026-10-06
 Any user can report a potential asset (photo mandatory); LOGS1 can close it with a reason.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 
 ## Data
 - Cost Centre: the first one offered (the account's units); Description `QA auto new asset <unique>`; Remarks `QA test, please ignore`

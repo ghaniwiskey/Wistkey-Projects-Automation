@@ -16,7 +16,7 @@ export type NewAssignment = {
   /** Assign step, e.g. "Fixed Asset Liaison Officer (FALO)" (option text in the Role dropdown). */
   role?: string;
   /**
-   * Assign step: officer name, e.g. "Wong Pui Lai Annie", or `{ except: name }` for the first officer in
+   * Assign step: officer name (e.g. the `officer` fixture), or `{ except: name }` for the first officer in
    * the Assignee list who is not that person (e.g. another FALO). The chosen name is returned by create().
    */
   assignee?: string | { except: string };

@@ -14,23 +14,23 @@ updated: 2026-10-06
 VET IC can assign (and reassign) the stocktaker who sights a FAVE asset in the mobile app; the stocktaker is mandatory.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Verification Team IC/2IC active
+- Logged in as the test account (`SPF_USER` in .env) with Verification Team IC/2IC active
 - A FAVE exists with a cost centre that is not APPROVED
 
 ## Data
 - Cost centre `<cc>`: the first cost centre in the current FAVE's table that is not APPROVED (never one reserved for SPF-027), brought back to VET IC first; asset `<asset>`: its first asset in the Details tab. Found when the test runs (fixture faveTarget); the test skips when every cost centre is approved.
-- Stocktakers: the first two names in the Assign dropdown (APD: Mohammad Shahrul Bin Ismail, Wong Pui Lai Annie)
+- Stocktakers: the first two names in the Assign dropdown (APD: Mohammad Shahrul Bin Ismail, `<officer>`)
 
 ## Steps
 1. Open the first FAVE, pick cost centre `<cc>`, open **Assignment** and search `<asset>`
 2. Tick the asset, click **Assign Stocktaker** and **Submit** without a stocktaker
 3. Pick **Mohammad Shahrul Bin Ismail**, **Submit**, answer **Yes**
-4. Tick the asset again and assign **Wong Pui Lai Annie** the same way
+4. Tick the asset again and assign **`<officer>`** the same way
 
 ## Expected
 - Step 2 shows "User is required" and the dialog stays open
 - Step 3 asks "Please confirm if you would like to proceed with assigning a stocktaker to this FAVE." and then shows "The stocktaker has been assigned."; the Stocktaker column shows Mohammad Shahrul Bin Ismail
-- After step 4 the Stocktaker column shows Wong Pui Lai Annie (reassigning replaces the stocktaker)
+- After step 4 the Stocktaker column shows `<officer>` (reassigning replaces the stocktaker)
 
 ## Notes
 There is no unassign. The reassign step runs only when the cost centre has two or more stocktakers.

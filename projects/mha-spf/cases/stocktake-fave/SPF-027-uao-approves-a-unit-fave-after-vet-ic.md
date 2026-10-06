@@ -14,7 +14,7 @@ updated: 2026-10-06
 The full FAVE approval: VET IC submits, URO submits, UAO approves (the last level on SPF: there is no HQ AO role). The unit's FAVE is then endorsed and read-only for everyone.
 
 ## Preconditions
-- The test account holds VET IC, URO, UAO and Agency Admin (SPF-A2216GA)
+- The test account holds VET IC, URO, UAO and Agency Admin (the test account (`SPF_USER` in .env))
 - The current FAVE has a cost centre from FAVE.approvalCostCentres (332100 A&F) that is not approved yet. Approval cannot be undone, so each FAVE allows one run; the test skips when none is left
 
 ## Data

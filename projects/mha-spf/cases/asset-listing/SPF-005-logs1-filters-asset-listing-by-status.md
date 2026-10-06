@@ -14,7 +14,7 @@ updated: 2026-10-06
 The Status filter narrows the listing to assets in that status.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 
 ## Data
 - Status: NEW

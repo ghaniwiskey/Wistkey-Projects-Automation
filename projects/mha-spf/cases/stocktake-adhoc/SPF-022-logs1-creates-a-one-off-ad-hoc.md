@@ -14,7 +14,7 @@ updated: 2026-10-06
 LOGS1 can set up a one-off ad hoc stocktake with manually chosen assets, then update the sighting result and the ad hoc stocktaker in Ad Hoc Listing.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 
 ## Data
 - Asset `<asset>`: the first asset in Choose Asset, found when the test runs

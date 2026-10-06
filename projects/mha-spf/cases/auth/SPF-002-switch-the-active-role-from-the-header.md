@@ -14,10 +14,10 @@ updated: 2026-10-06
 A user holding several roles can change the active role from the header, and the side menu follows the role access rights.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Agency Admin active
+- Logged in as the test account (`SPF_USER` in .env) with Agency Admin active
 
 ## Data
-- User name: `SPF-A2216GA` (.env `SPF_AGENCY_ADMIN_USER`)
+- User name: `the test account (`SPF_USER` in .env)` (.env `SPF_AGENCY_ADMIN_USER`)
 - Roles: Agency Admin, Logistics Officer 1
 
 ## Steps

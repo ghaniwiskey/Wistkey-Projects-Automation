@@ -39,6 +39,25 @@ export abstract class BasePage extends AppPage {
     return this.page.getByText(name, { exact: false }).filter({ visible: true }).first();
   }
 
+  /**
+   * The logged-in officer's name, read from the header: the block that holds the name and, below it,
+   * "Last Login <date>" (the name is the block's first line). Needs the >= 1400px viewport.
+   */
+  async currentOfficer(): Promise<string> {
+    await expect(this.lastLogin).toBeVisible();
+    const block = this.lastLogin.locator('xpath=..');
+    const name = (await block.innerText()).split('\n')[0].trim();
+    if (!name || /Last Login/.test(name)) throw new Error(`Cannot read the officer name from the header: "${await block.innerText()}"`);
+    return name;
+  }
+
+  /** Labels of the roles the logged-in account holds (options of the hidden header Role <select>). */
+  async availableRoles(): Promise<string[]> {
+    const options = this.page.locator('select[name="role-selection"] option');
+    await expect(options.nth(1)).toBeAttached();
+    return (await options.allTextContents()).map((t) => t.trim()).filter(Boolean);
+  }
+
   /** A top-level side menu entry (Dashboard is a link, the others expand). */
   menuItem(title: string): Locator {
     return this.sideMenu.locator('.menu-title', { hasText: new RegExp(`^${title}$`) }).first();

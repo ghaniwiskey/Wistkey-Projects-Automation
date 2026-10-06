@@ -14,15 +14,15 @@ updated: 2026-10-06
 The approver can reject a SUBMITTED assignment with a predefined reason.
 
 ## Preconditions
-- Asset `<asset>` is assigned to FALO "Wong Pui Lai Annie"
-- Logged in as SPF-A2216GA
+- Asset `<asset>` is assigned to FALO `<officer>` (the test account's officer, read from the page header)
+- Logged in as the test account (`SPF_USER` in .env)
 
 ## Data
 - Asset `<asset>`: found when the test runs (writableAsset): selectable in Assign > Choose Asset, preferably with the test account as current LOGS1; all assignment write tests of a run share it (UAT 2026-10-06: `<asset>`)
 - Reject reason: Incorrect Assignee
 
 ## Steps
-1. As **Fixed Asset Liaison Officer**, create an **Assign** transaction for `<asset>` to LOGS1 "Wong Pui Lai Annie".
+1. As **Fixed Asset Liaison Officer**, create an **Assign** transaction for `<asset>` to LOGS1 `<officer>`.
 2. Switch to **Logistics Officer 1** and open the new transaction.
 3. Click **Reject**, pick reason **Incorrect Assignee**, click **Submit** and confirm with **Yes**.
 

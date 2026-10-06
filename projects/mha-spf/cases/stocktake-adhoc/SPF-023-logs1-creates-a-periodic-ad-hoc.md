@@ -14,7 +14,7 @@ updated: 2026-10-06
 A periodic ad hoc stocktake that has not started yet stays CREATED and its owner can cancel it with a reason.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 
 ## Data
 - Asset `<asset>`: the first asset in Choose Asset

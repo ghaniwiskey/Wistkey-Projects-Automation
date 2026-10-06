@@ -1,10 +1,9 @@
-import { test, expect, ACCOUNTS } from '../../fixtures/pages.fixture';
-import { accountFor } from '../../utils/test-data';
+import { test, expect, testAccount } from '../../fixtures/pages.fixture';
 
 // Test case: projects/mha-spf/cases/auth/SPF-001-*.md (the "SPF-001:" title prefix links results to it).
 test.describe('Login', () => {
   test('SPF-001: log in with the passwordless test account @smoke', async ({ loginPage, dashboardPage }) => {
-    const account = accountFor('agency-admin');
+    const account = testAccount(); // SPF_USER / SPF_PASS from .env
 
     await test.step('1. Base URL shows the ATS login page', async () => {
       await loginPage.goto();
@@ -14,13 +13,13 @@ test.describe('Login', () => {
       await expect(loginPage.ssoButton).toBeVisible();
     });
 
-    await test.step('2-3. Log in with the user name only', async () => {
-      await loginPage.login(account.username);
+    await test.step('2-3. Log in with the account from .env (empty SPF_PASS = passwordless)', async () => {
+      await loginPage.login(account.username, account.password);
     });
 
     await test.step('Dashboard with header and side menu', async () => {
       await dashboardPage.expectLoaded();
-      await expect(dashboardPage.officerName(ACCOUNTS[0].officer)).toBeVisible();
+      expect(await dashboardPage.currentOfficer(), 'the header shows the officer name').toMatch(/\S/);
       await expect(dashboardPage.lastLogin).toBeVisible();
       await expect(dashboardPage.currentRole).toHaveText(/\S/);
       for (const item of ['Dashboard', 'Asset', 'Stocktake', 'Report', 'Settings', 'User']) {

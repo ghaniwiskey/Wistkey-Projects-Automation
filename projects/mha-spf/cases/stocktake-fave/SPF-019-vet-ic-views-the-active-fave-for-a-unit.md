@@ -14,7 +14,7 @@ updated: 2026-10-06
 VET IC can open the current FAVE stocktake, see one cost centre's approval panel, results summary and assets, and download the FAVE report.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Verification Team IC/2IC active
+- Logged in as the test account (`SPF_USER` in .env) with Verification Team IC/2IC active
 - A FAVE stocktake exists with at least one cost centre (UAT: FAVE FY26-2007)
 
 ## Data

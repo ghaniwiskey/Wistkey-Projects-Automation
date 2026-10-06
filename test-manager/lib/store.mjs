@@ -250,24 +250,28 @@ export function updateProjectConfig(slug, patch) {
     const users = new Set();
     const envNames = new Set();
     const out = patch.accounts.map((a) => {
+      // The username may live only in .env (envUser), so the workspace holds no account data at all.
       const username = clean(a.username);
-      if (!username) bad('Every account needs a username');
-      if (users.has(username.toLowerCase())) bad(`Account "${username}" is listed twice`);
-      users.add(username.toLowerCase());
+      const envUserIn = clean(a.envUser);
+      if (!username && !envUserIn) bad('Every account needs a username or an .env variable for it');
+      const key = (username || `env:${envUserIn}`).toLowerCase();
+      if (users.has(key)) bad(`Account "${username || envUserIn}" is listed twice`);
+      users.add(key);
+      const label = username || `.env ${envUserIn}`;
       const roles = [...new Set((Array.isArray(a.roles) ? a.roles : String(a.roles || '').split(',')).map(slugify).filter(Boolean))];
-      if (!roles.length) bad(`Account "${username}" needs at least one role, for example "standard-user" or "approver"`);
+      if (!roles.length) bad(`Account "${label}" needs at least one role, for example "standard-user" or "approver"`);
       // .env names follow <PREFIX>_<ROLE>_USER/PASS from the first role ("standard-user" -> SPF_STANDARD_USER); keep names already set.
-      const old = prev.find((x) => x.username.toLowerCase() === username.toLowerCase());
+      const old = prev.find((x) => (username ? x.username.toLowerCase() === username.toLowerCase() : x.envUser === envUserIn));
       let base = `${prefix}_${roles[0].replace(/-user$/, '').replace(/-/g, '_').toUpperCase()}`;
       for (let i = 2; envNames.has(`${base}_USER`); i++) base = `${prefix}_${roles[0].replace(/-user$/, '').replace(/-/g, '_').toUpperCase()}${i}`;
-      const envUser = (old && old.envUser) || `${base}_USER`;
+      const envUser = (old && old.envUser) || envUserIn || `${base}_USER`;
       envNames.add(envUser);
-      const acc = { username, roles };
+      const acc = username ? { username, roles } : { roles };
       if (a.passwordless) acc.passwordless = true;
       else if (clean(a.vaultItem)) acc.vaultItem = clean(a.vaultItem);
       if (clean(a.notes)) acc.notes = clean(a.notes);
       acc.envUser = envUser;
-      if (!a.passwordless) acc.envPass = (old && old.envPass) || `${base}_PASS`;
+      if (!a.passwordless || clean(a.envPass)) acc.envPass = (old && old.envPass) || clean(a.envPass) || `${base}_PASS`;
       return acc;
     });
     const current = (doc.toJS().auth || {}).accounts;

@@ -14,23 +14,23 @@ updated: 2026-10-06
 Assignment from LOGS1 to FALO needs no approval (manual > Asset Assignment rules) and sets the asset FALO owner.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 - Asset `<asset>` is not in an ongoing transaction
 
 ## Data
 - Asset `<asset>`: found when the test runs (writableAsset): selectable in Assign > Choose Asset, preferably with the test account as current LOGS1; all assignment write tests of a run share it (UAT 2026-10-06: `<asset>`)
-- Assignee: Fixed Asset Liaison Officer (FALO) "Wong Pui Lai Annie" (SPF-A2216GA (holds both LOGS1 and FALO; officer "Wong Pui Lai Annie"))
+- Assignee: Fixed Asset Liaison Officer (FALO) `<officer>` (the test account's officer, read from the page header) (the test account (`SPF_USER` in .env) (holds both LOGS1 and FALO; officer `<officer>`))
 
 ## Steps
 1. Open **Asset > Assignment**, click **Create**, keep **Assign** and click **Next**.
 2. Search for `<asset>`, tick it and click **Next** twice.
-3. Pick Role **Fixed Asset Liaison Officer (FALO)**, Assignee **Wong Pui Lai Annie** and click **Submit**.
+3. Pick Role **Fixed Asset Liaison Officer (FALO)**, Assignee **`<officer>`** and click **Submit**.
 4. Open asset `<asset>` and go to the **Ownership** tab.
 
 ## Expected
 - The End step shows "Asset Assignment #ASG<number> is created and approved."
 - The transaction is listed as ASSIGN with status APPROVED.
-- Ownership shows Current FALO "Wong Pui Lai Annie".
+- Ownership shows Current FALO `<officer>`.
 
 ## Notes
 Before and after: cancel any SUBMITTED assignment transaction on asset `<asset>` (owner Cancel, reason Others "QA cleanup").

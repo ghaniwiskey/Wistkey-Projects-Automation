@@ -14,7 +14,7 @@ updated: 2026-10-06
 A wrongly rejected asset can be reinstated and returns to its previous status (NEW).
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 - At least one NEW asset exists
 
 ## Data
@@ -29,7 +29,7 @@ A wrongly rejected asset can be reinstated and returns to its previous status (N
 4. Pick reason **Wrongly Rejected** and **Submit**.
 
 ## Expected
-- After step 2 the End step shows "Assets Rejected." and "1 Asset rejected from Registration."; the asset is listed in the Reinstate list with Rejected By "Wong Pui Lai Annie".
+- After step 2 the End step shows "Assets Rejected." and "1 Asset rejected from Registration."; the asset is listed in the Reinstate list with Rejected By `<officer>` (the test account's officer, read from the page header).
 - After step 4 the End step shows "Reinstatement Completed" and "1 asset has been reinstated and is pending registration."
 - Asset Listing shows the asset with status NEW again.
 

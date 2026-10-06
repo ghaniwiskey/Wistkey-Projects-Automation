@@ -14,11 +14,13 @@ import { NewAssetCreatePage, NewAssetFormPage, NewAssetListPage } from '../pages
 import { FavePage } from '../pages/fave.page';
 import { AdHocCreatePage, AdHocListingPage, AdHocSetupPage } from '../pages/adhoc.page';
 import { AssetReportPage } from '../pages/asset-report.page';
-import { ACCOUNTS, FAVE, OFFICER, ROLES, RoleSlug, accountFor } from '../utils/test-data';
+import { ACCOUNT_ENV, FAVE, ROLES, RoleSlug, testAccount } from '../utils/test-data';
 import type { ListedAsset } from '../pages/asset-listing.page';
 
 /** The assignment write tests share one asset per worker, so their cleanup always targets it. */
 let writableAssetId: string | undefined;
+/** The test account's officer name, read once per worker from the page header. */
+let officerName: string | undefined;
 /** Postal code of an existing asset of the account's unit, read once per worker. */
 let unitPostal: string | undefined;
 
@@ -86,7 +88,9 @@ type PageFixtures = {
    * Skips when that asset has no postal code.
    */
   unitPostalCode: string;
-  /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
+  /** The test account's officer name, read from the page header (not fixed in the code). */
+  officer: string;
+  /** Log in through the UI with the test account and make the role active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
   activeRole: void;
@@ -98,7 +102,7 @@ export const test = base.extend<Options & PageFixtures>({
 
   storageState: async ({ role, storageState, browser, baseURL, viewport }, use, testInfo) => {
     if (!role) return use(storageState);
-    const account = accountFor(role);
+    const account = testAccount();
     await use(
       await savedSession(browser, {
         project: 'mha-spf',
@@ -126,12 +130,15 @@ export const test = base.extend<Options & PageFixtures>({
         const label = ROLES[role];
         try {
           await dashboard.goto();
+          // Roles come from the account itself (header Role dropdown), not from a fixed list.
+          const roles = await dashboard.availableRoles();
+          testInfo.skip(!roles.includes(label), `The test account (${ACCOUNT_ENV.user}) has no role "${label}". It holds: ${roles.join(', ')}`);
           await dashboard.switchRole(label);
         } catch (e) {
           // ATS allows one session per account, so a newer login (SPF-001, a person, Aside) ends the
           // saved one. Log in again on this page, save the new session for later tests, and continue.
           if (!(e instanceof SessionEndedError) && !dashboard.isLoginUrl()) throw e;
-          const account = accountFor(role);
+          const account = testAccount();
           const loginPage = new LoginPage(page);
           await loginPage.goto();
           await loginPage.login(account.username, account.password);
@@ -151,7 +158,7 @@ export const test = base.extend<Options & PageFixtures>({
     // The dead session still loads pages and only fails on the next server action, so drop it now
     // and let the next test log in again.
     const env = String(testInfo.project.metadata.env || '');
-    for (const a of ACCOUNTS) if (process.env[a.envUser]) forgetSession('mha-spf', env, process.env[a.envUser] as string);
+    if (process.env[ACCOUNT_ENV.user]) forgetSession('mha-spf', env, testAccount().username);
   },
   dashboardPage: async ({ page }, use) => {
     await use(new DashboardPage(page));
@@ -244,8 +251,15 @@ export const test = base.extend<Options & PageFixtures>({
     }
     await use(unitPostal);
   },
-  writableAsset: async ({ assignmentCreatePage }, use) => {
-    writableAssetId ??= await assignmentCreatePage.findWritableAsset(OFFICER);
+  officer: async ({ dashboardPage }, use) => {
+    if (!officerName) {
+      if (!/\/IndexBk/.test(dashboardPage.page.url())) await dashboardPage.goto();
+      officerName = await dashboardPage.currentOfficer();
+    }
+    await use(officerName);
+  },
+  writableAsset: async ({ assignmentCreatePage, officer }, use) => {
+    writableAssetId ??= await assignmentCreatePage.findWritableAsset(officer);
     await use(writableAssetId);
   },
   faveTarget: async ({ favePage, returnFaveToVetIc }, use, testInfo) => {
@@ -278,7 +292,7 @@ export const test = base.extend<Options & PageFixtures>({
   },
   loginAs: async ({ loginPage, dashboardPage }, use) => {
     await use(async (role) => {
-      const account = accountFor(role);
+      const account = testAccount();
       await loginPage.goto();
       await loginPage.login(account.username, account.password);
       await dashboardPage.expectLoaded();
@@ -289,6 +303,6 @@ export const test = base.extend<Options & PageFixtures>({
 });
 
 export { expect } from '@playwright/test';
-export { ACCOUNTS, ROLES };
-export { ASSIGN_ROLES, FAVE, OFFICER, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
+export { ROLES };
+export { ASSIGN_ROLES, FAVE, PHOTO, QA_PREFIX, testAccount, unique } from '../utils/test-data';
 export { readXlsxDownload } from '@shared/utils/download';

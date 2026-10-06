@@ -14,7 +14,7 @@ updated: 2026-10-06
 The first approval step of FAVE: VET IC submits the unit's FAVE to the URO, and the URO can reject it back (reason and remarks mandatory) so VET IC can work on it again.
 
 ## Preconditions
-- The test account holds VET IC, URO and UAO (SPF-A2216GA)
+- The test account holds VET IC, URO and UAO (the test account (`SPF_USER` in .env))
 - The test brings the chosen cost centre back to VET IC before and after (Submit shown to VET IC)
 
 ## Data

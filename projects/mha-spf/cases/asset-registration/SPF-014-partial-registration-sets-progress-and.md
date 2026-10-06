@@ -14,7 +14,7 @@ updated: 2026-10-06
 Registering without Block/Level/Room No./Remarks leaves the asset PROGRESS; Complete Register with a remark makes it AVAILABLE.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 - At least one NEW asset exists
 
 ## Data

@@ -14,7 +14,7 @@ updated: 2026-10-06
 VET IC can record a sighting result for a FAVE asset; HTD Follow-up, FSSC Outcome and statuses are filled from Sighted Result and Asset Condition (FSSC mapping), and the result can be set back to PENDING.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Verification Team IC/2IC active
+- Logged in as the test account (`SPF_USER` in .env) with Verification Team IC/2IC active
 - A FAVE exists with a cost centre that is not APPROVED
 
 ## Data

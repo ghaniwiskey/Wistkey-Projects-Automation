@@ -1,4 +1,4 @@
-import { test, expect, ASSIGN_ROLES, OFFICER, ROLES, unique } from '../../fixtures/pages.fixture';
+import { test, expect, ASSIGN_ROLES, ROLES, unique } from '../../fixtures/pages.fixture';
 
 // Write tests on one asset found at runtime (writableAsset fixture: selectable in Assign, preferably
 // owned by the test account as LOGS1), shared by all tests of the run. Every test starts and ends with no SUBMITTED transaction on it,
@@ -7,10 +7,13 @@ test.describe('Asset Assignment (writes)', () => {
   test.use({ role: 'logs1' });
 
   let asset = { id: '' };
+  /** The test account's officer (holds LOGS1 and FALO), read from the page header. */
+  let officer = '';
 
-  test.beforeEach(async ({ cancelOpenAssignments, writableAsset }) => {
+  test.beforeEach(async ({ cancelOpenAssignments, writableAsset, officer: name }) => {
     test.slow();
     asset = { id: writableAsset };
+    officer = name;
     await cancelOpenAssignments(asset.id);
   });
 
@@ -60,7 +63,7 @@ test.describe('Asset Assignment (writes)', () => {
     let transactionNo = '';
 
     await test.step('1-3. Assign to FALO', async () => {
-      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: OFFICER });
+      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: officer });
       transactionNo = result.transactionNo;
       expect(result.message).toMatch(/^Asset Assignment #ASG\d+ is created and approved\.$/);
     });
@@ -75,14 +78,14 @@ test.describe('Asset Assignment (writes)', () => {
       await assetListingPage.find(asset.id);
       await assetListingPage.openAsset(asset.id);
       await assetDetailsPage.openTab('Ownership');
-      await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText(OFFICER);
+      await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText(officer);
     });
   });
 
   test.describe('FALO return', () => {
     // Precondition for SPF-010/011: the asset belongs to the FALO (auto-approved LOGS1 > FALO).
     test.beforeEach(async ({ assignmentCreatePage }) => {
-      await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: OFFICER });
+      await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: officer });
     });
 
     // Test case: projects/mha-spf/cases/asset-assignment/SPF-010-*.md
@@ -97,7 +100,7 @@ test.describe('Asset Assignment (writes)', () => {
 
       await test.step('1-2. As FALO, assign back to LOGS1', async () => {
         await assignmentCreatePage.switchRole(ROLES.falo);
-        const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: OFFICER });
+        const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: officer });
         transactionNo = result.transactionNo;
         expect(result.message).toMatch(/^Asset Assignment #ASG\d+ is created and pending approval\.$/);
       });
@@ -124,7 +127,7 @@ test.describe('Asset Assignment (writes)', () => {
         await assetListingPage.find(asset.id);
         await assetListingPage.openAsset(asset.id);
         await assetDetailsPage.openTab('Ownership');
-        await expect(assetDetailsPage.field('Current LOGS1', assetDetailsPage.activePanel)).toHaveText(OFFICER);
+        await expect(assetDetailsPage.field('Current LOGS1', assetDetailsPage.activePanel)).toHaveText(officer);
         await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText('-');
       });
     });
@@ -139,7 +142,7 @@ test.describe('Asset Assignment (writes)', () => {
 
       await test.step('1. As FALO, assign back to LOGS1', async () => {
         await assignmentCreatePage.switchRole(ROLES.falo);
-        ({ transactionNo } = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: OFFICER }));
+        ({ transactionNo } = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: officer }));
       });
 
       await test.step('2-3. As LOGS1, reject with Incorrect Assignee', async () => {
@@ -168,9 +171,9 @@ test.describe('Asset Assignment (writes)', () => {
     let transactionNo = '';
 
     await test.step('1. Assign to another FALO (the first FALO in the list who is not the test account)', async () => {
-      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: { except: OFFICER } });
+      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: { except: officer } });
       expect(result.message).toMatch(/is created and approved\.$/);
-      expect(result.assignee).not.toBe(OFFICER);
+      expect(result.assignee).not.toBe(officer);
       await assetListingPage.find(asset.id);
       await assetListingPage.openAsset(asset.id);
       await assetDetailsPage.openTab('Ownership');
@@ -178,7 +181,7 @@ test.describe('Asset Assignment (writes)', () => {
     });
 
     await test.step('2. Recall to LOGS1 (needs URO approval)', async () => {
-      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: OFFICER });
+      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: officer });
       transactionNo = result.transactionNo;
       expect(result.message).toMatch(/is created and pending approval\.$/);
       await assignmentPage.find(transactionNo);
@@ -200,7 +203,7 @@ test.describe('Asset Assignment (writes)', () => {
       await assetListingPage.find(asset.id);
       await assetListingPage.openAsset(asset.id);
       await assetDetailsPage.openTab('Ownership');
-      await expect(assetDetailsPage.field('Current LOGS1', assetDetailsPage.activePanel)).toHaveText(OFFICER);
+      await expect(assetDetailsPage.field('Current LOGS1', assetDetailsPage.activePanel)).toHaveText(officer);
       await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText('-');
     });
   });
@@ -214,7 +217,7 @@ test.describe('Asset Assignment (writes)', () => {
     let transactionNo = '';
 
     await test.step('1. Assign to LOGS1 (needs URO approval)', async () => {
-      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: OFFICER });
+      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: officer });
       transactionNo = result.transactionNo;
       expect(result.message).toMatch(/is created and pending approval\.$/);
       await assignmentPage.find(transactionNo);

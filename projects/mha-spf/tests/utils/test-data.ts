@@ -4,7 +4,7 @@ import { requireEnv } from '@shared/utils/env';
 /** Small PNG for photo uploads (New Asset report needs one). */
 export const PHOTO = path.join(__dirname, '..', '..', 'data', 'qa-asset.png');
 
-/** Role slugs (project.yaml > auth.accounts[].roles) -> labels in the header Role dropdown. See context.md > Roles. */
+/** Role slugs used by the tests (`test.use({ role })`) -> labels in the header Role dropdown. See context.md > Roles. */
 export const ROLES = {
   'agency-admin': 'Agency Admin',
   'hq-ao': 'HQ Approving Officer',
@@ -20,24 +20,18 @@ export const ROLES = {
 
 export type RoleSlug = keyof typeof ROLES;
 
-/** Keep in sync with project.yaml > auth.accounts. Usernames come from .env, never hard-coded. */
-export const ACCOUNTS = [
-  {
-    envUser: 'SPF_AGENCY_ADMIN_USER',
-    envPass: undefined as string | undefined, // passwordless
-    officer: 'Wong Pui Lai Annie',
-    // uro was added to this account in User > Role Listing on 2026-10-06 (approves LOGS1 > LOGS1).
-    roles: ['agency-admin', 'falo', 'logs1', 'stocktaker', 'uao', 'uro', 'vet-ic'] as RoleSlug[],
-  },
-];
+/** .env variables of the test account (see .env.example > mha-spf). */
+export const ACCOUNT_ENV = { user: 'SPF_USER', pass: 'SPF_PASS' } as const;
 
-/** First account holding the role, with its username (and password, if any) read from .env. */
-export function accountFor(role: RoleSlug) {
-  const account = ACCOUNTS.find((a) => a.roles.includes(role));
-  if (!account) throw new Error(`No test account has the role "${role}" (see project.yaml > auth.accounts).`);
-  const env = requireEnv(account.envUser);
-  const password = account.envPass ? requireEnv(account.envPass)[account.envPass] : '';
-  return { ...account, username: env[account.envUser], password };
+/**
+ * The test account, from .env only: SPF_USER (login ID) and SPF_PASS (leave empty for a passwordless UAT
+ * account). Nothing about the account is fixed in the code: its officer name is read from the page header
+ * after login (fixture `officer`) and its roles from the header Role dropdown (a test that needs a role the
+ * account does not have is skipped), so another account or agency only needs a different .env.
+ */
+export function testAccount(): { username: string; password: string } {
+  const env = requireEnv(ACCOUNT_ENV.user);
+  return { username: env[ACCOUNT_ENV.user], password: process.env[ACCOUNT_ENV.pass] ?? '' };
 }
 
 /**
@@ -54,12 +48,6 @@ export const FAVE = {
    */
   approvalCostCentres: ['332100'] as readonly string[],
 } as const;
-
-/**
- * The test account's officer (from ACCOUNTS), who holds both LOGS1 and FALO. Other officers (another FALO,
- * stocktakers) and all assets are found at runtime, never fixed here.
- */
-export const OFFICER = ACCOUNTS[0].officer;
 
 /** Option texts of the Assign step Role dropdown. */
 export const ASSIGN_ROLES = {

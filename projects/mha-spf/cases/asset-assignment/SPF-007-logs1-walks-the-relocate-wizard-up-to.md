@@ -14,7 +14,7 @@ updated: 2026-10-06
 A Logistics Officer 1 can start a Relocate transaction: choose an asset, review it, and reach the location form prefilled with the current location. Read-only: the test stops before Submit.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 - The asset is not part of an ongoing assignment transaction
 
 ## Data

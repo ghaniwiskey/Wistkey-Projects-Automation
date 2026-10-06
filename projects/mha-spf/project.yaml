@@ -21,14 +21,16 @@ playwright:
   use:
     viewport: {width: 1440, height: 900} # the header shows "Role:" / "Last Login" labels only at >= 1400px
 
-# Test accounts: usernames only. Passwords (if any) go in .env as SPF_<ROLE>_PASS.
+# Test account: everything about it comes from .env (see .env.example > mha-spf), nothing is fixed here:
+#   SPF_USER = login ID, SPF_PASS = password (leave empty for a passwordless UAT account).
+# The tests read the officer name from the page header and the roles from the Role dropdown; a test whose
+# role the account lacks is skipped. `roles` below only documents what the tests use (Test Manager overview).
 auth:
   accounts:
-    - username: SPF-A2216GA
-      roles: [agency-admin, falo, logs1, stocktaker, uao, uro, vet-ic] # uro added in User > Role Listing on 2026-10-06
-      passwordless: true
-      notes: Officer "Wong Pui Lai Annie". Role slugs map to dropdown labels in tests/utils/test-data.ts.
-      envUser: SPF_AGENCY_ADMIN_USER
+    - roles: [agency-admin, falo, logs1, stocktaker, uao, uro, vet-ic]
+      notes: Login ID and password in .env. Officer name and roles are read from the app at run time.
+      envUser: SPF_USER
+      envPass: SPF_PASS
 
 suites:
   smoke: {tags: [smoke], description: Critical paths, under 5 minutes. Run on every deploy.}

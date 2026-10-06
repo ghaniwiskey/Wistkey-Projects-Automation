@@ -14,7 +14,7 @@ updated: 2026-10-06
 LOGS1 can list the unit's capitalised assets in Report > Asset Listing (Detailed), narrow them down and export the result to Excel.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 
 ## Data
 - Asset `<asset>`: the first asset listed in the report, with its cost centre (found when the test runs)

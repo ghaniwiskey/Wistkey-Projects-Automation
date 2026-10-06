@@ -14,7 +14,7 @@ updated: 2026-10-06
 The approval chain VET IC > URO > UAO: each level submits to the next, and a UAO rejection returns the FAVE to the URO.
 
 ## Preconditions
-- The test account holds VET IC, URO and UAO (SPF-A2216GA)
+- The test account holds VET IC, URO and UAO (the test account (`SPF_USER` in .env))
 - The test brings the chosen cost centre back to VET IC before and after (Submit shown to VET IC)
 
 ## Data

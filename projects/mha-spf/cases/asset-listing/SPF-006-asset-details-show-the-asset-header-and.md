@@ -14,7 +14,7 @@ updated: 2026-10-06
 Clicking an asset in the listing opens its details with the key fields and the 6 data tabs from the manual.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 
 ## Data
 - Asset `<asset>`: the first AVAILABLE asset in Asset Listing, found when the test runs (UAT 2026-10-06: 111000010977)

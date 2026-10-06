@@ -7,7 +7,7 @@ tags: [smoke]
 envs: [staging]
 automated: true
 created: 2026-10-05
-updated: 2026-10-05
+updated: 2026-10-06
 ---
 
 ## Goal
@@ -17,11 +17,11 @@ A user with a valid passwordless UAT account can log in with the User name only 
 - Not logged in to ATS in this browser (Playwright starts every test with a fresh browser context).
 
 ## Data
-- User name: `SPF-A2216GA` (.env `SPF_AGENCY_ADMIN_USER`, passwordless)
+- User name: `the test account (`SPF_USER` in .env)` (.env `SPF_AGENCY_ADMIN_USER`, passwordless)
 
 ## Steps
 1. Open the base URL. -> Expect: it redirects to `/Account/LoginBk` and shows "Asset Tracking System (ATS)" with **User name**, **Password**, **Login** and **WOG SSO**.
-2. Type `SPF-A2216GA` into **User name** and leave **Password** empty.
+2. Type `the test account (`SPF_USER` in .env)` into **User name** and leave **Password** empty.
 3. Click **Login**.
 
 ## Expected

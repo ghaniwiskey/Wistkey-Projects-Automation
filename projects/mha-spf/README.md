@@ -20,14 +20,21 @@ Or the Test Manager (`npm run tm`, http://127.0.0.1:7358) > MHA SPF > Playwright
 | `cases/` | Test cases (`SPF-NNN`) |
 | `tests/pages` | `LoginPage`, `BasePage` (header: Role dropdown, officer, Logout, side menu), `DashboardPage`, asset pages (listing, details, assignment, registration, rejection, new asset), stocktake pages (`FavePage`, `AdHocSetupPage`, `AdHocCreatePage`, `AdHocListingPage` on `StocktakeFormPage`), `AssetReportPage` |
 | `tests/fixtures/pages.fixture.ts` | Page-object fixtures plus `loginAs(role)` (replaces the old `flows/login.md`) |
-| `tests/utils/test-data.ts` | Role slug -> dropdown label map, test accounts (usernames from .env) |
+| `tests/utils/test-data.ts` | Role slug -> dropdown label map, `testAccount()` (login from .env), FAVE approval permission list |
 | `tests/e2e` | Specs; titles start with the case ID |
 | `data/` | Upload files (asset photos < 3 MB, FAVE import template, user import template) |
 | `runs/` | Run history, including the first agentic run carried over from web-automation |
 
 ## Accounts
 
-`SPF_AGENCY_ADMIN_USER=SPF-A2216GA` in the root `.env`. Passwordless: `/Account/LoginBk` accepts the user name with an empty password. It holds 6 roles (Agency Admin by default); switch with `loginAs('logs1')` or `basePage.switchRole('Logistics Officer 1')`.
+The test account comes from the root `.env` only (template: `.env.example`):
+
+```
+SPF_USER=<login ID>
+SPF_PASS=            # empty for a passwordless UAT account
+```
+
+Nothing about the account is fixed in the code or in project.yaml. The tests read the officer name from the page header (fixture `officer`) and the roles from the header Role dropdown; a test that needs a role the account does not have is skipped with a message. To use another account or agency (e.g. HTA), change `.env`. On UAT `/Account/LoginBk` accepts the passwordless account with an empty password. Switch roles with `test.use({ role: 'logs1' })` or `basePage.switchRole('Logistics Officer 1')`.
 
 ## Not carried over
 

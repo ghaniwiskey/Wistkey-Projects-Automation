@@ -14,7 +14,7 @@ updated: 2026-10-06
 The 7-step Register wizard turns a NEW asset into AVAILABLE when the location is complete.
 
 ## Preconditions
-- Logged in as SPF-A2216GA with Logistics Officer 1 active
+- Logged in as the test account (`SPF_USER` in .env) with Logistics Officer 1 active
 - At least one NEW asset exists for the unit (Asset Listing, Status NEW)
 
 ## Data
