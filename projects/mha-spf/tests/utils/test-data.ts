@@ -41,23 +41,18 @@ export function accountFor(role: RoleSlug) {
 }
 
 /**
- * FAVE stocktake data. Tests open the first (newest) FAVE in the list (UAT: FAVE FY26-2007, created
- * 02-Oct-2026).
+ * FAVE. Tests open the first (newest) FAVE in the list and read its cost centres from the page: the
+ * repeatable tests (faveTarget) take the first cost centre that is not APPROVED, the read-only SPF-019 the
+ * first one listed. Nothing here is test data.
  */
 export const FAVE = {
   /**
-   * Cost centres the repeatable FAVE tests (SPF-019..021, 025, 026) may work on, in order of preference.
-   * The faveTarget fixture takes the first one that is not APPROVED in the current FAVE (approval is
-   * final), brings it back to VET IC and uses its first asset (APD: 111000010977). FY26-2007: 332100 A&F
-   * and 332370 CAD are approved, so they are not listed.
+   * Permission list, not test data: cost centres SPF-027 is ALLOWED to approve. UAO approval is final
+   * (one approval per cost centre per FAVE), so every entry needs the team's OK; the repeatable FAVE tests
+   * never use these. Leave it empty for another agency (e.g. HTA) until approvals are agreed; SPF-027 then
+   * skips. SPF UAT FY26-2007: 332370 CAD approved by hand and 332100 A&F by SPF-027 on 2026-10-06.
    */
-  costCentres: ['332600', '332300'],
-  /**
-   * Cost centres SPF-027 may approve (UAO approval is final: one run per cost centre per FAVE).
-   * Never APD (the repeatable FAVE tests need it). FY26-2007: 332370 CAD approved by hand on
-   * 2026-10-06; the user allowed two approvals, so only A&F is listed. Add more only with the team's OK.
-   */
-  approvalCostCentres: ['332100'],
+  approvalCostCentres: ['332100'] as readonly string[],
 } as const;
 
 /**
@@ -71,18 +66,6 @@ export const ASSIGN_ROLES = {
   logs1: 'Logistics Officer 1 (LOGS1)',
   falo: 'Fixed Asset Liaison Officer (FALO)',
   enduser: 'End User (ENDUSER)',
-} as const;
-
-/**
- * UAT location used when registering or reporting assets: the unit's own address (332600 APD, Airport
- * Police Station). Kept fixed on purpose: the location must belong to the account's unit and the postal
- * code search needs a known address; it changes only if the account moves to another unit.
- */
-export const LOCATION = {
-  group: 'APD',
-  costCentre: '332600 - APD',
-  postalQuery: '819645',
-  postalOption: '819645 - 35 AIRPORT BOULEVARD AIRPORT POLICE STATION SINGAPORE 819645',
 } as const;
 
 /** Prefix of every text a write test types, so leftovers are easy to find and clean up. */

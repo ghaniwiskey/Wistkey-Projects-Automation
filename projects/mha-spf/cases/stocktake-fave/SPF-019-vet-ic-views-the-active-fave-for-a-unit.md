@@ -15,22 +15,22 @@ VET IC can open the current FAVE stocktake, see one cost centre's approval panel
 
 ## Preconditions
 - Logged in as SPF-A2216GA with Verification Team IC/2IC active
-- A FAVE stocktake exists that includes cost centre 332600 APD (UAT: FAVE FY26-2007, created 02-Oct-2026)
+- A FAVE stocktake exists with at least one cost centre (UAT: FAVE FY26-2007)
 
 ## Data
-- Cost centre 332600 APD
-- The first asset in the Details tab of 332600 APD (111000010977)
+- Cost centre `<cc>`: the first one listed in the FAVE
+- Asset `<asset>`: the first asset in its Details tab
 
 ## Steps
 1. Open **Stocktake > FAVE** and click the pencil of the first FAVE
-2. Click the cost centre row **332600 APD**
+2. Click the first cost centre row `<cc>`
 3. On the **Summary** tab, read the approval panel and the results table
 4. Open the **Details** tab and search the first asset
 5. Back on **Summary**, click **Export**
 
 ## Expected
 - The list shows FAVE numbers in the format "FAVE FYaa-20cc" (SPF agency code 20) and the details heading reads "Stocktake FAVE #FAVE FY..."
-- The cost centre table lists 332600 APD; after picking it the Summary shows the approval panel Verification Team IC/2IC, Unit Resource Officer, Unit Approving Officer (the buttons depend on the approval state)
+- The cost centre table lists at least one cost centre; after picking the first the Summary shows the approval panel Verification Team IC/2IC, Unit Resource Officer, Unit Approving Officer (the buttons depend on the approval state)
 - The Summary results table has at least one row (Sighted Result and Count)
 - The Details search returns exactly the asset with a Sighted Result (PENDING, SIGHTED or NOT SIGHTED)
 - Export downloads StocktakeFAVEReport_<timestamp>.xlsx that contains the asset

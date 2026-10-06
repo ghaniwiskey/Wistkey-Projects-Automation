@@ -15,15 +15,14 @@ The first approval step of FAVE: VET IC submits the unit's FAVE to the URO, and 
 
 ## Preconditions
 - The test account holds VET IC, URO and UAO (SPF-A2216GA)
-- The current FAVE for 332600 APD is with VET IC (Submit button shown to VET IC); the test puts it back there before and after
+- The test brings the chosen cost centre back to VET IC before and after (Submit shown to VET IC)
 
 ## Data
-- The test works on the first cost centre of FAVE.costCentres (332600 APD, then 332300 CID) that is not APPROVED in the current FAVE, brought back to VET IC first, and on its first asset (APD: 111000010977); it skips when all are approved (fixture faveTarget).
-- Cost centre 332600 APD
+- Cost centre `<cc>`: the first cost centre in the current FAVE's table that is not APPROVED (never one reserved for SPF-027), brought back to VET IC first; asset `<asset>`: its first asset in the Details tab. Found when the test runs (fixture faveTarget); the test skips when every cost centre is approved.
 - Reject reason Others, remarks `QA auto fave reject <unique>`
 
 ## Steps
-1. As **Verification Team IC/2IC** open the first FAVE, pick **332600 APD**, click **Submit** on the Summary tab and answer **Yes**
+1. As **Verification Team IC/2IC** open the first FAVE, pick `<cc>`, click **Submit** on the Summary tab and answer **Yes**
 2. Switch the role to **Unit Resource Officer** and open the same FAVE and cost centre
 3. Click **Reject** and **Submit** without a reason
 4. Pick **Others** and **Submit** without remarks

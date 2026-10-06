@@ -10,10 +10,10 @@ const TYPE_IDS: Record<RegistrationType, string> = {
 };
 
 export type RegistrationLocation = {
-  group: string;
-  postalQuery: string;
-  /** Full option text, e.g. "819645 - 35 AIRPORT BOULEVARD AIRPORT POLICE STATION SINGAPORE 819645". */
-  postalOption: string;
+  /** Group / NPC / Base; default: the first group offered (the list holds only the asset's unit's groups). */
+  group?: string;
+  /** Postal code to search, e.g. taken from another asset of the unit; the first address found is picked. */
+  postalCode: string;
   /** Leave all of block/level/roomNo/remarks empty for a partial registration (status PROGRESS). */
   block?: string;
   level?: string;
@@ -64,33 +64,43 @@ export class RegistrationPage extends WizardPage {
     await this.nextToChooseAsset(`${type} - Choose Asset`);
   }
 
-  async fillLocation(loc: RegistrationLocation): Promise<void> {
-    await this.pickSelect2(this.page, 'subLocList', loc.group);
-    await this.searchSelect2(this.page, 'PostalCode', loc.postalQuery, loc.postalOption);
+  /** First group in the visible Group / NPC / Base list (loaded for the chosen asset's unit). */
+  async firstGroup(): Promise<string> {
+    const options = this.page.locator('select[id="subLocList"]').filter({ visible: true }).locator('option:not([value="0"]):not([value=""])');
+    await expect(options.first()).toBeAttached({ timeout: 30_000 });
+    return ((await options.first().textContent()) ?? '').trim();
+  }
+
+  /** Fill the location step. Returns the group and the postal address picked. */
+  async fillLocation(loc: RegistrationLocation): Promise<{ group: string; postal: string }> {
+    const group = loc.group ?? (await this.firstGroup());
+    await this.pickSelect2(this.page, 'subLocList', group);
+    const postal = await this.searchSelect2(this.page, 'PostalCode', loc.postalCode, this.postalResult(loc.postalCode));
     // Picking a postal code fills Building/Address by XHR; type the rest after that.
     await expect(this.building).toHaveValue(/\S/);
     if (loc.block !== undefined) await this.field('Block').fill(loc.block);
     if (loc.level !== undefined) await this.field('Level').fill(loc.level);
     if (loc.roomNo !== undefined) await this.field('RoomNo').fill(loc.roomNo);
     if (loc.remarks !== undefined) await this.locationRemarks.fill(loc.remarks);
+    return { group, postal };
   }
 
   /**
    * Register one asset (no FALO assignee = assigned to yourself, Sensitivity NO, no tag printing:
-   * there is no RFID printer on UAT). Returns the End-step message.
+   * there is no RFID printer on UAT). Returns the End-step message and the group/postal address used.
    */
-  async register(assetId: string, loc: RegistrationLocation): Promise<string> {
+  async register(assetId: string, loc: RegistrationLocation): Promise<{ message: string; group: string; postal: string }> {
     await this.start('Register');
     await this.pickAsset(assetId);
     // The location, sensitivity and tag steps are all headed "Register - Locate & Assign".
     await expect(this.stepHeading('Register - Locate & Assign')).toBeVisible();
-    await this.fillLocation(loc);
+    const used = await this.fillLocation(loc);
     await this.next();
     await expect(this.sensitivityNo).toBeVisible(); // default NO
     await this.next();
     await this.tagPrintingNo.click();
     await expect(this.tagTypeNa).toBeVisible();
-    return this.submit();
+    return { message: await this.submit(), ...used };
   }
 
   /** Complete Register up to its Location step (location prefilled from the partial registration). */

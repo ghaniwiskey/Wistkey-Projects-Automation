@@ -80,11 +80,12 @@ export class NewAssetListPage extends BasePage {
 }
 
 export type NewAssetReport = {
-  costCentre: string;
+  /** Cost Centre option; default: the first one offered (the account's units). */
+  costCentre?: string;
   description: string;
   remarks: string;
-  postalQuery: string;
-  postalOption: string;
+  /** Postal code to search, e.g. taken from another asset of the unit; the first address found is picked. */
+  postalCode: string;
   locationRemarks: string;
   photo: string;
 };
@@ -104,18 +105,25 @@ export class NewAssetCreatePage extends WizardPage {
     this.photoInput = page.locator('input[type="file"][name="Image"]');
   }
 
+  /** First option of the Cost Centre dropdown (the account's units). */
+  async firstCostCentre(): Promise<string> {
+    const options = this.page.locator('select[id="CostCenterId" i], select[name="CostCenterId" i]').locator('option:not([value=""]):not([value="0"])');
+    await expect(options.first()).toBeAttached({ timeout: 30_000 });
+    return ((await options.first().textContent()) ?? '').trim();
+  }
+
   /** Report a potential asset; returns the End-step message and the request number (RNA...). */
   async report(r: NewAssetReport): Promise<{ message: string; requestNo: string }> {
     await this.navigate('Asset/NewAssetCreate');
     await expect(this.stepHeading('Report New Asset - Start')).toBeVisible();
     await this.next();
     await expect(this.stepHeading('Report New Asset - Asset')).toBeVisible();
-    await this.pickSelect2(this.page, 'CostCenterId', r.costCentre);
+    await this.pickSelect2(this.page, 'CostCenterId', r.costCentre ?? (await this.firstCostCentre()));
     await this.description.fill(r.description);
     await this.remarks.fill(r.remarks);
     await this.next();
     await expect(this.stepHeading('Report New Asset - Location')).toBeVisible();
-    await this.searchSelect2(this.page, 'postalCode', r.postalQuery, r.postalOption);
+    await this.searchSelect2(this.page, 'postalCode', r.postalCode, this.postalResult(r.postalCode));
     // Building/Address are filled by XHR from the postal code; type the remarks after that.
     await expect(this.page.locator('input[name="Building"]')).toHaveValue(/\S/);
     await this.locationRemarks.fill(r.locationRemarks);

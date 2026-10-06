@@ -1,7 +1,9 @@
-import { test, expect, LOCATION, OFFICER, unique } from '../../fixtures/pages.fixture';
+import { test, expect, OFFICER, unique } from '../../fixtures/pages.fixture';
 
 // Registration works on iLMS assets in status NEW. SPF-013 and SPF-014 consume one NEW asset per run
 // (they end AVAILABLE; the UI cannot reset that). SPF-015 puts its asset back to NEW.
+// Location: the first group offered for the asset and the unit's postal code (unitPostalCode fixture),
+// so nothing is tied to one agency or unit.
 test.describe('Asset Registration (writes)', () => {
   test.use({ role: 'logs1' });
 
@@ -24,6 +26,7 @@ test.describe('Asset Registration (writes)', () => {
 
   // Test case: projects/mha-spf/cases/asset-registration/SPF-013-*.md
   test('SPF-013: logs1 registers a new asset with a complete location @regression @writes', async ({
+    unitPostalCode,
     registrationPage,
     assetListingPage,
     assetDetailsPage,
@@ -32,7 +35,7 @@ test.describe('Asset Registration (writes)', () => {
     const remarks = unique('register');
 
     await test.step(`1-5. Register ${id} with remarks, no tag printing`, async () => {
-      const message = await registrationPage.register(id, { ...LOCATION, remarks });
+      const { message } = await registrationPage.register(id, { postalCode: unitPostalCode, remarks });
       expect(message).toBe('Asset Registration completed.');
       await expect(registrationPage.endStep).toContainText('1 Asset successfully registered.');
     });
@@ -48,14 +51,17 @@ test.describe('Asset Registration (writes)', () => {
 
   // Test case: projects/mha-spf/cases/asset-registration/SPF-014-*.md
   test('SPF-014: partial registration sets progress and complete register finishes it @regression @writes', async ({
+    unitPostalCode,
     registrationPage,
     assetListingPage,
   }) => {
     const id = assetId!;
+    let group = '';
 
     await test.step(`1. Register ${id} without block/level/room/remarks`, async () => {
-      const message = await registrationPage.register(id, { ...LOCATION });
-      expect(message).toBe('Asset Registration incomplete.');
+      const result = await registrationPage.register(id, { postalCode: unitPostalCode });
+      group = result.group;
+      expect(result.message).toBe('Asset Registration incomplete.');
       await expect(registrationPage.endStep).toContainText('Please fill in either the Block, Level, Room No or Remarks');
     });
 
@@ -66,8 +72,8 @@ test.describe('Asset Registration (writes)', () => {
 
     await test.step('3-4. Complete Register with remarks', async () => {
       await registrationPage.openCompleteRegister(id);
-      await expect(registrationPage.groupValue).toHaveText(LOCATION.group);
-      await expect(registrationPage.postalCodeValue).toContainText(LOCATION.postalQuery);
+      await expect(registrationPage.groupValue).toHaveText(group);
+      await expect(registrationPage.postalCodeValue).toContainText(unitPostalCode);
       expect(await registrationPage.finishCompleteRegister(unique('complete'))).toBe('Asset Registration completed.');
     });
 

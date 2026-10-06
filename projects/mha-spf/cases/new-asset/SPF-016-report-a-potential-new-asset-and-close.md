@@ -17,8 +17,8 @@ Any user can report a potential asset (photo mandatory); LOGS1 can close it with
 - Logged in as SPF-A2216GA with Logistics Officer 1 active
 
 ## Data
-- Cost Centre 332600 - APD; Description `QA auto new asset <unique>`; Remarks `QA test, please ignore`
-- Postal Code 819645 (AIRPORT POLICE STATION); location Remarks `QA location`
+- Cost Centre: the first one offered (the account's units); Description `QA auto new asset <unique>`; Remarks `QA test, please ignore`
+- Address: the unit's postal code `<postal>` (Postal Code on the Location tab of the first AVAILABLE asset, found when the test runs) and the first address the search returns; location Remarks `QA location`
 - Photo: projects/mha-spf/data/qa-asset.png
 - Close reason: Not an Asset
 

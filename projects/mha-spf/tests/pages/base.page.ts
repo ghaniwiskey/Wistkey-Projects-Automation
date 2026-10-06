@@ -116,13 +116,28 @@ export abstract class BasePage extends AppPage {
     await this.page.getByRole('option', { name: option, exact: true }).click();
   }
 
-  /** select2 with server-side search (e.g. postal code): open, type the query, pick the option. */
-  protected async searchSelect2(scope: Locator | Page, selectKey: string, query: string, option: string): Promise<void> {
+  /**
+   * select2 with server-side search (e.g. postal code): open, type the query, pick the option with this
+   * exact text, or the first option matching a RegExp. Returns the picked option's text.
+   */
+  protected async searchSelect2(scope: Locator | Page, selectKey: string, query: string, option: string | RegExp): Promise<string> {
     await this.select2(scope, selectKey).click();
     // The search box of the open select2 (in the dropdown, or inline for multi-selects).
     const search = this.page.locator('.select2-container--open .select2-search__field').filter({ visible: true }).first();
     await search.pressSequentially(query, { delay: 30 });
-    await this.page.getByRole('option', { name: option, exact: true }).click({ timeout: 30_000 });
+    const target =
+      typeof option === 'string'
+        ? this.page.getByRole('option', { name: option, exact: true })
+        : this.page.getByRole('option', { name: option }).first();
+    await expect(target).toBeVisible({ timeout: 30_000 });
+    const text = (await target.innerText()).trim();
+    await target.click();
+    return text;
+  }
+
+  /** Postal Code search results read "<postal code> - <address>": the first result for a code. */
+  protected postalResult(postalCode: string): RegExp {
+    return new RegExp(`^${postalCode.replace(/[^\d]/g, '')}\\s*-`);
   }
 
   /** Total from a DataTables info line "Showing 1 to 10 of 2,737 records" (0 for "Showing no records"). */

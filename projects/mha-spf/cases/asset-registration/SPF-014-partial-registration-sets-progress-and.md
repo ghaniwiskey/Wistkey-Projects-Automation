@@ -19,14 +19,14 @@ Registering without Block/Level/Room No./Remarks leaves the asset PROGRESS; Comp
 
 ## Data
 - Asset: the first NEW asset in Asset Listing (consumed)
-- Group APD, Postal Code 819645, Block/Level/Room No./Remarks empty
+- Group: the first group offered; the unit's postal code `<postal>` (Postal Code on the Location tab of the first AVAILABLE asset, found when the test runs) and the first address the search returns; Block/Level/Room No./Remarks empty
 - Complete Register remarks: `QA complete <unique>`
 
 ## Steps
 1. Register the asset as in the full registration case but leave Block, Level, Room No. and Remarks empty; Tag Printing NO; **Submit**.
 2. Check its status in **Asset > Listing**.
 3. Open **Asset > Registration**, choose **Complete Register**, select the asset, **Next** twice.
-4. Check the location is prefilled (Group APD, Postal Code 819645), set Remarks `QA complete <unique>` and **Submit**.
+4. Check the location is prefilled (the same Group and Postal Code `<postal>` as in step 1), set Remarks `QA complete <unique>` and **Submit**.
 
 ## Expected
 - After step 1 the End step shows "Asset Registration incomplete." with "Please fill in either the Block, Level, Room No or Remarks ...".

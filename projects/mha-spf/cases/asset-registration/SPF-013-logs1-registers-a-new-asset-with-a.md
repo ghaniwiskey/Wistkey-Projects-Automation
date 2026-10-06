@@ -19,13 +19,13 @@ The 7-step Register wizard turns a NEW asset into AVAILABLE when the location is
 
 ## Data
 - Asset: the first NEW asset in Asset Listing (consumed: it stays AVAILABLE)
-- Group: APD; Postal Code 819645 "35 AIRPORT BOULEVARD AIRPORT POLICE STATION"; Remarks `QA register <unique>`
+- Group: the first group offered for the asset (its unit's groups); the unit's postal code `<postal>` (Postal Code on the Location tab of the first AVAILABLE asset, found when the test runs) and the first address the search returns; Remarks `QA register <unique>`
 - Sensitivity: NO; Tag printing: NO
 
 ## Steps
 1. Open **Asset > Registration**, keep **Register** and click **Next**.
 2. Search for the asset, tick it and click **Next** twice (Choose Asset, Review).
-3. Leave the FALO assignee empty, pick Group **APD**, Postal Code **819645 - 35 AIRPORT BOULEVARD AIRPORT POLICE STATION SINGAPORE 819645**, Remarks `QA register <unique>`, click **Next**.
+3. Leave the FALO assignee empty, pick the first Group, search Postal Code `<postal>` and pick the first address, Remarks `QA register <unique>`, click **Next**.
 4. Keep Sensitivity **NO**, click **Next**.
 5. Choose Tag Printing **NO** and click **Submit**.
 

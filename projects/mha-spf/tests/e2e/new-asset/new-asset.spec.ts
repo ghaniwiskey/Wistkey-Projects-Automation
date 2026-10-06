@@ -1,11 +1,10 @@
-import { test, expect, LOCATION, PHOTO, QA_PREFIX, unique } from '../../fixtures/pages.fixture';
+import { test, expect, PHOTO, QA_PREFIX, unique } from '../../fixtures/pages.fixture';
 
-const report = (description: string) => ({
-  costCentre: LOCATION.costCentre,
+// Cost Centre: the first one offered (the account's units); address: the unit's postal code (fixture).
+const report = (description: string, postalCode: string) => ({
   description,
   remarks: 'QA test, please ignore',
-  postalQuery: LOCATION.postalQuery,
-  postalOption: LOCATION.postalOption,
+  postalCode,
   locationRemarks: 'QA location',
   photo: PHOTO,
 });
@@ -22,6 +21,7 @@ test.describe('New Asset (writes)', () => {
 
   // Test case: projects/mha-spf/cases/new-asset/SPF-016-*.md
   test('SPF-016: report a potential new asset and close it as logs1 @regression @writes', async ({
+    unitPostalCode,
     newAssetCreatePage,
     newAssetListPage,
     newAssetFormPage,
@@ -30,7 +30,7 @@ test.describe('New Asset (writes)', () => {
     let requestNo = '';
 
     await test.step('1-4. Report with photo', async () => {
-      const result = await newAssetCreatePage.report(report(description));
+      const result = await newAssetCreatePage.report(report(description, unitPostalCode));
       requestNo = result.requestNo;
       expect(result.message).toMatch(/^New Asset #RNA\d+ has been created\.$/);
     });
@@ -54,6 +54,7 @@ test.describe('New Asset (writes)', () => {
 
   // Test case: projects/mha-spf/cases/new-asset/SPF-017-*.md
   test('SPF-017: report a potential new asset and cancel it @regression @writes', async ({
+    unitPostalCode,
     newAssetCreatePage,
     newAssetListPage,
     newAssetFormPage,
@@ -61,7 +62,7 @@ test.describe('New Asset (writes)', () => {
     let requestNo = '';
 
     await test.step('1. Report with photo', async () => {
-      ({ requestNo } = await newAssetCreatePage.report(report(unique('new asset'))));
+      ({ requestNo } = await newAssetCreatePage.report(report(unique('new asset'), unitPostalCode)));
     });
 
     await test.step('2. Cancel as Mistaken as Asset', async () => {

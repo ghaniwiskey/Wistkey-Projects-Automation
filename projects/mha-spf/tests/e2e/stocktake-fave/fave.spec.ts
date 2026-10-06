@@ -1,4 +1,4 @@
-import { test, expect, FAVE, readXlsxDownload, unique } from '../../fixtures/pages.fixture';
+import { test, expect, readXlsxDownload, unique } from '../../fixtures/pages.fixture';
 
 const APPROVAL_STAGES = ['Verification Team IC/2IC', 'Unit Resource Officer', 'Unit Approving Officer'] as const;
 
@@ -9,7 +9,7 @@ test.describe('Stocktake FAVE', () => {
   // Read-only, works in any approval state (also on an approved cost centre).
   test('SPF-019: vet ic views the active fave for a unit and exports it @regression', async ({ favePage }) => {
     test.slow();
-    const costCentre = FAVE.costCentres[0];
+    let costCentre = ''; // the first cost centre listed in the FAVE
     let asset = '';
 
     await test.step('1. FAVE list shows numbers in the SPF format', async () => {
@@ -22,9 +22,11 @@ test.describe('Stocktake FAVE', () => {
     await test.step('1. Open the first FAVE', async () => {
       const faveNo = await favePage.openFirst();
       await expect(favePage.title).toContainText(`Stocktake FAVE #${faveNo}`);
+      [costCentre] = await favePage.costCentreCodes();
+      expect(costCentre, 'the FAVE lists cost centres').toBeTruthy();
     });
 
-    await test.step(`2-3. Cost centre ${costCentre}: approval panel and results summary`, async () => {
+    await test.step('2-3. First cost centre: approval panel and results summary', async () => {
       await favePage.selectCostCentre(costCentre);
       for (const stage of APPROVAL_STAGES) await expect(favePage.stage(stage)).toBeVisible();
       await expect(favePage.summaryRows.first()).toContainText(/(PENDING|SIGHTED|NOT SIGHTED)/);

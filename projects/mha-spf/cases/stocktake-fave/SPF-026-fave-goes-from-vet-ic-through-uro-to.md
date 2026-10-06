@@ -15,15 +15,14 @@ The approval chain VET IC > URO > UAO: each level submits to the next, and a UAO
 
 ## Preconditions
 - The test account holds VET IC, URO and UAO (SPF-A2216GA)
-- The current FAVE for 332600 APD is with VET IC (Submit button shown to VET IC); the test puts it back there before and after
+- The test brings the chosen cost centre back to VET IC before and after (Submit shown to VET IC)
 
 ## Data
-- The test works on the first cost centre of FAVE.costCentres (332600 APD, then 332300 CID) that is not APPROVED in the current FAVE, brought back to VET IC first, and on its first asset (APD: 111000010977); it skips when all are approved (fixture faveTarget).
-- Cost centre 332600 APD
+- Cost centre `<cc>`: the first cost centre in the current FAVE's table that is not APPROVED (never one reserved for SPF-027), brought back to VET IC first; asset `<asset>`: its first asset in the Details tab. Found when the test runs (fixture faveTarget); the test skips when every cost centre is approved.
 - UAO reject reason Others, remarks `QA auto fave uao reject <unique>`
 
 ## Steps
-1. As **Verification Team IC/2IC** submit the FAVE of 332600 APD (Submit, Yes)
+1. As **Verification Team IC/2IC** submit the FAVE of `<cc>` (Submit, Yes)
 2. As **Unit Resource Officer** open it, click **Submit**, answer **Yes**
 3. As **Unit Approving Officer** open it and read the Summary
 4. Click **Reject**, pick **Others**, type the remarks, **Submit**, answer **Yes**

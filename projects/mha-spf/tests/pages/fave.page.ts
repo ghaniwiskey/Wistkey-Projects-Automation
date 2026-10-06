@@ -173,10 +173,20 @@ export class FavePage extends StocktakeFormPage {
     return [asked, await this.acknowledge(/rejected/)];
   }
 
-  /** First of these cost centres in the current FAVE that is not APPROVED yet (approval is final). */
-  async firstNotApproved(costCentres: readonly string[]): Promise<string | undefined> {
+  /** Cost centre codes of the open FAVE, in table order. */
+  async costCentreCodes(): Promise<string[]> {
+    await expect(this.costCentreRows.first()).toBeVisible();
+    return (await this.costCentreRows.locator('td:first-child').allInnerTexts()).map((t) => t.trim()).filter(Boolean);
+  }
+
+  /**
+   * First cost centre of the current FAVE that is not APPROVED yet (approval is final): from `costCentres`
+   * if given, else from the FAVE's own cost centre table; `exclude` is skipped.
+   */
+  async firstNotApproved(costCentres?: readonly string[], exclude: readonly string[] = []): Promise<string | undefined> {
     await this.openFirst();
-    for (const code of costCentres) {
+    const candidates = (costCentres ?? (await this.costCentreCodes())).filter((c) => !exclude.includes(c));
+    for (const code of candidates) {
       if ((await this.costCentreRow(code).count()) === 0) continue;
       if ((await this.costCentreStatus(code).innerText()).trim() !== 'APPROVED') return code;
     }
@@ -203,17 +213,26 @@ export class FavePage extends StocktakeFormPage {
     return this.summaryPane.getByText(role, { exact: true });
   }
 
-  /** Columns of a Details row: 6 Result & Condition, 7 HTD Follow-up, 8 FSSC Outcome. */
+  /**
+   * A Details cell found by its column header. Column positions change with the approval state (an
+   * APPROVED cost centre has no checkbox column), so never count columns.
+   */
+  detailCell(assetId: string, header: string): Locator {
+    return this.detailRow(assetId).locator(
+      `xpath=td[count(ancestor::table[1]/thead//th[normalize-space()="${header}"]/preceding-sibling::th)+1]`,
+    );
+  }
+
   resultOf(assetId: string): Locator {
-    return this.detailRow(assetId).locator('td').nth(6);
+    return this.detailCell(assetId, 'Result & Condition');
   }
 
   followUpOf(assetId: string): Locator {
-    return this.detailRow(assetId).locator('td').nth(7);
+    return this.detailCell(assetId, 'HTD Follow-up');
   }
 
   fsscOf(assetId: string): Locator {
-    return this.detailRow(assetId).locator('td').nth(8);
+    return this.detailCell(assetId, 'FSSC Outcome');
   }
 
   /** Fill the open Update Result dialog (no Submit). Condition and remarks are skipped for PENDING. */

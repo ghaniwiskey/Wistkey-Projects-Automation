@@ -19,6 +19,8 @@ import type { ListedAsset } from '../pages/asset-listing.page';
 
 /** The assignment write tests share one asset per worker, so their cleanup always targets it. */
 let writableAssetId: string | undefined;
+/** Postal code of an existing asset of the account's unit, read once per worker. */
+let unitPostal: string | undefined;
 
 type Options = {
   /**
@@ -78,6 +80,12 @@ type PageFixtures = {
    * the test account as LOGS1. Found once per worker and shared by all assignment write tests.
    */
   writableAsset: string;
+  /**
+   * A real address of the account's unit for registration and new-asset reports: the Postal Code on the
+   * Location tab of the first AVAILABLE asset (no fixed address, so it works for any agency/unit).
+   * Skips when that asset has no postal code.
+   */
+  unitPostalCode: string;
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
@@ -223,13 +231,27 @@ export const test = base.extend<Options & PageFixtures>({
     testInfo.skip(!asset, 'No AVAILABLE asset in Asset Listing for this unit');
     await use(asset as ListedAsset);
   },
+  unitPostalCode: async ({ assetListingPage, assetDetailsPage }, use, testInfo) => {
+    if (!unitPostal) {
+      const asset = await assetListingPage.firstListedWithStatus('AVAILABLE');
+      testInfo.skip(!asset, 'No AVAILABLE asset to take a unit address from');
+      await assetListingPage.find((asset as ListedAsset).id);
+      await assetListingPage.openAsset((asset as ListedAsset).id);
+      await assetDetailsPage.openTab('Location');
+      const postal = (await assetDetailsPage.field('Postal Code', assetDetailsPage.activePanel).innerText()).trim();
+      testInfo.skip(!/^\d{4,}$/.test(postal), `The first AVAILABLE asset has no postal code ("${postal}")`);
+      unitPostal = postal;
+    }
+    await use(unitPostal);
+  },
   writableAsset: async ({ assignmentCreatePage }, use) => {
     writableAssetId ??= await assignmentCreatePage.findWritableAsset(OFFICER);
     await use(writableAssetId);
   },
   faveTarget: async ({ favePage, returnFaveToVetIc }, use, testInfo) => {
-    const costCentre = await favePage.firstNotApproved(FAVE.costCentres);
-    testInfo.skip(!costCentre, `Every cost centre in FAVE.costCentres (${FAVE.costCentres.join(', ')}) is APPROVED in the current FAVE. Add a cost centre (the test account can be given another unit in User > User Listing, see context.md)`);
+    // The first cost centre of the current FAVE that is not approved, never one reserved for SPF-027.
+    const costCentre = await favePage.firstNotApproved(undefined, FAVE.approvalCostCentres);
+    testInfo.skip(!costCentre, 'Every cost centre of the current FAVE is APPROVED. Give the test account another unit (User > User Listing, see context.md)');
     await returnFaveToVetIc(costCentre as string);
     await favePage.openForCostCentre(costCentre as string);
     await use({ costCentre: costCentre as string, asset: await favePage.firstAssetId() });
@@ -268,5 +290,5 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ACCOUNTS, ROLES };
-export { ASSIGN_ROLES, FAVE, LOCATION, OFFICER, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
+export { ASSIGN_ROLES, FAVE, OFFICER, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
 export { readXlsxDownload } from '@shared/utils/download';

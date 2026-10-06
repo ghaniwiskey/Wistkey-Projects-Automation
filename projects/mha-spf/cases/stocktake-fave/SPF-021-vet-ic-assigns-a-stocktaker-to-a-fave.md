@@ -15,15 +15,14 @@ VET IC can assign (and reassign) the stocktaker who sights a FAVE asset in the m
 
 ## Preconditions
 - Logged in as SPF-A2216GA with Verification Team IC/2IC active
-- Asset 111000010977 is in the current FAVE for 332600 APD
+- A FAVE exists with a cost centre that is not APPROVED
 
 ## Data
-- The test works on the first cost centre of FAVE.costCentres (332600 APD, then 332300 CID) that is not APPROVED in the current FAVE, brought back to VET IC first, and on its first asset (APD: 111000010977); it skips when all are approved (fixture faveTarget).
-- Asset 111000010977
+- Cost centre `<cc>`: the first cost centre in the current FAVE's table that is not APPROVED (never one reserved for SPF-027), brought back to VET IC first; asset `<asset>`: its first asset in the Details tab. Found when the test runs (fixture faveTarget); the test skips when every cost centre is approved.
 - Stocktakers: the first two names in the Assign dropdown (APD: Mohammad Shahrul Bin Ismail, Wong Pui Lai Annie)
 
 ## Steps
-1. Open the first FAVE, pick cost centre **332600 APD**, open **Assignment** and search **111000010977**
+1. Open the first FAVE, pick cost centre `<cc>`, open **Assignment** and search `<asset>`
 2. Tick the asset, click **Assign Stocktaker** and **Submit** without a stocktaker
 3. Pick **Mohammad Shahrul Bin Ismail**, **Submit**, answer **Yes**
 4. Tick the asset again and assign **Wong Pui Lai Annie** the same way

@@ -18,7 +18,7 @@ The full FAVE approval: VET IC submits, URO submits, UAO approves (the last leve
 - The current FAVE has a cost centre from FAVE.approvalCostCentres (332100 A&F) that is not approved yet. Approval cannot be undone, so each FAVE allows one run; the test skips when none is left
 
 ## Data
-- Cost centre 332100 A&F (APD 332600 is kept for the repeatable FAVE tests)
+- Cost centre: the first one in FAVE.approvalCostCentres (a permission list agreed with the team, not test data) that is not approved yet; the repeatable FAVE tests never use these
 
 ## Steps
 1. As **Agency Admin** read **Total Stocktake Report (Endorsed)** on the Dashboard (FAVE Stocktake Overview)

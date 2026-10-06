@@ -24,7 +24,7 @@ A relocation transaction is approved by the system immediately and updates the a
 ## Steps
 1. Open **Asset > Assignment**, click **Create**, choose **Relocate** and click **Next**.
 2. Search for `<asset>`, tick it and click **Next** twice (Choose Asset, Review).
-3. On the location step keep Group "APD" and Postal Code "819645", set **Remarks** to `QA relocate <unique>` and click **Submit**.
+3. On the location step keep the prefilled Group and Postal Code, set **Remarks** to `QA relocate <unique>` and click **Submit**.
 4. Open **Asset > Assignment** and search for the new transaction number.
 5. Open asset `<asset>` from **Asset > Listing** and go to the **Location** tab.
 
