@@ -26,7 +26,8 @@ export const ACCOUNTS = [
     envUser: 'SPF_AGENCY_ADMIN_USER',
     envPass: undefined as string | undefined, // passwordless
     officer: 'Wong Pui Lai Annie',
-    roles: ['agency-admin', 'falo', 'logs1', 'stocktaker', 'uao', 'vet-ic'] as RoleSlug[],
+    // uro was added to this account in User > Role Listing on 2026-10-06 (approves LOGS1 > LOGS1).
+    roles: ['agency-admin', 'falo', 'logs1', 'stocktaker', 'uao', 'uro', 'vet-ic'] as RoleSlug[],
   },
 ];
 
@@ -71,6 +72,9 @@ export const ASSETS = {
 
 /** The test account's officer, who holds both LOGS1 and FALO (assign to yourself in another role). */
 export const OFFICER = 'Wong Pui Lai Annie';
+
+/** A FALO of unit 332600 APD who is NOT the test account (no login; only used as an assignee). */
+export const OTHER_FALO = 'Chia Shu Hui';
 
 /** Option texts of the Assign step Role dropdown. */
 export const ASSIGN_ROLES = {

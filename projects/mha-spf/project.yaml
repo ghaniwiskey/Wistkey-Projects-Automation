@@ -25,7 +25,7 @@ playwright:
 auth:
   accounts:
     - username: SPF-A2216GA
-      roles: [agency-admin, falo, logs1, stocktaker, uao, vet-ic]
+      roles: [agency-admin, falo, logs1, stocktaker, uao, uro, vet-ic] # uro added in User > Role Listing on 2026-10-06
       passwordless: true
       notes: Officer "Wong Pui Lai Annie". Role slugs map to dropdown labels in tests/utils/test-data.ts.
       envUser: SPF_AGENCY_ADMIN_USER

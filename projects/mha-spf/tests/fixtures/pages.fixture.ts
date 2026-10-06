@@ -176,4 +176,4 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ACCOUNTS, ROLES };
-export { ASSETS, ASSIGN_ROLES, LOCATION, OFFICER, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
+export { ASSETS, ASSIGN_ROLES, LOCATION, OFFICER, OTHER_FALO, PHOTO, QA_PREFIX, unique } from '../utils/test-data';

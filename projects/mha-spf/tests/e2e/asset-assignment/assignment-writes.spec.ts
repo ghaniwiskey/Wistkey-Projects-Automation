@@ -1,4 +1,4 @@
-import { test, expect, ASSETS, ASSIGN_ROLES, OFFICER, ROLES, unique } from '../../fixtures/pages.fixture';
+import { test, expect, ASSETS, ASSIGN_ROLES, OFFICER, OTHER_FALO, ROLES, unique } from '../../fixtures/pages.fixture';
 
 const asset = ASSETS.writable;
 
@@ -151,6 +151,53 @@ test.describe('Asset Assignment (writes)', () => {
         await expect(assignmentFormPage.content).toContainText('Rejected By');
         await expect(assignmentFormPage.content).toContainText('Incorrect Assignee');
       });
+    });
+  });
+
+  // Test case: projects/mha-spf/cases/asset-assignment/SPF-018-*.md
+  test('SPF-018: logs1 recalls an asset from another falo and the uro approval clears the falo @regression @writes', async ({
+    assignmentCreatePage,
+    assignmentPage,
+    assignmentFormPage,
+    assetListingPage,
+    assetDetailsPage,
+  }) => {
+    let transactionNo = '';
+
+    await test.step(`1. Assign to another FALO (${OTHER_FALO})`, async () => {
+      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: OTHER_FALO });
+      expect(result.message).toMatch(/is created and approved\.$/);
+      await assetListingPage.find(asset.id);
+      await assetListingPage.openAsset(asset.id);
+      await assetDetailsPage.openTab('Ownership');
+      await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText(OTHER_FALO);
+    });
+
+    await test.step('2. Recall to LOGS1 (needs URO approval)', async () => {
+      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.logs1, assignee: OFFICER });
+      transactionNo = result.transactionNo;
+      expect(result.message).toMatch(/is created and pending approval\.$/);
+      await assignmentPage.find(transactionNo);
+      await expect(assignmentPage.status(transactionNo)).toHaveText('SUBMITTED');
+      await expect(assignmentPage.approverRole(transactionNo)).toHaveText(ROLES.uro);
+    });
+
+    await test.step('3. As URO, approve', async () => {
+      await assignmentPage.switchRole(ROLES.uro);
+      await assignmentPage.open(transactionNo);
+      await expect(assignmentFormPage.approveButton).toBeVisible();
+      await expect(assignmentFormPage.rejectButton).toBeVisible();
+      expect(await assignmentFormPage.approve()).toBe('Assignment has been approved');
+      await expect(assignmentFormPage.status).toHaveText('APPROVED');
+    });
+
+    await test.step('4. LOGS1 owns the asset and the FALO is cleared', async () => {
+      await assignmentPage.switchRole(ROLES.logs1);
+      await assetListingPage.find(asset.id);
+      await assetListingPage.openAsset(asset.id);
+      await assetDetailsPage.openTab('Ownership');
+      await expect(assetDetailsPage.field('Current LOGS1', assetDetailsPage.activePanel)).toHaveText(OFFICER);
+      await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText('-');
     });
   });
 
