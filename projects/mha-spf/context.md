@@ -1,7 +1,7 @@
 # MHA SPF: testing context
 
 Knowledge base for testing this app. Keep it short, factual, and current; update it when tests reveal something new. Selectors live in tests/pages, not here.
-Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; screenshots in `docs/images/`) and live checks on staging. Verified live so far (2026-10-05): login, Dashboard header, role list, logout. Other pages are from the manual only; confirm paths and locators on first visit.
+Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; screenshots in `docs/images/`) and live checks on staging. Verified live so far: login, Dashboard header, role list, logout (2026-10-05); role switching, Asset Listing search/filter, Asset Details, Assignment list and the Relocate wizard up to the location step (2026-10-06, SPF-002..007). Other pages are from the manual only; confirm paths and locators on first visit.
 
 ## Product
 - **e-RFID Asset Tracking System (ATS)** for MHA agencies (SPF, HTA, ...). Digitalises the fixed-asset lifecycle: registration (exact Building/Level/Room location, ownership, RFID tag printing), assignment (ownership transfer, relocation), verification (annual FAVE stocktake, ad-hoc stocktake) and retirement/disposal. Web app plus a separate mobile app (stocktakers sight assets with RFID scanners).
@@ -79,9 +79,10 @@ From the manual's menu (`docs/images/app-overview.png`); URL paths and locators 
 |---|---|---|---|
 | Login | `/Account/LoginBk?ReturnUrl=%2F` (base URL redirects here) | Username login, WOG SSO; no agency selection step on staging | `h1` "Asset Tracking System (ATS)"; `input[placeholder="User name"]`, `input[placeholder="Password"]`; buttons "Login", "WOG SSO"; link "User Guides"; footer text starts "SPF -- WARNING" |
 | Dashboard | `/IndexBk` (after login) | Inbox Action Items / Informative, tabs Summary, Asset Overview, Asset Registration Aging Overview, FAVE Stocktake Overview; "All Cost Centre" filter | `h1` "Dashboard"; header: text "Role:" + combobox (current role name), officer name, "Last Login dd-Mon-yyyy HH:mm", link "Logout"; side menu items Dashboard (link), Asset, Stocktake, Report, Settings, User (expandable) |
-| Asset Listing | Asset > Listing | Search/filter assets, details, photos | |
-| Asset Registration | Asset > Registration | Register / Complete Register / Reject wizard | |
-| Asset Assignment | Asset > Assignment | Transactions, Create, Approve/Reject/Cancel | |
+| Asset Listing | `/Asset/Asset` (Asset > Listing) | Search/filter assets, details, photos | AssetListingPage; DataTables `#tblist` (data `?handler=GetList`), info `#tblist_info`; select2 filters CostCenterId, locList, AssetCatId, Status |
+| Asset Details | `/Asset/AssetForm?assetId=<encrypted>` | Header + tabs Main Data, Location, Ownership, Loan, Maintenance, Retirement, Status | AssetDetailsPage; label/value div pairs; tabs are `role=tab` |
+| Asset Registration | `/Asset/Registration` (Asset > Registration) | Register / Complete Register / Reject wizard (steps Start, Asset, Review, Locate & Assign, Asset Sensitivity, RFID Tag, End) | not automated yet |
+| Asset Assignment | `/Asset/Assignment`, Create -> `/Asset/AssignmentCreate` | Transactions, Create, Approve/Reject/Cancel | AssignmentPage, AssignmentCreatePage; KTStepper; review `#tbreview`; location panel `#pnlMove` |
 | Asset Rejection | Asset > Rejection | Reinstate wizard | |
 | Print Tag | Asset > Print Tag | Reprint RFID tag wizard | |
 | Retirement/Disposal | Asset > Retirement/Disposal | Update disposal date | |
@@ -99,9 +100,17 @@ Common UI patterns: list pages with a pencil icon in the Actions column to open/
 ## Test data
 - Accounts (no passwords): **SPF-A2216GA** = officer "Wong Pui Lai Annie", passwordless. Roles in the Role dropdown (2026-10-05): Agency Admin (default after login), Fixed Asset Liaison Officer, Logistics Officer 1, Stocktaker, Unit Approving Officer, Verification Team IC/2IC. Missing for approval chains: URO, HQ AO, HQ FALO, End User, and a second LOGS1/FALO user.
 - Asset data comes from iLMS; record reusable UAT asset IDs per status (NEW, TRANSFER, PROGRESS, AVAILABLE, REJECTED, RETIRED) here once found.
+  - AVAILABLE: `111000010978` (VRV air con, 332600 APD, Group APD, postal 819645, no LOGS1/FALO owner). Used by SPF-004/006/007 (`ASSETS.available` in tests/utils/test-data.ts).
+- As LOGS1 (2026-10-06): Asset Listing 2,737 assets, 87 NEW; Registration > Register lists 91 assets; Assignment list 342 transactions.
 - Upload files go in `data/` (asset photos under 3 MB, FAVE Import Working Result template, Role Listing user import template).
 
 ## Known quirks and waits
+- **Use LOGS1 (or another unit role) for asset searches, not Agency Admin**: as Agency Admin the listing holds ~48k assets and searching hangs (user tip, confirmed 2026-10-06).
+- DataTables lists: filters apply only on **Search**; **Clear** reloads the whole page. A search first redraws the table empty, then again with data: wait for the `xhr.dt` event and then the next `draw.dt` (BasePage.reloadsTable), not just any draw.
+- Assignment type radios (Assign / Relocate / Assign & Relocate) are hidden `btn-check` inputs; click their `label[for=...]` cards.
+- In the Choose Asset step, ticking a row checkbox updates the "N asset(s) selected" counter, but the checkbox itself does not stay checked (the app tracks the selection). Assert the counter.
+- After login the app may land on `/` (ReturnUrl) instead of `/IndexBk`; both show the Dashboard.
+- Logging in or out through the UI ends the saved session. Other contexts still load pages but fail on the next server action (role switch). The `loginPage` fixture drops the saved session after such a test.
 - The Role dropdown is select2: a visible `span[role=combobox]` (accessible name = current role) over a hidden `select[name="role-selection"]`. Pick roles by clicking the combobox, then the option. The header labels "Role:" and "Last Login" are hidden below 1400px width (d-xxl-block), so the project viewport is 1440x900.
 - Dashboard numbers render in two passes: first small values (e.g. 488 Total Assets), then the full figures (47,898) once the cost-centre data loads (~1-2 s). Wait for the final values before asserting numbers.
 - The Role dropdown is a combobox with a listbox of options; opening it and pressing Escape does not change the role.

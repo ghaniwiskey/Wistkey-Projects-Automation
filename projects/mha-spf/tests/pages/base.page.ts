@@ -56,6 +56,30 @@ export abstract class BasePage extends AppPage {
     await expect(this.currentRole).toHaveText(label);
   }
 
+  /**
+   * Run an action that reloads a DataTables (server-side) table and wait until the new data is drawn.
+   * The app first redraws the table empty, so waiting for any `draw` is not enough: wait for the
+   * table's `xhr` event (response received) and then the next `draw`.
+   */
+  protected async reloadsTable(tableSelector: string, action: () => Promise<void>): Promise<void> {
+    const drawn = this.page.evaluate(
+      (sel) =>
+        new Promise<void>((resolve) => {
+          const $ = (window as unknown as { jQuery: (s: string) => { one: (e: string, f: () => void) => void } }).jQuery;
+          $(sel).one('xhr.dt', () => $(sel).one('draw.dt', () => resolve()));
+        }),
+      tableSelector,
+    );
+    await action();
+    await drawn;
+  }
+
+  /** Pick an option in a select2 dropdown whose hidden <select> has this id or name (e.g. "Status"). */
+  protected async pickSelect2(scope: Locator | Page, selectKey: string, option: string): Promise<void> {
+    await scope.locator(`span[role="combobox"][aria-labelledby^="select2-${selectKey}"]`).click();
+    await this.page.getByRole('option', { name: option, exact: true }).click();
+  }
+
   /** True when the app has sent the browser back to the login page. */
   isLoginUrl(): boolean {
     return /\/Account\/Login/.test(this.page.url());

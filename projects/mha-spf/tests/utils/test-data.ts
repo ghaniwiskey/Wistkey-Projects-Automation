@@ -34,3 +34,23 @@ export function accountFor(role: RoleSlug) {
   const password = account.envPass ? requireEnv(account.envPass)[account.envPass] : '';
   return { ...account, username: env[account.envUser], password };
 }
+
+/**
+ * Known UAT assets (iLMS data, not created by tests). Visible to SPF-A2216GA as LOGS1.
+ * If one changes status, unit or location, pick another and update context.md > Test data.
+ */
+export const ASSETS = {
+  /** AVAILABLE, not owned by a LOGS1/FALO, not in an ongoing transaction (checked 2026-10-06). */
+  available: {
+    id: '111000010978',
+    description: 'VARIABLE REFRIGERANT VOLUME AIR CON(VRV)',
+    status: 'AVAILABLE',
+    category: '1KZ0 / Mechanical & Electrical System of Building',
+    costCentre: '332600',
+    costCentreLabel: '332600 / APD',
+    acquisitionValue: '$26,145.00',
+    group: 'APD',
+    groupLong: 'Airport Police Division (APD)',
+    postalCode: '819645',
+  },
+} as const;

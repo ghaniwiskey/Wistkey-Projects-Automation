@@ -1,0 +1,708 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-06_0945_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-10-06T02:45:32.483Z",
+  "finishedAt": "2026-10-06T02:46:11.322Z",
+  "summary": {
+    "total": 7,
+    "pass": 7,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-001",
+      "title": "log in with the passwordless test account",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/auth/login.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-06T02:45:32.483Z",
+      "durationMs": 2572,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Base URL shows the ATS login page",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2-3. Log in with the user name only",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Step: Dashboard with header and side menu",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Dashboard",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Asset",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Stocktake",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Report",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Settings",
+          "pass": true
+        },
+        {
+          "label": "side menu shows User",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-002",
+      "title": "switch the active role from the header role dropdown",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/auth/roles.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-06T02:45:32.483Z",
+      "durationMs": 4610,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Dashboard as Agency Admin shows the User menu",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Switch to Logistics Officer 1: User menu is gone",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Dashboard",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Asset",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Stocktake",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Report",
+          "pass": true
+        },
+        {
+          "label": "side menu shows Settings",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Switch back to Agency Admin: User menu is back",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-003",
+      "title": "log out ends access to protected pages",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/auth/logout.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-06T02:45:32.483Z",
+      "durationMs": 5268,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Logout lands on the login page",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Asset Listing redirects to login",
+          "pass": true
+        },
+        {
+          "label": "Asset/Asset responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-004",
+      "title": "logs1 finds an asset by asset id in asset listing",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/asset-listing/asset-listing.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-06T02:45:32.483Z",
+      "durationMs": 5574,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open Asset > Listing",
+          "pass": true
+        },
+        {
+          "label": "Asset/Asset responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThan\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Search for 111000010978",
+          "pass": true
+        },
+        {
+          "label": "Step: Exactly the matching asset is listed",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-005",
+      "title": "logs1 filters asset listing by status",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/asset-listing/asset-listing.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-06T02:45:32.483Z",
+      "durationMs": 6760,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open Asset > Listing and note the total",
+          "pass": true
+        },
+        {
+          "label": "Asset/Asset responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThan\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Filter by status NEW",
+          "pass": true
+        },
+        {
+          "label": "filtered total is lower than the unfiltered total",
+          "pass": true
+        },
+        {
+          "label": "UAT has NEW assets for this unit",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThan\"",
+          "pass": true
+        },
+        {
+          "label": "every row is NEW",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Clear resets the filter",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-006",
+      "title": "asset details show the asset header and the data tabs",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/asset-listing/asset-listing.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-06T02:45:32.483Z",
+      "durationMs": 5484,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1-2. Search the asset and open it",
+          "pass": true
+        },
+        {
+          "label": "Asset/Asset responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: Header shows the key fields",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: Data tabs are shown, Main Data selected",
+          "pass": true
+        },
+        {
+          "label": "tab Main Data",
+          "pass": true
+        },
+        {
+          "label": "tab Location",
+          "pass": true
+        },
+        {
+          "label": "tab Ownership",
+          "pass": true
+        },
+        {
+          "label": "tab Loan",
+          "pass": true
+        },
+        {
+          "label": "tab Maintenance",
+          "pass": true
+        },
+        {
+          "label": "tab Retirement",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveAttribute\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Location tab shows group and postal code",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveAttribute\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. Ownership tab shows current LOGS1 and FALO",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveAttribute\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SPF-007",
+      "title": "logs1 walks the relocate wizard up to the location step",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/asset-assignment/relocate-wizard.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-06T02:45:32.483Z",
+      "durationMs": 7860,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open Asset > Assignment",
+          "pass": true
+        },
+        {
+          "label": "Asset/Assignment responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Create opens the Start step",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeChecked\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Relocate > Choose Asset",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeChecked\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. Select 111000010978",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: Review lists exactly the selected asset",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. Location step is prefilled with the current location",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

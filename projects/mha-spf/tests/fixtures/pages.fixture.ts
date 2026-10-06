@@ -1,8 +1,12 @@
 import { test as base } from '@playwright/test';
-import { resaveSession, savedSession } from '@shared/auth/session';
+import { forgetSession, resaveSession, savedSession } from '@shared/auth/session';
 import { SessionEndedError } from '../pages/base.page';
 import { LoginPage } from '../pages/login.page';
 import { DashboardPage } from '../pages/dashboard.page';
+import { AssetListingPage } from '../pages/asset-listing.page';
+import { AssetDetailsPage } from '../pages/asset-details.page';
+import { AssignmentPage } from '../pages/assignment.page';
+import { AssignmentCreatePage } from '../pages/assignment-create.page';
 import { ACCOUNTS, ROLES, RoleSlug, accountFor } from '../utils/test-data';
 
 type Options = {
@@ -17,6 +21,10 @@ type Options = {
 type PageFixtures = {
   loginPage: LoginPage;
   dashboardPage: DashboardPage;
+  assetListingPage: AssetListingPage;
+  assetDetailsPage: AssetDetailsPage;
+  assignmentPage: AssignmentPage;
+  assignmentCreatePage: AssignmentCreatePage;
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
@@ -76,11 +84,28 @@ export const test = base.extend<Options & PageFixtures>({
     { auto: true },
   ],
 
-  loginPage: async ({ page }, use) => {
+  loginPage: async ({ page }, use, testInfo) => {
     await use(new LoginPage(page));
+    // A test that logs in or out through the UI ends the saved session (one session per account).
+    // The dead session still loads pages and only fails on the next server action, so drop it now
+    // and let the next test log in again.
+    const env = String(testInfo.project.metadata.env || '');
+    for (const a of ACCOUNTS) if (process.env[a.envUser]) forgetSession('mha-spf', env, process.env[a.envUser] as string);
   },
   dashboardPage: async ({ page }, use) => {
     await use(new DashboardPage(page));
+  },
+  assetListingPage: async ({ page }, use) => {
+    await use(new AssetListingPage(page));
+  },
+  assetDetailsPage: async ({ page }, use) => {
+    await use(new AssetDetailsPage(page));
+  },
+  assignmentPage: async ({ page }, use) => {
+    await use(new AssignmentPage(page));
+  },
+  assignmentCreatePage: async ({ page }, use) => {
+    await use(new AssignmentCreatePage(page));
   },
   loginAs: async ({ loginPage, dashboardPage }, use) => {
     await use(async (role) => {
@@ -96,3 +121,4 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ACCOUNTS, ROLES };
+export { ASSETS } from '../utils/test-data';
