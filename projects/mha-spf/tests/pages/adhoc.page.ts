@@ -186,6 +186,14 @@ export class AdHocCreatePage extends WizardPage {
     await expect(this.page.locator('#tbSearch_info')).toHaveText(/Showing/, { timeout: 30_000 });
   }
 
+  /** Asset ID of the first asset in Choose Asset (after nextToAssets). */
+  async firstAssetId(): Promise<string> {
+    await expect(this.chooseAssetRows.first()).toContainText('Asset ID:');
+    const id = (await this.chooseAssetRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+    if (!id) throw new Error('The Choose Asset list is empty');
+    return id;
+  }
+
   chooseAssetRow(assetId: string): Locator {
     return this.chooseAssetRows.filter({ hasText: `Asset ID: ${assetId}` });
   }
@@ -205,14 +213,18 @@ export class AdHocCreatePage extends WizardPage {
     await expect(this.reviewRows.first()).toBeVisible();
   }
 
-  /** Whole flow: Start, one asset, Review, Submit. Returns the End message and the ADST number. */
-  async create(s: AdHocSetup, assetId: string): Promise<{ message: string; stocktakeNo: string }> {
+  /**
+   * Whole flow: Start, one asset (the first in Choose Asset unless given), Review, Submit.
+   * Returns the End message, the ADST number and the asset used.
+   */
+  async create(s: AdHocSetup, assetId?: string): Promise<{ message: string; stocktakeNo: string; assetId: string }> {
     await this.goto();
     await this.fillStart(s);
     await this.nextToAssets();
-    await this.tickAsset(assetId);
+    const asset = assetId ?? (await this.firstAssetId());
+    await this.tickAsset(asset);
     await this.nextToReview();
-    return this.submitSetup();
+    return { ...(await this.submitSetup()), assetId: asset };
   }
 
   async submitSetup(): Promise<{ message: string; stocktakeNo: string }> {

@@ -17,15 +17,15 @@ A Logistics Officer 1 can find a specific asset of their unit by its Asset ID.
 - Logged in as SPF-A2216GA with Logistics Officer 1 active (Agency Admin cannot search reliably: too many assets, the listing hangs)
 
 ## Data
-- Asset ID: `111000010978` (AVAILABLE, cost centre 332600 APD, "VARIABLE REFRIGERANT VOLUME AIR CON(VRV)")
+- Asset `<asset>`: the first AVAILABLE asset in Asset Listing, found when the test runs (UAT 2026-10-06: 111000010977)
 
 ## Steps
 1. Open **Asset > Listing**. -> Expect: heading "Listing" and a list of assets ("Showing 1 to 10 of N records", N > 1).
-2. Type `111000010978` into the search box "Asset ID/Asset ID2/Serial No/Desc" and click **Search**.
+2. Type `<asset>` into the search box "Asset ID/Asset ID2/Serial No/Desc" and click **Search**.
 
 ## Expected
 - The table shows exactly 1 record ("Showing 1 to 1 of 1 records").
-- The row shows "Asset ID: 111000010978", the description "VARIABLE REFRIGERANT VOLUME AIR CON(VRV)", cost centre 332600 and status AVAILABLE.
+- The row shows "Asset ID: <asset>", the description, cost centre and status AVAILABLE shown for it in the listing.
 
 ## Notes
 Asset data comes from iLMS; if this asset changes status or unit, pick another AVAILABLE asset and update tests/utils/test-data.ts and context.md.

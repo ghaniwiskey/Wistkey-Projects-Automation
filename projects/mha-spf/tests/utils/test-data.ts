@@ -41,36 +41,6 @@ export function accountFor(role: RoleSlug) {
 }
 
 /**
- * Known UAT assets (iLMS data, not created by tests). Visible to SPF-A2216GA as LOGS1.
- * If one changes status, unit or location, pick another and update context.md > Test data.
- */
-export const ASSETS = {
-  /** AVAILABLE, not owned by a LOGS1/FALO, not in an ongoing transaction (checked 2026-10-06). */
-  available: {
-    id: '111000010978',
-    description: 'VARIABLE REFRIGERANT VOLUME AIR CON(VRV)',
-    status: 'AVAILABLE',
-    category: '1KZ0 / Mechanical & Electrical System of Building',
-    costCentre: '332600',
-    costCentreLabel: '332600 / APD',
-    acquisitionValue: '$26,145.00',
-    group: 'APD',
-    groupLong: 'Airport Police Division (APD)',
-    postalCode: '819645',
-  },
-  /**
-   * Write-test asset for assignment flows (relocate, assign, return, approve, reject, cancel).
-   * Same unit and location as `available`, never used by the read-only tests.
-   */
-  writable: {
-    id: '111000010979',
-    status: 'AVAILABLE',
-    group: 'APD',
-    postalCode: '819645',
-  },
-} as const;
-
-/**
  * FAVE stocktake data. Tests open the first (newest) FAVE in the list (UAT: FAVE FY26-2007, created
  * 02-Oct-2026).
  */
@@ -90,17 +60,11 @@ export const FAVE = {
   approvalCostCentres: ['332100'],
 } as const;
 
-/** Ad hoc stocktake data: an AVAILABLE APD asset owned by the test account as LOGS1, not used by other tests. */
-export const ADHOC = {
-  asset: '111000020724',
-  stocktaker: 'Chia Shu Hui',
-} as const;
-
-/** The test account's officer, who holds both LOGS1 and FALO (assign to yourself in another role). */
-export const OFFICER = 'Wong Pui Lai Annie';
-
-/** A FALO of unit 332600 APD who is NOT the test account (no login; only used as an assignee). */
-export const OTHER_FALO = 'Chia Shu Hui';
+/**
+ * The test account's officer (from ACCOUNTS), who holds both LOGS1 and FALO. Other officers (another FALO,
+ * stocktakers) and all assets are found at runtime, never fixed here.
+ */
+export const OFFICER = ACCOUNTS[0].officer;
 
 /** Option texts of the Assign step Role dropdown. */
 export const ASSIGN_ROLES = {
@@ -109,7 +73,11 @@ export const ASSIGN_ROLES = {
   enduser: 'End User (ENDUSER)',
 } as const;
 
-/** UAT location used when registering or reporting assets (unit 332600 APD). */
+/**
+ * UAT location used when registering or reporting assets: the unit's own address (332600 APD, Airport
+ * Police Station). Kept fixed on purpose: the location must belong to the account's unit and the postal
+ * code search needs a known address; it changes only if the account moves to another unit.
+ */
 export const LOCATION = {
   group: 'APD',
   costCentre: '332600 - APD',

@@ -1,4 +1,4 @@
-import { test, expect, ADHOC, QA_PREFIX, unique } from '../../fixtures/pages.fixture';
+import { test, expect, QA_PREFIX, unique } from '../../fixtures/pages.fixture';
 
 // Ad hoc stocktake setups made by these tests are named "QA auto adhoc ...". One-off setups cannot be
 // cancelled ("Can't cancel one-off stocktake type."), so SPF-022 leaves one per run; periodic ones
@@ -20,6 +20,7 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
   }) => {
     const name = unique('adhoc');
     let stocktakeNo = '';
+    let asset = ''; // the first asset in Choose Asset
 
     await test.step('1. One-Off hides the periodic fields; the name is required', async () => {
       await adHocCreatePage.goto();
@@ -40,11 +41,12 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
       await adHocCreatePage.acknowledge('Please tick at least one asset to process.');
     });
 
-    await test.step('4. Tick the asset, review, submit', async () => {
-      await adHocCreatePage.tickAsset(ADHOC.asset);
+    await test.step('4. Tick the first asset, review, submit', async () => {
+      asset = await adHocCreatePage.firstAssetId();
+      await adHocCreatePage.tickAsset(asset);
       await adHocCreatePage.nextToReview();
       await expect(adHocCreatePage.reviewRows).toHaveCount(1);
-      await expect(adHocCreatePage.reviewRows.first()).toContainText(`Asset ID: ${ADHOC.asset}`);
+      await expect(adHocCreatePage.reviewRows.first()).toContainText(`Asset ID: ${asset}`);
       const result = await adHocCreatePage.submitSetup();
       stocktakeNo = result.stocktakeNo;
       expect(result.message).toMatch(/^Ad Hoc Stocktake No\. ADST\d+ has been created$/);
@@ -64,17 +66,21 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
     });
 
     await test.step('7. Update the result to SIGHTED', async () => {
-      expect(await adHocListingPage.updateResult(ADHOC.asset, 'SIGHTED', unique('adhoc result'))).toBe('The stocktake has been updated.');
+      expect(await adHocListingPage.updateResult(asset, 'SIGHTED', unique('adhoc result'))).toBe('The stocktake has been updated.');
       await expect(adHocListingPage.summaryCount('SIGHTED')).toHaveText('1');
       await expect(adHocListingPage.summaryRow('PENDING')).toHaveCount(0);
     });
 
-    await test.step(`8. Assign ${ADHOC.stocktaker} as ad hoc stocktaker (no confirmation)`, async () => {
-      await adHocListingPage.searchAssignment(ADHOC.asset);
-      const result = await adHocListingPage.assignStocktaker(ADHOC.asset, ADHOC.stocktaker);
+    await test.step('8. Assign another ad hoc stocktaker (no confirmation)', async () => {
+      await adHocListingPage.searchAssignment(asset);
+      // The creator is the default stocktaker; take the first other name from the dropdown.
+      const current = (await adHocListingPage.stocktakerOf(asset).innerText()).trim();
+      const stocktaker = (await adHocListingPage.stocktakerOptions()).find((n) => n !== current);
+      expect(stocktaker, 'another stocktaker is offered').toBeTruthy();
+      const result = await adHocListingPage.assignStocktaker(asset, stocktaker as string);
       expect(result.confirmation).toBeUndefined();
       expect(result.message).toBe('The stocktaker has been assigned.');
-      await expect(adHocListingPage.stocktakerOf(ADHOC.asset)).toHaveText(ADHOC.stocktaker);
+      await expect(adHocListingPage.stocktakerOf(asset)).toHaveText(stocktaker as string);
     });
 
     await test.step('9. With a result recorded the setup is SUBMITTED', async () => {
@@ -93,7 +99,7 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
     let stocktakeNo = '';
 
     await test.step('1-2. Create a monthly setup that starts tomorrow', async () => {
-      const result = await adHocCreatePage.create({ frequency: 'PERIODIC', selection: 'MANUAL', name, recurrence: 'MONTHLY', remarks: 'QA test, please ignore' }, ADHOC.asset);
+      const result = await adHocCreatePage.create({ frequency: 'PERIODIC', selection: 'MANUAL', name, recurrence: 'MONTHLY', remarks: 'QA test, please ignore' });
       stocktakeNo = result.stocktakeNo;
       expect(result.message).toMatch(/^Ad Hoc Stocktake No\. ADST\d+ has been created$/);
       await adHocSetupPage.find(stocktakeNo);

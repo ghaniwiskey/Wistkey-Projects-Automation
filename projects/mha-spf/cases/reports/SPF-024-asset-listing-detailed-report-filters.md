@@ -17,19 +17,19 @@ LOGS1 can list the unit's capitalised assets in Report > Asset Listing (Detailed
 - Logged in as SPF-A2216GA with Logistics Officer 1 active
 
 ## Data
-- Asset 111000010978 (AVAILABLE, 332600 APD)
+- Asset `<asset>`: the first asset listed in the report, with its cost centre (found when the test runs)
 
 ## Steps
 1. Open **Report > Asset Listing (Detailed)**
 2. Open the **Status** filter
-3. Search **111000010978**
+3. Search the first listed asset `<asset>`
 4. Click **Export**
 
 ## Expected
 - The page heading is "Asset Listing (Detailed)" and the table shows "Showing 1 to 10 of N records" with N > 0
 - The Status filter offers AVAILABLE, LOAN, MAINTENANCE, NEW, PROGRESS and TRANSFER only (no RETIRED, DISPOSED or REJECTED: the manual says retired and disposed assets are left out)
-- The search shows exactly one row: 111000010978 with cost centre 332600
-- Export downloads AssetListingDetailedReport_<timestamp>.xlsx with the header row (Asset ID, ..., Asset Status, ...) and exactly one data row for 111000010978 with status AVAILABLE
+- The search shows exactly one row: `<asset>` with its cost centre
+- Export downloads AssetListingDetailedReport_<timestamp>.xlsx with the header row (Asset ID, ..., Asset Status, ...) and exactly one data row for `<asset>` with its cost centre and one of the report statuses
 
 ## Notes
 Read-only.

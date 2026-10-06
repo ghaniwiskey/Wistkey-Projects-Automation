@@ -17,29 +17,29 @@ LOGS1 can set up a one-off ad hoc stocktake with manually chosen assets, then up
 - Logged in as SPF-A2216GA with Logistics Officer 1 active
 
 ## Data
-- Asset 111000020724 (APD fire alarm system, LOGS1 Wong Pui Lai Annie)
+- Asset `<asset>`: the first asset in Choose Asset, found when the test runs
 - Stocktake Name `QA auto adhoc <unique>`
-- Stocktaker Chia Shu Hui
+- Stocktaker `<stocktaker>`: the first name in the Assign dropdown that is not the current (default) stocktaker
 
 ## Steps
 1. Open **Stocktake > Ad Hoc Setup**, click **Create**, pick **One-Off** and **Manual**, click **Next** without a name
 2. Type the Stocktake Name and Remarks `QA test, please ignore`, **Next**
 3. Click **Next** without ticking an asset
-4. Search **111000020724**, tick it, **Next**, check the Review list, **Submit**
+4. Tick the first asset `<asset>`, **Next**, check the Review list, **Submit**
 5. Open **Ad Hoc Setup**, search the new number and read the row
 6. Open **Stocktake > Ad Hoc Listing**, open the new number, read the **Summary** tab
 7. Open **Details**, tick the asset, **Update Result**, pick **SIGHTED**, type remarks, **Submit**
-8. Open **Assignment**, tick the asset, **Assign Stocktaker**, pick **Chia Shu Hui**, **Submit**
+8. Open **Assignment**, tick the asset, **Assign Stocktaker**, pick **`<stocktaker>`**, **Submit**
 9. Open **Ad Hoc Setup** again and search the number
 
 ## Expected
 - Step 1 shows "Stocktake Name is required"; One-Off hides Recurrence Type, Number of Recurrence and Start Date
 - Step 3 shows "Please tick at least one asset to process."
-- Step 4: the counter shows "1 asset(s) selected", Review lists 111000020724 and the End step shows "Ad Hoc Stocktake No. ADST<number> has been created"
+- Step 4: the counter shows "1 asset(s) selected", Review lists `<asset>` and the End step shows "Ad Hoc Stocktake No. ADST<number> has been created"
 - Ad Hoc Setup lists the number with the name, MANUAL, ONE-OFF and status CREATED
 - Ad Hoc Listing lists it; its Summary shows PENDING with count 1
 - Step 7 shows "The stocktake has been updated." and the Summary shows SIGHTED with count 1
-- Step 8 shows "The stocktaker has been assigned." (no confirmation, unlike FAVE) and the Ad Hoc Stocktaker column shows Chia Shu Hui
+- Step 8 shows "The stocktaker has been assigned." (no confirmation, unlike FAVE) and the Ad Hoc Stocktaker column shows `<stocktaker>`
 - After step 9 the status is SUBMITTED (a result has been recorded)
 
 ## Notes

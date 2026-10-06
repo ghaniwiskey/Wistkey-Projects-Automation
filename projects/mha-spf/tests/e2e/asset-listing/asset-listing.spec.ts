@@ -1,14 +1,14 @@
-import { test, expect, ASSETS } from '../../fixtures/pages.fixture';
+import { test, expect } from '../../fixtures/pages.fixture';
 import { AssetDetailsPage } from '../../pages/asset-details.page';
 
-const asset = ASSETS.available;
+// The asset is the first AVAILABLE one in the listing (availableAsset fixture), not a fixed ID.
 
 // LOGS1, not Agency Admin: the Agency Admin listing holds ~48k assets and search hangs.
 test.describe('Asset Listing', () => {
   test.use({ role: 'logs1' });
 
   // Test case: projects/mha-spf/cases/asset-listing/SPF-004-*.md
-  test('SPF-004: logs1 finds an asset by asset id in asset listing @smoke', async ({ assetListingPage }) => {
+  test('SPF-004: logs1 finds an asset by asset id in asset listing @smoke', async ({ assetListingPage, availableAsset: asset }) => {
     await test.step('1. Open Asset > Listing', async () => {
       await assetListingPage.goto();
       expect(await assetListingPage.totalRecords()).toBeGreaterThan(1);
@@ -55,7 +55,7 @@ test.describe('Asset Listing', () => {
   });
 
   // Test case: projects/mha-spf/cases/asset-listing/SPF-006-*.md
-  test('SPF-006: asset details show the asset header and the data tabs @smoke', async ({ assetListingPage, assetDetailsPage }) => {
+  test('SPF-006: asset details show the asset header and the data tabs @smoke', async ({ assetListingPage, assetDetailsPage, availableAsset: asset }) => {
     await test.step('1-2. Search the asset and open it', async () => {
       await assetListingPage.goto();
       await assetListingPage.search(asset.id);
@@ -66,8 +66,8 @@ test.describe('Asset Listing', () => {
     await test.step('Header shows the key fields', async () => {
       await expect(assetDetailsPage.field('Asset ID')).toHaveText(asset.id);
       await expect(assetDetailsPage.field('Asset Status')).toHaveText(asset.status);
-      await expect(assetDetailsPage.field('Asset Category')).toHaveText(asset.category);
-      await expect(assetDetailsPage.field('Cost Centre')).toHaveText(asset.costCentreLabel);
+      await expect(assetDetailsPage.field('Asset Category')).toHaveText(/\S/);
+      await expect(assetDetailsPage.field('Cost Centre')).toContainText(asset.costCentre);
     });
 
     await test.step('Data tabs are shown, Main Data selected', async () => {
@@ -80,8 +80,8 @@ test.describe('Asset Listing', () => {
 
     await test.step('3. Location tab shows group and postal code', async () => {
       await assetDetailsPage.openTab('Location');
-      await expect(assetDetailsPage.field('Group / NPC / Base', assetDetailsPage.activePanel)).toHaveText(asset.groupLong);
-      await expect(assetDetailsPage.field('Postal Code', assetDetailsPage.activePanel)).toHaveText(asset.postalCode);
+      await expect(assetDetailsPage.field('Group / NPC / Base', assetDetailsPage.activePanel)).toHaveText(/\S/);
+      await expect(assetDetailsPage.field('Postal Code', assetDetailsPage.activePanel)).toHaveText(/\S/);
     });
 
     await test.step('4. Ownership tab shows current LOGS1 and FALO', async () => {

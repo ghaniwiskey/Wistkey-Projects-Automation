@@ -15,8 +15,11 @@ export type NewAssignment = {
   assetId: string;
   /** Assign step, e.g. "Fixed Asset Liaison Officer (FALO)" (option text in the Role dropdown). */
   role?: string;
-  /** Assign step, officer name, e.g. "Wong Pui Lai Annie". */
-  assignee?: string;
+  /**
+   * Assign step: officer name, e.g. "Wong Pui Lai Annie", or `{ except: name }` for the first officer in
+   * the Assignee list who is not that person (e.g. another FALO). The chosen name is returned by create().
+   */
+  assignee?: string | { except: string };
   /** Location step: new Remarks (other location fields keep the asset's current values). */
   remarks?: string;
 };
@@ -78,25 +81,68 @@ export class AssignmentCreatePage extends WizardPage {
     await expect(this.locationPanel.locator('input[name="Building"]')).toHaveValue(/\S/);
   }
 
-  async chooseAssignee(role: string, assignee: string): Promise<void> {
+  /**
+   * Choose Asset row cells (0-based): 1 asset, 2 ID2, 3 category, 4 serial, 5 LOGS1, 6 FALO, 7 group,
+   * 8 status. The list holds only assets that can be selected (none in an ongoing transaction).
+   */
+  chooseAssetCell(row: Locator, column: number): Locator {
+    return row.locator('td').nth(column);
+  }
+
+  /** Asset ID and group of the first asset in the Choose Asset list (after chooseType). */
+  async firstChooseAsset(): Promise<{ id: string; group: string }> {
+    const row = this.assetRows.first();
+    const id = (await this.chooseAssetCell(row, 1).innerText()).match(/Asset ID: (\d+)/)?.[1];
+    if (!id) throw new Error('The Choose Asset list is empty');
+    return { id, group: (await this.chooseAssetCell(row, 7).innerText()).trim() };
+  }
+
+  /**
+   * An asset for the assignment write tests: in the Assign > Choose Asset list (so selectable), preferably
+   * one whose current LOGS1 is `owner` (the test account), else the first one.
+   */
+  async findWritableAsset(owner: string): Promise<string> {
+    await this.goto();
+    await this.chooseType('Assign');
+    for (const row of await this.assetRows.all()) {
+      if ((await this.chooseAssetCell(row, 5).innerText()).trim() === owner) {
+        return (await this.chooseAssetCell(row, 1).innerText()).match(/Asset ID: (\d+)/)?.[1] as string;
+      }
+    }
+    return (await this.firstChooseAsset()).id;
+  }
+
+  /** Pick the assignee; `{ except }` takes the first other officer in the list. Returns the chosen name. */
+  async chooseAssignee(role: string, assignee: string | { except: string }): Promise<string> {
     await this.pickSelect2(this.assignPanel, 'RoleId', role);
+    if (typeof assignee !== 'string') {
+      const except = assignee.except;
+      // Wait for the list of this role (it includes the excluded officer too), then take another name.
+      const options = this.assignPanel.locator('select[name="UserId"] option:not([value=""])');
+      await expect(options.filter({ hasText: except })).toHaveCount(1);
+      const other = (await options.allTextContents()).map((t) => t.trim()).find((t) => t && t !== except);
+      if (!other) throw new Error(`No officer other than ${except} in the ${role} list`);
+      assignee = other;
+    }
     // The assignee list reloads by XHR for the chosen role. An already open select2 keeps the old
     // list, so wait until the officer is in the hidden <select> before opening the dropdown.
     await expect(this.assignPanel.locator('select[name="UserId"] option').filter({ hasText: assignee })).toHaveCount(1);
     await this.pickSelect2(this.assignPanel, 'UserId', assignee);
+    return assignee;
   }
 
   /**
    * Run the whole wizard from the Start step and submit. Returns the End-step message and the
    * transaction number from it ("Asset Assignment #ASG00006276 is created and approved.").
    */
-  async create(a: NewAssignment): Promise<{ message: string; transactionNo: string }> {
+  async create(a: NewAssignment): Promise<{ message: string; transactionNo: string; assignee?: string }> {
     await this.goto();
     await this.chooseType(a.type);
     await this.pickAsset(a.assetId);
+    let assignee: string | undefined;
     if (a.type !== 'Relocate') {
       if (!a.role || !a.assignee) throw new Error(`${a.type} needs a role and an assignee`);
-      await this.chooseAssignee(a.role, a.assignee);
+      assignee = await this.chooseAssignee(a.role, a.assignee);
       if (a.type === 'Assign & Relocate') await this.next();
     }
     if (a.type !== 'Assign' && a.remarks !== undefined) {
@@ -106,6 +152,6 @@ export class AssignmentCreatePage extends WizardPage {
     const message = await this.submit();
     const transactionNo = message.match(/ASG\d+/)?.[0];
     if (!transactionNo) throw new Error(`No transaction number in "${message}"`);
-    return { message, transactionNo };
+    return { message, transactionNo, assignee };
   }
 }

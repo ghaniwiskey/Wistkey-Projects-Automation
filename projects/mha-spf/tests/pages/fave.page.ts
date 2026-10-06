@@ -191,13 +191,6 @@ export class FavePage extends StocktakeFormPage {
     return id;
   }
 
-  /** Stocktakers offered in the Assign dialog for the selected cost centre (loaded by XHR). */
-  async stocktakerOptions(): Promise<string[]> {
-    const options = this.assignModal.locator(`select[id="${this.stocktakerKey}"] option:not([value=""])`);
-    await expect(options.first()).toBeAttached({ timeout: 30_000 });
-    return (await options.allTextContents()).map((t) => t.trim()).filter(Boolean);
-  }
-
   /** Open the current FAVE on one cost centre. Returns the FAVE number. */
   async openForCostCentre(code: string): Promise<string> {
     const faveNo = await this.openFirst();

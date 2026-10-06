@@ -153,6 +153,14 @@ export abstract class StocktakeFormPage extends BasePage {
     return this.acknowledge(/updated/);
   }
 
+  /** Stocktakers offered in the Assign dialog (loaded by XHR with the page / cost centre). */
+  async stocktakerOptions(): Promise<string[]> {
+    const k = this.stocktakerKey;
+    const options = this.assignModal.locator(`select[id="${k}"] option:not([value=""]), select[name="${k}"] option:not([value=""])`);
+    await expect(options.first()).toBeAttached({ timeout: 30_000 });
+    return [...new Set((await options.allTextContents()).map((t) => t.trim()).filter(Boolean))];
+  }
+
   /** Tick one asset in the Assignment table and open Assign Stocktaker. */
   async openAssign(assetId: string): Promise<void> {
     await this.tick(this.assignRow(assetId), this.page.locator('#tbassign_info'));

@@ -14,7 +14,11 @@ import { NewAssetCreatePage, NewAssetFormPage, NewAssetListPage } from '../pages
 import { FavePage } from '../pages/fave.page';
 import { AdHocCreatePage, AdHocListingPage, AdHocSetupPage } from '../pages/adhoc.page';
 import { AssetReportPage } from '../pages/asset-report.page';
-import { ACCOUNTS, FAVE, ROLES, RoleSlug, accountFor } from '../utils/test-data';
+import { ACCOUNTS, FAVE, OFFICER, ROLES, RoleSlug, accountFor } from '../utils/test-data';
+import type { ListedAsset } from '../pages/asset-listing.page';
+
+/** The assignment write tests share one asset per worker, so their cleanup always targets it. */
+let writableAssetId: string | undefined;
 
 type Options = {
   /**
@@ -67,6 +71,13 @@ type PageFixtures = {
    * Skips the test when every listed cost centre is approved.
    */
   faveTarget: { costCentre: string; asset: string };
+  /** Read-only tests: the first AVAILABLE asset in Asset Listing (as LOGS1), with what its row shows. Skips when none. */
+  availableAsset: ListedAsset;
+  /**
+   * Assignment write tests: an asset in the Assign > Choose Asset list (selectable), preferably owned by
+   * the test account as LOGS1. Found once per worker and shared by all assignment write tests.
+   */
+  writableAsset: string;
   /** Log in through the UI with an account that holds the role and make it active. Prefer `test.use({ role })`. */
   loginAs: (role: RoleSlug) => Promise<DashboardPage>;
   /** Internal: puts a test that set `role` on the dashboard with that role active. */
@@ -207,6 +218,15 @@ export const test = base.extend<Options & PageFixtures>({
       return rejected;
     });
   },
+  availableAsset: async ({ assetListingPage }, use, testInfo) => {
+    const asset = await assetListingPage.firstListedWithStatus('AVAILABLE');
+    testInfo.skip(!asset, 'No AVAILABLE asset in Asset Listing for this unit');
+    await use(asset as ListedAsset);
+  },
+  writableAsset: async ({ assignmentCreatePage }, use) => {
+    writableAssetId ??= await assignmentCreatePage.findWritableAsset(OFFICER);
+    await use(writableAssetId);
+  },
   faveTarget: async ({ favePage, returnFaveToVetIc }, use, testInfo) => {
     const costCentre = await favePage.firstNotApproved(FAVE.costCentres);
     testInfo.skip(!costCentre, `Every cost centre in FAVE.costCentres (${FAVE.costCentres.join(', ')}) is APPROVED in the current FAVE. Add a cost centre (the test account can be given another unit in User > User Listing, see context.md)`);
@@ -248,5 +268,5 @@ export const test = base.extend<Options & PageFixtures>({
 
 export { expect } from '@playwright/test';
 export { ACCOUNTS, ROLES };
-export { ADHOC, ASSETS, ASSIGN_ROLES, FAVE, LOCATION, OFFICER, OTHER_FALO, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
+export { ASSIGN_ROLES, FAVE, LOCATION, OFFICER, PHOTO, QA_PREFIX, unique } from '../utils/test-data';
 export { readXlsxDownload } from '@shared/utils/download';

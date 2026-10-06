@@ -14,15 +14,15 @@ updated: 2026-10-06
 The approver can reject a SUBMITTED assignment with a predefined reason.
 
 ## Preconditions
-- Asset 111000010979 is assigned to FALO "Wong Pui Lai Annie"
+- Asset `<asset>` is assigned to FALO "Wong Pui Lai Annie"
 - Logged in as SPF-A2216GA
 
 ## Data
-- Asset ID: `111000010979`
+- Asset `<asset>`: found when the test runs (writableAsset): selectable in Assign > Choose Asset, preferably with the test account as current LOGS1; all assignment write tests of a run share it (UAT 2026-10-06: `<asset>`)
 - Reject reason: Incorrect Assignee
 
 ## Steps
-1. As **Fixed Asset Liaison Officer**, create an **Assign** transaction for `111000010979` to LOGS1 "Wong Pui Lai Annie".
+1. As **Fixed Asset Liaison Officer**, create an **Assign** transaction for `<asset>` to LOGS1 "Wong Pui Lai Annie".
 2. Switch to **Logistics Officer 1** and open the new transaction.
 3. Click **Reject**, pick reason **Incorrect Assignee**, click **Submit** and confirm with **Yes**.
 
@@ -31,6 +31,6 @@ The approver can reject a SUBMITTED assignment with a predefined reason.
 - The transaction status is REJECTED and the detail page shows "Rejected By" and the reason "Incorrect Assignee".
 
 ## Notes
-Before and after: cancel any SUBMITTED assignment transaction on asset 111000010979 (owner Cancel, reason Others "QA cleanup").
+Before and after: cancel any SUBMITTED assignment transaction on asset `<asset>` (owner Cancel, reason Others "QA cleanup").
 
 Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

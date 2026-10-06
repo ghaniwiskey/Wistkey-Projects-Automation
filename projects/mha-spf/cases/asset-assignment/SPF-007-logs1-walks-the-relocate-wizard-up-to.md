@@ -18,19 +18,19 @@ A Logistics Officer 1 can start a Relocate transaction: choose an asset, review 
 - The asset is not part of an ongoing assignment transaction
 
 ## Data
-- Asset ID: `111000010978` (current location: Group APD, postal code 819645)
+- Asset `<asset>`: the first asset in the Relocate > Choose Asset list (only selectable assets are listed)
 
 ## Steps
 1. Open **Asset > Assignment**. -> Expect: heading "Assignment", a transactions table and a **Create** button.
 2. Click **Create**. -> Expect: step "Assign - Start" with Assign (checked), Relocate and Assign & Relocate.
 3. Choose **Relocate** and click **Next**. -> Expect: "Relocate - Choose Asset" with "0 asset(s) selected".
-4. Search for `111000010978`, tick its checkbox and click **Next**.
+4. Note the first asset in the list (`<asset>`) and its Group, search for it, tick its checkbox and click **Next**.
 5. On the Review step click **Next**.
 
 ## Expected
 - After ticking the asset the counter shows "1 asset(s) selected".
-- The Review step ("Relocate - Review") lists exactly 1 asset: 111000010978.
-- The location step shows Group / NPC / Base "APD" and Postal Code "819645" prefilled, plus a **Submit** button.
+- The Review step ("Relocate - Review") lists exactly 1 asset: <asset>.
+- The location step shows Group / NPC / Base equal to the Group shown for the asset in Choose Asset and a 6-digit Postal Code prefilled, plus a **Submit** button.
 - Nothing is submitted: no new transaction is created (the test leaves the wizard without clicking Submit).
 
 ## Notes

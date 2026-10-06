@@ -46,6 +46,15 @@ export class AssetReportPage extends BasePage {
     await this.reloadsTable('#tblist', () => this.searchButton.click());
   }
 
+  /** Asset ID (first link) and cost centre (the 6-digit cell) of the first row. */
+  async firstRow(): Promise<{ id: string; costCentre: string }> {
+    const row = this.rows.first();
+    const id = (await row.getByRole('link').first().innerText()).trim();
+    const costCentre = (await row.innerText()).match(/(?<!\d)\d{6}(?!\d)/)?.[0];
+    if (!/^\d+$/.test(id) || !costCentre) throw new Error(`Cannot read the first report row: ${await row.innerText()}`);
+    return { id, costCentre };
+  }
+
   row(assetId: string): Locator {
     return this.rows.filter({ has: this.page.getByRole('link', { name: assetId, exact: true }) });
   }

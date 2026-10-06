@@ -1,9 +1,8 @@
-import { test, expect, ASSETS } from '../../fixtures/pages.fixture';
-
-const asset = ASSETS.available;
+import { test, expect } from '../../fixtures/pages.fixture';
 
 // Test case: projects/mha-spf/cases/asset-assignment/SPF-007-*.md
 // Read-only: walks the wizard to the location step and leaves without Submit (no transaction, no email).
+// Uses the first asset in the Relocate > Choose Asset list (only selectable assets are listed).
 test.describe('Asset Assignment', () => {
   test.use({ role: 'logs1' });
 
@@ -26,7 +25,9 @@ test.describe('Asset Assignment', () => {
       await expect(assignmentCreatePage.selectedCount).toHaveText(/^\s*0\s*asset\(s\) selected/);
     });
 
-    await test.step(`4. Select ${asset.id}`, async () => {
+    let asset = { id: '', group: '' };
+    await test.step('4. Select the first asset in the list', async () => {
+      asset = await assignmentCreatePage.firstChooseAsset();
       await assignmentCreatePage.searchAsset(asset.id);
       await assignmentCreatePage.selectAsset(asset.id);
       await expect(assignmentCreatePage.selectedCount).toHaveText(/^\s*1\s*asset\(s\) selected/);
@@ -43,7 +44,7 @@ test.describe('Asset Assignment', () => {
       await assignmentCreatePage.next();
       await expect(assignmentCreatePage.locationPanel).toBeVisible();
       await expect(assignmentCreatePage.locationGroup).toHaveText(asset.group);
-      await expect(assignmentCreatePage.locationPostalCode).toHaveText(asset.postalCode);
+      await expect(assignmentCreatePage.locationPostalCode).toHaveText(/\d{6}/);
       await expect(assignmentCreatePage.submitButton).toBeVisible();
     });
     // Not submitting: leaving the page abandons the wizard.

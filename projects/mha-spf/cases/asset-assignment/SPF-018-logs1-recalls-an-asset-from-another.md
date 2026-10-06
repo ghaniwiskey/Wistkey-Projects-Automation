@@ -15,18 +15,18 @@ Recall (manual > How to recall the asset): LOGS1 assigns an asset held by a FALO
 
 ## Preconditions
 - Logged in as SPF-A2216GA with Logistics Officer 1 active; the account also holds Unit Resource Officer (added in User > Role Listing on 2026-10-06)
-- Asset 111000010979 is not in an ongoing transaction
+- Asset `<asset>` is not in an ongoing transaction
 
 ## Data
-- Asset ID: `111000010979`
-- Other FALO: "Chia Shu Hui" (a different officer than the test account)
+- Asset `<asset>`: found when the test runs (writableAsset): selectable in Assign > Choose Asset, preferably with the test account as current LOGS1; all assignment write tests of a run share it (UAT 2026-10-06: `<asset>`)
+- Other FALO `<other FALO>`: the first FALO in the Assignee list who is not the test account (UAT 2026-10-06: <other FALO>)
 - Recall to: Logistics Officer 1 (LOGS1) "Wong Pui Lai Annie"
 
 ## Steps
-1. As **Logistics Officer 1**, create an **Assign** transaction for `111000010979` to Role **Fixed Asset Liaison Officer (FALO)**, Assignee **Chia Shu Hui**. -> Expect: "created and approved"; Ownership shows Current FALO "Chia Shu Hui".
-2. Create an **Assign** transaction for `111000010979` to Role **Logistics Officer 1 (LOGS1)**, Assignee **Wong Pui Lai Annie**.
+1. As **Logistics Officer 1**, create an **Assign** transaction for `<asset>` to Role **Fixed Asset Liaison Officer (FALO)**, Assignee **<other FALO>**. -> Expect: "created and approved"; Ownership shows Current FALO "<other FALO>".
+2. Create an **Assign** transaction for `<asset>` to Role **Logistics Officer 1 (LOGS1)**, Assignee **Wong Pui Lai Annie**.
 3. Switch the role to **Unit Resource Officer**, open the transaction from **Asset > Assignment**, click **Approve** and confirm with **Yes**.
-4. Open asset 111000010979 and go to the **Ownership** tab.
+4. Open asset `<asset>` and go to the **Ownership** tab.
 
 ## Expected
 - After step 2 the End step says "created and pending approval" and the list shows SUBMITTED with Approver Role "Unit Resource Officer".
@@ -34,6 +34,6 @@ Recall (manual > How to recall the asset): LOGS1 assigns an asset held by a FALO
 - Ownership shows Current LOGS1 "Wong Pui Lai Annie" and Current FALO "-" (empty).
 
 ## Notes
-Verified manually 2026-10-06 (ASG00006318/ASG00006319). With a different FALO the FALO ownership is cleared as the manual says; retested the same day with the test account as FALO and it is cleared too (ASG00006333). Emails go to Chia Shu Hui and the URO. Cleanup: cancel any SUBMITTED transaction on 111000010979 before and after.
+Verified manually 2026-10-06 (ASG00006318/ASG00006319). With a different FALO the FALO ownership is cleared as the manual says; retested the same day with the test account as FALO and it is cleared too (ASG00006333). Emails go to <other FALO> and the URO. Cleanup: cancel any SUBMITTED transaction on `<asset>` before and after.
 
 Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts.

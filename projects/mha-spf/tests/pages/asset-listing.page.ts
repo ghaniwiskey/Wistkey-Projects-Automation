@@ -1,6 +1,9 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './base.page';
 
+/** What a listing row shows about an asset (read at runtime, so tests need no fixed asset). */
+export type ListedAsset = { id: string; description: string; costCentre: string; acquisitionValue: string; status: string };
+
 /**
  * Asset > Listing (/Asset/Asset): keyword search, select2 filters (Cost Centre, Group / NPC / Base,
  * Asset Category, Status) and a server-side DataTables list (#tblist, data from ?handler=GetList).
@@ -94,6 +97,22 @@ export class AssetListingPage extends BasePage {
     await this.filterByStatus(status);
     if ((await this.totalRecords()) === 0) return undefined;
     return (await this.rows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+  }
+
+  /**
+   * First asset with this status, read from its row: "Asset ID: <id>", description lines, ID2, category,
+   * serial, capitalisation date, value, cost centre (6 digits) and name, status. Undefined when none.
+   */
+  async firstListedWithStatus(status: string): Promise<ListedAsset | undefined> {
+    await this.goto();
+    await this.filterByStatus(status);
+    if ((await this.totalRecords()) === 0) return undefined;
+    const lines = (await this.rows.first().innerText()).split(/[\t\n]/).map((s) => s.trim()).filter(Boolean);
+    const id = lines[0]?.match(/Asset ID: (\d+)/)?.[1];
+    const costCentre = lines.find((l) => /^\d{6}$/.test(l));
+    const acquisitionValue = lines.find((l) => /^\$[\d,]+\.\d{2}$/.test(l));
+    if (!id || !costCentre || !acquisitionValue) throw new Error(`Cannot read the listing row: ${lines.join(' | ')}`);
+    return { id, description: lines[1], costCentre, acquisitionValue, status: (await this.statusOf(id).innerText()).trim() };
   }
 
   async openAsset(assetId: string): Promise<void> {

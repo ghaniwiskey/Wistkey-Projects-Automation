@@ -17,14 +17,14 @@ A periodic ad hoc stocktake that has not started yet stays CREATED and its owner
 - Logged in as SPF-A2216GA with Logistics Officer 1 active
 
 ## Data
-- Asset 111000020724
+- Asset `<asset>`: the first asset in Choose Asset
 - Stocktake Name `QA auto adhoc periodic <unique>`
 - Recurrence MONTHLY, Number of Recurrence 1, Start Date tomorrow (default)
 - Cancel reason Others, remarks `QA test, please ignore`
 
 ## Steps
 1. Open **Ad Hoc Setup > Create**, keep **Periodic**, pick **Manual**, type the name, pick Recurrence Type **MONTHLY**, keep the start date, **Next**
-2. Tick **111000020724**, **Next**, **Submit**
+2. Tick the first asset, **Next**, **Submit**
 3. Open the new number from **Ad Hoc Setup**
 4. Click **Cancel**, open the **Reason** dropdown
 5. Pick **Others**, type the remarks, **Submit**

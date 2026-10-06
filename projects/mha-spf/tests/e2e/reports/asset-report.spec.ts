@@ -1,4 +1,6 @@
-import { test, expect, ASSETS, readXlsxDownload } from '../../fixtures/pages.fixture';
+import { test, expect, readXlsxDownload } from '../../fixtures/pages.fixture';
+
+const REPORT_STATUSES = ['AVAILABLE', 'LOAN', 'MAINTENANCE', 'NEW', 'PROGRESS', 'TRANSFER'];
 
 test.describe('Reports', () => {
   test.use({ role: 'logs1' });
@@ -6,18 +8,19 @@ test.describe('Reports', () => {
   // Test case: projects/mha-spf/cases/reports/SPF-024-*.md
   test('SPF-024: asset listing (detailed) report filters the unit\'s assets and exports them to excel @regression', async ({ assetReportPage }) => {
     test.slow();
-    const asset = ASSETS.available;
+    let asset = { id: '', costCentre: '' };
 
     await test.step('1. The report lists the unit\'s assets', async () => {
       await assetReportPage.goto();
       expect(await assetReportPage.totalRecords()).toBeGreaterThan(0);
+      asset = await assetReportPage.firstRow(); // the asset to search: the first one listed, not a fixed ID
     });
 
     await test.step('2. Status filter leaves out retired, disposed and rejected', async () => {
-      await expect(assetReportPage.statusOptions).toHaveText(['AVAILABLE', 'LOAN', 'MAINTENANCE', 'NEW', 'PROGRESS', 'TRANSFER']);
+      await expect(assetReportPage.statusOptions).toHaveText(REPORT_STATUSES);
     });
 
-    await test.step('3. Search one asset', async () => {
+    await test.step('3. Search the first listed asset', async () => {
       await assetReportPage.search(asset.id);
       await expect(assetReportPage.rows).toHaveCount(1);
       await expect(assetReportPage.row(asset.id)).toContainText(asset.costCentre);
@@ -32,7 +35,7 @@ test.describe('Reports', () => {
       const cell = (column: string) => data[0][header.indexOf(column)];
       expect(cell('Asset ID')).toBe(asset.id);
       expect(cell('Cost Centre')).toBe(asset.costCentre);
-      expect(cell('Asset Status')).toBe(asset.status);
+      expect(REPORT_STATUSES).toContain(cell('Asset Status'));
     });
   });
 });

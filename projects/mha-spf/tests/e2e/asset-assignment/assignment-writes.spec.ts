@@ -1,14 +1,16 @@
-import { test, expect, ASSETS, ASSIGN_ROLES, OFFICER, OTHER_FALO, ROLES, unique } from '../../fixtures/pages.fixture';
+import { test, expect, ASSIGN_ROLES, OFFICER, ROLES, unique } from '../../fixtures/pages.fixture';
 
-const asset = ASSETS.writable;
-
-// Write tests on one dedicated asset. Every test starts and ends with no SUBMITTED transaction on it,
+// Write tests on one asset found at runtime (writableAsset fixture: selectable in Assign, preferably
+// owned by the test account as LOGS1), shared by all tests of the run. Every test starts and ends with no SUBMITTED transaction on it,
 // so it stays selectable. Emails may be sent to the approvers (UAT).
 test.describe('Asset Assignment (writes)', () => {
   test.use({ role: 'logs1' });
 
-  test.beforeEach(async ({ cancelOpenAssignments }) => {
+  let asset = { id: '' };
+
+  test.beforeEach(async ({ cancelOpenAssignments, writableAsset }) => {
     test.slow();
+    asset = { id: writableAsset };
     await cancelOpenAssignments(asset.id);
   });
 
@@ -165,13 +167,14 @@ test.describe('Asset Assignment (writes)', () => {
   }) => {
     let transactionNo = '';
 
-    await test.step(`1. Assign to another FALO (${OTHER_FALO})`, async () => {
-      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: OTHER_FALO });
+    await test.step('1. Assign to another FALO (the first FALO in the list who is not the test account)', async () => {
+      const result = await assignmentCreatePage.create({ type: 'Assign', assetId: asset.id, role: ASSIGN_ROLES.falo, assignee: { except: OFFICER } });
       expect(result.message).toMatch(/is created and approved\.$/);
+      expect(result.assignee).not.toBe(OFFICER);
       await assetListingPage.find(asset.id);
       await assetListingPage.openAsset(asset.id);
       await assetDetailsPage.openTab('Ownership');
-      await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText(OTHER_FALO);
+      await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText(result.assignee as string);
     });
 
     await test.step('2. Recall to LOGS1 (needs URO approval)', async () => {
