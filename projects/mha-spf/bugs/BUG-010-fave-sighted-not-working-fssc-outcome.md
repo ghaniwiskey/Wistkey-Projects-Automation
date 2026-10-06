@@ -7,7 +7,7 @@ env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/Fave
 found: 2026-10-06
 foundBy: "explorations/2026-10-06-fave-follow-up.md"
-tests: [SPF-042]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,4 @@ Other mappings seen in the same dialog: SIGHTED+WORKING > No Further Action / "W
 - 2026-10-06: filed from explorations/2026-10-06-fave-follow-up.md.
 - 2026-10-06: expected outcome narrowed down from the FAVE(HQ) Overview legend (explorations/2026-10-06-fave-hq.md).
 - 2026-10-06: status open -> wont-fix.
+- 2026-10-06: not a bug (confirmed by the user): SIGHTED + NOT WORKING / To Repair with FSSC Outcome "Working condition" is the intended mapping. SPF-042 now expects it.

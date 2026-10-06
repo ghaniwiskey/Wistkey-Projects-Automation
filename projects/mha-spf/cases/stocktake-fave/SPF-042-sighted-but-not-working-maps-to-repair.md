@@ -1,6 +1,6 @@
 ---
 id: SPF-042
-title: "SIGHTED but NOT WORKING maps to To Repair with a matching FSSC Outcome"
+title: "SIGHTED but NOT WORKING maps to To Repair; NOT IN USE/OBSOLETE to To Dispose (FA5)"
 feature: stocktake-fave
 priority: P2
 tags: [regression]
@@ -28,7 +28,7 @@ The Update Result mapping for sighted assets that are not in working order follo
 
 ## Expected
 - Step 2: HTD Follow-up offers only "To Dispose (FA5)" and selects it; FSSC Outcome starts with "Asset is obsolete"; FAVE Status "CLOSED"
-- Step 3: HTD Follow-up offers only "To Repair" and selects it; FSSC Outcome is not empty and is not "Working condition" (BUG-010)
+- Step 3: HTD Follow-up offers only "To Repair" and selects it; FSSC Outcome "Working condition" (intended; BUG-010 closed as not a bug); FAVE Status "CLOSED"
 
 ## Notes
-Automated in tests/e2e/stocktake-fave/fave-follow-up.spec.ts, marked test.fail() for BUG-010 (remove it when the bug is fixed).
+Automated in tests/e2e/stocktake-fave/fave-follow-up.spec.ts.

@@ -68,11 +68,10 @@ test.describe('FAVE follow-up results', () => {
 
   // Test case: projects/mha-spf/cases/stocktake-fave/SPF-042-*.md
   // Read-only: the dialog is closed without saving.
-  test('SPF-042: sighted but not working maps to repair with a matching fssc outcome @regression', async ({
+  test('SPF-042: sighted but not working maps to repair, obsolete to dispose @regression', async ({
     favePage,
     faveTarget: { costCentre, asset },
   }) => {
-    test.fail(true, 'BUG-010: SIGHTED + NOT WORKING (To Repair) shows FSSC Outcome "Working condition"');
     await favePage.openForCostCentre(costCentre);
     await favePage.searchDetails(asset);
     await favePage.openUpdateResult(asset);
@@ -91,9 +90,9 @@ test.describe('FAVE follow-up results', () => {
       await expect(favePage.followUp).toHaveText('To Repair');
     });
 
-    await test.step('3. The FSSC Outcome of To Repair is not "Working condition" (BUG-010)', async () => {
-      await expect(favePage.fsscOutcome).not.toHaveValue('Working condition');
-      await expect(favePage.fsscOutcome).not.toHaveValue('');
+    await test.step('3. To Repair keeps FSSC Outcome "Working condition" (intended, BUG-010 is not a bug)', async () => {
+      await expect(favePage.fsscOutcome).toHaveValue('Working condition');
+      await expect(favePage.faveStatus).toHaveValue('CLOSED');
     });
   });
 });

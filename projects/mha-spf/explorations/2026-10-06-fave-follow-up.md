@@ -20,7 +20,7 @@ Changes left: Follow up item FAVE FY24-2001 / 602000000146 closed (cannot be und
 ## Findings
 | # | Type | Summary | Severity | Link |
 |---|---|---|---|---|
-| 1 | bug | SIGHTED + NOT WORKING maps to To Repair but FSSC Outcome says "Working condition" | minor | bugs/BUG-010-fave-sighted-not-working-fssc-outcome.md |
+| 1 | bug | SIGHTED + NOT WORKING maps to To Repair but FSSC Outcome says "Working condition" | minor | bugs/BUG-010-fave-sighted-not-working-fssc-outcome.md (wont-fix: not a bug, intended mapping) |
 | 2 | risk | Follow up closes items with no reason and no confirmation; nothing records why an item was closed | - | - |
 | 3 | question | The Follow up list holds only FY24 items: approved FY26 cost centres (332100, 332370) had no OPEN results. Expected | - | - |
 
