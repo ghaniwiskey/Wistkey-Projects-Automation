@@ -5,7 +5,7 @@ feature: retirement
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -34,3 +34,5 @@ Asset > Retirement/Disposal stores a future disposal date without disposing the 
 
 ## Notes
 Never uses a past date (that disposes the asset at once and cannot be undone). Cleanup clears the date if the test stops halfway.
+
+Automated in tests/e2e/retirement/retirement.spec.ts.

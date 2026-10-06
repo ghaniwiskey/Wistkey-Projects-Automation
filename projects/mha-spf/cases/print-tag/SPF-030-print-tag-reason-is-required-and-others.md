@@ -5,7 +5,7 @@ feature: print-tag
 priority: P2
 tags: [regression]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -33,3 +33,5 @@ The Reason step of Print Tag validates the reason and the Others remarks before 
 
 ## Notes
 Read-only: nothing is submitted with a valid reason.
+
+Automated in tests/e2e/print-tag/print-tag.spec.ts.

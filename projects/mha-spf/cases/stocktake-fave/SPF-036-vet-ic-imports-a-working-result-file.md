@@ -5,7 +5,7 @@ feature: stocktake-fave
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -34,3 +34,5 @@ Import Working Result batch-sights assets without RFID tags: every imported asse
 
 ## Notes
 Known bug BUG-007 (the result is cleared instead): the test is marked as expected to fail. Cleanup sets the asset back to PENDING.
+
+Automated in tests/e2e/stocktake-fave/fave-import.spec.ts.

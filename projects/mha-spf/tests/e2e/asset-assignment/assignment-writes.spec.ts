@@ -82,6 +82,44 @@ test.describe('Asset Assignment (writes)', () => {
     });
   });
 
+  // Test case: projects/mha-spf/cases/asset-assignment/SPF-028-*.md
+  test('SPF-028: logs1 assigns and relocates an asset to a falo in one transaction @regression @writes', async ({
+    assignmentCreatePage,
+    assignmentPage,
+    assetListingPage,
+    assetDetailsPage,
+  }) => {
+    const remarks = unique('assign relocate');
+    let transactionNo = '';
+
+    await test.step('1-4. Assign & Relocate to the FALO with new location remarks', async () => {
+      const result = await assignmentCreatePage.create({
+        type: 'Assign & Relocate',
+        assetId: asset.id,
+        role: ASSIGN_ROLES.falo,
+        assignee: officer,
+        remarks,
+      });
+      transactionNo = result.transactionNo;
+      expect(result.message).toMatch(/^Asset Assignment and Relocation request #ASG\d+ is created and approved\.$/);
+    });
+
+    await test.step('5. One transaction, ASSIGN & RELOCATE, APPROVED', async () => {
+      await assignmentPage.find(transactionNo);
+      await expect(assignmentPage.type(transactionNo)).toHaveText(/^\s*ASSIGN\s*&\s*RELOCATE\s*$/);
+      await expect(assignmentPage.status(transactionNo)).toHaveText('APPROVED');
+    });
+
+    await test.step('6. Ownership shows the FALO and Location the new remarks', async () => {
+      await assetListingPage.find(asset.id);
+      await assetListingPage.openAsset(asset.id);
+      await assetDetailsPage.openTab('Ownership');
+      await expect(assetDetailsPage.field('Current FALO', assetDetailsPage.activePanel)).toHaveText(officer);
+      await assetDetailsPage.openTab('Location');
+      await expect(assetDetailsPage.field('Remarks', assetDetailsPage.activePanel)).toHaveText(remarks);
+    });
+  });
+
   test.describe('FALO return', () => {
     // Precondition for SPF-010/011: the asset belongs to the FALO (auto-approved LOGS1 > FALO).
     test.beforeEach(async ({ assignmentCreatePage }) => {

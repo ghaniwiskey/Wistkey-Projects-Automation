@@ -5,7 +5,7 @@ feature: asset-listing
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -36,3 +36,5 @@ Asset details accept a photo (.png under 3 MB) in a free slot and the photo can 
 
 ## Notes
 Delete has no confirmation question (UX note in explorations/2026-10-06-uncovered-flows.md). Cleanup deletes any photo the test added.
+
+Automated in tests/e2e/asset-listing/asset-photos.spec.ts.

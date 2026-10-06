@@ -5,7 +5,7 @@ feature: print-tag
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -36,3 +36,5 @@ The Print Tag wizard (Start > Asset > Review > Reason > End) reaches the End ste
 
 ## Notes
 BUG-004: the Choose Asset list also offers Tag Type NA assets (the manual says ASSET or FILE only); not asserted here.
+
+Automated in tests/e2e/print-tag/print-tag.spec.ts.

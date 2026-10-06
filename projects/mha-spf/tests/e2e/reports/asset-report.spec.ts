@@ -1,4 +1,5 @@
-import { test, expect, readXlsxDownload } from '../../fixtures/pages.fixture';
+import { test, expect, readXlsxDownload, TABLE_REPORTS } from '../../fixtures/pages.fixture';
+import type { TableReport } from '../../fixtures/pages.fixture';
 
 const REPORT_STATUSES = ['AVAILABLE', 'LOAN', 'MAINTENANCE', 'NEW', 'PROGRESS', 'TRANSFER'];
 
@@ -37,5 +38,24 @@ test.describe('Reports', () => {
       expect(cell('Cost Centre')).toBe(asset.costCentre);
       expect(REPORT_STATUSES).toContain(cell('Asset Status'));
     });
+  });
+
+  // Test case: projects/mha-spf/cases/reports/SPF-038-*.md
+  // Read-only. Some reports have no records on UAT (e.g. Loan); their export must still be a valid workbook.
+  test('SPF-038: the unit reports (summary, aging, rejection, retirement, new asset, loan, maintenance) export to excel @regression', async ({
+    reportPage,
+  }) => {
+    test.slow();
+    for (const report of Object.keys(TABLE_REPORTS) as TableReport[]) {
+      await test.step(`${report}: opens and exports an .xlsx with a header row`, async () => {
+        await reportPage.goto(report);
+        const total = await reportPage.totalRecords();
+        const { name, rows } = await readXlsxDownload(await reportPage.export(), test.info().outputPath(report.replace(/\W+/g, '-')));
+        expect(name).toMatch(/\.xlsx$/);
+        expect(rows.length).toBeGreaterThan(0);
+        expect(rows[0].filter(Boolean).length).toBeGreaterThan(1);
+        if (total > 0) expect(rows.length).toBeGreaterThan(1);
+      });
+    }
   });
 });

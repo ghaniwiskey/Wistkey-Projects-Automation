@@ -14,6 +14,10 @@ import { NewAssetCreatePage, NewAssetFormPage, NewAssetListPage } from '../pages
 import { FavePage } from '../pages/fave.page';
 import { AdHocCreatePage, AdHocListingPage, AdHocSetupPage } from '../pages/adhoc.page';
 import { AssetReportPage } from '../pages/asset-report.page';
+import { PrintTagPage } from '../pages/print-tag.page';
+import { RetirementPage } from '../pages/retirement.page';
+import { GroupPage } from '../pages/group.page';
+import { ReportPage } from '../pages/report.page';
 import { ACCOUNT_ENV, ROLES, RoleSlug, testAccount } from '../utils/test-data';
 import type { ListedAsset } from '../pages/asset-listing.page';
 
@@ -51,6 +55,10 @@ type PageFixtures = {
   adHocCreatePage: AdHocCreatePage;
   adHocListingPage: AdHocListingPage;
   assetReportPage: AssetReportPage;
+  printTagPage: PrintTagPage;
+  retirementPage: RetirementPage;
+  groupPage: GroupPage;
+  reportPage: ReportPage;
   /**
    * Cleanup for write tests: cancel every SUBMITTED assignment transaction on the asset (as owner,
    * reason Others), so the asset can be selected again. Returns the cancelled transaction numbers.
@@ -208,6 +216,18 @@ export const test = base.extend<Options & PageFixtures>({
   assetReportPage: async ({ page }, use) => {
     await use(new AssetReportPage(page));
   },
+  printTagPage: async ({ page }, use) => {
+    await use(new PrintTagPage(page));
+  },
+  retirementPage: async ({ page }, use) => {
+    await use(new RetirementPage(page));
+  },
+  groupPage: async ({ page }, use) => {
+    await use(new GroupPage(page));
+  },
+  reportPage: async ({ page }, use) => {
+    await use(new ReportPage(page));
+  },
   cancelCreatedAdHocs: async ({ adHocSetupPage }, use) => {
     await use(async (nameText) => {
       const created = await adHocSetupPage.createdSetups(nameText);
@@ -306,3 +326,7 @@ export { expect } from '@playwright/test';
 export { ROLES };
 export { ASSIGN_ROLES, PHOTO, QA_PREFIX, testAccount, unique } from '../utils/test-data';
 export { readXlsxDownload } from '@shared/utils/download';
+export { writeXlsx } from '@shared/utils/xlsx';
+export { TABLE_REPORTS } from '../pages/report.page';
+export type { TableReport } from '../pages/report.page';
+export { listDate, pickerDate } from '../pages/retirement.page';

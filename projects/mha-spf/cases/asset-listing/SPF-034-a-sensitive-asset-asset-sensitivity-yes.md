@@ -5,7 +5,7 @@ feature: asset-listing
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -33,3 +33,5 @@ Business rule: Asset Sensitivity YES disables photo upload for the asset.
 
 ## Notes
 The Edit asset dialog shows no message after Submit. Unticking Yes clears the remarks (shown as "-"). Cleanup sets Sensitivity back to No.
+
+Automated in tests/e2e/asset-listing/asset-photos.spec.ts.

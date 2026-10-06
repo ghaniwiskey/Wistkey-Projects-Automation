@@ -3,9 +3,9 @@ id: SPF-037
 title: "FAVE Import Template downloads the LMSAssetID template"
 feature: stocktake-fave
 priority: P2
-tags: [regression]
+tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -28,4 +28,6 @@ Users can download the import template from the Import Working Result dialog.
 - A file named StocktakeFAVEWorkTemplate.zip is downloaded and it is a real zip archive (not an HTML page)
 
 ## Notes
-Known bug BUG-006 (the download is the "Page Not Found" page): the test is marked as expected to fail.
+Known bug BUG-006 (the download is the "Page Not Found" page): the test is marked as expected to fail. Tagged writes because the setup (fixture faveTarget) may reject the cost centre back to VET IC.
+
+Automated in tests/e2e/stocktake-fave/fave-import.spec.ts.

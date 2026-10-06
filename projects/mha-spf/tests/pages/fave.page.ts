@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator, Download, expect } from '@playwright/test';
 import { AssetCondition, SightedResult, StocktakeFormPage } from './stocktake-form.page';
 
 /**
@@ -40,6 +40,10 @@ export class FavePage extends StocktakeFormPage {
   readonly faveStatus: Locator;
   readonly correctLocation: Locator;
   readonly locationStatus: Locator;
+  readonly importButton: Locator;
+  readonly importDialog: Locator;
+  readonly importRows: Locator;
+  readonly importTemplateButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -60,6 +64,42 @@ export class FavePage extends StocktakeFormPage {
     this.faveStatus = this.resultModal.locator('input[name="FAVEStatus"]');
     this.correctLocation = this.resultModal.getByRole('checkbox', { name: /Correct Location/ });
     this.locationStatus = this.resultModal.locator('input[name="LocationStatus"]');
+    // Import Working Result (Details tab, VET IC before submitting): dialog with a Dropzone upload,
+    // a preview table of the uploaded asset IDs and the Import button.
+    this.importButton = page.locator('#detail_tab').getByRole('button', { name: 'Import Working Result', exact: true });
+    this.importDialog = page.locator('#modal_import');
+    this.importRows = page.locator('#tbimport tbody tr');
+    this.importTemplateButton = this.importDialog.getByRole('button', { name: 'Import Template', exact: true });
+  }
+
+  async openImport(): Promise<void> {
+    await this.openDetails();
+    await this.importButton.click();
+    await expect(this.importDialog).toBeVisible();
+  }
+
+  /**
+   * Choose the Excel file in the open Import dialog. Dropzone keeps its file input outside the dialog
+   * (appended to <body>, class dz-hidden-input), so that input is the stable hook.
+   */
+  async chooseImportFile(file: string): Promise<void> {
+    await this.page.locator('input.dz-hidden-input[type="file"]').setInputFiles(file);
+  }
+
+  importRow(assetId: string): Locator {
+    return this.importRows.filter({ hasText: assetId });
+  }
+
+  /** Click Import in the dialog and close the result message. Returns the message. */
+  async submitImport(): Promise<string> {
+    await this.importDialog.locator('[data-modal-action="import"]').click();
+    return this.acknowledge(/import record\(s\)/);
+  }
+
+  /** Click Import Template in the open Import dialog and return the download. */
+  async downloadImportTemplate(): Promise<Download> {
+    const [download] = await Promise.all([this.page.waitForEvent('download', { timeout: 30_000 }), this.importTemplateButton.click()]);
+    return download;
   }
 
   async gotoList(): Promise<void> {

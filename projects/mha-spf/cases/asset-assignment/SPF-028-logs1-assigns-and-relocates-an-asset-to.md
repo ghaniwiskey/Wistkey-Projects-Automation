@@ -5,7 +5,7 @@ feature: asset-assignment
 priority: P0
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -31,9 +31,11 @@ The combined Assign & Relocate wizard (6 steps) changes the owner and the locati
 6. Asset > Listing: open `<asset>`, tabs Ownership and Location
 
 ## Expected
-- Step 4 shows "Asset Assignment #ASG<n> is created and approved." (no approval needed)
+- Step 4 shows "Asset Assignment and Relocation request #ASG<n> is created and approved." (no approval needed)
 - The transaction is APPROVED and its type is ASSIGN & RELOCATE
 - Ownership > Current FALO is the test account's officer; Location > Remarks is `<unique>`
 
 ## Notes
 Cleanup: any SUBMITTED transaction on the asset is cancelled before and after (shared assignment hooks).
+
+Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts.

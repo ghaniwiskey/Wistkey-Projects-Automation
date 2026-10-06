@@ -5,7 +5,7 @@ feature: settings
 priority: P1
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -36,3 +36,5 @@ Settings > Group (Group / NPC / Base locations used by registration and assignme
 
 ## Notes
 Name (Short) must fit 25 characters, so the spec uses a short unique code. BUG-008: Description is cut to 200 characters silently (not asserted). Cleanup deletes leftover groups whose name starts with "QA auto".
+
+Automated in tests/e2e/settings/group.spec.ts.

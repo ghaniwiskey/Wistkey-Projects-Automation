@@ -5,7 +5,7 @@ feature: retirement
 priority: P2
 tags: [regression, writes]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -30,3 +30,5 @@ Reopening the Retirement/Disposal pencil pre-fills the date that is saved, so su
 
 ## Notes
 Known bug BUG-005 (31-Dec-2027 shows as 07/12/2029): the test is marked as expected to fail. Cleanup clears the date.
+
+Automated in tests/e2e/retirement/retirement.spec.ts.

@@ -5,7 +5,7 @@ feature: reports
 priority: P1
 tags: [regression]
 envs: [staging]
-automated: false
+automated: true
 created: 2026-10-06
 updated: 2026-10-06
 ---
@@ -28,3 +28,5 @@ Every table report under Report opens for LOGS1 and its Export gives a readable 
 
 ## Notes
 FAVE Stocktake (Follow up) needs a FAVE and follow-up items (none on UAT yet), so it is left out.
+
+Automated in tests/e2e/reports/asset-report.spec.ts.

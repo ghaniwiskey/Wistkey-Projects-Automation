@@ -18,7 +18,7 @@ Or the Test Manager (`npm run tm`, http://127.0.0.1:7358) > MHA SPF > Playwright
 | `context.md` | Testing knowledge base: roles, asset statuses, business rules, page map, quirks, open questions |
 | `docs/user-manual.md`, `docs/images/` | User manual (CR12 onboarding, 21 Sep 2026), the source for context.md |
 | `cases/` | Test cases (`SPF-NNN`) |
-| `tests/pages` | `LoginPage`, `BasePage` (header: Role dropdown, officer, Logout, side menu), `DashboardPage`, asset pages (listing, details, assignment, registration, rejection, new asset), stocktake pages (`FavePage`, `AdHocSetupPage`, `AdHocCreatePage`, `AdHocListingPage` on `StocktakeFormPage`), `AssetReportPage` |
+| `tests/pages` | `LoginPage`, `BasePage` (header: Role dropdown, officer, Logout, side menu), `DashboardPage`, asset pages (listing, details, assignment, registration, rejection, new asset), stocktake pages (`FavePage`, `AdHocSetupPage`, `AdHocCreatePage`, `AdHocListingPage` on `StocktakeFormPage`), `AssetReportPage`, `ReportPage` (other table reports), `PrintTagPage`, `RetirementPage`, `GroupPage` (Settings > Group) |
 | `tests/fixtures/pages.fixture.ts` | Page-object fixtures plus `loginAs(role)` (replaces the old `flows/login.md`) |
 | `tests/utils/test-data.ts` | Role slug -> dropdown label map, `testAccount()` (login from .env) |
 | `tests/e2e` | Specs; titles start with the case ID |
