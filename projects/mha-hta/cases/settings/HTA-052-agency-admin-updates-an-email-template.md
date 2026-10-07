@@ -34,6 +34,6 @@ Settings > Email Template saves template changes and checks mandatory fields.
 - Step 5 restores the original Remarks
 
 ## Notes
-Only Remarks is changed so no real email content changes. mha-spf BUG-014: the Remarks counter says / 250 (not asserted).
+Only Remarks is changed so no real email content changes. BUG-007 (same as mha-spf BUG-014): the Remarks counter shows "/ 250" once the field has text (reproduced by hand on HTA 2026-10-07; not asserted).
 
 Automated in tests/e2e/settings/admin-settings.spec.ts.

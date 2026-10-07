@@ -3,7 +3,7 @@ import type { RoleListingPage } from '../../pages/user-admin.page';
 
 // User > Role Listing > Periods (role validity) as Agency Admin, on Stocktaker: HTA has no End User, and
 // Stocktaker has the fewest rights (FAVE only). The test deletes its period again. The dates are in next month (13th to 20th):
-// a day above 12 cannot be read as a month, which shows the day/month mix-up of mha-spf BUG-011.
+// a day above 12 cannot be read as a month, which shows the day/month mix-up of BUG-004 (mha-spf BUG-011).
 const ROLE = ROLES.stocktaker;
 
 function nextMonth(day: number): Date {
@@ -28,7 +28,7 @@ test.describe('User admin: role periods', () => {
       await expect(roleListingPage.endRequired).toBeVisible();
     });
 
-    await test.step('2. A start date after the end date is refused (mha-spf BUG-015 spelling)', async () => {
+    await test.step('2. A start date after the end date is refused (BUG-010 / mha-spf BUG-015 spelling)', async () => {
       await roleListingPage.setPeriodDates(nextMonth(10), nextMonth(5));
       await roleListingPage.clickSubmitPeriod();
       await expect(roleListingPage.startAfterEnd).toBeVisible();

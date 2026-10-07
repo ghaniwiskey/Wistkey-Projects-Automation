@@ -32,6 +32,6 @@ A disposal date that is already set on a RETIRED asset can be changed to another
 - Step 3 shows Disposal Date `<date2>` and status RETIRED
 
 ## Notes
-Reopening the dialog pre-fills a different date than the saved one (mha-spf BUG-005, closed as wont-fix: accepted behaviour). The test does not check the pre-filled value and always picks the date before submitting. Cleanup clears the date.
+Reopening the dialog pre-fills a different date than the saved one (BUG-009, closed as wont-fix: accepted; same as mha-spf BUG-005; rechecked by hand on HTA 2026-10-07: set 31-Dec-2027, reopening showed 07/12/2029). The test does not check the pre-filled value and always picks the date before submitting. Cleanup clears the date.
 
 Automated in tests/e2e/retirement/retirement.spec.ts.

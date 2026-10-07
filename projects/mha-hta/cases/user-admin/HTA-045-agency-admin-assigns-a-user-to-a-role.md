@@ -36,6 +36,6 @@ Role Listing > Users gives a user a role that takes effect at the next login, an
 - Step 5 shows no role mapped
 
 ## Notes
-mha-spf BUG-013: the user form Roles tab keeps a blank EXPIRED row after removal (not asserted). Cleanup removes the QA user from Stocktaker before and after.
+BUG-008 (same as mha-spf BUG-013): the user form Roles tab keeps a blank EXPIRED row after removal (reproduced by hand on HTA 2026-10-07; not asserted). Cleanup removes the QA user from Stocktaker before and after.
 
 Automated in tests/e2e/user-admin/users.spec.ts.

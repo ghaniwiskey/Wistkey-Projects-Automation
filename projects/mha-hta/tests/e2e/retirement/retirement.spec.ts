@@ -56,7 +56,7 @@ test.describe('Retirement/Disposal (writes)', () => {
   });
 
   // Test case: projects/mha-hta/cases/retirement/HTA-032-*.md
-  // The dialog pre-fills a different date when reopened (mha-spf BUG-005, wont-fix: accepted), so the test never
+  // The dialog pre-fills a different date when reopened (BUG-009 / mha-spf BUG-005, wont-fix: accepted), so the test never
   // relies on the pre-filled value: setDisposalDate always picks the date before submitting.
   test('HTA-032: logs1 changes an existing disposal date @regression @writes', async ({ retirementPage }) => {
     const id = asset!;

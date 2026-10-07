@@ -27,7 +27,7 @@ The Add Period dialog of Role Listing validates its dates before saving.
 
 ## Expected
 - Step 1 shows "Start date is required." and "End date is required."
-- Step 2 shows "The start date must be ealier than the end date" and "The end date must be later than the start date" (mha-spf BUG-015 typo), nothing is saved
+- Step 2 shows "The start date must be ealier than the end date" and "The end date must be later than the start date" (BUG-010 / mha-spf BUG-015 typo), nothing is saved
 - The Periods table is unchanged
 
 ## Notes
