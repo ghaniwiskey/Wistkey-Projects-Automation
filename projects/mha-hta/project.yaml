@@ -1,0 +1,37 @@
+name: MHA HTA
+slug: mha-hta
+testIdPrefix: HTA
+description: e-RFID Asset Tracking System (ATS) for MHA/HTA fixed assets (UAT on Azure). Copied from mha-spf without recall and FALO tests (HTA has no FALO role).
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with HTA_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+# UAT writes can send real emails (see context.md > Email triggers). Never point this at production.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: https://mhauatwebhta.southeastasia.cloudapp.azure.com/
+    allowWrites: true
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# A test links to a test case when its title starts with the ID: test('HTA-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium] # chromium | firefox | webkit | mobile; first one is the "mha-hta" Playwright project
+  fullyParallel: false # tests share one account; its active role is server-side state
+  use:
+    viewport: {width: 1440, height: 900} # the header shows "Role:" / "Last Login" labels only at >= 1400px
+
+# Test account: everything about it comes from .env (see .env.example > mha-hta), nothing is fixed here:
+#   HTA_USER = login ID, HTA_PASS = password (leave empty for a passwordless UAT account).
+# The tests read the officer name from the page header and the roles from the Role dropdown; a test whose
+# role the account lacks is skipped. `roles` below only documents what the tests use (Test Manager overview).
+auth:
+  accounts:
+    - roles: [agency-admin, logs1, stocktaker, uao, uro, vet-ic]
+      notes: Login ID and password in .env. Officer name and roles are read from the app at run time.
+      envUser: HTA_USER
+      envPass: HTA_PASS
+
+suites:
+  smoke: {tags: [smoke], description: Critical paths, under 5 minutes. Run on every deploy.}
+  regression: {tags: [regression, smoke], description: Full functional coverage}
