@@ -36,6 +36,6 @@ A periodic ad hoc stocktake that has not started yet stays CREATED and its owner
 - Picking Others shows a mandatory Remarks box; Submit shows "Stocktake Ad Hoc has been cancelled." and the status becomes CANCELLED
 
 ## Notes
-On SPF the only Reason option has an empty label, so a user cannot pick it by name and gets "Reason is required" (mha-spf BUG-001). Not yet checked on HTA, so no expected failure here. The cleanup cancels the setup by selecting the hidden option value OTHER.
+BUG-002: the Cancel dialog offers no readable "Others" reason on HTA either (same as mha-spf BUG-001); the test is marked test.fail while BUG-002 is open. The cleanup cancels the setup by selecting the hidden option value OTHER.
 
 Automated in tests/e2e/stocktake-adhoc/adhoc.spec.ts. Cleanup fixture cancelCreatedAdHocs cancels CREATED periodic QA setups.

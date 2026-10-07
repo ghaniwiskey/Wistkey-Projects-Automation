@@ -43,6 +43,8 @@ LOGS1 can set up a one-off ad hoc stocktake with manually chosen assets, then up
 - After step 9 the status is SUBMITTED (a result has been recorded)
 
 ## Notes
+HTA lists every unit user in the Assign Stocktaker dropdown but refuses some on Submit ("User <name> has the role Verification Team IC/2IC which cannot be a stocktaker."); the test takes the first other user the app accepts.
+
 Leaves one ad hoc stocktake per run: one-off setups cannot be cancelled ("Can't cancel one-off stocktake type."; accepted: mha-spf BUG-002 closed as wont-fix) and SUBMITTED ones have no Cancel button. Names start with "QA auto adhoc".
 
 Automated in tests/e2e/stocktake-adhoc/adhoc.spec.ts (page objects tests/pages/adhoc.page.ts and stocktake-form.page.ts).

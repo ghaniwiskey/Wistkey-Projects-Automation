@@ -28,6 +28,6 @@ Users can download the import template from the Import Working Result dialog.
 - A file named StocktakeFAVEWorkTemplate.zip is downloaded and it is a real zip archive (not an HTML page)
 
 ## Notes
-On SPF the download is the "Page Not Found" page (mha-spf BUG-006); not yet checked on HTA, so no expected failure here. Tagged writes because the setup (fixture faveTarget) may reject the cost centre back to VET IC.
+BUG-003: the download is not the zip template on HTA either (same as mha-spf BUG-006); marked test.fail while BUG-003 is open. Tagged writes because the setup (fixture faveTarget) may reject the cost centre back to VET IC.
 
 Automated in tests/e2e/stocktake-fave/fave-import.spec.ts.

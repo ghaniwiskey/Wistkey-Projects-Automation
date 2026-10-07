@@ -12,6 +12,10 @@ Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; sc
 - FAVE numbers `FAVE FY26-9001`: agency code 90 (SPF 20). Cost centres 338xxx (8 on UAT).
 - User Listing has user delete (manual: HTA only); the tests do not use it yet.
 - The login footer warning starts "HTA-WARNING : This is a Singapore Police Force computer system.".
+- UAT data: many assets carry a Group / NPC / Base of another cost centre (e.g. 338000 assets in "CCS - EMSB"). Relocate offers only the groups of the asset's cost centre, so the group is not prefilled and Submit says "Group/NPC/Base selection cannot be empty."; the page object then picks the first offered group.
+- Assign Stocktaker (ad hoc) lists every unit user, but Submit refuses some: "User <name> has the role Verification Team IC/2IC which cannot be a stocktaker.".
+- FAVE Import Working Result works on HTA (broken on SPF, mha-spf BUG-007); an imported result reads "Sighted" (mixed case), a manual one "SIGHTED".
+- Bugs confirmed on HTA in the first run (2026-10-07): BUG-001 cost centre description search, BUG-002 ad hoc Cancel reason, BUG-003 FAVE Import Template, BUG-004 role period dates (= mha-spf BUG-012, 001, 006, 011).
 
 ## Product
 - **e-RFID Asset Tracking System (ATS)** for MHA agencies (SPF, HTA, ...). Fixed-asset lifecycle: registration (Building/Level/Room location, ownership, RFID tag printing), assignment (ownership transfer, relocation), verification (annual FAVE stocktake, ad-hoc stocktake), retirement/disposal. Web app plus a mobile app (stocktakers sight assets with RFID scanners).

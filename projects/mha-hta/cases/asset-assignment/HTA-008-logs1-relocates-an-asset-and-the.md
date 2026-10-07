@@ -34,6 +34,8 @@ A relocation transaction is approved by the system immediately and updates the a
 - The asset Location tab shows Remarks `QA relocate <unique>`.
 
 ## Notes
+When the group is not prefilled (asset group from another cost centre, see HTA-007), the test picks the first offered group, otherwise Submit says "Group/NPC/Base selection cannot be empty.".
+
 Before and after: cancel any SUBMITTED assignment transaction on asset `<asset>` (owner Cancel, reason Others "QA cleanup"). No revert needed: each run sets new remarks.
 
 Automated in tests/e2e/asset-assignment/assignment-writes.spec.ts (page objects in tests/pages, cleanup fixtures in tests/fixtures/pages.fixture.ts).

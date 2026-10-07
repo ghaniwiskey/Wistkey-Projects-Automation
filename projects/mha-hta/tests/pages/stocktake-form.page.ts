@@ -198,6 +198,28 @@ export abstract class StocktakeFormPage extends BasePage {
     return { confirmation, message };
   }
 
+  /**
+   * Assign the first of `candidates` that the app accepts (ad hoc, no confirmation). HTA offers every unit
+   * user in the dropdown but refuses some on Submit, e.g. "User <name> has the role Verification Team IC/2IC
+   * which cannot be a stocktaker."; those are skipped. Returns the accepted name and message, or undefined.
+   */
+  async assignAcceptedStocktaker(assetId: string, candidates: string[]): Promise<{ stocktaker: string; message: string } | undefined> {
+    for (const stocktaker of candidates) {
+      await this.openAssign(assetId);
+      await this.pickSelect2(this.assignModal, this.stocktakerKey, stocktaker);
+      await this.submitAssign();
+      await expect(this.alertText).toBeVisible();
+      const text = (await this.alertText.innerText()).trim();
+      if (/cannot be a stocktaker/.test(text)) {
+        await this.acknowledge(/cannot be a stocktaker/);
+        if (await this.assignModal.isVisible()) await this.closeAssign();
+        continue;
+      }
+      return { stocktaker, message: await this.acknowledge(/assigned/) };
+    }
+    return undefined;
+  }
+
   /** Click Export on the Summary tab and return the download (an .xlsx file). */
   async export(): Promise<Download> {
     await this.openSummary();

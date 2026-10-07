@@ -73,14 +73,15 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
 
     await test.step('8. Assign another ad hoc stocktaker (no confirmation)', async () => {
       await adHocListingPage.searchAssignment(asset);
-      // The creator is the default stocktaker; take the first other name from the dropdown.
+      // The creator is the default stocktaker; take the first other name the app accepts (HTA lists every
+      // unit user but refuses e.g. VET IC users: "... which cannot be a stocktaker.").
       const current = (await adHocListingPage.stocktakerOf(asset).innerText()).trim();
-      const stocktaker = (await adHocListingPage.stocktakerOptions()).find((n) => n !== current);
-      expect(stocktaker, 'another stocktaker is offered').toBeTruthy();
-      const result = await adHocListingPage.assignStocktaker(asset, stocktaker as string);
-      expect(result.confirmation).toBeUndefined();
-      expect(result.message).toBe('The stocktaker has been assigned.');
-      await expect(adHocListingPage.stocktakerOf(asset)).toHaveText(stocktaker as string);
+      const others = (await adHocListingPage.stocktakerOptions()).filter((n) => n !== current);
+      expect(others.length, 'another stocktaker is offered').toBeGreaterThan(0);
+      const result = await adHocListingPage.assignAcceptedStocktaker(asset, others);
+      expect(result, `one of ${others.length} offered users is accepted as stocktaker`).toBeTruthy();
+      expect(result?.message).toBe('The stocktaker has been assigned.');
+      await expect(adHocListingPage.stocktakerOf(asset)).toHaveText(result?.stocktaker as string);
     });
 
     await test.step('9. With a result recorded the setup is SUBMITTED', async () => {
@@ -94,6 +95,7 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
     adHocCreatePage,
     adHocSetupPage,
   }) => {
+    test.fail(true, 'BUG-002: the ad hoc Cancel dialog has no readable reason, so "Others" cannot be picked (also mha-spf BUG-001)');
     const name = unique('adhoc periodic');
     let stocktakeNo = '';
 
@@ -113,7 +115,7 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
       await expect(adHocSetupPage.cancelButton).toBeVisible();
     });
 
-    await test.step('4. The Reason dropdown offers Others (mha-spf BUG-001)', async () => {
+    await test.step('4. The Reason dropdown offers Others (BUG-002)', async () => {
       await adHocSetupPage.openCancel();
       await expect(adHocSetupPage.cancelReason('Others')).toHaveCount(1);
     });

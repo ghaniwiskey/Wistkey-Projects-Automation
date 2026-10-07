@@ -81,6 +81,26 @@ export class AssignmentCreatePage extends WizardPage {
     await expect(this.locationPanel.locator('input[name="Building"]')).toHaveValue(/\S/);
   }
 
+  /** Group / NPC / Base options of the location step (only the groups of the asset's cost centre). */
+  async locationGroupOptions(): Promise<string[]> {
+    const texts = await this.locationPanel.locator('select#subLocList option:not([value=""]):not([value="0"])').allTextContents();
+    return texts.map((t) => t.trim()).filter(Boolean);
+  }
+
+  /**
+   * HTA UAT has assets whose group belongs to another cost centre (e.g. a 338000 asset in "CCS - EMSB"). The
+   * location step offers only the groups of the asset's cost centre, so the group stays empty and Submit says
+   * "Group/NPC/Base selection cannot be empty.". Then pick the first offered group. Returns the group set, if any.
+   */
+  async ensureLocationGroup(): Promise<string | undefined> {
+    if ((await this.locationGroup.innerText()).trim()) return undefined;
+    const first = (await this.locationGroupOptions())[0];
+    if (!first) throw new Error('The location step offers no Group / NPC / Base');
+    await this.pickSelect2(this.locationPanel, 'subLocList', first);
+    await expect(this.locationGroup).toHaveText(first);
+    return first;
+  }
+
   /**
    * Choose Asset row cells (0-based): 1 asset, 2 ID2, 3 category, 4 serial, 5 LOGS1, 6 FALO, 7 group,
    * 8 status. The list holds only assets that can be selected (none in an ongoing transaction).
@@ -145,9 +165,10 @@ export class AssignmentCreatePage extends WizardPage {
       assignee = await this.chooseAssignee(a.role, a.assignee);
       if (a.type === 'Assign & Relocate') await this.next();
     }
-    if (a.type !== 'Assign' && a.remarks !== undefined) {
+    if (a.type !== 'Assign') {
       await this.waitForLocationPrefill();
-      await this.locationRemarks.fill(a.remarks);
+      await this.ensureLocationGroup();
+      if (a.remarks !== undefined) await this.locationRemarks.fill(a.remarks);
     }
     const message = await this.submit();
     const transactionNo = message.match(/ASG\d+/)?.[0];

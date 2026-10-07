@@ -42,8 +42,19 @@ test.describe('Asset Assignment', () => {
 
     await test.step('5. Location step is prefilled with the current location', async () => {
       await assignmentCreatePage.next();
-      await expect(assignmentCreatePage.locationPanel).toBeVisible();
-      await expect(assignmentCreatePage.locationGroup).toHaveText(asset.group);
+      await assignmentCreatePage.waitForLocationPrefill();
+      // The group list holds only the groups of the asset's cost centre. HTA UAT has assets whose group
+      // belongs to another cost centre; then the group cannot be prefilled and stays empty.
+      const groups = await assignmentCreatePage.locationGroupOptions();
+      if (groups.includes(asset.group)) {
+        await expect(assignmentCreatePage.locationGroup).toHaveText(asset.group);
+      } else {
+        test.info().annotations.push({
+          type: 'note',
+          description: `Asset ${asset.id} has group "${asset.group}", which its cost centre does not offer (${groups.join(', ')}): group not prefilled (UAT data).`,
+        });
+        await expect(assignmentCreatePage.locationGroup).toHaveText('');
+      }
       await expect(assignmentCreatePage.locationPostalCode).toHaveText(/\d{6}/);
       await expect(assignmentCreatePage.submitButton).toBeVisible();
     });

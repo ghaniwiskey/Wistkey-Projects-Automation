@@ -34,6 +34,8 @@ A Logistics Officer 1 can start a Relocate transaction: choose an asset, review 
 - Nothing is submitted: no new transaction is created (the test leaves the wizard without clicking Submit).
 
 ## Notes
+HTA UAT data: many assets carry a group of another cost centre (e.g. a 338000 asset in "CCS - EMSB"). The location step offers only the groups of the asset's cost centre, so then the group is not prefilled; the test checks the prefill only when the asset's group is offered and otherwise records a note.
+
 Submitting is a write (moves the asset, may send emails); cover it in a separate @writes case once a safe asset and revert path are agreed.
 
 Automated in tests/e2e/asset-assignment/relocate-wizard.spec.ts (page objects in tests/pages).

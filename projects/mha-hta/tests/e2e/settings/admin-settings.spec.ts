@@ -113,7 +113,8 @@ test.describe('Settings (Agency Admin)', () => {
         await expect(costCentrePage.row(code)).toHaveCount(1);
       });
 
-      await test.step(`3. Searching the description "${description}" lists it (mha-spf BUG-012)`, async () => {
+      await test.step(`3. Searching the description "${description}" lists it (BUG-001)`, async () => {
+        test.fail(true, 'BUG-001: the Cost Centre keyword box does not match descriptions (also mha-spf BUG-012)');
         await costCentrePage.search(description);
         await expect(costCentrePage.row(code)).toHaveCount(1);
       });

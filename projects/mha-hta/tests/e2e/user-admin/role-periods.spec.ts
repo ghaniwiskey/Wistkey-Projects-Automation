@@ -67,6 +67,7 @@ test.describe('User admin: role periods', () => {
 
     // Test case: projects/mha-hta/cases/user-admin/HTA-048-*.md
     test('HTA-048: role period is saved with the dates picked in the calendar @regression @writes', async ({ roleListingPage }) => {
+      test.fail(true, 'BUG-004: the server reads the dd/mm/yyyy period dates as mm/dd/yyyy; a day above 12 fails with "SqlDateTime overflow" (also mha-spf BUG-011)');
 
       await test.step(`1-2. Add the period ${listDate(start)} to ${listDate(end)}`, async () => {
         await roleListingPage.openAddPeriod();

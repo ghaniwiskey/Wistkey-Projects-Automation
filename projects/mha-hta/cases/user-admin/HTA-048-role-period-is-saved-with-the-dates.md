@@ -31,6 +31,6 @@ Role validity periods (used to enable VET IC and Stocktaker roles for FAVE) keep
 - Step 3 shows "Period <start> to <end> has been successfully deleted." and the table is back to its previous rows
 
 ## Notes
-On SPF the server reads dd/mm as mm/dd, so a day above 12 fails with "SqlDateTime overflow" (mha-spf BUG-011). Not yet checked on HTA, so no expected failure here. Periods that were not there before the test are deleted before and after.
+BUG-004: a day above 12 fails with "SqlDateTime overflow" on HTA too (same as mha-spf BUG-011); marked test.fail while BUG-004 is open. Periods that were not there before the test are deleted before and after.
 
 Automated in tests/e2e/user-admin/role-periods.spec.ts.

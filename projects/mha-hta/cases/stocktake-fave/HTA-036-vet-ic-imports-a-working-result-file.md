@@ -33,6 +33,6 @@ Import Working Result batch-sights assets without RFID tags: every imported asse
 - Step 4: Result & Condition shows SIGHTED and WORKING, HTD Follow-up "No Further Action", FSSC Outcome "Working condition"
 
 ## Notes
-On SPF the result is cleared instead (mha-spf BUG-007); not yet checked on HTA, so no expected failure here. Cleanup sets the asset back to PENDING.
+On SPF the result is cleared instead (mha-spf BUG-007); on HTA the import works (2026-10-07), and an imported result reads "Sighted" (mixed case), so the check ignores case. Cleanup sets the asset back to PENDING.
 
 Automated in tests/e2e/stocktake-fave/fave-import.spec.ts.

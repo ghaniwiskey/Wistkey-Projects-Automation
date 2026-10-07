@@ -30,10 +30,11 @@ test.describe('Stocktake FAVE: Import Working Result', () => {
         expect(await favePage.submitImport()).toBe('The import record(s) have been successful.');
       });
 
-      await test.step('4. The asset is SIGHTED / WORKING with the FSSC mapping (mha-spf BUG-007)', async () => {
+      await test.step('4. The asset is SIGHTED / WORKING with the FSSC mapping (mha-spf BUG-007 does not occur on HTA)', async () => {
         await favePage.openForCostCentre(costCentre);
         await favePage.searchDetails(asset);
-        await expect(favePage.resultOf(asset)).toContainText('SIGHTED');
+        // HTA shows an imported result as "Sighted" (a manual update shows "SIGHTED"), so ignore case.
+        await expect(favePage.resultOf(asset)).toContainText(/sighted/i);
         await expect(favePage.resultOf(asset)).toContainText('WORKING');
         await expect(favePage.followUpOf(asset)).toHaveText('No Further Action');
         await expect(favePage.fsscOf(asset)).toHaveText('Working condition');
@@ -48,13 +49,14 @@ test.describe('Stocktake FAVE: Import Working Result', () => {
     favePage,
     faveTarget: { costCentre },
   }, testInfo) => {
+    test.fail(true, 'BUG-003: Import Template downloads a page instead of the zip template (also mha-spf BUG-006)');
 
     await test.step(`1. Open Import Working Result on ${costCentre}`, async () => {
       await favePage.openForCostCentre(costCentre);
       await favePage.openImport();
     });
 
-    await test.step('2. Import Template gives a real zip file (mha-spf BUG-006)', async () => {
+    await test.step('2. Import Template gives a real zip file (BUG-003)', async () => {
       const download = await favePage.downloadImportTemplate();
       expect(download.suggestedFilename()).toBe('StocktakeFAVEWorkTemplate.zip');
       const file = testInfo.outputPath(download.suggestedFilename());

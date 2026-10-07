@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test report: mha-hta / playwright / 2026-10-07_0946_staging_playwright</title>
+<style>
+:root{--bg:#f6f8fa;--card:#fff;--text:#1f2328;--muted:#57606a;--border:#d0d7de;--accent:#0969da;
+--pass:#1a7f37;--fail:#cf222e;--flaky:#bf8700;--blocked:#8250df;--skipped:#8c959f}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:14px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+[id]{scroll-margin-top:84px}
+.rid{white-space:nowrap}h5 a,h5 code{text-transform:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+header.top{background:#0d1117;color:#f0f6fc;position:sticky;top:0;z-index:20;box-shadow:0 1px 0 #30363d}
+.bar-row{display:flex;align-items:center;gap:18px;min-height:56px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:16px}
+header nav{display:flex;gap:6px 14px;flex-wrap:wrap;flex:1}
+header nav a{color:#f0f6fc;font-weight:600}
+header .sub-nav a{color:#9ecbff;font-weight:400;margin-left:10px;font-size:13px}
+.gen{color:#c9d1d9;font-size:12px}
+h1{font-size:24px;margin:24px 0 12px}
+h2{font-size:22px;margin:40px 0 4px;padding-top:12px;border-top:2px solid var(--border)}
+h3{font-size:17px;margin:28px 0 10px;display:flex;align-items:center;gap:10px}
+h4{font-size:14px;margin:18px 0 8px}
+h5{font-size:13px;margin:14px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.slug{font-size:13px;font-weight:400;color:var(--muted);font-family:ui-monospace,Consolas,monospace;margin-left:6px}
+.desc{margin:4px 0 8px;color:var(--muted)}
+.muted{color:var(--muted)}.small{font-size:12px}
+.envs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
+.env{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:10px 0 16px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;border-top:3px solid var(--border)}
+.kpi.good{border-top-color:var(--pass)}.kpi.warn{border-top-color:var(--flaky)}.kpi.bad{border-top-color:var(--fail)}
+.kpi .l{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.kpi .v{font-size:24px;font-weight:650;line-height:1.3;margin-top:2px}
+.kpi .v .badge{font-size:13px;vertical-align:middle}
+.kpi .s{color:var(--muted);font-size:12px}
+.badge{display:inline-block;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid transparent;white-space:nowrap}
+.s-pass{background:#dafbe1;color:#116329;border-color:#aceebb}
+.s-fail{background:#ffebe9;color:#a40e26;border-color:#ffcecb}
+.s-flaky{background:#fff8c5;color:#6f4400;border-color:#eed888}
+.s-blocked{background:#fbefff;color:#6639ba;border-color:#e6ccff}
+.s-skipped{background:#f6f8fa;color:#57606a;border-color:#d0d7de}
+.s-never,.s-untested{background:#fff;color:#57606a;border:1px dashed #afb8c1}
+.tag{display:inline-block;padding:0 7px;border-radius:5px;font-size:12px;background:#eef1f4;color:#3d444d;border:1px solid #d8dee4;white-space:nowrap}
+.tag.flow{background:#fbefff;color:#6639ba;border-color:#e6ccff;font-weight:600}
+.ftree{list-style:none;padding-left:0;margin:4px 0}.ftree .ftree{padding-left:22px;border-left:2px solid #e6ccff;margin-left:6px}
+.ftree li{padding:2px 0}.ftree .num{color:#59636e;font-weight:600;margin-right:4px}
+.tag.auto{background:#ddf4ff;color:#0a4b8c;border-color:#b6e3ff}
+.prio{display:inline-block;font-weight:700;font-size:12px;padding:0 7px;border-radius:5px;border:1px solid var(--border)}
+.p-P0{background:#ffebe9;color:#a40e26}.p-P1{background:#fff1e5;color:#953800}.p-P2{background:#ddf4ff;color:#0a4b8c}.p-P3{background:#f6f8fa;color:#57606a}
+.sev{display:inline-block;font-weight:700;font-size:12px;padding:0 8px;border-radius:999px;text-transform:capitalize}
+.sev-critical{background:#cf222e;color:#fff}.sev-major{background:#ffebe9;color:#a40e26}.sev-minor{background:#fff8c5;color:#6f4400}.sev-trivial{background:#eef1f4;color:#3d444d}
+.c-pass{background:var(--pass);fill:var(--pass)}.c-fail{background:var(--fail);fill:var(--fail)}.c-flaky{background:var(--flaky);fill:var(--flaky)}
+.c-blocked{background:var(--blocked);fill:var(--blocked)}.c-skipped{background:var(--skipped);fill:var(--skipped)}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:#eaeef2;min-width:120px;flex-basis:100%}
+.bar span{display:block;height:100%}
+.counts{display:inline-flex;gap:10px;font-size:12px;font-weight:600}
+.n-pass{color:#116329}.n-fail{color:#a40e26}.n-flaky{color:#6f4400}.n-blocked{color:#6639ba}.n-skipped{color:#57606a}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid #eaeef2;vertical-align:top}
+thead th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:#f6f8fa;font-weight:600}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+table.kv{margin-bottom:10px}table.kv th{width:110px;color:var(--muted);font-weight:600;font-size:12px;background:#fafbfc}
+table.mini{margin:6px 0 12px}
+table.matrix tbody tr:hover{background:#f6f8fa}
+code{font-family:ui-monospace,Consolas,monospace;font-size:12px;background:#eff2f5;padding:1px 5px;border-radius:4px;word-break:break-word}
+pre{background:#0d1117;color:#f0f6fc;padding:10px 12px;border-radius:6px;overflow:auto;font-size:12px;white-space:pre-wrap}
+.insights{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.insights li{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:6px;padding:7px 12px}
+.insights li.good{border-left-color:var(--pass)}.insights li.warn{border-left-color:var(--flaky)}.insights li.bad{border-left-color:var(--fail)}
+figure.chart{margin:0;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+figure.chart svg{width:100%;height:auto;display:block}
+svg .grid{stroke:#eaeef2}svg .ax{font-size:11px;fill:#57606a}svg .ax2{font-size:10px;fill:#6e7781}
+svg a rect{transition:opacity .15s}svg a:hover rect{opacity:.8}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+details.card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin:8px 0}
+details.card>summary{cursor:pointer;padding:10px 14px;display:flex;gap:8px 10px;align-items:center;flex-wrap:wrap;list-style:none}
+details.card>summary::-webkit-details-marker,details.sub>summary::-webkit-details-marker{display:none}
+details.card>summary::before,details.sub>summary::before{content:"";width:0;height:0;border-left:6px solid #57606a;border-top:5px solid transparent;border-bottom:5px solid transparent;transition:transform .15s}
+details[open]>summary::before{transform:rotate(90deg)}
+details.card[open]>summary{border-bottom:1px solid var(--border)}
+.right{margin-left:auto;display:inline-flex;gap:8px;align-items:center}
+.ttl{font-weight:500}
+.card-body{padding:12px 14px}
+.card-body.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px}
+details.sub{border:1px solid #eaeef2;border-radius:6px;margin:6px 0;background:#fff}
+details.sub>summary{cursor:pointer;padding:7px 10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;list-style:none}
+details.sub[open]>summary{background:#f6f8fa;border-bottom:1px solid #eaeef2}
+.sub-body{padding:8px 12px 12px}
+ul.facts{margin:4px 0 8px;padding-left:18px}
+ul.checks{list-style:none;padding:0;margin:4px 0}
+ul.checks li{padding:3px 0;border-bottom:1px dashed #eaeef2}
+ul.checks .mark{display:inline-block;width:38px;text-align:center;font-size:10px;font-weight:700;border-radius:4px;padding:0 4px;margin-right:6px}
+ul.checks li.ok .mark{background:#dafbe1;color:#116329}ul.checks li.ko .mark{background:#ffebe9;color:#a40e26}
+ul.checks .actual{margin:2px 0 0 46px;font-size:12px;color:var(--muted)}
+.note{background:#f6f8fa;border-left:3px solid var(--border);padding:6px 10px;border-radius:4px}
+.shots{display:flex;flex-wrap:wrap;gap:12px}
+.shots figure{margin:0;max-width:300px}
+.shots img,img.inline{width:300px;max-width:100%;border:1px solid var(--border);border-radius:6px;cursor:zoom-in;display:block}
+.shots figcaption{font-size:11px;color:var(--muted);margin-top:3px;word-break:break-all}
+.missing{width:300px;height:80px;display:flex;align-items:center;justify-content:center;border:1px dashed var(--border);color:var(--muted);font-size:12px}
+.dots{display:inline-flex;gap:3px;flex-wrap:wrap}
+.dot{width:13px;height:13px;border-radius:3px;display:inline-block}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 10px}
+.chip{border:1px solid var(--border);background:#fff;border-radius:999px;padding:3px 11px;cursor:pointer;font-size:12px;color:var(--text)}
+.chip[aria-pressed="true"]{background:#24292f;color:#fff;border-color:#24292f}
+.filters select,.filters input{border:1px solid var(--border);border-radius:6px;padding:4px 8px;font:inherit;font-size:13px;background:#fff}
+.filters input{min-width:240px;flex:1}
+.mini-btn{font-size:12px;font-weight:500;border:1px solid var(--border);background:#fff;border-radius:6px;padding:2px 9px;cursor:pointer;color:var(--text)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px}
+.meter{display:inline-block;width:60px;height:6px;background:#eaeef2;border-radius:3px;overflow:hidden;margin-right:6px;vertical-align:middle}
+.meter span{display:block;height:100%;background:var(--accent)}
+.over{color:#a40e26;font-weight:700}.good-text{color:#116329}
+.md-body table.md{margin:6px 0 10px}.md-body h4{margin:14px 0 6px;font-size:13px;text-transform:uppercase;color:var(--muted)}
+.ref{font-style:italic;color:var(--muted)}.expect{font-weight:700;color:#0a4b8c}
+#lightbox{position:fixed;inset:0;background:rgba(1,4,9,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
+#lightbox[hidden]{display:none}#lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;background:#fff}
+#lightbox p{color:#c9d1d9;font-size:12px}
+footer{margin:40px auto 30px}
+@media (max-width:900px){.card-body.two,.grid2{grid-template-columns:1fr}.gen{display:none}}
+@media print{header.top{position:static}.filters,.mini-btn{display:none}body{background:#fff}details.card,table{break-inside:avoid}}
+
+.verdict{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 16px;border-radius:8px;margin:12px 0;border:1px solid var(--border);background:#fff;font-size:14px}
+.verdict .big{font-size:20px;font-weight:700}
+.v-pass{border-left:6px solid var(--pass)}.v-pass .big{color:#116329}
+.v-fail{border-left:6px solid var(--fail)}.v-fail .big{color:#a40e26}
+.v-flaky{border-left:6px solid var(--flaky)}.v-flaky .big{color:#6f4400}
+.v-blocked{border-left:6px solid var(--blocked)}.v-blocked .big{color:#6639ba}
+.v-untested,.v-skipped{border-left:6px solid var(--skipped)}
+.pad-box{padding:10px 14px;margin-bottom:6px}
+.card-body+.card-body{padding-top:0}
+section{margin-bottom:10px}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar-row">
+<div class="brand">Test report</div>
+<nav><a href="#summary">Summary</a><a href="#results">Results</a><a href="#details">Test details</a></nav>
+<div class="gen">Generated 2026-10-07 09:48 (Asia/Jakarta)</div>
+</div></header>
+<main class="wrap">
+<section id="summary">
+<h1>MHA HTA: playwright</h1>
+<p class="muted">Run <code>2026-10-07_0946_staging_playwright</code></p>
+<div class="verdict v-pass"><span class="big">Pass</span><span>8 passed, 0 failed of 8 tests</span></div>
+<div class="kpis">
+<div class="kpi "><div class="l">Tests</div><div class="v">8</div></div>
+<div class="kpi good"><div class="l">Passed</div><div class="v">8</div></div>
+<div class="kpi good"><div class="l">Failed</div><div class="v">0</div></div>
+<div class="kpi "><div class="l">Blocked</div><div class="v">0</div></div>
+<div class="kpi good"><div class="l">Pass rate</div><div class="v">100%</div><div class="s">excluding skipped</div></div>
+<div class="kpi "><div class="l">Checks</div><div class="v">291/298</div><div class="s">assertions passed</div></div>
+<div class="kpi "><div class="l">Duration</div><div class="v">1m 49s</div><div class="s">test time 1m 48s</div></div>
+</div>
+<div class="card pad-box"><div class="bar" role="img" aria-label="8 pass, 0 flaky, 0 fail, 0 blocked, 0 skipped"><span class="c-pass" style="width:100.00%" title="8 pass"></span></div></div>
+<div class="grid2">
+<div><h3>Run details</h3><table class="kv"><tbody><tr><th>Project</th><td>MHA HTA <span class="muted">(mha-hta)</span></td></tr><tr><th>Environment</th><td>staging: <a href="https://mhauatwebhta.southeastasia.cloudapp.azure.com/" target="_blank" rel="noopener">https://mhauatwebhta.southeastasia.cloudapp.azure.com/</a></td></tr><tr><th>Runner</th><td>Playwright <span class="muted">Playwright ran the POM specs (tests/e2e)</span></td></tr><tr><th>Started</th><td>2026-10-07 09:46</td></tr><tr><th>Finished</th><td>2026-10-07 09:48 (1m 49s)</td></tr><tr><th>Run folder</th><td><code>projects/mha-hta/runs/2026-10-07_0946_staging_playwright</code></td></tr></tbody></table></div>
+<div><h3>Compared with the previous run</h3><p class="muted small">No earlier run of these tests to compare with.</p></div>
+</div>
+<h3>Notes</h3><p class="note">Playwright project &quot;mha-hta&quot;. Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run).</p>
+
+
+</section>
+<section id="results"><h3>Results</h3><div class="filters" data-filter-for="results-table"><button type="button" class="chip" data-status="all" aria-pressed="true">All (8)</button><button type="button" class="chip" data-status="pass" aria-pressed="false">Pass (8)</button><select aria-label="Priority"><option value="all">All priorities</option><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option></select><input type="search" placeholder="Search tests" aria-label="Search tests"></div><table class="matrix" id="results-table"><thead><tr><th>ID</th><th>Test</th><th>Priority</th><th>Result</th><th>Checks</th><th>Time</th><th>Notes</th><th>Evidence</th></tr></thead><tbody><tr data-status="pass" data-priority="P1"><td><a href="#t-HTA-007"><strong>HTA-007</strong></a></td><td>logs1 walks the relocate wizard up to the location step<div class="muted">asset-assignment</div></td><td><span class="prio p-P1">P1</span></td><td><span class="badge s-pass">Pass</span></td><td>30/30</td><td>4.8s</td><td>-</td><td>-</td></tr><tr data-status="pass" data-priority="P0"><td><a href="#t-HTA-008"><strong>HTA-008</strong></a></td><td>logs1 relocates an asset and the relocation is auto-approved<div class="muted">asset-assignment</div></td><td><span class="prio p-P0">P0</span></td><td><span class="badge s-pass">Pass</span></td><td>44/44</td><td>12.4s</td><td>-</td><td>-</td></tr><tr data-status="pass" data-priority="P1"><td><a href="#t-HTA-022"><strong>HTA-022</strong></a></td><td>logs1 creates a one-off ad hoc stocktake, records a result and assigns a stocktaker<div class="muted">stocktake-adhoc</div></td><td><span class="prio p-P1">P1</span></td><td><span class="badge s-pass">Pass</span></td><td>81/81</td><td>13.2s</td><td>-</td><td>-</td></tr><tr data-status="pass" data-priority="P1"><td><a href="#t-HTA-023"><strong>HTA-023</strong></a></td><td>logs1 creates a periodic ad hoc stocktake and cancels it with a reason<div class="muted">stocktake-adhoc</div></td><td><span class="prio p-P1">P1</span></td><td><span class="badge s-pass">Pass</span></td><td>42/44</td><td>12.6s</td><td>BUG-002</td><td>-</td></tr><tr data-status="pass" data-priority="P1"><td><a href="#t-HTA-036"><strong>HTA-036</strong></a></td><td>vet ic imports a working result file and the assets become sighted / working<div class="muted">stocktake-fave</div></td><td><span class="prio p-P1">P1</span></td><td><span class="badge s-pass">Pass</span></td><td>53/53</td><td>23.1s</td><td>-</td><td>-</td></tr><tr data-status="pass" data-priority="P2"><td><a href="#t-HTA-037"><strong>HTA-037</strong></a></td><td>fave import template downloads the lmsassetid template<div class="muted">stocktake-fave</div></td><td><span class="prio p-P2">P2</span></td><td><span class="badge s-pass">Pass</span></td><td>14/16</td><td>14.3s</td><td>BUG-003</td><td>-</td></tr><tr data-status="pass" data-priority="P1"><td><a href="#t-HTA-048"><strong>HTA-048</strong></a></td><td>role period is saved with the dates picked in the calendar<div class="muted">user-admin</div></td><td><span class="prio p-P1">P1</span></td><td><span class="badge s-pass">Pass</span></td><td>15/16</td><td>19.1s</td><td>BUG-004</td><td>-</td></tr><tr data-status="pass" data-priority="P2"><td><a href="#t-HTA-051"><strong>HTA-051</strong></a></td><td>cost centre search finds a cost centre by its description<div class="muted">settings</div></td><td><span class="prio p-P2">P2</span></td><td><span class="badge s-pass">Pass</span></td><td>12/14</td><td>8.7s</td><td>BUG-001</td><td>-</td></tr></tbody></table></section>
+<section id="details"><h3>Test details <button type="button" class="mini-btn" data-toggle="details-list">Expand all</button></h3>
+<div id="details-list"><details class="card tc" id="t-HTA-007">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-007</strong> <span class="ttl">logs1 walks the relocate wizard up to the location step</span><span class="right">30/30 checks <span class="muted">4.8s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">A Logistics Officer 1 can start a Relocate transaction: choose an asset, review it, and reach the location form prefilled with the current location. Read-only: the test stops before Submit.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Logistics Officer 1 active</li><li>The asset is not part of an ongoing assignment transaction</li></ul><h5>Data</h5><ul><li>Asset <code>&lt;asset&gt;</code>: the first asset in the Relocate &gt; Choose Asset list (only selectable assets are listed)</li></ul><h5>Steps</h5><ol><li>Open <strong>Asset &gt; Assignment</strong>. <strong>Expect:</strong> heading &quot;Assignment&quot;, a transactions table and a <strong>Create</strong> button.</li><li>Click <strong>Create</strong>. <strong>Expect:</strong> step &quot;Assign - Start&quot; with Assign (checked), Relocate and Assign &amp; Relocate.</li><li>Choose <strong>Relocate</strong> and click <strong>Next</strong>. <strong>Expect:</strong> &quot;Relocate - Choose Asset&quot; with &quot;0 asset(s) selected&quot;.</li><li>Note the first asset in the list (<code>&lt;asset&gt;</code>) and its Group, search for it, tick its checkbox and click <strong>Next</strong>.</li><li>On the Review step click <strong>Next</strong>.</li></ol><h5>Expected</h5><ul><li>After ticking the asset the counter shows &quot;1 asset(s) selected&quot;.</li><li>The Review step (&quot;Relocate - Review&quot;) lists exactly 1 asset: &lt;asset&gt;.</li><li>The location step shows Group / NPC / Base equal to the Group shown for the asset in Choose Asset and a 6-digit Postal Code prefilled, plus a <strong>Submit</strong> button.</li><li>Nothing is submitted: no new transaction is created (the test leaves the wizard without clicking Submit).</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/asset-assignment/HTA-007-logs1-walks-the-relocate-wizard-up-to.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>30/30 passed</td></tr><tr><th>Duration</th><td>4.8s</td></tr><tr><th>Priority</th><td><span class="prio p-P1">P1</span> <span class="tag">smoke</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/asset-assignment/relocate-wizard.spec.ts</code></td></tr></tbody></table>
+
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>Step: 1. Open Asset &gt; Assignment</span></li><li class="ok"><span class="mark">PASS</span> <span>Asset/Assignment responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 2. Create opens the Start step</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeChecked&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 3. Relocate &gt; Choose Asset</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeChecked&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 4. Select the first asset in the list</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: Review lists exactly the selected asset</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 5. Location step is prefilled with the current location</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveValue&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li></ul>
+
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details>
+<details class="card tc" id="t-HTA-008">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-008</strong> <span class="ttl">logs1 relocates an asset and the relocation is auto-approved</span><span class="right">44/44 checks <span class="muted">12.4s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">A relocation transaction is approved by the system immediately and updates the asset location.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Logistics Officer 1 active</li><li>Asset <code>&lt;asset&gt;</code> is not in an ongoing transaction</li></ul><h5>Data</h5><ul><li>Asset <code>&lt;asset&gt;</code>: found when the test runs (writableAsset): selectable in Assign &gt; Choose Asset, preferably with the test account as current LOGS1; all assignment write tests of a run share it</li><li>Location remarks: <code>QA relocate &lt;unique&gt;</code></li></ul><h5>Steps</h5><ol><li>Open <strong>Asset &gt; Assignment</strong>, click <strong>Create</strong>, choose <strong>Relocate</strong> and click <strong>Next</strong>.</li><li>Search for <code>&lt;asset&gt;</code>, tick it and click <strong>Next</strong> twice (Choose Asset, Review).</li><li>On the location step keep the prefilled Group and Postal Code, set <strong>Remarks</strong> to <code>QA relocate &lt;unique&gt;</code> and click <strong>Submit</strong>.</li><li>Open <strong>Asset &gt; Assignment</strong> and search for the new transaction number.</li><li>Open asset <code>&lt;asset&gt;</code> from <strong>Asset &gt; Listing</strong> and go to the <strong>Location</strong> tab.</li></ol><h5>Expected</h5><ul><li>After step 3 the End step shows &quot;Relocation request #ASG&lt;number&gt; is created&quot; and &quot;1 Asset is processed for Asset Relocation.&quot;</li><li>The transaction is listed as type RELOCATE with status APPROVED.</li><li>The asset Location tab shows Remarks <code>QA relocate &lt;unique&gt;</code>.</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/asset-assignment/HTA-008-logs1-relocates-an-asset-and-the.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>44/44 passed</td></tr><tr><th>Duration</th><td>12.4s</td></tr><tr><th>Priority</th><td><span class="prio p-P0">P0</span> <span class="tag">regression</span> <span class="tag">writes</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/asset-assignment/assignment-writes.spec.ts</code></td></tr></tbody></table>
+
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>Asset/Assignment responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 1-3. Relocate with new remarks</span></li><li class="ok"><span class="mark">PASS</span> <span>Asset/AssignmentCreate responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeChecked&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveValue&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toMatch&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 4. Transaction is RELOCATE and APPROVED</span></li><li class="ok"><span class="mark">PASS</span> <span>Asset/Assignment responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 5. Asset location shows the new remarks</span></li><li class="ok"><span class="mark">PASS</span> <span>Asset/Asset responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveAttribute&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Asset/Assignment responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li></ul>
+
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details>
+<details class="card tc" id="t-HTA-022">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-022</strong> <span class="ttl">logs1 creates a one-off ad hoc stocktake, records a result and assigns a stocktaker</span><span class="right">81/81 checks <span class="muted">13.2s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">LOGS1 can set up a one-off ad hoc stocktake with manually chosen assets, then update the sighting result and the ad hoc stocktaker in Ad Hoc Listing.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Logistics Officer 1 active</li></ul><h5>Data</h5><ul><li>Asset <code>&lt;asset&gt;</code>: the first asset in Choose Asset, found when the test runs</li><li>Stocktake Name <code>QA auto adhoc &lt;unique&gt;</code></li><li>Stocktaker <code>&lt;stocktaker&gt;</code>: the first name in the Assign dropdown that is not the current (default) stocktaker</li></ul><h5>Steps</h5><ol><li>Open <strong>Stocktake &gt; Ad Hoc Setup</strong>, click <strong>Create</strong>, pick <strong>One-Off</strong> and <strong>Manual</strong>, click <strong>Next</strong> without a name</li><li>Type the Stocktake Name and Remarks <code>QA test, please ignore</code>, <strong>Next</strong></li><li>Click <strong>Next</strong> without ticking an asset</li><li>Tick the first asset <code>&lt;asset&gt;</code>, <strong>Next</strong>, check the Review list, <strong>Submit</strong></li><li>Open <strong>Ad Hoc Setup</strong>, search the new number and read the row</li><li>Open <strong>Stocktake &gt; Ad Hoc Listing</strong>, open the new number, read the <strong>Summary</strong> tab</li><li>Open <strong>Details</strong>, tick the asset, <strong>Update Result</strong>, pick <strong>SIGHTED</strong>, type remarks, <strong>Submit</strong></li><li>Open <strong>Assignment</strong>, tick the asset, <strong>Assign Stocktaker</strong>, pick <strong><code>&lt;stocktaker&gt;</code></strong>, <strong>Submit</strong></li><li>Open <strong>Ad Hoc Setup</strong> again and search the number</li></ol><h5>Expected</h5><ul><li>Step 1 shows &quot;Stocktake Name is required&quot;; One-Off hides Recurrence Type, Number of Recurrence and Start Date</li><li>Step 3 shows &quot;Please tick at least one asset to process.&quot;</li><li>Step 4: the counter shows &quot;1 asset(s) selected&quot;, Review lists <code>&lt;asset&gt;</code> and the End step shows &quot;Ad Hoc Stocktake No. ADST&lt;number&gt; has been created&quot;</li><li>Ad Hoc Setup lists the number with the name, MANUAL, ONE-OFF and status CREATED</li><li>Ad Hoc Listing lists it; its Summary shows PENDING with count 1</li><li>Step 7 shows &quot;The stocktake has been updated.&quot; and the Summary shows SIGHTED with count 1</li><li>Step 8 shows &quot;The stocktaker has been assigned.&quot; (no confirmation, unlike FAVE) and the Ad Hoc Stocktaker column shows <code>&lt;stocktaker&gt;</code></li><li>After step 9 the status is SUBMITTED (a result has been recorded)</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/stocktake-adhoc/HTA-022-logs1-creates-a-one-off-ad-hoc.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>81/81 passed</td></tr><tr><th>Duration</th><td>13.2s</td></tr><tr><th>Priority</th><td><span class="prio p-P1">P1</span> <span class="tag">regression</span> <span class="tag">writes</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/stocktake-adhoc/adhoc.spec.ts</code></td></tr></tbody></table>
+
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>Step: 1. One-Off hides the periodic fields; the name is required</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/StocktakeCreate responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 2. Name and remarks, Next</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 3. At least one asset is required</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 4. Tick the first asset, review, submit</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toMatch&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 5. Ad Hoc Setup lists it as CREATED</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Stocktake responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 6. Ad Hoc Listing summary: 1 PENDING</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/StocktakeListing responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 7. Update the result to SIGHTED</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toPass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBe&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 8. Assign another ad hoc stocktaker (no confirmation)</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>another stocktaker is offered</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toPass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toPass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toPass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>one of 37 offered users is accepted as stocktaker</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBe&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 9. With a result recorded the setup is SUBMITTED</span></li></ul>
+
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details>
+<details class="card tc" id="t-HTA-023">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-023</strong> <span class="ttl">logs1 creates a periodic ad hoc stocktake and cancels it with a reason</span><span class="right">42/44 checks <span class="muted">12.6s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">A periodic ad hoc stocktake that has not started yet stays CREATED and its owner can cancel it with a reason.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Logistics Officer 1 active</li></ul><h5>Data</h5><ul><li>Asset <code>&lt;asset&gt;</code>: the first asset in Choose Asset</li><li>Stocktake Name <code>QA auto adhoc periodic &lt;unique&gt;</code></li><li>Recurrence MONTHLY, Number of Recurrence 1, Start Date tomorrow (default)</li><li>Cancel reason Others, remarks <code>QA test, please ignore</code></li></ul><h5>Steps</h5><ol><li>Open <strong>Ad Hoc Setup &gt; Create</strong>, keep <strong>Periodic</strong>, pick <strong>Manual</strong>, type the name, pick Recurrence Type <strong>MONTHLY</strong>, keep the start date, <strong>Next</strong></li><li>Tick the first asset, <strong>Next</strong>, <strong>Submit</strong></li><li>Open the new number from <strong>Ad Hoc Setup</strong></li><li>Click <strong>Cancel</strong>, open the <strong>Reason</strong> dropdown</li><li>Pick <strong>Others</strong>, type the remarks, <strong>Submit</strong></li></ol><h5>Expected</h5><ul><li>The End step shows &quot;Ad Hoc Stocktake No. ADST&lt;number&gt; has been created&quot;; Ad Hoc Setup shows it with MONTHLY, PERIODIC and status CREATED</li><li>The details page shows a <strong>Cancel</strong> button</li><li>The Reason dropdown offers a readable reason (Others)</li><li>Picking Others shows a mandatory Remarks box; Submit shows &quot;Stocktake Ad Hoc has been cancelled.&quot; and the status becomes CANCELLED</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/stocktake-adhoc/HTA-023-logs1-creates-a-periodic-ad-hoc.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>42/44 passed</td></tr><tr><th>Duration</th><td>12.6s</td></tr><tr><th>Priority</th><td><span class="prio p-P1">P1</span> <span class="tag">regression</span> <span class="tag">writes</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/stocktake-adhoc/adhoc.spec.ts</code></td></tr></tbody></table>
+<h5>Bugs</h5><ul><li><strong>BUG-002</strong> <span class="sev sev-major">major</span> open: Ad Hoc Setup Cancel: the only Reason option has an empty label, so the setup cannot be cancelled from the UI</li></ul>
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>Step: 1-2. Create a monthly setup that starts tomorrow</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/StocktakeCreate responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toMatch&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Stocktake responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 3. The CREATED setup can be cancelled</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Stocktake responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ko"><span class="mark">FAIL</span> <span>Step: 4. The Reason dropdown offers Others (BUG-002)</span><div class="actual">actual: <code>Error: expect(locator).toHaveCount(expected) failed  Locator:  locator(&#39;#modal_cancel&#39;).locator(&#39;select[name=&quot;Reason&quot;] option&#39;).filter({ hasText: /^\s*Others\s*$/ })</code></div></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ko"><span class="mark">FAIL</span> <span>Expect &quot;toHaveCount&quot;</span><div class="actual">actual: <code>Error: expect(locator).toHaveCount(expected) failed  Locator:  locator(&#39;#modal_cancel&#39;).locator(&#39;select[name=&quot;Reason&quot;] option&#39;).filter({ hasText: /^\s*Others\s*$/ })</code></div></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Stocktake responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Stocktake responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li></ul>
+<h5>Notes</h5><ul><li>Expected failure, known bug: BUG-002: the ad hoc Cancel dialog has no readable reason, so &quot;Others&quot; cannot be picked (also mha-spf BUG-001)</li></ul>
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details>
+<details class="card tc" id="t-HTA-036">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-036</strong> <span class="ttl">vet ic imports a working result file and the assets become sighted / working</span><span class="right">53/53 checks <span class="muted">23.1s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">Import Working Result batch-sights assets without RFID tags: every imported asset gets Sighted / Working.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Verification Team IC/2IC active</li><li>A FAVE exists with a cost centre that is not APPROVED</li></ul><h5>Data</h5><ul><li>Cost centre <code>&lt;cc&gt;</code> and asset <code>&lt;asset&gt;</code>: the first non-approved cost centre of the current FAVE and its first asset (fixture faveTarget)</li><li>File: .xlsx with A1 &quot;LMSAssetID&quot; and A2 <code>&lt;asset&gt;</code> (built by the test)</li></ul><h5>Steps</h5><ol><li>Open the FAVE on <code>&lt;cc&gt;</code>, Details tab, <strong>Import Working Result</strong></li><li>Excel file: choose the file</li><li>Import</li><li>Search <code>&lt;asset&gt;</code> in the Details tab</li></ol><h5>Expected</h5><ul><li>Step 2 lists row 1 with <code>&lt;asset&gt;</code></li><li>Step 3 shows &quot;The import record(s) have been successful.&quot;</li><li>Step 4: Result &amp; Condition shows SIGHTED and WORKING, HTD Follow-up &quot;No Further Action&quot;, FSSC Outcome &quot;Working condition&quot;</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/stocktake-fave/HTA-036-vet-ic-imports-a-working-result-file.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>53/53 passed</td></tr><tr><th>Duration</th><td>23.1s</td></tr><tr><th>Priority</th><td><span class="prio p-P1">P1</span> <span class="tag">regression</span> <span class="tag">writes</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/stocktake-fave/fave-import.spec.ts</code></td></tr></tbody></table>
+
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>Step: 1-2. Open the FAVE on 338000, choose a file with 101000000323</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Fave responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveClass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 3. Import</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBe&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 4. The asset is SIGHTED / WORKING with the FSSC mapping (mha-spf BUG-007 does not occur on HTA)</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Fave responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveClass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Fave responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveClass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toPass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeAttached&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeHidden&quot;</span></li></ul>
+
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details>
+<details class="card tc" id="t-HTA-037">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-037</strong> <span class="ttl">fave import template downloads the lmsassetid template</span><span class="right">14/16 checks <span class="muted">14.3s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">Users can download the import template from the Import Working Result dialog.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Verification Team IC/2IC active</li><li>A FAVE exists with a cost centre that is not APPROVED</li></ul><h5>Data</h5><ul><li>Cost centre <code>&lt;cc&gt;</code>: the first non-approved cost centre of the current FAVE (fixture faveTarget)</li></ul><h5>Steps</h5><ol><li>Open the FAVE on <code>&lt;cc&gt;</code>, Details tab, Import Working Result</li><li>Click <strong>Import Template</strong></li></ol><h5>Expected</h5><ul><li>A file named StocktakeFAVEWorkTemplate.zip is downloaded and it is a real zip archive (not an HTML page)</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/stocktake-fave/HTA-037-fave-import-template-downloads-the.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>14/16 passed</td></tr><tr><th>Duration</th><td>14.3s</td></tr><tr><th>Priority</th><td><span class="prio p-P2">P2</span> <span class="tag">regression</span> <span class="tag">writes</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/stocktake-fave/fave-import.spec.ts</code></td></tr></tbody></table>
+<h5>Bugs</h5><ul><li><strong>BUG-003</strong> <span class="sev sev-minor">minor</span> open: FAVE: Import Template downloads a page instead of the template file</li></ul>
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>Step: 1. Open Import Working Result on 338000</span></li><li class="ok"><span class="mark">PASS</span> <span>Stocktake/Fave responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toContainText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveClass&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ko"><span class="mark">FAIL</span> <span>Step: 2. Import Template gives a real zip file (BUG-003)</span><div class="actual">actual: <code>Error: expect(received).toBe(expected) // Object.is equality  - Expected  - 1</code></div></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBe&quot;</span></li><li class="ko"><span class="mark">FAIL</span> <span>Expect &quot;toBe&quot;</span><div class="actual">actual: <code>Error: expect(received).toBe(expected) // Object.is equality  - Expected  - 1</code></div></li></ul>
+<h5>Notes</h5><ul><li>Expected failure, known bug: BUG-003: Import Template downloads a page instead of the zip template (also mha-spf BUG-006)</li></ul>
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details>
+<details class="card tc" id="t-HTA-048">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-048</strong> <span class="ttl">role period is saved with the dates picked in the calendar</span><span class="right">15/16 checks <span class="muted">19.1s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">Role validity periods (used to enable VET IC and Stocktaker roles for FAVE) keep the chosen dates.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Agency Admin active</li></ul><h5>Data</h5><ul><li>Role Stocktaker (HTA has no Stocktaker)</li><li>Start Date the 13th, End Date the 20th of next month</li></ul><h5>Steps</h5><ol><li>User &gt; Role Listing &gt; pencil of Stocktaker &gt; Periods &gt; Add Period</li><li>Pick Start Date the 13th and End Date the 20th of next month, Submit</li><li>Cleanup: delete the new period (trash icon)</li></ol><h5>Expected</h5><ul><li>Step 2 shows &quot;Period has been successfully saved.&quot;</li><li>The Periods table lists the period with exactly the picked dates (dd-Mon-yyyy)</li><li>Step 3 shows &quot;Period &lt;start&gt; to &lt;end&gt; has been successfully deleted.&quot; and the table is back to its previous rows</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/user-admin/HTA-048-role-period-is-saved-with-the-dates.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>15/16 passed</td></tr><tr><th>Duration</th><td>19.1s</td></tr><tr><th>Priority</th><td><span class="prio p-P1">P1</span> <span class="tag">regression</span> <span class="tag">writes</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/user-admin/role-periods.spec.ts</code></td></tr></tbody></table>
+<h5>Bugs</h5><ul><li><strong>BUG-004</strong> <span class="sev sev-major">major</span> open: Role Listing &gt; Periods: a day above 12 fails with &quot;SqlDateTime overflow&quot; (dates read as mm/dd)</li></ul>
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>User/Role responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ko"><span class="mark">FAIL</span> <span>Step: 1-2. Add the period 13-Nov-2026 to 20-Nov-2026</span><div class="actual">actual: <code>TimeoutError: locator.click: Timeout 15000ms exceeded. Call log:   - waiting for locator(&#39;.swal2-popup&#39;).getByRole(&#39;button&#39;, { name: &#39;Ok&#39;, exact: true })</code></div></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveValue&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveValue&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>User/Role responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toBeVisible&quot;</span></li></ul>
+<h5>Notes</h5><ul><li>Expected failure, known bug: BUG-004: the server reads the dd/mm/yyyy period dates as mm/dd/yyyy; a day above 12 fails with &quot;SqlDateTime overflow&quot; (also mha-spf BUG-011)</li></ul>
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details>
+<details class="card tc" id="t-HTA-051">
+<summary><span class="badge s-pass">Pass</span> <strong>HTA-051</strong> <span class="ttl">cost centre search finds a cost centre by its description</span><span class="right">12/14 checks <span class="muted">8.7s</span></span></summary>
+<div class="card-body two">
+<div><h5>What was tested</h5><p class="muted">The Cost Centre keyword box (&quot;Cost Centre Code/Cost Centre Desc&quot;) matches codes and descriptions.</p><h5>Preconditions</h5><ul><li>Logged in as the test account (<code>HTA_USER</code> in .env) with Agency Admin active</li></ul><h5>Data</h5><ul><li>The first cost centre in the list and its Description (read from its form)</li></ul><h5>Steps</h5><ol><li>Settings &gt; Cost Centre, open the first cost centre and note Code and Description</li><li>Back on the list, search the code</li><li>Search the description</li></ol><h5>Expected</h5><ul><li>Step 2 lists the cost centre</li><li>Step 3 lists the cost centre</li></ul><p class="muted small">Test case: <code>projects/mha-hta/cases/settings/HTA-051-cost-centre-search-finds-a-cost-centre.md</code> (current version)</p></div>
+<div>
+<table class="kv"><tbody><tr><th>Result</th><td><span class="badge s-pass">Pass</span></td></tr><tr><th>Checks</th><td>12/14 passed</td></tr><tr><th>Duration</th><td>8.7s</td></tr><tr><th>Priority</th><td><span class="prio p-P2">P2</span> <span class="tag">regression</span></td></tr><tr><th>Source</th><td><code>projects/mha-hta/tests/e2e/settings/admin-settings.spec.ts</code></td></tr></tbody></table>
+<h5>Bugs</h5><ul><li><strong>BUG-001</strong> <span class="sev sev-minor">minor</span> open: Settings &gt; Cost Centre: searching by cost centre description finds nothing</li></ul>
+
+<h5>Checks</h5><ul class="checks"><li class="ok"><span class="mark">PASS</span> <span>Setting/CostCenter responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 1. Read the description of 338000</span></li><li class="ok"><span class="mark">PASS</span> <span>Setting/CostCenter responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveURL&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveValue&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toMatch&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Step: 2. Searching the code lists it</span></li><li class="ok"><span class="mark">PASS</span> <span>Setting/CostCenter responds without an HTTP error</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveText&quot;</span></li><li class="ok"><span class="mark">PASS</span> <span>Expect &quot;toHaveCount&quot;</span></li><li class="ko"><span class="mark">FAIL</span> <span>Step: 3. Searching the description &quot;Admin &amp; Finance/Safety &amp; Security Branch&quot; lists it (BUG-001)</span><div class="actual">actual: <code>Error: expect(locator).toHaveCount(expected) failed  Locator:  locator(&#39;#tblist tbody tr&#39;).filter({ has: locator(&#39;td:first-child&#39;).filter({ hasText: /^\s*338000(?!\d)/ }) })</code></div></li><li class="ko"><span class="mark">FAIL</span> <span>Expect &quot;toHaveCount&quot;</span><div class="actual">actual: <code>Error: expect(locator).toHaveCount(expected) failed  Locator:  locator(&#39;#tblist tbody tr&#39;).filter({ has: locator(&#39;td:first-child&#39;).filter({ hasText: /^\s*338000(?!\d)/ }) })</code></div></li></ul>
+<h5>Notes</h5><ul><li>Expected failure, known bug: BUG-001: the Cost Centre keyword box does not match descriptions (also mha-spf BUG-012)</li></ul>
+
+
+</div>
+</div>
+<div class="card-body">
+
+
+
+</div>
+</details></div></section>
+
+</main>
+<footer class="wrap"><p class="muted small">Generated by <code>test-manager/lib/run-report.mjs</code> from <code>projects/mha-hta/runs/2026-10-07_0946_staging_playwright/results.json</code> with Playwright 1.63.0. Workspace <code>C:\Users\USER\.aside\u\0\projects\aside-playwright</code>. Markdown version: <code>report.md</code> in the same folder.</p></footer>
+<div id="lightbox" hidden><img alt="Enlarged screenshot"><p>Click or press Escape to close</p></div>
+<script>
+(function(){
+  var lb=document.getElementById('lightbox');
+  document.addEventListener('click',function(e){
+    var im=e.target.closest&&e.target.closest('img.zoom');
+    if(im){lb.querySelector('img').src=im.src;lb.hidden=false;return;}
+    if(e.target.closest&&e.target.closest('#lightbox')){lb.hidden=true;}
+    var t=e.target.closest&&e.target.closest('[data-toggle]');
+    if(t){var box=document.getElementById(t.getAttribute('data-toggle'));var open=t.textContent.indexOf('Expand')===0;
+      box.querySelectorAll('details').forEach(function(d){d.open=open;});t.textContent=open?'Collapse all':'Expand all';}
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){lb.hidden=true;}});
+  function openTarget(){
+    var id=decodeURIComponent(location.hash.slice(1));if(!id)return;
+    var el=document.getElementById(id);if(!el)return;
+    var d=el.tagName==='DETAILS'?el:el.closest('details');
+    while(d){d.open=true;d=d.parentElement?d.parentElement.closest('details'):null;}
+    setTimeout(function(){el.scrollIntoView({block:'start'});},0);
+  }
+  window.addEventListener('hashchange',openTarget);openTarget();
+  window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true;});});
+  document.querySelectorAll('[data-filter-for]').forEach(function(box){
+    var table=document.getElementById(box.getAttribute('data-filter-for'));
+    var st={status:'all',prio:'all',q:''};
+    function apply(){table.querySelectorAll('tbody tr').forEach(function(tr){
+      var ok=(st.status==='all'||tr.getAttribute('data-status')===st.status)&&(st.prio==='all'||tr.getAttribute('data-priority')===st.prio)&&(!st.q||tr.textContent.toLowerCase().indexOf(st.q)>=0);
+      tr.hidden=!ok;});}
+    box.querySelectorAll('button[data-status]').forEach(function(b){b.addEventListener('click',function(){
+      st.status=b.getAttribute('data-status');box.querySelectorAll('button[data-status]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});apply();});});
+    var sel=box.querySelector('select');if(sel)sel.addEventListener('change',function(){st.prio=sel.value;apply();});
+    var q=box.querySelector('input[type=search]');if(q)q.addEventListener('input',function(){st.q=q.value.trim().toLowerCase();apply();});
+  });
+})();
+</script>
+</body>
+</html>
