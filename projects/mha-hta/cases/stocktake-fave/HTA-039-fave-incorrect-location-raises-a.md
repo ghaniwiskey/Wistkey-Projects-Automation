@@ -44,7 +44,7 @@ When VET IC records a FAVE asset as SIGHTED at an incorrect location with a new 
 - Step 10: the asset Location tab shows the new Block, Level, Room No and Remarks (different from step 1) and the postal code from step 6
 
 ## Notes
-Writes on UAT and cannot be undone: after the relocation is approved the FAVE result is locked (Correct Location gives "Can't set the location correctly because it has already been approved."; a reset to PENDING shows success but changes nothing; accepted: mha-spf BUG-009 closed as wont-fix), so each run uses up one PENDING asset owned by the test account; the test skips when none is left. The asset keeps the new location (like HTA-008). Cleanup: cancel any SUBMITTED transaction on the asset; if the test stops before approval, reset the FAVE result to PENDING.
+Writes on UAT and cannot be undone: after the relocation is approved the FAVE result is locked (Correct Location gives "Can't set the location correctly because it has already been approved."; a reset to PENDING shows success but changes nothing; accepted: BUG-015 / mha-spf BUG-009, closed as wont-fix), so each run uses up one PENDING asset owned by the test account; the test skips when none is left. The asset keeps the new location (like HTA-008). Cleanup: cancel any SUBMITTED transaction on the asset; if the test stops before approval, reset the FAVE result to PENDING.
 
 Open question: after approval the FAVE Details row still shows the old location (e.g. "Level 1 Room NA") and the result keeps Location Status OPEN. Not asserted; confirm with the product team whether the FAVE row should follow the asset.
 

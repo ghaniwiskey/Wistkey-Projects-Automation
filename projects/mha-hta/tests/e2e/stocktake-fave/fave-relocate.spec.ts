@@ -1,7 +1,7 @@
 import { test, expect, ROLES, unique } from '../../fixtures/pages.fixture';
 
 // FAVE "incorrect location" -> RELOCATE assignment for the asset's LOGS1 -> approval moves the asset.
-// Cannot be undone: once the relocation is approved the FAVE result is locked (accepted, mha-spf BUG-009 wont-fix), so each run
+// Cannot be undone: once the relocation is approved the FAVE result is locked (accepted, BUG-015 / mha-spf BUG-009 wont-fix), so each run
 // uses one PENDING asset owned by the test account (fixture faveRelocateTarget skips when none is left).
 test.describe('Stocktake FAVE relocation', () => {
   test.use({ role: 'vet-ic' });
@@ -14,7 +14,7 @@ test.describe('Stocktake FAVE relocation', () => {
     // A relocation left SUBMITTED would keep the asset out of every other assignment.
     await favePage.switchRole(ROLES.logs1);
     await cancelOpenAssignments(target.asset);
-    // Before approval the result can still be reset (afterwards it is locked; accepted, mha-spf BUG-009 wont-fix).
+    // Before approval the result can still be reset (afterwards it is locked; accepted, BUG-015 / mha-spf BUG-009 wont-fix).
     if (!approved) {
       await favePage.switchRole(ROLES['vet-ic']);
       await favePage.ensurePending(target.costCentre, target.asset);

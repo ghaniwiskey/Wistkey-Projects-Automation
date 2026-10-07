@@ -35,6 +35,6 @@ Settings > Group (Group / NPC / Base locations used by registration and assignme
 - Step 5 shows no records
 
 ## Notes
-Name (Short) must fit 25 characters, so the spec uses a short unique code. mha-spf BUG-008: Description is cut to 200 characters silently (not asserted). Cleanup deletes leftover groups whose name starts with "QA auto".
+Name (Short) must fit 25 characters, so the spec uses a short unique code. BUG-014 / mha-spf BUG-008: Description is cut to 200 characters silently (reproduced on HTA 2026-10-07; not asserted). Cleanup deletes leftover groups whose name starts with "QA auto".
 
 Automated in tests/e2e/settings/group.spec.ts.

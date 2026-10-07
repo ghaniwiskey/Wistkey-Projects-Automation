@@ -35,6 +35,6 @@ The Print Tag wizard (Start > Asset > Review > Reason > End) reaches the End ste
 - The End step shows "RFID tag printed", "0 Asset has their RFID Tag reprinted." and lists `<asset>` under "Below are the asset(s) that failed to print:"
 
 ## Notes
-The Choose Asset list also offers Tag Type NA assets (the manual says ASSET or FILE only); accepted: mha-spf BUG-004 closed as wont-fix. Not asserted here.
+The Choose Asset list also offers Tag Type NA assets (the manual says ASSET or FILE only); accepted: BUG-013 / mha-spf BUG-004, closed as wont-fix. Not asserted here.
 
 Automated in tests/e2e/print-tag/print-tag.spec.ts.

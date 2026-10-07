@@ -39,6 +39,6 @@ The first approval step of FAVE: VET IC submits the unit's FAVE to the URO, and 
 - VET IC sees the **Submit** button again
 
 ## Notes
-Emails the URO on submit and VET IC (cc URO) on reject (manual). UAO Approve (final, no HQ AO on HTA) is covered by HTA-027 on another cost centre.
+Emails the URO on submit and VET IC (cc URO) on reject (manual). UAO Approve (final, no HQ AO on HTA) is covered by HTA-027 on another cost centre. BUG-012 (same as mha-spf BUG-003, accepted): after VET IC submits, VET IC (and UAO) can still update results (reproduced on HTA 2026-10-07; not asserted).
 
 Automated in tests/e2e/stocktake-fave/fave-approval.spec.ts (FavePage approval methods; fixture returnFaveToVetIc rejects the FAVE back to VET IC before and after).
