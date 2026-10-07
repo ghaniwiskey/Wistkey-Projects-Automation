@@ -125,4 +125,106 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
       await expect(adHocSetupPage.status(stocktakeNo)).toHaveText('CANCELLED');
     });
   });
+
+  // Test case: projects/mha-spf/cases/stocktake-adhoc/SPF-053-*.md
+  test('SPF-053: logs1 creates a periodic ad hoc stocktake with random selection limited by status and max asset @regression @writes', async ({
+    adHocCreatePage,
+    adHocSetupPage,
+    adHocListingPage,
+  }) => {
+    const MAX = 3;
+    const name = unique('adhoc random');
+    let picked: string[] = [];
+    let stocktakeNo = '';
+
+    await test.step('1. Periodic, Random, monthly; Next', async () => {
+      await adHocCreatePage.goto();
+      await adHocCreatePage.fillStart({ frequency: 'PERIODIC', selection: 'RANDOM', name, recurrence: 'MONTHLY', remarks: 'QA test, please ignore' });
+      await adHocCreatePage.nextToRandomAssets();
+    });
+
+    await test.step('2. Next without Search is refused', async () => {
+      await adHocCreatePage.next();
+      await adHocCreatePage.acknowledge('Please click Search button to ensure there is asset(s) based on filter(s) selected.');
+      await expect(adHocCreatePage.maxAsset).toBeVisible(); // still on Choose Asset
+    });
+
+    await test.step(`3. Status AVAILABLE has more than ${MAX} assets`, async () => {
+      await adHocCreatePage.filterStatus('AVAILABLE');
+      const pool = await adHocCreatePage.randomSearch();
+      test.skip(pool.assets <= MAX, `The unit has only ${pool.assets} AVAILABLE asset(s); Max Asset ${MAX} needs more to be checked`);
+    });
+
+    await test.step(`4. Max Asset ${MAX} draws ${MAX} assets`, async () => {
+      const drawn = await adHocCreatePage.randomSearch({ maxAsset: MAX });
+      expect(drawn.assets).toBe(MAX);
+      expect(drawn.groups).toBeGreaterThanOrEqual(1);
+      expect(drawn.groups).toBeLessThanOrEqual(MAX);
+    });
+
+    await test.step(`5. Review lists ${MAX} AVAILABLE assets`, async () => {
+      await adHocCreatePage.nextToReview();
+      const review = await adHocCreatePage.reviewAssets();
+      expect(review).toHaveLength(MAX);
+      expect(review.map((a) => a.status)).toEqual(Array(MAX).fill('AVAILABLE'));
+      picked = review.map((a) => a.id).sort();
+    });
+
+    await test.step('6. Submit', async () => {
+      const result = await adHocCreatePage.submitSetup();
+      stocktakeNo = result.stocktakeNo;
+      expect(result.message).toMatch(/^Ad Hoc Stocktake No\. ADST\d+ has been created$/);
+    });
+
+    await test.step('7. Ad Hoc Setup lists it as RANDOM, MONTHLY, PERIODIC, CREATED with Max Asset 3', async () => {
+      await adHocSetupPage.find(stocktakeNo);
+      await expect(adHocSetupPage.cell(stocktakeNo, 1)).toHaveText(name);
+      await expect(adHocSetupPage.cell(stocktakeNo, 2)).toHaveText('RANDOM');
+      await expect(adHocSetupPage.cell(stocktakeNo, 3)).toHaveText('MONTHLY');
+      await expect(adHocSetupPage.cell(stocktakeNo, 7)).toHaveText('PERIODIC');
+      await expect(adHocSetupPage.status(stocktakeNo)).toHaveText('CREATED');
+      await adHocSetupPage.open(stocktakeNo);
+      await expect(adHocSetupPage.detailValue('Asset Selection:')).toHaveText('RANDOM');
+      await expect(adHocSetupPage.detailValue('Max Asset:')).toHaveText(String(MAX));
+    });
+
+    await test.step(`8. Ad Hoc Listing holds the same ${MAX} assets, all PENDING`, async () => {
+      await adHocListingPage.open(stocktakeNo);
+      await expect(adHocListingPage.summaryCount('PENDING')).toHaveText(String(MAX));
+      expect((await adHocListingPage.detailAssetIds()).sort()).toEqual(picked);
+    });
+  });
+});
+
+// Read-only: searches in the Random step and leaves the wizard without submitting.
+test.describe('Stocktake Ad Hoc random limits', () => {
+  test.use({ role: 'logs1' });
+
+  // Test case: projects/mha-spf/cases/stocktake-adhoc/SPF-054-*.md
+  test('SPF-054: random ad hoc selection picks assets from at most max group / npc / base groups @regression', async ({ adHocCreatePage }) => {
+    test.slow();
+    // The draw is random and BUG-016 shows up in about 1 search in 3, so each limit gets several tries.
+    const TRIES = 5;
+
+    await test.step('1. Periodic, Random, monthly; Next', async () => {
+      await adHocCreatePage.goto();
+      await adHocCreatePage.fillStart({ frequency: 'PERIODIC', selection: 'RANDOM', name: unique('adhoc random'), recurrence: 'MONTHLY' });
+      await adHocCreatePage.nextToRandomAssets();
+    });
+
+    await test.step('2. Without limits the unit has assets in more than 2 groups', async () => {
+      const all = await adHocCreatePage.randomSearch();
+      test.skip(all.groups <= 2, `The unit's assets are in only ${all.groups} group(s); the limits 1 and 2 cannot be checked`);
+    });
+
+    for (const max of [1, 2]) {
+      await test.step(`${max + 2}. Max Group / NPC / Base ${max}: at most ${max} group(s) in ${TRIES} searches (BUG-016)`, async () => {
+        test.fail(true, 'BUG-016: an asset with no Group / NPC / Base is added as an extra group');
+        for (let i = 1; i <= TRIES; i++) {
+          const drawn = await adHocCreatePage.randomSearch({ maxGroup: max });
+          expect(drawn.groups, `search ${i}: ${drawn.assets} assets from ${drawn.groups} groups`).toBeLessThanOrEqual(max);
+        }
+      });
+    }
+  });
 });

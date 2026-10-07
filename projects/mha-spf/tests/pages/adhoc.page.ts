@@ -73,6 +73,14 @@ export class AdHocSetupPage extends BasePage {
     await expect(this.row(stocktakeNo)).toHaveCount(1);
   }
 
+  /**
+   * Value of a field in the details header, e.g. detailValue('Max Asset:') -> "3". Each field is a label
+   * <div> followed by its value <div>, with no label/for association.
+   */
+  detailValue(label: string): Locator {
+    return this.page.getByText(label, { exact: true }).locator('xpath=following-sibling::div[1]');
+  }
+
   async open(stocktakeNo: string): Promise<void> {
     await this.find(stocktakeNo);
     await this.row(stocktakeNo).locator('td').last().getByRole('link').click();
@@ -141,6 +149,9 @@ export type AdHocSetup = {
  * Ad Hoc Setup > Create (/Stocktake/StocktakeCreate): Start (frequency and selection radios, name,
  * periodic fields) > Choose Asset (#tbSearch) > Review (#tbList) > End ("Ad Hoc Stocktake No. ADST...
  * has been created"). One-Off hides Recurrence Type, Number of Recurrence and Start Date.
+ * With Random selection, Choose Asset has filters, Max Asset / Max Group / NPC / Base and a Search that
+ * draws the assets on the server (totals shown above); Next before a Search, or after one with no
+ * match, says "Please click Search button to ensure there is asset(s) based on filter(s) selected.".
  */
 export class AdHocCreatePage extends WizardPage {
   static readonly path = 'Stocktake/StocktakeCreate';
@@ -151,6 +162,12 @@ export class AdHocCreatePage extends WizardPage {
   readonly nameRequired: Locator;
   readonly chooseAssetRows: Locator;
   readonly reviewRows: Locator;
+  // Random selection (Choose Asset step): read-only totals, filters, limits and its own Search button.
+  readonly totalAssets: Locator;
+  readonly totalGroups: Locator;
+  readonly maxAsset: Locator;
+  readonly maxGroup: Locator;
+  readonly randomSearchButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -160,6 +177,13 @@ export class AdHocCreatePage extends WizardPage {
     this.nameRequired = page.getByText('Stocktake Name is required', { exact: true });
     this.chooseAssetRows = page.locator('#tbSearch tbody tr');
     this.reviewRows = page.locator('#tbList tbody tr');
+    // The totals are disabled inputs whose labels are not linked to them (no for/id pair).
+    this.totalAssets = page.locator('#totalAsset');
+    this.totalGroups = page.locator('#totalLocation');
+    this.maxAsset = page.locator('input[name="MaxAsset"]');
+    this.maxGroup = page.locator('input[name="MaxLocation"]');
+    // The manual table has another "Search" button in the same step; this attribute marks the random one.
+    this.randomSearchButton = page.locator('[data-button-action-random="search"]');
   }
 
   get recurrence(): Locator {
@@ -184,6 +208,56 @@ export class AdHocCreatePage extends WizardPage {
   async nextToAssets(): Promise<void> {
     await this.next();
     await expect(this.page.locator('#tbSearch_info')).toHaveText(/Showing/, { timeout: 30_000 });
+  }
+
+  /** Next from the Start step to Choose Asset with Random selection (filters and limits, no table). */
+  async nextToRandomAssets(): Promise<void> {
+    await this.next();
+    await expect(this.maxAsset).toBeVisible();
+  }
+
+  /** Random selection: pick one value in the Status filter (a multi-select select2). */
+  async filterStatus(status: string): Promise<void> {
+    const select = this.page.locator('select[name="AssetStatus"]');
+    // A multi-select select2 has an inline search box next to the hidden <select>, not a combobox span.
+    const box = this.page.locator('select[name="AssetStatus"] + .select2-container .select2-search__field');
+    await box.click();
+    await box.pressSequentially(status, { delay: 30 });
+    await this.page.getByRole('option', { name: status, exact: true }).click();
+    await this.page.keyboard.press('Escape');
+    await expect(select).toHaveValues([status]);
+  }
+
+  /**
+   * Random selection: set the limits (empty = no limit) and click Search. The page draws the assets on
+   * the server (GET ...handler=GetList...maxLoc=...) and fills the totals from the response; with no
+   * match it shows "No asset found in randomized locations: ..." instead (closed here, totals 0).
+   */
+  async randomSearch(limits: { maxAsset?: number; maxGroup?: number } = {}): Promise<{ assets: number; groups: number; message?: string }> {
+    await this.maxAsset.fill(limits.maxAsset === undefined ? '' : String(limits.maxAsset));
+    await this.maxGroup.fill(limits.maxGroup === undefined ? '' : String(limits.maxGroup));
+    const response = this.page.waitForResponse((r) => r.url().includes('handler=GetList') && r.url().includes('maxLoc='), { timeout: 60_000 });
+    await this.randomSearchButton.click();
+    await response;
+    // Search resets the totals to 0 and sets them once the response is handled.
+    await expect
+      .poll(async () => (await this.alert.isVisible()) || (await this.totalAssets.inputValue()) !== '0', { timeout: 15_000 })
+      .toBe(true);
+    if (await this.alert.isVisible()) {
+      return { assets: 0, groups: 0, message: await this.acknowledge(/No asset found/) };
+    }
+    return { assets: Number(await this.totalAssets.inputValue()), groups: Number(await this.totalGroups.inputValue()) };
+  }
+
+  /** Review step rows (current page, 10 per page): Asset ID and Status (last column). */
+  async reviewAssets(): Promise<{ id: string; status: string }[]> {
+    await expect(this.reviewRows.first()).toContainText('Asset ID:');
+    const assets: { id: string; status: string }[] = [];
+    for (const row of await this.reviewRows.all()) {
+      const id = (await row.innerText()).match(/Asset ID: (\d+)/)?.[1] ?? '';
+      assets.push({ id, status: (await row.locator('td').last().innerText()).trim() });
+    }
+    return assets;
   }
 
   /** Asset ID of the first asset in Choose Asset (after nextToAssets). */
@@ -281,6 +355,13 @@ export class AdHocListingPage extends StocktakeFormPage {
     await expect(this.page).toHaveURL(/\/Stocktake\/StocktakeListingForm\?stktakeId=/);
     await this.expectLoaded();
     await expect(this.title).toContainText(`Stocktake No #${stocktakeNo}`);
+  }
+
+  /** Asset IDs in the Details tab (first page, 10 rows). */
+  async detailAssetIds(): Promise<string[]> {
+    await this.openDetails();
+    await expect(this.page.locator('#tbdetail_info')).toHaveText(/Showing/, { timeout: 30_000 });
+    return (await this.detailRows.allInnerTexts()).map((t) => t.match(/Asset ID: (\d+)/)?.[1] ?? '').filter(Boolean);
   }
 
   /** Update Result in the Details tab for one asset; the page reloads on Ok. Returns the message. */
