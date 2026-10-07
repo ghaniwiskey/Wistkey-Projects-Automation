@@ -2,12 +2,12 @@
 id: BUG-009
 title: "FAVE: resetting a result to PENDING after its relocation was approved says \"updated\" but changes nothing"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/Fave
 found: 2026-10-06
 foundBy: "manual check of the FAVE relocation flow (2026-10-06)"
-tests: [SPF-039]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -36,3 +36,5 @@ Either the result goes back to PENDING, or the dialog refuses with a message (as
 
 ## History
 - 2026-10-06: filed from manual check of the FAVE relocation flow (2026-10-06) in the Test Manager app.
+- 2026-10-07: status open -> wont-fix.
+- 2026-10-07: follow-through: SPF-039 notes, fave-relocate.spec.ts / fixture comments and context.md call the locked result accepted behavior; unlinked from SPF-039 (it never asserted the PENDING reset).

@@ -109,7 +109,7 @@ type PageFixtures = {
    * FAVE relocation test (SPF-039): the first cost centre of the current FAVE that is not APPROVED and has a
    * PENDING asset whose Assignee (LOGS1) is the test account, so the account can approve the relocation.
    * Brought back to VET IC (VET IC active). Skips when none is left: an approved FAVE relocation locks the
-   * asset's result (BUG-009), so every run uses one asset up.
+   * asset's result (accepted, BUG-009 wont-fix), so every run uses one asset up.
    */
   faveRelocateTarget: { costCentre: string; asset: string };
   /** Read-only tests: the first AVAILABLE asset in Asset Listing (as LOGS1), with what its row shows. Skips when none. */
