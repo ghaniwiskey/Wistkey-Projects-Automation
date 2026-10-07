@@ -41,6 +41,8 @@ LOGS1 can let the app pick the assets of an ad hoc stocktake at random, narrowed
 - Ad Hoc Listing Summary shows PENDING with count 3, and Details lists the same 3 asset IDs as Review
 
 ## Notes
+BUG-006 (open, sometimes): when drawn assets carry a group of another cost centre, Ad Hoc Listing shows other assets and a wrong Summary count (ADST00000008: setup 3 assets, Listing Summary PENDING 1, Details 9). Step 8 is marked test.fail while BUG-006 is open (failed in 3 of 4 HTA runs on 2026-10-07); a draw without such assets passes and is reported as an unexpected pass.
+
 Periodic (not one-off) so the CREATED setup can be cancelled afterwards (one-off cannot, mha-spf BUG-002); the afterEach cleanup cancels it with reason OTHER (mha-spf BUG-001 workaround). Random picks differ per search, so the test compares Review with the saved setup instead of fixed IDs. Without a Status filter, Random also picks RETIRED / DISPOSED assets.
 
 Automated in tests/e2e/stocktake-adhoc/adhoc.spec.ts (page objects tests/pages/adhoc.page.ts: AdHocCreatePage.filterStatus / randomSearch / reviewAssets, AdHocSetupPage.detailValue, AdHocListingPage.detailAssetIds).

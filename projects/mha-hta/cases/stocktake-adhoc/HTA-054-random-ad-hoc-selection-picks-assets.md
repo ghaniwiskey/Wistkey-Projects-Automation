@@ -35,6 +35,6 @@ Max Group / NPC / Base caps how many groups a random ad hoc selection draws its 
 - Nothing is created
 
 ## Notes
-On SPF (mha-spf BUG-016) the limit is exceeded now and then because an asset with no Group / NPC / Base is added as an extra group. The test stops at the first search over the limit. Passed on the first HTA run (2026-10-07), so no expected failure here; file an HTA bug if it shows up (on SPF UAT 2026-10-07 Max Group 1 went over in about 1 search in 7, Max Group 2 in about 1 in 3, so roughly 1 run in 15). Read-only: nothing is submitted.
+BUG-005 (open; mha-spf BUG-016 on SPF): the limit is exceeded now and then because an asset with no Group / NPC / Base is added as an extra group. The test stops at the first search over the limit. Marked test.fail while BUG-005 is open; the draw is random, so a run can miss the bug and report "passed unexpectedly" (HTA 2026-10-07: first run missed it, second run hit 4 assets from 3 groups with Max Group 1; on SPF UAT 2026-10-07 Max Group 1 went over in about 1 search in 7, Max Group 2 in about 1 in 3, so roughly 1 run in 15). Read-only: nothing is submitted.
 
 Automated in tests/e2e/stocktake-adhoc/adhoc.spec.ts (AdHocCreatePage.randomSearch).

@@ -189,7 +189,10 @@ test.describe('Stocktake Ad Hoc (writes)', () => {
       await expect(adHocSetupPage.detailValue('Max Asset:')).toHaveText(String(MAX));
     });
 
-    await test.step(`8. Ad Hoc Listing holds the same ${MAX} assets, all PENDING`, async () => {
+    // BUG-006: when drawn assets carry a group of another cost centre (most draws on HTA UAT), the Listing shows a
+    // different asset set and Summary count. A draw without such assets passes (reported as an unexpected pass).
+    await test.step(`8. Ad Hoc Listing holds the same ${MAX} assets, all PENDING (BUG-006)`, async () => {
+      test.fail(true, 'BUG-006: Ad Hoc Listing of a random setup shows other assets and a wrong Summary count');
       await adHocListingPage.open(stocktakeNo);
       await expect(adHocListingPage.summaryCount('PENDING')).toHaveText(String(MAX));
       expect((await adHocListingPage.detailAssetIds()).sort()).toEqual(picked);
@@ -204,7 +207,7 @@ test.describe('Stocktake Ad Hoc random limits', () => {
   // Test case: projects/mha-hta/cases/stocktake-adhoc/HTA-054-*.md
   test('HTA-054: random ad hoc selection picks assets from at most max group / npc / base groups @regression', async ({ adHocCreatePage }) => {
     test.slow();
-    // The draw is random and mha-spf BUG-016 shows up in about 1 search in 3, so each limit gets several tries.
+    // The draw is random and BUG-005 (mha-spf BUG-016) shows up now and then, so each limit gets several tries.
     const TRIES = 5;
 
     await test.step('1. Periodic, Random, monthly; Next', async () => {
@@ -219,7 +222,8 @@ test.describe('Stocktake Ad Hoc random limits', () => {
     });
 
     for (const max of [1, 2]) {
-      await test.step(`${max + 2}. Max Group / NPC / Base ${max}: at most ${max} group(s) in ${TRIES} searches (mha-spf BUG-016)`, async () => {
+      await test.step(`${max + 2}. Max Group / NPC / Base ${max}: at most ${max} group(s) in ${TRIES} searches (BUG-005)`, async () => {
+        test.fail(true, 'BUG-005: random selection returns more groups than Max Group / NPC / Base (also mha-spf BUG-016)');
         for (let i = 1; i <= TRIES; i++) {
           const drawn = await adHocCreatePage.randomSearch({ maxGroup: max });
           expect(drawn.groups, `search ${i}: ${drawn.assets} assets from ${drawn.groups} groups`).toBeLessThanOrEqual(max);

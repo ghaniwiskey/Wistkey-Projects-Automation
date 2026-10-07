@@ -15,7 +15,7 @@ Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; sc
 - UAT data: many assets carry a Group / NPC / Base of another cost centre (e.g. 338000 assets in "CCS - EMSB"). Relocate offers only the groups of the asset's cost centre, so the group is not prefilled and Submit says "Group/NPC/Base selection cannot be empty."; the page object then picks the first offered group.
 - Assign Stocktaker (ad hoc) lists every unit user, but Submit refuses some: "User <name> has the role Verification Team IC/2IC which cannot be a stocktaker.".
 - FAVE Import Working Result works on HTA (broken on SPF, mha-spf BUG-007); an imported result reads "Sighted" (mixed case), a manual one "SIGHTED".
-- Bugs confirmed on HTA in the first run (2026-10-07): BUG-001 cost centre description search, BUG-002 ad hoc Cancel reason, BUG-003 FAVE Import Template, BUG-004 role period dates (= mha-spf BUG-012, 001, 006, 011).
+- HTA bugs (2026-10-07): BUG-001 cost centre description search, BUG-002 ad hoc Cancel reason, BUG-003 FAVE Import Template, BUG-004 role period dates, BUG-005 random Max Group exceeded (= mha-spf BUG-012, 001, 006, 011, 016); BUG-006 (HTA only so far) Ad Hoc Listing of a random setup shows other assets / a wrong Summary count when drawn assets carry a group of another cost centre.
 
 ## Product
 - **e-RFID Asset Tracking System (ATS)** for MHA agencies (SPF, HTA, ...). Fixed-asset lifecycle: registration (Building/Level/Room location, ownership, RFID tag printing), assignment (ownership transfer, relocation), verification (annual FAVE stocktake, ad-hoc stocktake), retirement/disposal. Web app plus a mobile app (stocktakers sight assets with RFID scanners).

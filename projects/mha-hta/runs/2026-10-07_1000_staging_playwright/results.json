@@ -1,0 +1,416 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-hta",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatwebhta.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-07_1000_staging_playwright",
+  "workers": [
+    "mha-hta"
+  ],
+  "startedAt": "2026-10-07T03:00:12.658Z",
+  "finishedAt": "2026-10-07T03:00:38.324Z",
+  "summary": {
+    "total": 2,
+    "pass": 1,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "HTA-053",
+      "title": "logs1 creates a periodic ad hoc stocktake with random selection limited by status and max asset",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-hta/tests/e2e/stocktake-adhoc/adhoc.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-07T03:00:12.658Z",
+      "durationMs": 18044,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Periodic, Random, monthly; Next",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/StocktakeCreate responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Next without Search is refused",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Status AVAILABLE has more than 3 assets",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValues\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"poll toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. Max Asset 3 draws 3 assets",
+          "pass": true
+        },
+        {
+          "label": "Expect \"poll toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThanOrEqual\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeLessThanOrEqual\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. Review lists 3 AVAILABLE assets",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveLength\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toEqual\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 6. Submit",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toMatch\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 7. Ad Hoc Setup lists it as RANDOM, MONTHLY, PERIODIC, CREATED with Max Asset 3",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Stocktake responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Stocktake responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 8. Ad Hoc Listing holds the same 3 assets, all PENDING (BUG-006)",
+          "pass": false,
+          "actual": "Error: expect(locator).toHaveText(expected) failed  Locator:  locator('#tbsummary tbody tr').filter({ has: locator('td:first-child').filter({ hasText: /^\\s*PENDING\\s*$/ }) }).locator('td').last()"
+        },
+        {
+          "label": "Stocktake/StocktakeListing responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toHaveText(expected) failed  Locator:  locator('#tbsummary tbody tr').filter({ has: locator('td:first-child').filter({ hasText: /^\\s*PENDING\\s*$/ }) }).locator('td').last()"
+        },
+        {
+          "label": "Stocktake/Stocktake responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Stocktake responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        }
+      ],
+      "evidence": [
+        "screenshots/HTA-053-a1-1.png",
+        "traces/HTA-053-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  locator('#tbsummary tbody tr').filter({ has: locator('td:first-child').filter({ hasText: /^\\s*PENDING\\s*$/ }) }).locator('td').last()\nExpected: \"3\"\nReceived: \"1\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" locator('#tbsummary tbody tr').filter({ has: locator('td:first-child').filter({ hasText: /^\\s*PENDING\\s*$/ }) }).locator('td').last() with timeout 5000ms\n  - waiting for locator('#tbsummary tbody tr').filter({ has: locator('td:first-child').filter({ hasText: /^\\s*PENDING\\s*$/ }) }).locator('td').last()\n    14 × locator resolved to <td class=\"  text-end\">1</td>\n       - unexpected value \"1\"\n",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "HTA-054",
+      "title": "random ad hoc selection picks assets from at most max group / npc / base groups",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-hta/tests/e2e/stocktake-adhoc/adhoc.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-07T03:00:12.658Z",
+      "durationMs": 6048,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Periodic, Random, monthly; Next",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/StocktakeCreate responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Without limits the unit has assets in more than 2 groups",
+          "pass": true
+        },
+        {
+          "label": "Expect \"poll toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Max Group / NPC / Base 1: at most 1 group(s) in 5 searches (BUG-005)",
+          "pass": false,
+          "actual": "Error: search 2: 4 assets from 3 groups  expect(received).toBeLessThanOrEqual(expected)"
+        },
+        {
+          "label": "Expect \"poll toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "search 1: 0 assets from 0 groups",
+          "pass": true
+        },
+        {
+          "label": "Expect \"poll toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "search 2: 4 assets from 3 groups",
+          "pass": false,
+          "actual": "Error: search 2: 4 assets from 3 groups  expect(received).toBeLessThanOrEqual(expected)"
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Expected failure, known bug: BUG-005: random selection returns more groups than Max Group / NPC / Base (also mha-spf BUG-016)"
+      ],
+      "bug": "BUG-005"
+    }
+  ],
+  "notes": "Playwright project \"mha-hta\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}
