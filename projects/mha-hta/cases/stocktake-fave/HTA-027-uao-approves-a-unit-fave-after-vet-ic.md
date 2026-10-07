@@ -36,6 +36,6 @@ The full FAVE approval: VET IC submits, URO submits, UAO approves (the last leve
 - Total Stocktake Report (Endorsed) is one higher than in step 1
 
 ## Notes
-Irreversible on UAT (tagged `final`): an approved cost centre stays APPROVED for that FAVE. Each run approves one more cost centre until only one is left. Not run on HTA yet; ask before each run. A new FAVE (next FY) or another unit for the test account (User > User Listing) makes it run again.
+Irreversible on UAT (tagged `final`): an approved cost centre stays APPROVED for that FAVE. Each run approves one more cost centre until only one is left. First HTA run 2026-10-07 (passed): approved 338000 A&F/SSB in FAVE FY26-9001 (8 cost centres; 7 left). Ask before each run. A new FAVE (next FY) or another unit for the test account (User > User Listing) makes it run again.
 
 Automated in tests/e2e/stocktake-fave/fave-approval.spec.ts (describe 'final approval').

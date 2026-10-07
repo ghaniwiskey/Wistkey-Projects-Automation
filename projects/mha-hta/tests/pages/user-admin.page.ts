@@ -12,7 +12,9 @@ export type UserRow = { loginId: string; name: string; role: string; unit: strin
  * Name, Role Mapped, Unit, Status, pencil); keyword box "Login ID/Name"; Create.
  * Form (/User/UserForm[?userId=]): Web Login ID, Mobile Login ID (one of the two is required), Unit
  * (select2 multi-select), tabs User Details (Name, Email, Mobile, Status) and Roles (read-only, #tbRole).
- * The submit button says "Create" for a new user, "Update" for an existing one. HTA also has Delete (not used by the tests; mha-spf has none).
+ * The submit button says "Create" for a new user, "Update" for an existing one. HTA also has Delete on an
+ * existing user's form (mha-spf has none): "Are you sure to delete this user?" Yes/Cancel -> "User has been
+ * deleted." -> back to User Listing.
  */
 export class UserListingPage extends BasePage {
   static readonly path = 'User/User';
@@ -146,6 +148,40 @@ export class UserListingPage extends BasePage {
   async saveRefused(): Promise<string> {
     await this.submitButton.click();
     return this.acknowledge(/.+/);
+  }
+
+  /** Delete button of an open user's form (HTA only). */
+  get deleteButton(): Locator {
+    return this.page.getByRole('button', { name: 'Delete', exact: true });
+  }
+
+  /** Click Delete on the open user form; returns the confirmation question (left open). */
+  async startDelete(): Promise<string> {
+    await this.deleteButton.click();
+    await expect(this.alertText).toHaveText(/\S/);
+    return (await this.alertText.innerText()).trim();
+  }
+
+  /** Answer the delete confirmation with Cancel: the form stays open. */
+  async cancelDelete(): Promise<void> {
+    await this.alert.getByRole('button', { name: 'Cancel', exact: true }).click();
+    await expect(this.alert).toBeHidden();
+  }
+
+  /** Answer the delete confirmation with Yes; returns the result message (the app goes back to User Listing). */
+  async confirmDelete(): Promise<string> {
+    await this.confirm(/^Are you sure to delete this user\?$/);
+    const message = await this.acknowledge(/deleted/);
+    await expect(this.page).toHaveURL(/\/User\/User(\?|$)/);
+    return message;
+  }
+
+  /** Find, open and delete a user. Returns the result message. */
+  async deleteUser(loginId: string): Promise<string> {
+    await this.find(loginId);
+    await this.open(loginId);
+    await this.startDelete();
+    return this.confirmDelete();
   }
 
   /** Open a user, set its status and save. */

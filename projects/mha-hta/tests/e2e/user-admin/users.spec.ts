@@ -127,4 +127,71 @@ test.describe('User admin: users and roles (writes)', () => {
       await expect(otherSession.loginPage.page).toHaveURL(/\/Account\/Login/);
     });
   });
+
+  // Test case: projects/mha-hta/cases/user-admin/HTA-055-*.md
+  // HTA only (mha-spf has no user delete). Creates its own user, so no real user is touched.
+  test('HTA-055: agency admin deletes a user, who disappears from the lists and can no longer log in @regression @writes', async ({
+    userListingPage,
+    roleListingPage,
+    otherSession,
+  }) => {
+    test.slow();
+    const user = newQaUser();
+    let deleted = false;
+
+    try {
+      await test.step(`1. Create ${user.loginId} and add it to ${ROLE}`, async () => {
+        await userListingPage.goto();
+        await userListingPage.openCreate();
+        await userListingPage.fillNewUser({ ...user, unit: await userListingPage.firstUnit() });
+        expect(await userListingPage.save()).toBe('User has been successfully created.');
+        await roleListingPage.openRole(ROLE);
+        await roleListingPage.openUsersTab();
+        expect(await roleListingPage.addUser(user.loginId, user.loginId)).toBe('User assign into role have been successfully updated.');
+        await expect(roleListingPage.userRow(user.name)).toHaveCount(1);
+      });
+
+      await test.step('2. Delete, answer Cancel: the user stays', async () => {
+        await userListingPage.find(user.loginId);
+        await userListingPage.open(user.loginId);
+        expect(await userListingPage.startDelete()).toBe('Are you sure to delete this user?');
+        await userListingPage.cancelDelete();
+        await expect(userListingPage.loginIdInput).toHaveValue(user.loginId);
+        await userListingPage.find(user.loginId);
+        await expect(userListingPage.row(user.loginId)).not.toHaveCount(0);
+      });
+
+      await test.step('3. Delete, answer Yes', async () => {
+        await userListingPage.open(user.loginId);
+        await userListingPage.startDelete();
+        expect(await userListingPage.confirmDelete()).toBe('User has been deleted.');
+        deleted = true;
+      });
+
+      await test.step('4. User Listing no longer finds the login ID', async () => {
+        await userListingPage.find(user.loginId);
+        await expect(userListingPage.row(user.loginId)).toHaveCount(0);
+      });
+
+      await test.step(`5. ${ROLE} no longer lists the user`, async () => {
+        await roleListingPage.openRole(ROLE);
+        await roleListingPage.openUsersTab();
+        await expect(roleListingPage.userRow(user.name)).toHaveCount(0);
+      });
+
+      await test.step('6. Its login is refused (second session)', async () => {
+        await otherSession.loginPage.goto();
+        expect(await otherSession.loginPage.attemptLogin(user.loginId)).toBe('Invalid username/password.');
+      });
+    } finally {
+      if (!deleted) {
+        await test.step('Cleanup: delete the user', async () => {
+          await roleListingPage.openRole(ROLE);
+          await roleListingPage.removeUserIfListed(user.name);
+          await userListingPage.find(user.loginId);
+          if ((await userListingPage.row(user.loginId).count()) > 0) await userListingPage.deleteUser(user.loginId);
+        });
+      }
+    }
+  });
 });

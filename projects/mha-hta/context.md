@@ -10,7 +10,7 @@ Sources: the user manual `docs/user-manual.md` (CR12 onboarding, 21 Sep 2026; sc
 - So no FALO tests: assign/return/recall via FALO (SPF-009/010/011/018/028) and FALO closing follow-up items (SPF-041) were not copied. Follow up close by URO/UAO is not covered yet.
 - Role tests (HTA-045/047/048) use Stocktaker instead of End User.
 - FAVE numbers `FAVE FY26-9001`: agency code 90 (SPF 20). Cost centres 338xxx (8 on UAT).
-- User Listing has user delete (manual: HTA only); the tests do not use it yet.
+- User Listing has user delete (manual: HTA only): user form > Delete > "Are you sure to delete this user?" Yes/Cancel > "User has been deleted." > back to User Listing. Covered by HTA-055 (deletes its own user).
 - The login footer warning starts "HTA-WARNING : This is a Singapore Police Force computer system.".
 - UAT data: many assets carry a Group / NPC / Base of another cost centre (e.g. 338000 assets in "CCS - EMSB"). Relocate offers only the groups of the asset's cost centre, so the group is not prefilled and Submit says "Group/NPC/Base selection cannot be empty."; the page object then picks the first offered group.
 - Assign Stocktaker (ad hoc) lists every unit user, but Submit refuses some: "User <name> has the role Verification Team IC/2IC which cannot be a stocktaker.".
