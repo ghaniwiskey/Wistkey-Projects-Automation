@@ -48,7 +48,7 @@ Everything changed was put back: disposal date of 301000000362 cleared, photo de
 - [x] SPF-036 FAVE Import Working Result (P1, writes, BUG-007)
 - [x] SPF-037 FAVE Import Template (P2, BUG-006)
 - [x] SPF-038 The other unit reports export to Excel (P1)
-- [ ] Print Tag offers only ASSET/FILE assets (BUG-004): needs a Tag Type NA asset found at runtime (e.g. from the Asset Listing (Detailed) export if it has the tag type)
+- [x] (dropped 2026-10-07: BUG-004 closed as wont-fix) Print Tag offers only ASSET/FILE assets (BUG-004): needs a Tag Type NA asset found at runtime (e.g. from the Asset Listing (Detailed) export if it has the tag type)
 - [ ] Photo rules: 6th photo refused, > 3 MB and .gif refused, Default Photo switch (P2)
 - [ ] Agency Admin read-only tour of Settings and User/Role Listing (P2)
 

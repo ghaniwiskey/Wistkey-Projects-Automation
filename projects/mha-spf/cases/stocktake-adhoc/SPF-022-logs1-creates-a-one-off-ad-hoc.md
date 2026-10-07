@@ -43,6 +43,6 @@ LOGS1 can set up a one-off ad hoc stocktake with manually chosen assets, then up
 - After step 9 the status is SUBMITTED (a result has been recorded)
 
 ## Notes
-Leaves one ad hoc stocktake per run: one-off setups cannot be cancelled ("Can't cancel one-off stocktake type.", see BUG-002) and SUBMITTED ones have no Cancel button. Names start with "QA auto adhoc".
+Leaves one ad hoc stocktake per run: one-off setups cannot be cancelled ("Can't cancel one-off stocktake type."; accepted: BUG-002 closed as wont-fix) and SUBMITTED ones have no Cancel button. Names start with "QA auto adhoc".
 
 Automated in tests/e2e/stocktake-adhoc/adhoc.spec.ts (page objects tests/pages/adhoc.page.ts and stocktake-form.page.ts).

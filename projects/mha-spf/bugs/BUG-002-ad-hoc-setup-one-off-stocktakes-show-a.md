@@ -2,12 +2,12 @@
 id: BUG-002
 title: "Ad Hoc Setup: one-off stocktakes show a Cancel button but cancelling always fails"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/StocktakeForm?stktakeId=<id>
 found: 2026-10-06
 foundBy: "SPF-022 first automated run 2026-10-06"
-tests: [SPF-022]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,5 @@ The Cancel button is shown; Submit shows "Can't cancel one-off stocktake type." 
 
 ## History
 - 2026-10-06: filed from SPF-022 first automated run 2026-10-06 in the Test Manager app.
+- 2026-10-06: status open -> wont-fix.
+- 2026-10-07: follow-through: SPF-022 notes and context.md call the failing one-off cancel accepted behavior; unlinked from SPF-022 (it never asserted the cancel).

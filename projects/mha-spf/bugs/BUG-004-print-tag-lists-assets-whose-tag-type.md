@@ -2,7 +2,7 @@
 id: BUG-004
 title: "Print Tag lists assets whose Tag Type is NA, although only ASSET or FILE tags can be reprinted"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Asset/PrintTag
 found: 2026-10-06
@@ -34,3 +34,5 @@ The asset is listed and can be selected for reprinting ("Showing 1 to 1 of 1 rec
 
 ## History
 - 2026-10-06: filed from explorations/2026-10-06-uncovered-flows.md in the Test Manager app.
+- 2026-10-06: status open -> wont-fix.
+- 2026-10-07: follow-through: SPF-029 notes and context.md call NA assets in Choose Asset accepted behavior; the planned "Print Tag offers only ASSET/FILE assets" test is dropped. No linked tests.
