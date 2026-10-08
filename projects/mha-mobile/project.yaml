@@ -1,0 +1,29 @@
+name: MHA Mobile
+slug: mha-mobile
+testIdPrefix: MHM
+description: "MHA Mobile native Android app (com.iconsult.mhasgtwo) tested via ARTEMIS on an Android emulator. No web target yet: the placeholder URL keeps the project registered for mobile cases, plans, bugs and runs."
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with MHM_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+# MHA Mobile is a native app tested via ARTEMIS on an emulator: there is no web target yet, so this
+# .invalid placeholder keeps the project registered in the workspace. Point it at a real URL when one exists.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: https://mha-mobile.invalid/
+    allowWrites: true
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# A test links to a test case when its title starts with the ID: test('MHM-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium]        # chromium | firefox | webkit | mobile; first one is the "mha-mobile" Playwright project
+  fullyParallel: true
+
+# Test accounts: usernames only. Passwords go in .env as MHM_<ROLE>_USER / MHM_<ROLE>_PASS.
+auth:
+  accounts: []
+
+suites:
+  smoke: { tags: [smoke], description: Fast checks of the main journeys }
+  regression: { tags: [regression, smoke], description: Full regression }

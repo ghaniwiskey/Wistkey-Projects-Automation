@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mha-mobile.invalid/",
+  "runId": "2026-10-08_1253_staging_playwright",
+  "workers": [
+    "mha-mobile"
+  ],
+  "startedAt": "2026-10-08T05:53:26.686Z",
+  "finishedAt": "2026-10-08T05:53:28.270Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 1
+  },
+  "tests": [
+    {
+      "id": "MHM-001",
+      "title": "home page loads",
+      "status": "skipped",
+      "source": "playwright",
+      "file": "projects/mha-mobile/tests/e2e/smoke/home.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-08T05:53:26.686Z",
+      "durationMs": 425,
+      "attempts": 1,
+      "checks": [],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"mha-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}
