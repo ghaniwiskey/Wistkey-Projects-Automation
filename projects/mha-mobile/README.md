@@ -14,4 +14,6 @@ template smoke spec (`tests/e2e/smoke/home.spec.ts`) skips itself until a real U
 
 ## Test accounts
 
-Not wired yet. When the app's test account is known it goes in `.env`, never in the workspace.
+In `.env` as `MHM_USER` / `MHM_PASS` (mobile login = the account's full NRIC; the UAT account is passwordless). Never in the workspace.
+
+Testing details (login, role and cost-centre switching, the FAVE sighting and submit flow, submit findings): [context.md](context.md).
