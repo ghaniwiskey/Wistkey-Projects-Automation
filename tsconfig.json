@@ -11,5 +11,5 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["playwright.config.ts", "projects/*/tests/**/*.ts", "shared/**/*.ts"]
+  "include": ["playwright.config.ts", "projects/*/playwright.config.ts", "projects/*/tests/**/*.ts", "shared/**/*.ts"]
 }

@@ -29,7 +29,10 @@ type ProjectYaml = {
   testIdPrefix?: string;
   defaultEnv?: string;
   envs?: Record<string, { baseUrl?: string; allowWrites?: boolean }>;
-  playwright?: { testDir?: string; browsers?: string[]; fullyParallel?: boolean; timeout?: number; retries?: number; use?: Project['use'] };
+  playwright?: {
+    testDir?: string; browsers?: string[]; fullyParallel?: boolean; timeout?: number; retries?: number; use?: Project['use'];
+    runner?: 'mobilewright'; // native app: runs with its own projects/<slug>/playwright.config.ts
+  };
 };
 
 const projects: Project[] = [];
@@ -38,6 +41,7 @@ for (const slug of fs.existsSync(PROJECTS_DIR) ? fs.readdirSync(PROJECTS_DIR).so
   const file = path.join(PROJECTS_DIR, slug, 'project.yaml');
   if (!fs.existsSync(file)) continue;
   const cfg = (YAML.parse(fs.readFileSync(file, 'utf8')) || {}) as ProjectYaml;
+  if (cfg.playwright?.runner === 'mobilewright') continue; // native app: its own projects/<slug>/playwright.config.ts runs it
   const envName = process.env.QA_ENV || cfg.defaultEnv || '';
   const env = cfg.envs?.[envName];
   if (!env?.baseUrl) continue; // project has no such env: skip it so QA_ENV can target a subset

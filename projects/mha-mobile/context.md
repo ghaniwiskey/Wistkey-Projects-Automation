@@ -1,6 +1,6 @@
 # MHA Mobile: testing context
 
-Knowledge base for testing the MHA mobile app with ARTEMIS. Keep it short, factual and current; stocktake data (FAVE numbers, counts, assignments) changes with the FY and with assignments, so find it at runtime. Playwright is not used for this app yet (no web base URL).
+Knowledge base for testing the MHA mobile app: explored with mobile-mcp from Claude Code, automated with mobilewright (see "How testing runs"). Keep it short, factual and current; stocktake data (FAVE numbers, counts, assignments) changes with the FY and with assignments, so find it at runtime.
 Sources: live ARTEMIS sessions on UAT 2026-10-08 (sessions 5741536c, 792d3ac9), the MHA user manual (mobile login rules), the CR12 mobile user manual (see "User manual" below) and the app's APK strings.
 
 ## Product
@@ -51,11 +51,12 @@ Sources: live ARTEMIS sessions on UAT 2026-10-08 (sessions 5741536c, 792d3ac9), 
 - **Anomaly, seen once**: after SAVE + CONFIRM the app returned to the login screen by itself (clean self-relaunch of MainActivity, no crash line; attempt #4, 13:38:45). If it happens, log in again and re-select role + cost centre.
 - **Open lead: OFFLINE MODE**. Sight offline, then submit/upload; this sync path is untested and a likely place for the reported error.
 
-## How testing runs (ARTEMIS)
-- Runner: ARTEMIS at `C:\Artemis Project\artemis` on the Android emulator (currently emulator-5554). Console `uv run python -m artemis ui` (http://localhost:8000); tasks `uv run python -m artemis run "<goal>" --profile pro -s emulator-5554 -n "<name>"`.
-- Traces, per-step screenshots and video: `C:\Artemis Project\artemis\traces\<session-id>\`; the agent's notes (`notes\task_plan.md`, `notes\repro_log.md`) hold the plan and findings. The 2026-10-08 "network error" hunt: session 5741536c-186f-48a0-bc8e-f290009e54de.
-- Pro mode on the DeepSeek key needs local patches in the ARTEMIS checkout (structured output via json_mode + schema injection for OpenAI-compatible providers; provider-aware summarizer/judge defaults). Known quirk: DeepSeek can reject a sequence after dropped tool calls ("assistant message with tool_calls must be followed by tool messages") and pause the run; check the trace, then resume or restart.
-- Keep Playwright-only files (specs, automated cases) out unless the app gets a web target.
+## How testing runs
+- **Exploring**: Claude Code drives the emulator through mobile-mcp (device id `Medium_Phone_API_36.1`, adb serial emulator-5554): element list, taps/typing, screenshots, `mobile_get_device_logs` (filter `process=com.iconsult.mhasgtwo`) and `mobile_list_crashes`. mobile-mcp has no secret handling, so type the login with adb straight from `.env` (`adb shell input text "$(grep ^MHM_USER= .env | cut -d= -f2 | tr -d '\r')"`), never through the chat. Network on/off for OFFLINE MODE: `adb shell svc wifi disable|enable` and `svc data disable|enable`; restore afterwards.
+- **Automation**: fixed-step mobilewright tests (no AI) in `tests/e2e`, run with `npm run test:mhm` (projects/mha-mobile/playwright.config.ts; README.md has the details and setup notes). mobilewright launches the app fresh before each test. A test can also check MHA web with Playwright's `page` next to the phone's `screen` (e.g. a FAVE submitted on mobile: the web account must see the same cost centre; the web half only reads, no VET IC Submit or approvals). Phone asserts use `expect` from @mobilewright/test, browser asserts Playwright's `expect` (mobilewright's only knows phone locators).
+- One tool on the emulator at a time. A leftover Appium UiAutomator2 server (from `maestro-runner --driver uiautomator2`) holds Android's UI automation and breaks the others: force-stop `io.appium.uiautomator2.server.test` and `io.appium.uiautomator2.server`.
+- Tool benchmark, 2026-10-09 (the same Settings flow, Settings force-stopped before each run, warm averages): e2e (tester-army) fixed steps 8.2 s, maestro-runner devicelab 8.65 s, uiautomator2 10.65 s, mobilewright 14.6 s, Maestro CLI 19.7 s. mobilewright was chosen for fit, not speed: native on Windows, Playwright Test (Test Manager, reports, typecheck), the same engine as mobile-mcp. e2e needed WSL plus an adb relay.
+- History: until 2026-10-09 the app was tested with ARTEMIS (`C:\Artemis Project\artemis`); the 2026-10-08 "network error" hunt is in `traces\5741536c-186f-48a0-bc8e-f290009e54de\` there.
 
 ## Test data notes
 - Cost centre 332140 carries FAVE FY26-2006/FY26-2007 at the time of writing; numbers change per FY, so pick from the list at runtime. Assets sighted during the session: 111000020059 and 111000020058 (329560 / Block P / Level 3) and 401000040993 (088762 / Block D / B4).

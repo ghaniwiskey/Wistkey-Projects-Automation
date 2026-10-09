@@ -22,4 +22,4 @@ The app is up and its home page renders.
 
 ## Notes
 Automated in tests/e2e/smoke/home.spec.ts (page object tests/pages/home.page.ts).
-MHA Mobile is a native Android app (com.iconsult.mhasgtwo) tested via ARTEMIS on an emulator; the spec skips itself while the staging URL is the .invalid placeholder.
+MHA Mobile is a native Android app (com.iconsult.mhasgtwo), tested with mobilewright on the emulator; the spec skips itself while the staging URL is the .invalid placeholder.

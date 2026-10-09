@@ -10,6 +10,7 @@
     "test:ui": "playwright test --ui",
     "report": "playwright show-report reports/playwright-html",
     "test:smoke": "playwright test --grep @smoke",
+    "test:mhm": "playwright test -c projects/mha-mobile/playwright.config.ts",
     "tm": "node test-manager/cli.mjs app --open",
     "tm:report": "node test-manager/cli.mjs report",
     "tm:lint": "node test-manager/cli.mjs lint",
@@ -18,8 +19,11 @@
     "check": "npm run typecheck && npm run tm:lint"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
+    "@mobilewright/driver-mobilecli": "0.0.64",
+    "@mobilewright/test": "0.0.64",
+    "@playwright/test": "1.63.0",
     "@types/node": "^22.0.0",
+    "mobilewright": "0.0.64",
     "typescript": "^7.0.2",
     "yaml": "^2.9.1"
   }
