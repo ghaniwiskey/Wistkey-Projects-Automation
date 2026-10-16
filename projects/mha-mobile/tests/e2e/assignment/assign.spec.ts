@@ -1,9 +1,9 @@
-import { test, expect, webExpect, MOBILE_ROLES, WEB_ROLES, sameName } from '../../fixtures/pages.fixture';
+import { test, expect, webExpect, MOBILE_ROLES, WEB_ROLES, blankable, sameName, unique } from '../../fixtures/pages.fixture';
 import type { AssignScreen } from '../../pages/mobile/assign.screen';
 import type { WebAsset } from '../../pages/web/web-asset.page';
 import type { AssignmentRow } from '../../pages/web/web-assignment.page';
 
-// Test cases: projects/mha-mobile/cases/assignment/MHM-014-*.md, MHM-015-*.md, MHM-016-*.md
+// Test cases: projects/mha-mobile/cases/assignment/MHM-014-*.md, MHM-015-*.md, MHM-016-*.md, MHM-022-*.md
 // Assign transactions made on the phone, checked (and approved) on MHA web. The asset is found at runtime:
 // the first one the phone lists for Assignee (LOGS1) = the mobile officer, in the cost centre of the first
 // AVAILABLE web asset the phone offers (phoneAsset). Approval rules (mha-spf context): LOGS1 > FALO is
@@ -181,5 +181,83 @@ test('MHM-015: falo return made on the mobile app is approved by logs1 on mha we
     const after = await webAssetPage.ownership(asset);
     expect(sameName(after.logs1, mobileOfficer)).toBe(true);
     expect(after.falo).toBe('-');
+  });
+});
+
+test('MHM-022: assign and relocate made on the mobile app is auto-approved on mha web @regression @writes', async ({
+  mobileHome,
+  mobileOfficer,
+  phoneAsset,
+  assignScreen,
+  webAssetPage,
+  webAssignmentPage,
+}) => {
+  test.setTimeout(10 * 60_000);
+  let unit: WebAsset | undefined;
+  await test.step('MHA web: a cost centre of the phone', async () => {
+    unit = await phoneAsset(LOGS1);
+  });
+  const costCentre = costCentreOf(unit as WebAsset);
+  const newRoom = `Q${unique().slice(-4).toUpperCase()}`; // Room No holds 5 characters
+
+  let asset = '';
+  await test.step(`1. Phone: ${LOGS1} | ${costCentre}, Assign, select the first asset of ${mobileOfficer}`, async () => {
+    await mobileHome.switchTo(LOGS1, costCentre);
+    await mobileHome.openTile('Assign');
+    await assignScreen.expectLoaded();
+    asset = await selectOwnedAsset(assignScreen, mobileOfficer, costCentre);
+  });
+
+  let before: WebAsset | undefined;
+  let owner = { logs1: '', falo: '' };
+  await test.step(`2. MHA web: location and ownership of ${asset}`, async () => {
+    owner = await webAssetPage.ownership(asset);
+    await webAssetPage.gotoListing();
+    await webAssetPage.openAsset(asset);
+    before = await webAssetPage.readAsset();
+  });
+  const original = before as WebAsset;
+  // The phone does not pre-fill the location remarks (BUG-002), so they are typed as they are.
+  const remarks = blankable(original.remarks);
+
+  let falo = '';
+  await test.step(`3. Phone: ASSIGN & RELOCATE to a FALO who is not the current one, Room ${newRoom}, remarks as they are, Complete`, async () => {
+    const users = await assignScreen.usersFor(FALO, 'ASSIGN & RELOCATE');
+    falo = users.find((u) => !sameName(u, owner.falo)) ?? '';
+    expect(falo, 'a FALO other than the current one').not.toBe('');
+    await assignScreen.chooseUser(falo);
+    const form = await assignScreen.readRelocateForm();
+    expect(form.postalCode).toBe(original.postalCode);
+    await assignScreen.setField(assignScreen.room, newRoom);
+    await assignScreen.setField(assignScreen.remarks, remarks);
+    await assignScreen.complete();
+  });
+
+  await test.step('4. MHA web: an APPROVED ASSIGN & RELOCATE by the mobile officer', async () => {
+    const t = (await webAssignmentPage.newestFor(asset)) as AssignmentRow;
+    expect(t, `a transaction for ${asset}`).toBeTruthy();
+    expect(sameName(t.createdBy, mobileOfficer)).toBe(true);
+    expect(t.type.replace(/\s+/g, ' ')).toBe('ASSIGN & RELOCATE');
+    expect(t).toMatchObject({ costCentre, approverRole: '-', status: 'APPROVED' });
+  });
+  await test.step(`4. MHA web: Current FALO ${falo}; the asset is in Room ${newRoom}, the rest of the location unchanged`, async () => {
+    expect(sameName((await webAssetPage.ownership(asset)).falo, falo)).toBe(true);
+    await webAssetPage.gotoListing();
+    await webAssetPage.openAsset(asset);
+    const after = await webAssetPage.readAsset();
+    expect(after.roomNo).toBe(newRoom);
+    expect({ postalCode: after.postalCode, block: after.block, level: after.level, remarks: after.remarks }).toEqual({
+      postalCode: original.postalCode,
+      block: original.block,
+      level: original.level,
+      remarks: original.remarks,
+    });
+  });
+
+  await test.step('5. Cleanup: relocate it back to the original room from the phone (the FALO stays; MHM-016 recalls it)', async () => {
+    await assignScreen.relocate(asset, blankable(original.roomNo), remarks);
+    await webAssetPage.gotoListing();
+    await webAssetPage.openAsset(asset);
+    expect((await webAssetPage.readAsset()).roomNo).toBe(original.roomNo);
   });
 });

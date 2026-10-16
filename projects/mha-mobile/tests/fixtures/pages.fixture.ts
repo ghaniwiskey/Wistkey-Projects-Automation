@@ -7,6 +7,7 @@ import { LoginScreen } from '../pages/mobile/login.screen';
 import { SearchAssetScreen } from '../pages/mobile/search-asset.screen';
 import { AssignScreen } from '../pages/mobile/assign.screen';
 import { NewAssetScreen } from '../pages/mobile/new-asset.screen';
+import { RegistrationScreen } from '../pages/mobile/registration.screen';
 import { FaveScreen, StocktakeDetailScreen, StocktakeListScreen } from '../pages/mobile/stocktake.screen';
 import { type WebAsset, WebAssetPage } from '../pages/web/web-asset.page';
 import { WebAssignmentPage } from '../pages/web/web-assignment.page';
@@ -37,6 +38,7 @@ type Fixtures = {
   searchAssetScreen: SearchAssetScreen;
   assignScreen: AssignScreen;
   newAssetScreen: NewAssetScreen;
+  registrationScreen: RegistrationScreen;
   /**
    * The phone logged in fresh with the .env account, on the home screen. The server ends a mobile session
    * about 10 minutes after login (BUG-001), so every test logs in again instead of reusing the app's session.
@@ -147,6 +149,9 @@ export const test = base.extend<Options & Fixtures>({
   },
   newAssetScreen: async ({ screen }, use) => {
     await use(new NewAssetScreen(screen));
+  },
+  registrationScreen: async ({ screen }, use) => {
+    await use(new RegistrationScreen(screen));
   },
 
   mobileHome: async ({ loginScreen, homeScreen }, use) => {

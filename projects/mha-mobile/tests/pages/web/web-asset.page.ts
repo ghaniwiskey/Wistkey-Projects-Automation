@@ -88,6 +88,15 @@ export class WebAssetPage extends WebBasePage {
     await expect(tab).toHaveAttribute('aria-selected', 'true');
   }
 
+  /**
+   * The open asset has a default photo: the slot marked data-def="True" holds an uploaded image (a data:
+   * URL) instead of the blank placeholder. Photo slots have no accessible names.
+   */
+  async hasDefaultPhoto(): Promise<boolean> {
+    const src = (await this.page.locator('img[data-def="True"]').first().getAttribute('src')) ?? '';
+    return src.startsWith('data:image');
+  }
+
   /** Current LOGS1 and Current FALO of an asset (Asset Details > Ownership; "-" when there is none). */
   async ownership(assetId: string): Promise<{ logs1: string; falo: string }> {
     await this.gotoListing();

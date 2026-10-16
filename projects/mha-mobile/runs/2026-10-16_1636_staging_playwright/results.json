@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-16_1636_staging_playwright",
+  "workers": [
+    "mha-mobile"
+  ],
+  "startedAt": "2026-10-16T09:36:14.218Z",
+  "finishedAt": "2026-10-16T09:36:51.679Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "MHM-022",
+      "title": "assign and relocate made on the mobile app is auto-approved on mha web",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-mobile/tests/e2e/assignment/assign.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-16T09:36:14.218Z",
+      "durationMs": 35064,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: MHA web: a cost centre of the phone",
+          "pass": false,
+          "actual": "RpcError: failed to dump UI from device Medium_Phone_API_36.1: failed to get view tree dump: failed to run uiautomator dump: exit status 0xffffffff"
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        }
+      ],
+      "evidence": [
+        "screenshots/MHM-022-a1-1.png",
+        "traces/MHM-022-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "RpcError: failed to dump UI from device Medium_Phone_API_36.1: failed to get view tree dump: failed to run uiautomator dump: exit status 0xffffffff",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "Playwright project \"mha-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

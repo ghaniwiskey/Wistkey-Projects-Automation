@@ -77,6 +77,7 @@ export class AssignScreen extends AppScreen {
 
   /** Select Asset: search the Asset ID, add it with "+", close the sheet. */
   async selectAsset(assetId: string): Promise<void> {
+    await this.toTop();
     await this.selectAssetButton.tap();
     await this.keywords.fill(assetId);
     await this.hideKeyboard();
@@ -94,6 +95,7 @@ export class AssignScreen extends AppScreen {
    * offered or owns no selectable asset (assets in an open transaction are not listed).
    */
   async selectFirstAssetOf(officer: string): Promise<string | undefined> {
+    await this.toTop();
     await this.selectAssetButton.tap();
     await expect(this.logs1Filter).toBeVisible({ timeout: 15_000 });
     // The LOGS1 list of a unit is short: read what the dropdown shows first, scroll only when needed.
@@ -118,9 +120,9 @@ export class AssignScreen extends AppScreen {
     return undefined;
   }
 
-  /** ASSIGN: the users the form offers for a role (picks the role; scrolls the whole list). */
-  async usersFor(role: string): Promise<string[]> {
-    await this.pickType('ASSIGN');
+  /** ASSIGN (or ASSIGN & RELOCATE): the users the form offers for a role (picks type and role; scrolls the whole list). */
+  async usersFor(role: string, type: TransactionType = 'ASSIGN'): Promise<string[]> {
+    await this.pickType(type);
     await this.pick(this.roleSpinner, role);
     await expect(this.roleSpinner.getByTestId('text1')).toHaveText(role);
     return (await this.optionsOf(this.userSpinner)).filter((u) => u !== 'Select User');
@@ -139,15 +141,26 @@ export class AssignScreen extends AppScreen {
 
   /** After usersFor(role): pick the user (exact text from the list) and Complete. */
   async chooseUserAndComplete(name: string): Promise<void> {
+    await this.chooseUser(name);
+    await this.complete();
+  }
+
+  /** After usersFor(role): pick the user (exact text from the list). */
+  async chooseUser(name: string): Promise<void> {
     await this.pick(this.userSpinner, name);
     await expect(this.userSpinner.getByTestId('text1')).toHaveText(name);
-    await this.complete();
   }
 
   /** Back to the home screen (the toolbar arrow; Back does the same). */
   async close(): Promise<void> {
     await this.screen.pressButton('BACK');
     await expect(this.heading).toBeHidden({ timeout: 15_000 });
+  }
+
+  /** Scroll the form back to the top (after a long form such as ASSIGN & RELOCATE the header is off-screen). */
+  async toTop(): Promise<void> {
+    for (let i = 0; i < 3 && !(await this.selectAssetButton.isVisible()); i++) await this.screen.swipe('down', { distance: 1200 });
+    await expect(this.selectAssetButton).toBeVisible();
   }
 
   async pickType(type: TransactionType): Promise<void> {
@@ -185,7 +198,9 @@ export class AssignScreen extends AppScreen {
   async complete(): Promise<void> {
     await this.completeButton.scrollIntoViewIfNeeded();
     await this.completeButton.tap();
-    await expect(this.selectedCount).toHaveText('0', { timeout: 30_000 });
+    // The form resets: the type goes back to its prompt. ("Asset Selected" at the top is off-screen after
+    // a long form such as ASSIGN & RELOCATE, and off-screen views are not in the view tree.)
+    await expect(this.screen.getByText('Select a transaction type', { exact: true })).toBeVisible({ timeout: 30_000 });
   }
 
   /** Relocate one asset to a new Room No, with these remarks (empty = none). */
