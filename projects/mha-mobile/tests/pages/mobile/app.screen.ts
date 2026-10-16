@@ -55,7 +55,8 @@ export abstract class AppScreen {
   /** Answer the app's two-button dialog: 'left' = CONFIRM / EXIT ANYWAY, 'right' = CANCEL / GO BACK. */
   async answer(question: string | RegExp, button: 'left' | 'right'): Promise<void> {
     const text = this.screen.getByText(question);
-    await expect(text).toBeVisible({ timeout: 30_000 });
+    // Some questions follow a download or upload (offline FAVE), so allow a minute.
+    await expect(text).toBeVisible({ timeout: 60_000 });
     await (button === 'left' ? this.dialogLeftButton : this.dialogRightButton).tap();
     await expect(text).toBeHidden({ timeout: 30_000 });
   }

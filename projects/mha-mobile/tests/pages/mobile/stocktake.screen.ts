@@ -51,6 +51,16 @@ export class StocktakeListScreen extends AppScreen {
     await this.numbers.and(this.screen.getByText(stocktakeNo, { exact: true })).tap();
     await this.answer('Will do stocktake by OFFLINE MODE?', 'right');
   }
+
+  /**
+   * Open a stocktake in OFFLINE MODE: CONFIRM downloads every asset of it, then "All data assets has been
+   * downloaded" > CONTINUE. Sightings are kept on the phone until REVIEW > Submit (needs the network).
+   */
+  async openOffline(stocktakeNo: string): Promise<void> {
+    await this.numbers.and(this.screen.getByText(stocktakeNo, { exact: true })).tap();
+    await this.answer('Will do stocktake by OFFLINE MODE?', 'left');
+    await this.answer('All data assets has been downloaded', 'left');
+  }
 }
 
 /**
@@ -112,6 +122,20 @@ export class FaveScreen extends AppScreen {
 
   async openAsset(assetId: string): Promise<void> {
     await this.asset(assetId).tap();
+  }
+
+  /**
+   * Wait until REVIEW offers Submit. Offline the button is not shown at all; after the network comes back
+   * it appears when the tab is drawn again, so switch tabs until it does.
+   */
+  async waitForSubmit(timeoutMs = 60_000): Promise<void> {
+    const end = Date.now() + timeoutMs;
+    while (Date.now() < end) {
+      await this.openTab('SELECT');
+      await this.openTab('REVIEW');
+      if (await this.submitButton.isVisible({ timeout: 5_000 })) return;
+    }
+    throw new Error('REVIEW shows no Submit button although the network is back');
   }
 
   /** REVIEW > Submit: sends the saved sightings (the app toasts "Submission Successful"). */

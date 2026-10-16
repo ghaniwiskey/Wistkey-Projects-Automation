@@ -52,10 +52,11 @@ to check what the phone sent; MHM-001 checks that MHA web is up.
 
 | Path | What |
 |---|---|
-| `tests/pages/mobile/` | Screen objects on mobilewright's `screen`: `LoginScreen`, `HomeScreen` (bottom bar, Switch Role panel, tiles), `StocktakeListScreen` / `FaveScreen` / `StocktakeDetailScreen` (stocktake.screen.ts), `SearchAssetScreen`; base `AppScreen` (resource-id locators, dialogs, dropdown picks) |
-| `tests/pages/web/` | Slim MHA web page objects (`WebLoginPage`, `WebFavePage`, `WebAssetPage` on `WebBasePage`), adapted from mha-spf because projects do not import from each other |
-| `tests/fixtures/pages.fixture.ts` | Extends `@mobilewright/test`: screen and page objects, `mobileHome` (fresh mobile login), `mobileOfficer`, `webRole` option (`test.use({ webRole: 'vet-ic' })`, saved web session), `faveTarget` (FAVE asset for the officer, reset to PENDING afterwards). Exports `expect` (phone) and `webExpect` (Playwright, browser locators) |
-| `tests/e2e/` | auth (MHM-002/003), role (MHM-004), stocktake (MHM-005), asset (MHM-006), smoke (MHM-001) |
+| `tests/pages/mobile/` | Screen objects on mobilewright's `screen`: `LoginScreen`, `HomeScreen` (bottom bar, Switch Role panel, tiles), `StocktakeListScreen` / `FaveScreen` / `StocktakeDetailScreen` (stocktake.screen.ts, online and offline), `SearchAssetScreen`, `AssignScreen` (Relocate), `NewAssetScreen` (address dialog, photo picker); base `AppScreen` (resource-id locators, dialogs, dropdown picks) |
+| `tests/pages/web/` | Slim MHA web page objects (`WebLoginPage`, `WebFavePage`, `WebAssetPage`, `WebAssignmentPage`, `WebNewAssetPage` on `WebBasePage`), adapted from mha-spf because projects do not import from each other |
+| `tests/fixtures/pages.fixture.ts` | Extends `@mobilewright/test`: screen and page objects, `mobileHome` (fresh mobile login), `mobileOfficer`, `webRole` option (`test.use({ webRole: 'vet-ic' })`, saved web session), `faveTarget` (FAVE asset for the officer, reset to PENDING afterwards), `phoneAsset(role)` (web asset in a cost centre the phone offers), `network` (adb Wi-Fi/data, always back on), `galleryPhoto` (pushes `data/qa-photo.png`). Exports `expect` (phone) and `webExpect` (Playwright, browser locators) |
+| `tests/utils/device.ts` | adb helpers mobilewright lacks: `setNetwork`, `pushGalleryPhoto` |
+| `tests/e2e/` | auth (MHM-002/003), role (MHM-004/012), stocktake (MHM-005/011), asset (MHM-006), assignment (MHM-008/009), new-asset (MHM-010), smoke (MHM-001). MHM-007 and MHM-013 are manual |
 
 Phone locators: `screen.getByTestId('<resource-id>')` (the app has no accessibility labels). Never `fill()` the login:
 mobilewright puts the typed text in the step title, so `LoginScreen` types it through the driver.

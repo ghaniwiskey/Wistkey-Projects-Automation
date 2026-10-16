@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { requireEnv } from '@shared/utils/env';
 
 // The MHA Mobile account, read from .env. The mobile login is the account's full NRIC; the UAT account is
@@ -28,7 +29,27 @@ export type WebRole = keyof typeof WEB_ROLES;
 /** Mobile Switch Role labels. */
 export const MOBILE_ROLES = {
   stocktaker: 'Stocktaker',
+  logs1: 'Logistics Officer 1',
+  uro: 'Unit Resource Officer',
+  vetIc: 'Verification Team IC/2IC',
 } as const;
+
+/** Home tiles per mobile role (seen on UAT 2026-10-16; FALO = LOGS1, Stocktaker = VET IC). */
+export const ROLE_TILES: Record<string, string[]> = {
+  'Logistics Officer 1': ['Asset Registration', 'Assign', 'Search Asset', 'Stocktake', 'New Asset', 'Settings'],
+  'Unit Resource Officer': ['Assign', 'Search Asset', 'Stocktake', 'New Asset', 'Settings'],
+  'Verification Team IC/2IC': ['Search Asset', 'Stocktake', 'New Asset', 'Settings'],
+  Stocktaker: ['Search Asset', 'Stocktake', 'New Asset', 'Settings'],
+};
+
+/** Photo for New Asset reports (a 70 KB screenshot of the app, no personal data). */
+export const QA_PHOTO = path.join(__dirname, '..', '..', 'data', 'qa-photo.png');
+
+/** MHA web shows an empty field as "-"; the phone shows the field's hint ("Block", "Level", "Room"). */
+export function blankable(value: string, hint = ''): string {
+  const v = value.trim();
+  return v === '-' || (hint && v === hint) ? '' : v;
+}
 
 /** Prefix of everything the tests type into the app (find and clean up by it). */
 export const QA_PREFIX = 'QA auto mobile';

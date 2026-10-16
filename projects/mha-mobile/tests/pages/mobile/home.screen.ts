@@ -61,6 +61,25 @@ export class HomeScreen extends AppScreen {
     return { role, costCentre };
   }
 
+  /**
+   * Wait until one of the locators is visible. Reading the screen while the app restarts its activity can
+   * fail (mobilewright's expect then throws instead of retrying), so failed reads are retried here.
+   */
+  private async waitForAny(locators: Locator[], timeoutMs: number): Promise<void> {
+    const end = Date.now() + timeoutMs;
+    while (Date.now() < end) {
+      for (const l of locators) {
+        try {
+          if (await l.isVisible()) return;
+        } catch {
+          /* screen read failed during a transition: try again */
+        }
+      }
+      await new Promise((r) => setTimeout(r, 700));
+    }
+    throw new Error(`None of the expected elements showed within ${timeoutMs / 1000} s`);
+  }
+
   async tileNames(): Promise<string[]> {
     await expect(this.tiles.first()).toBeVisible();
     return this.textsOnScreen({ resourceId: 'menu_text' });
@@ -124,10 +143,11 @@ export class HomeScreen extends AppScreen {
    * answer is yes. A session the server already ended can send the app to the login screen by itself.
    */
   async ensureLoggedOut(login: LoginScreen): Promise<void> {
-    await expect(login.loginButton.or(this.roleAndCostCentre)).toBeVisible({ timeout: 60_000 });
+    await this.waitForAny([login.loginButton, this.roleAndCostCentre], 60_000);
     if (await login.loginButton.isVisible()) return;
     await this.switchButton.tap();
-    await expect(this.panelTitle.or(login.loginButton)).toBeVisible({ timeout: 30_000 });
+    // With a session the server already ended, Switch restarts the app on the login screen.
+    await this.waitForAny([this.panelTitle, login.loginButton], 30_000);
     if (await this.panelTitle.isVisible()) {
       await this.logoutButton.tap();
       const unsent = this.screen.getByText(/still not submitted/);

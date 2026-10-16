@@ -1,0 +1,447 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-16_1129_staging_playwright",
+  "workers": [
+    "mha-mobile"
+  ],
+  "startedAt": "2026-10-16T04:29:05.931Z",
+  "finishedAt": "2026-10-16T04:32:31.661Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "MHM-010",
+      "title": "new asset reported on the mobile app shows on mha web",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-mobile/tests/e2e/new-asset/new-asset.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-16T04:29:05.931Z",
+      "durationMs": 203404,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: MHA web: cost centre and address from an asset of the unit",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Asset/Asset responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveAttribute\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveAttribute\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1. Phone: Logistics Officer 1 | 332600, New Asset",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. SAVE on the empty form keeps the form (toast \"Please select asset condition\")",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: 3-4. Condition, description, remarks, address, level, location remarks",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.fill(\"QA auto mobile mvagz8l2\")",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.fill(\"QA auto mobile test, please ignore\")",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.fill(\"8196\")",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.fill(\"1\")",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.fill(\"QA auto mobile location\")",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: 5. Upload Image > the newest photo (qa-mobile-mvagxh8q.png)",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: 6. SAVE returns to the home screen",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: 7. MHA web: one OPEN request by the mobile officer",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toMatch()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toEqual()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBe()",
+          "pass": true
+        },
+        {
+          "label": "Step: 7. The request holds what the phone sent, with the photo",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toMatchObject()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeGreaterThan()",
+          "pass": true
+        },
+        {
+          "label": "Step: 8. Cleanup: Cancel Item",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBe()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBe()",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"mha-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}
