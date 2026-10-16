@@ -11,6 +11,7 @@ import { FaveScreen, StocktakeDetailScreen, StocktakeListScreen } from '../pages
 import { type WebAsset, WebAssetPage } from '../pages/web/web-asset.page';
 import { WebAssignmentPage } from '../pages/web/web-assignment.page';
 import { WebNewAssetPage } from '../pages/web/web-new-asset.page';
+import { WebAdHocPage } from '../pages/web/web-adhoc.page';
 import { SessionEndedError } from '../pages/web/web-base.page';
 import { type FaveTarget, WebFavePage } from '../pages/web/web-fave.page';
 import { WebLoginPage } from '../pages/web/web-login.page';
@@ -48,6 +49,7 @@ type Fixtures = {
   webAssetPage: WebAssetPage;
   webAssignmentPage: WebAssignmentPage;
   webNewAssetPage: WebNewAssetPage;
+  webAdHocPage: WebAdHocPage;
   /**
    * Find an asset for a phone test: the first AVAILABLE asset of MHA web Asset Listing whose cost centre
    * the phone offers for the role (read from the Switch Role panel), read from Asset Details. With
@@ -170,6 +172,9 @@ export const test = base.extend<Options & Fixtures>({
   webNewAssetPage: async ({ webPage }, use) => {
     await use(new WebNewAssetPage(webPage));
   },
+  webAdHocPage: async ({ webPage }, use) => {
+    await use(new WebAdHocPage(webPage));
+  },
   phoneAsset: async ({ mobileHome, webAssetPage }, use, testInfo) => {
     await use(async (role, opts) => {
       await mobileHome.openSwitch();
@@ -214,10 +219,12 @@ export const test = base.extend<Options & Fixtures>({
     try {
       await use(t);
     } finally {
+      // A test may have switched to another web role (e.g. LOGS1 for a relocation); the reset needs VET IC.
+      await webFavePage.useRole(WEB_ROLES['vet-ic']);
       await webFavePage.ensurePending(t.costCentre, t.asset);
     }
   },
 });
 
 export { expect, webExpect };
-export { MOBILE_ROLES, QA_PREFIX, ROLE_TILES, amount, blankable, sameName, unique } from '../utils/test-data';
+export { MOBILE_ROLES, QA_PREFIX, ROLE_TILES, WEB_ROLES, amount, blankable, sameName, unique } from '../utils/test-data';

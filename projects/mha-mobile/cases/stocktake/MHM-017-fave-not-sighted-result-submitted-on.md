@@ -5,7 +5,7 @@ feature: stocktake
 priority: P1
 tags: [regression, writes]
 envs: [all]
-automated: false
+automated: true
 created: 2026-10-16
 updated: 2026-10-16
 ---
@@ -37,3 +37,4 @@ A stocktaker records an asset as not sighted on the phone; MHA web shows NOT SIG
 
 ## Notes
 The phone has no HTD Follow-up field; the server fills "Not Found, for Investigation" (manual outcome h, Open).
+Automated in tests/e2e/stocktake/fave-outcomes.spec.ts.

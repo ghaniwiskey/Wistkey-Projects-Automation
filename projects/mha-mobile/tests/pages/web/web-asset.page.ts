@@ -88,6 +88,17 @@ export class WebAssetPage extends WebBasePage {
     await expect(tab).toHaveAttribute('aria-selected', 'true');
   }
 
+  /** Current LOGS1 and Current FALO of an asset (Asset Details > Ownership; "-" when there is none). */
+  async ownership(assetId: string): Promise<{ logs1: string; falo: string }> {
+    await this.gotoListing();
+    await this.openAsset(assetId);
+    await this.openTab('Ownership');
+    return {
+      logs1: (await this.field('Current LOGS1', this.activePanel).innerText()).trim(),
+      falo: (await this.field('Current FALO', this.activePanel).innerText()).trim(),
+    };
+  }
+
   /** Read the open asset: header, Main Data and the Location tab's "Asset Location" card. */
   async readAsset(): Promise<WebAsset> {
     const read = async (label: string, scope: Locator | Page = this.page) => (await this.field(label, scope).innerText()).trim();

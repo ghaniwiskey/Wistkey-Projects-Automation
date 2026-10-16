@@ -98,12 +98,16 @@ export abstract class AppScreen {
 
   /** Open a Spinner and wait for its dropdown rows (read from the tree, no locator round trips). */
   private async openDropdown(spinner: Locator): Promise<void> {
-    await spinner.tap();
-    // Poll gently: each read is a `uiautomator dump` on the device, and back-to-back dumps of a UI that is
-    // not idle yet have crashed the emulator's system server once.
-    for (const end = Date.now() + 20_000; Date.now() < end; ) {
-      await new Promise((r) => setTimeout(r, 700));
-      if ((await this.nodesOnScreen({ type: AppScreen.OPTION })).length > 0) return;
+    // A tap while a panel is still sliding in (Switch Role right after returning home) can miss the
+    // spinner, so tap once more when no dropdown shows up.
+    for (let attempt = 0; attempt < 2; attempt++) {
+      await spinner.tap();
+      // Poll gently: each read is a `uiautomator dump` on the device, and back-to-back dumps of a UI that is
+      // not idle yet have crashed the emulator's system server once.
+      for (const end = Date.now() + 12_000; Date.now() < end; ) {
+        await new Promise((r) => setTimeout(r, 700));
+        if ((await this.nodesOnScreen({ type: AppScreen.OPTION })).length > 0) return;
+      }
     }
     throw new Error('The dropdown did not open');
   }

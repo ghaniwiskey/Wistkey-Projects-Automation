@@ -5,7 +5,7 @@ feature: assignment
 priority: P1
 tags: [regression, writes]
 envs: [all]
-automated: false
+automated: true
 created: 2026-10-16
 updated: 2026-10-16
 ---
@@ -35,3 +35,4 @@ A LOGS1 assigns an asset to a FALO from the phone; the transaction is approved a
 
 ## Notes
 Writes on UAT: one auto-approved ASSIGN per run; the asset keeps the new FALO (MHM-016 recalls it). Approval rule: LOGS1 > FALO is auto-approved (mha-spf SPF-009).
+Automated in tests/e2e/assignment/assign.spec.ts.

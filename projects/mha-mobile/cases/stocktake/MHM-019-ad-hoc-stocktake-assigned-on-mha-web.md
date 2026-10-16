@@ -5,7 +5,7 @@ feature: stocktake
 priority: P1
 tags: [regression, writes]
 envs: [all]
-automated: false
+automated: true
 created: 2026-10-16
 updated: 2026-10-16
 ---
@@ -30,3 +30,4 @@ An ad hoc stocktake whose asset is assigned to a stocktaker on MHA web is listed
 
 ## Notes
 Fails on UAT 2026-10-16: BUG-003 (no Stocktake Adhoc tile for any role; the Stocktake list shows FAVEs only). Sighting and submit of an ad hoc asset from the phone are not covered until it is fixed.
+Automated in tests/e2e/stocktake/adhoc.spec.ts (expected to fail while BUG-003 is open).

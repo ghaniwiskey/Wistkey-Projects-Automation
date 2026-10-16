@@ -42,6 +42,26 @@ export abstract class WebBasePage extends AppPage {
     await expect(this.currentRole).toHaveText(label);
   }
 
+  /** Go to the dashboard and make this role active (for tests that need a second web role). */
+  async useRole(label: string): Promise<void> {
+    await this.navigate('IndexBk');
+    if (this.isLoginUrl()) throw new SessionEndedError();
+    await this.switchRole(label);
+  }
+
+  /**
+   * Select exactly one row of a DataTables table with row checkboxes. The checkbox state is not reliable
+   * (it can show ticked while nothing is selected), so go by the table's counter ("Showing 1 to 1 of 1
+   * records" + "1 row selected").
+   */
+  protected async tickOne(row: Locator, info: Locator): Promise<void> {
+    const oneRow = /records\s*1 row selected/;
+    await expect(async () => {
+      if (!oneRow.test(await info.innerText())) await row.getByRole('checkbox').click();
+      await expect(info).toContainText(oneRow, { timeout: 5_000 });
+    }).toPass({ timeout: 30_000 });
+  }
+
   isLoginUrl(): boolean {
     return /\/Account\/Login/.test(this.page.url());
   }

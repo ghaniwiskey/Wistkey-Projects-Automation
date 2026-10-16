@@ -5,7 +5,7 @@ feature: stocktake
 priority: P1
 tags: [regression, writes]
 envs: [all]
-automated: false
+automated: true
 created: 2026-10-16
 updated: 2026-10-16
 ---
@@ -38,3 +38,4 @@ A stocktaker sights an asset but marks the location as wrong and enters the new 
 
 ## Notes
 Same as the web flow SPF-039 but raised from the phone. The test rejects the relocation (an approved one locks the FAVE result, mha-spf BUG-009 wont-fix).
+Automated in tests/e2e/stocktake/fave-outcomes.spec.ts.

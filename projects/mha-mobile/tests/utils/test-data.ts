@@ -23,6 +23,7 @@ export function webAccount() {
 export const WEB_ROLES = {
   'vet-ic': 'Verification Team IC/2IC',
   logs1: 'Logistics Officer 1',
+  uro: 'Unit Resource Officer',
 } as const;
 export type WebRole = keyof typeof WEB_ROLES;
 
@@ -30,6 +31,7 @@ export type WebRole = keyof typeof WEB_ROLES;
 export const MOBILE_ROLES = {
   stocktaker: 'Stocktaker',
   logs1: 'Logistics Officer 1',
+  falo: 'Fixed Asset Liaison Officer',
   uro: 'Unit Resource Officer',
   vetIc: 'Verification Team IC/2IC',
 } as const;

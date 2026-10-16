@@ -2,6 +2,8 @@ import { expect } from '@mobilewright/test';
 import type { Locator, Screen } from 'mobilewright';
 import { AppScreen } from './app.screen';
 
+const sameName = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
+
 export type TransactionType = 'ASSIGN' | 'ASSIGN & RELOCATE' | 'RELOCATE';
 
 /** Location fields of the Relocate form, as the phone shows them. */
@@ -13,7 +15,9 @@ export type RelocateForm = { postalCode: string; block: string; level: string; r
  * has a "+" action box), Edit Selection, transaction type ASSIGN / ASSIGN & RELOCATE / RELOCATE. RELOCATE
  * shows Location (Group / NPC / Base), postal code (pre-filled with the asset's), building and address
  * (read-only), Block, Level, Room and Remarks, then Complete. A relocation is auto-approved; the app toasts
- * "Submit success" and resets the form (Asset Selected 0).
+ * "Submit success" and resets the form (Asset Selected 0). ASSIGN shows Role (Logistics Officer 1, Fixed Asset
+ * Liaison Officer, End User; offered to LOGS1 and to FALO, so a FALO can return an asset to LOGS1) and User;
+ * Complete toasts "Submit success" too, whether MHA web approves it at once or holds it for approval.
  *
  * The Remarks box is not the asset's location remarks: it always holds the text "No Remarks" (real text,
  * not a hint), and Complete saves it as the asset's location remarks (BUG-002). Type the remarks you want.
@@ -35,6 +39,12 @@ export class AssignScreen extends AppScreen {
   readonly resultIds: Locator;
   readonly addButtons: Locator;
   readonly closeSheetButton: Locator;
+  readonly logs1Filter: Locator;
+  readonly resultTotal: Locator;
+  readonly noResults: Locator;
+  // ASSIGN
+  readonly roleSpinner: Locator;
+  readonly userSpinner: Locator;
 
   constructor(screen: Screen) {
     super(screen);
@@ -53,6 +63,11 @@ export class AssignScreen extends AppScreen {
     this.resultIds = this.id('tv_lmsAssetId');
     this.addButtons = this.id('action_box');
     this.closeSheetButton = this.id('close_btn');
+    this.logs1Filter = this.id('spinner_select_assignee_logs1');
+    this.resultTotal = this.id('total_result');
+    this.noResults = screen.getByText('Nothing to show yet', { exact: true });
+    this.roleSpinner = this.id('spinner_select_role');
+    this.userSpinner = this.id('spinner_select_user');
   }
 
   async expectLoaded(): Promise<void> {
@@ -71,6 +86,68 @@ export class AssignScreen extends AppScreen {
     await this.addButtons.first().tap();
     await this.closeSheetButton.tap();
     await expect(this.selectedCount).toHaveText('1', { timeout: 15_000 });
+  }
+
+  /**
+   * Select Asset filtered by Assignee (LOGS1) = the officer (name matched case-insensitively): add the first
+   * result and close the sheet. Returns its Asset ID, or undefined (sheet closed) when the officer is not
+   * offered or owns no selectable asset (assets in an open transaction are not listed).
+   */
+  async selectFirstAssetOf(officer: string): Promise<string | undefined> {
+    await this.selectAssetButton.tap();
+    await expect(this.logs1Filter).toBeVisible({ timeout: 15_000 });
+    // The LOGS1 list of a unit is short: read what the dropdown shows first, scroll only when needed.
+    const name =
+      (await this.firstOptionsOf(this.logs1Filter)).find((o) => sameName(o, officer)) ??
+      (await this.optionsOf(this.logs1Filter)).find((o) => sameName(o, officer));
+    if (name) {
+      await this.pick(this.logs1Filter, name);
+      await this.searchButton.tap();
+      await expect(this.resultTotal.or(this.noResults)).toBeVisible({ timeout: 30_000 });
+      if (await this.resultTotal.isVisible()) {
+        const [first] = await this.textsOnScreen({ resourceId: 'tv_lmsAssetId' });
+        if (first) {
+          await this.addButtons.first().tap();
+          await this.closeSheetButton.tap();
+          await expect(this.selectedCount).toHaveText('1', { timeout: 15_000 });
+          return first;
+        }
+      }
+    }
+    await this.closeSheetButton.tap();
+    return undefined;
+  }
+
+  /** ASSIGN: the users the form offers for a role (picks the role; scrolls the whole list). */
+  async usersFor(role: string): Promise<string[]> {
+    await this.pickType('ASSIGN');
+    await this.pick(this.roleSpinner, role);
+    await expect(this.roleSpinner.getByTestId('text1')).toHaveText(role);
+    return (await this.optionsOf(this.userSpinner)).filter((u) => u !== 'Select User');
+  }
+
+  /**
+   * ASSIGN the selected asset to a role and user (user matched case-insensitively: the bottom bar writes
+   * names in capitals), then Complete. Returns the user as the form spells it.
+   */
+  async assignTo(role: string, user: string): Promise<string> {
+    const name = (await this.usersFor(role)).find((u) => sameName(u, user));
+    if (!name) throw new Error(`The Assign form offers no "${user}" for ${role}`);
+    await this.chooseUserAndComplete(name);
+    return name;
+  }
+
+  /** After usersFor(role): pick the user (exact text from the list) and Complete. */
+  async chooseUserAndComplete(name: string): Promise<void> {
+    await this.pick(this.userSpinner, name);
+    await expect(this.userSpinner.getByTestId('text1')).toHaveText(name);
+    await this.complete();
+  }
+
+  /** Back to the home screen (the toolbar arrow; Back does the same). */
+  async close(): Promise<void> {
+    await this.screen.pressButton('BACK');
+    await expect(this.heading).toBeHidden({ timeout: 15_000 });
   }
 
   async pickType(type: TransactionType): Promise<void> {

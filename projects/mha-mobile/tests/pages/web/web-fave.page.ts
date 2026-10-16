@@ -220,18 +220,6 @@ export class WebFavePage extends WebBasePage {
     await this.searchDetails(assetId);
   }
 
-  /**
-   * Select exactly one row. The checkbox state is not reliable (it can show ticked while nothing is
-   * selected), so go by the table's counter ("Showing 1 to 1 of 1 records" + "1 row selected").
-   */
-  private async tick(row: Locator, info: Locator): Promise<void> {
-    const oneRow = /records\s*1 row selected/;
-    await expect(async () => {
-      if (!oneRow.test(await info.innerText())) await row.getByRole('checkbox').click();
-      await expect(info).toContainText(oneRow, { timeout: 5_000 });
-    }).toPass({ timeout: 30_000 });
-  }
-
   /** Assign a stocktaker to one asset (Assignment tab). Returns the result message. */
   async assignStocktaker(assetId: string, stocktaker: string): Promise<string> {
     await this.openAssignment();
@@ -239,7 +227,7 @@ export class WebFavePage extends WebBasePage {
     await this.reloadsTable('#tbassign', () => this.assignPane.getByRole('button', { name: 'Search', exact: true }).click());
     const row = this.assignRows.filter({ hasText: `Asset ID: ${assetId}` });
     await expect(row).toHaveCount(1);
-    await this.tick(row, this.assignInfo);
+    await this.tickOne(row, this.assignInfo);
     await this.assignPane.getByRole('button', { name: 'Assign Stocktaker', exact: true }).click();
     await expect(this.assignModal).toBeVisible();
     await this.pickSelect2(this.assignModal, 'userStocktakerDropdown', stocktaker);
@@ -250,7 +238,7 @@ export class WebFavePage extends WebBasePage {
 
   /** Tick the asset in Details (search it first) and open Update Result; one asset pre-loads its values. */
   async openUpdateResult(assetId: string): Promise<void> {
-    await this.tick(this.detailRow(assetId), this.detailInfo);
+    await this.tickOne(this.detailRow(assetId), this.detailInfo);
     await this.detailPane.getByRole('button', { name: 'Update Result', exact: true }).click();
     await expect(this.resultModal).toBeVisible();
   }

@@ -5,7 +5,7 @@ feature: assignment
 priority: P1
 tags: [regression, writes]
 envs: [all]
-automated: false
+automated: true
 created: 2026-10-16
 updated: 2026-10-16
 ---
@@ -34,3 +34,4 @@ A FALO returns an asset to its LOGS1 from the phone; MHA web holds it for LOGS1 
 
 ## Notes
 Writes on UAT: one auto-approved ASSIGN and one approved return per run; the asset ends as it started (no FALO). The phone offers FALO > Logistics Officer 1 (the web Assign as FALO offers FALO and End User only).
+Automated in tests/e2e/assignment/assign.spec.ts.

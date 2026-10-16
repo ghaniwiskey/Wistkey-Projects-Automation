@@ -35,3 +35,4 @@ Home tiles as Stocktaker: Search Asset, Stocktake, New Asset, Settings (no Stock
 
 ## History
 - 2026-10-16: filed from mobile exploration 2026-10-16 in the Test Manager app.
+- 2026-10-16: linked to MHM-019 (automated, expected to fail while open; reuses ADST00000034).

@@ -154,6 +154,15 @@ export class FaveScreen extends AppScreen {
 /** Asset data the StockTake Detail screen shows (read-only fields). */
 export type StocktakeAsset = { assetNo: string; assetId2: string; serial: string };
 
+/** The new location typed when Correct Location is off. */
+export type NewLocation = {
+  postalCode: string;
+  /** The address to pick in "Select Address:-", as the app lists it (e.g. the asset's current Address). */
+  address: string;
+  room: string;
+  remarks: string;
+};
+
 /**
  * StockTake Detail (tap an asset in a FAVE): read-only asset data (Asset No., Asset ID 2, Serial Number,
  * category, dates, values, description, location), then Sighted and Correct Location switches, Asset
@@ -171,10 +180,27 @@ export class StocktakeDetailScreen extends AppScreen {
   readonly conditionSpinner: Locator;
   readonly remarks: Locator;
   readonly saveButton: Locator;
+  readonly postcode: Locator;
+  readonly address: Locator;
+  // New location (Correct Location off)
+  readonly groupSpinner: Locator;
+  readonly newPostalCode: Locator;
+  readonly newBuilding: Locator;
+  readonly newAddress: Locator;
+  readonly newRoom: Locator;
+  readonly newRemarks: Locator;
 
   constructor(screen: Screen) {
     super(screen);
     this.heading = screen.getByText('StockTake Detail', { exact: true });
+    this.postcode = this.id('asset_postcode');
+    this.address = this.id('address_1');
+    this.groupSpinner = this.id('spinner_group_npc_base');
+    this.newPostalCode = this.id('asset_new_postal_code');
+    this.newBuilding = this.id('asset_location_building_name');
+    this.newAddress = this.id('asset_location_new_address');
+    this.newRoom = this.id('edit_room_no');
+    this.newRemarks = this.id('asset_new_remarks_location');
     this.assetNo = this.id('asset_no');
     this.assetId2 = this.id('asset_id_2');
     this.serial = this.id('serial_number');
@@ -218,6 +244,57 @@ export class StocktakeDetailScreen extends AppScreen {
     await this.remarks.scrollIntoViewIfNeeded();
     await this.remarks.fill(text);
     await this.hideKeyboard();
+  }
+
+  /** The asset's current postal code and address (read-only Location section). */
+  async currentLocation(): Promise<{ postalCode: string; address: string }> {
+    await this.address.scrollIntoViewIfNeeded();
+    const address = (await this.address.getText()).trim();
+    await this.postcode.scrollIntoViewIfNeeded();
+    return { postalCode: (await this.postcode.getText()).trim(), address };
+  }
+
+  /** Asset Condition values offered now (none while Sighted is off). */
+  async conditionOptions(): Promise<string[]> {
+    await this.conditionSpinner.scrollIntoViewIfNeeded();
+    return (await this.firstOptionsOf(this.conditionSpinner)).filter((o) => o !== 'Select Asset Condition');
+  }
+
+  /**
+   * Correct Location off, then the new location: the first Group / NPC / Base offered, the postal code
+   * (after the 4th digit "Select Address:-" lists every address containing those digits; picking one asks
+   * "Your Selected Address is" > OK and fills postal code, Building Name and Address), Room No and the new
+   * location's remarks. Returns the group picked.
+   */
+  async setNewLocation(loc: NewLocation): Promise<string> {
+    await this.correctLocation.scrollIntoViewIfNeeded();
+    await this.correctLocation.uncheck();
+    await expect(this.groupSpinner).toBeVisible({ timeout: 15_000 });
+    const [group] = (await this.firstOptionsOf(this.groupSpinner)).filter((o) => o !== 'Select Location');
+    if (!group) throw new Error('The new location offers no Group / NPC / Base');
+    await this.pick(this.groupSpinner, group);
+    await this.newPostalCode.fill(loc.postalCode.slice(0, 4));
+    await expect(this.screen.getByText('Select Address:-', { exact: true })).toBeVisible({ timeout: 30_000 });
+    const row = this.screen.getByText(loc.address, { exact: true });
+    await row.scrollIntoViewIfNeeded({ maxSwipes: 30 });
+    await row.tap();
+    await expect(this.screen.getByText('Your Selected Address is', { exact: true })).toBeVisible();
+    await this.alertOk.tap();
+    await expect(this.newPostalCode).toHaveText(loc.postalCode, { timeout: 15_000 });
+    await expect(this.newAddress).toHaveText(loc.address);
+    await this.newRoom.scrollIntoViewIfNeeded();
+    await this.newRoom.fill(loc.room);
+    await this.hideKeyboard();
+    await this.newRemarks.scrollIntoViewIfNeeded();
+    await this.newRemarks.fill(loc.remarks);
+    await this.hideKeyboard();
+    return group;
+  }
+
+  /** SAVE with Sighted off: no question, the asset goes to REVIEW and the app returns to the FAVE. */
+  async saveNotSighted(): Promise<void> {
+    await this.saveButton.tap();
+    await expect(this.heading).toBeHidden({ timeout: 30_000 });
   }
 
   /** SAVE, then CONFIRM "Set this asset as sighted?"; returns to the FAVE. */

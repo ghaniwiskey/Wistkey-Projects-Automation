@@ -52,11 +52,11 @@ to check what the phone sent; MHM-001 checks that MHA web is up.
 
 | Path | What |
 |---|---|
-| `tests/pages/mobile/` | Screen objects on mobilewright's `screen`: `LoginScreen`, `HomeScreen` (bottom bar, Switch Role panel, tiles), `StocktakeListScreen` / `FaveScreen` / `StocktakeDetailScreen` (stocktake.screen.ts, online and offline), `SearchAssetScreen`, `AssignScreen` (Relocate), `NewAssetScreen` (address dialog, photo picker); base `AppScreen` (resource-id locators, dialogs, dropdown picks) |
-| `tests/pages/web/` | Slim MHA web page objects (`WebLoginPage`, `WebFavePage`, `WebAssetPage`, `WebAssignmentPage`, `WebNewAssetPage` on `WebBasePage`), adapted from mha-spf because projects do not import from each other |
-| `tests/fixtures/pages.fixture.ts` | Extends `@mobilewright/test`: screen and page objects, `mobileHome` (fresh mobile login), `mobileOfficer`, `webRole` option (`test.use({ webRole: 'vet-ic' })`, saved web session), `faveTarget` (FAVE asset for the officer, reset to PENDING afterwards), `phoneAsset(role)` (web asset in a cost centre the phone offers), `network` (adb Wi-Fi/data, always back on), `galleryPhoto` (pushes `data/qa-photo.png`). Exports `expect` (phone) and `webExpect` (Playwright, browser locators) |
+| `tests/pages/mobile/` | Screen objects on mobilewright's `screen`: `LoginScreen`, `HomeScreen` (bottom bar, Switch Role panel, tiles), `StocktakeListScreen` / `FaveScreen` / `StocktakeDetailScreen` (stocktake.screen.ts, online and offline; not sighted, wrong location with the new-location fields), `SearchAssetScreen`, `AssignScreen` (Relocate; Assign to a role/user, Select Asset by Assignee (LOGS1)), `NewAssetScreen` (address dialog, photo picker); base `AppScreen` (resource-id locators, dialogs, dropdown picks) |
+| `tests/pages/web/` | Slim MHA web page objects (`WebLoginPage`, `WebFavePage`, `WebAssetPage`, `WebAssignmentPage` (list, newest of an asset, approve, reject, new location), `WebNewAssetPage`, `WebAdHocPage` (one-off lookup, stocktaker, PENDING) on `WebBasePage` (`useRole` for a second web role)), adapted from mha-spf because projects do not import from each other |
+| `tests/fixtures/pages.fixture.ts` | Extends `@mobilewright/test`: screen and page objects, `mobileHome` (fresh mobile login), `mobileOfficer`, `webRole` option (`test.use({ webRole: 'vet-ic' })`, saved web session; vet-ic, logs1, uro), `faveTarget` (FAVE asset for the officer, reset to PENDING afterwards), `phoneAsset(role)` (web asset in a cost centre the phone offers), `network` (adb Wi-Fi/data, always back on), `galleryPhoto` (pushes `data/qa-photo.png`). Exports `expect` (phone) and `webExpect` (Playwright, browser locators) |
 | `tests/utils/device.ts` | adb helpers mobilewright lacks: `setNetwork`, `pushGalleryPhoto` |
-| `tests/e2e/` | auth (MHM-002/003), role (MHM-004/012), stocktake (MHM-005/011), asset (MHM-006), assignment (MHM-008/009), new-asset (MHM-010), smoke (MHM-001). MHM-007 and MHM-013 are manual |
+| `tests/e2e/` | auth (MHM-002/003), role (MHM-004/012), stocktake (MHM-005/011/017/018/019), asset (MHM-006), assignment (MHM-008/009/014/015/016), new-asset (MHM-010), smoke (MHM-001). MHM-007 and MHM-013 are manual |
 
 Phone locators: `screen.getByTestId('<resource-id>')` (the app has no accessibility labels). Never `fill()` the login:
 mobilewright puts the typed text in the step title, so `LoginScreen` types it through the driver.
@@ -66,7 +66,7 @@ mobilewright puts the typed text in the step title, so `LoginScreen` types it th
 In `.env` only: `MHM_USER` / `MHM_PASS` (mobile login = the account's full NRIC; the UAT account is passwordless),
 read with `mhmAccount()`; MHA web: `MHM_WEB_USER` / `MHM_WEB_PASS`, defaulting to the mha-spf account
 (`SPF_USER` / `SPF_PASS`), read with `webAccount()` (tests/utils/test-data.ts). The web account needs VET IC
-(MHM-005) and LOGS1 (MHM-006); tests skip with a message when a role is missing. Never in the workspace.
+(MHM-005), LOGS1 (MHM-006) and URO (MHM-016); tests skip with a message when a role is missing. Never in the workspace.
 
 Testing details (login, role and cost-centre switching, the FAVE sighting and submit flow, submit findings, tool
 benchmarks): [context.md](context.md).

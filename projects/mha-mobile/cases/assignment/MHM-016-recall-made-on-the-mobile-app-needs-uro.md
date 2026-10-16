@@ -5,7 +5,7 @@ feature: assignment
 priority: P1
 tags: [regression, writes]
 envs: [all]
-automated: false
+automated: true
 created: 2026-10-16
 updated: 2026-10-16
 ---
@@ -35,3 +35,4 @@ A LOGS1 recalls an asset from its FALO on the phone (assign to Logistics Officer
 
 ## Notes
 Writes on UAT. Seen 2026-10-16: when the asset had no LOGS1 before, the same transaction sets the LOGS1 but keeps the FALO; a recall by the asset's own LOGS1 clears it (as on the web, SPF-018).
+Automated in tests/e2e/assignment/assign.spec.ts.
