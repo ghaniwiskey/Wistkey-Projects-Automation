@@ -1,0 +1,122 @@
+import { Page, Locator, expect } from '@playwright/test';
+import { AppPage } from '@shared/pages/app.page';
+
+/**
+ * MHA web (ATS), used by the mobile tests to set up and check data. A slim version of mha-spf's BasePage
+ * (projects/mha-spf/tests/pages/base.page.ts): projects do not import from each other, so only what the
+ * cross-checks need lives here. Quirks are documented in projects/mha-spf/context.md.
+ */
+
+/** ATS allows one session per account; a newer login of the account ends this one. */
+export class SessionEndedError extends Error {
+  constructor() {
+    super('MHA web logged out: the session was ended, most likely by a newer login of the same account (one session per account).');
+    this.name = 'SessionEndedError';
+  }
+}
+
+export abstract class WebBasePage extends AppPage {
+  readonly roleDropdown: Locator;
+  readonly currentRole: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    // select2 over a hidden <select name="role-selection">; its accessible name is the current role.
+    this.roleDropdown = page.locator('span[role="combobox"][aria-labelledby^="select2-role-selection"]');
+    this.currentRole = page.locator('[id^="select2-role-selection"][id$="-container"]');
+  }
+
+  /** Labels of the roles the account holds (options of the hidden header Role <select>). */
+  async availableRoles(): Promise<string[]> {
+    const options = this.page.locator('select[name="role-selection"] option');
+    await expect(options.nth(1)).toBeAttached();
+    return (await options.allTextContents()).map((t) => t.trim()).filter(Boolean);
+  }
+
+  /** Switch the active role from the header dropdown; the app reloads the page. */
+  async switchRole(label: string): Promise<void> {
+    if ((await this.currentRole.innerText()).trim() === label) return;
+    await this.roleDropdown.click();
+    await Promise.all([this.page.waitForEvent('load'), this.page.getByRole('option', { name: label, exact: true }).click()]);
+    if (this.isLoginUrl()) throw new SessionEndedError();
+    await expect(this.currentRole).toHaveText(label);
+  }
+
+  isLoginUrl(): boolean {
+    return /\/Account\/Login/.test(this.page.url());
+  }
+
+  /**
+   * Run an action that reloads a server-side DataTables table and wait for the new data: the table first
+   * redraws empty, so wait for its `xhr` event, then the next `draw`, then for its last request to finish
+   * (some keyword boxes also search while typing).
+   */
+  protected async reloadsTable(tableSelector: string, action: () => Promise<void>): Promise<void> {
+    const drawn = this.page.evaluate(
+      (sel) =>
+        new Promise<void>((resolve) => {
+          const $ = (window as unknown as { jQuery: (s: string) => { one: (e: string, f: () => void) => void } }).jQuery;
+          $(sel).one('xhr.dt', () => $(sel).one('draw.dt', () => resolve()));
+        }),
+      tableSelector,
+    );
+    await action();
+    await drawn;
+    await this.page.waitForFunction((sel) => {
+      const $ = (window as unknown as { jQuery: (s: string) => { DataTable?: () => { settings: () => { jqXHR?: { readyState: number } }[] } } }).jQuery;
+      const settings = $(sel).DataTable?.().settings()[0];
+      return !settings?.jqXHR || settings.jqXHR.readyState === 4;
+    }, tableSelector);
+  }
+
+  protected async reloadsTables(tableSelectors: string[], action: () => Promise<void>): Promise<void> {
+    await this.reloadsTable(tableSelectors[0], () => (tableSelectors.length > 1 ? this.reloadsTables(tableSelectors.slice(1), action) : action()));
+  }
+
+  /** The visible select2 box of a hidden <select> with this id or name. */
+  protected select2(scope: Locator | Page, selectKey: string): Locator {
+    return scope.locator(`span[role="combobox"][aria-labelledby^="select2-${selectKey}" i]`).filter({ visible: true }).first();
+  }
+
+  /** Options of a hidden <select> (by id or name), loaded by XHR on many pages. */
+  protected selectOptions(scope: Locator | Page, selectKey: string): Locator {
+    return scope.locator(`select[id="${selectKey}" i] option, select[name="${selectKey}" i] option`);
+  }
+
+  /** Pick an option of a select2 dropdown; waits for the option in the hidden <select> first. */
+  protected async pickSelect2(scope: Locator | Page, selectKey: string, option: string): Promise<void> {
+    const exact = new RegExp(`^\\s*${option.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`);
+    await expect(this.selectOptions(scope, selectKey).filter({ hasText: exact }).first()).toBeAttached({ timeout: 30_000 });
+    await this.select2(scope, selectKey).click();
+    await this.page.getByRole('option', { name: option, exact: true }).click();
+  }
+
+  /** Total from "Showing 1 to 10 of 2,737 records" (0 for "Showing no records"). */
+  protected async tableTotal(info: Locator): Promise<number> {
+    await expect(info).toHaveText(/Showing/);
+    const m = (await info.innerText()).match(/of ([\d,]+) records/);
+    return m ? Number(m[1].replace(/,/g, '')) : 0;
+  }
+
+  // SweetAlert2 popups have no stable accessible name; the library's class names are the stable hook.
+  get alert(): Locator {
+    return this.page.locator('.swal2-popup');
+  }
+
+  get alertText(): Locator {
+    return this.alert.locator('.swal2-html-container');
+  }
+
+  async confirm(question: RegExp): Promise<void> {
+    await expect(this.alertText).toHaveText(question);
+    await this.alert.getByRole('button', { name: 'Yes', exact: true }).click();
+  }
+
+  async acknowledge(message: string | RegExp): Promise<string> {
+    await expect(this.alertText).toHaveText(message, { timeout: 30_000 });
+    const text = (await this.alertText.innerText()).trim();
+    await this.alert.getByRole('button', { name: 'Ok', exact: true }).click();
+    await expect(this.alert).toBeHidden();
+    return text;
+  }
+}

@@ -1,16 +1,16 @@
 name: MHA Mobile
 slug: mha-mobile
 testIdPrefix: MHM
-description: "MHA Mobile native Android app (com.iconsult.mhasgtwo) on the Android emulator: explored with mobile-mcp from Claude Code, automated with mobilewright (Playwright Test; npm run test:mhm). No web target: the placeholder URL keeps the project registered."
+description: "MHA Mobile native Android app (com.iconsult.mhasgtwo) on the Android emulator: explored with mobile-mcp from Claude Code, automated with mobilewright (Playwright Test; npm run test:mhm). baseUrl is MHA web (UAT), used by the tests to set up and check what the phone did."
 
 # Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with MHM_BASE_URL.
 # allowWrites: false skips tests tagged @writes on that env.
-# MHA Mobile is a native app: there is no web target, so this .invalid placeholder keeps the project registered
-# in the workspace (and makes the web smoke MHM-001 skip itself). Point it at a real URL if one ever exists.
+# MHA Mobile is a native app. baseUrl is MHA web on the same UAT backend: the tests use it (Playwright `page`)
+# to set up data (FAVE stocktaker assignment) and to check what the phone sent. Never production.
 defaultEnv: staging
 envs:
   staging:
-    baseUrl: https://mha-mobile.invalid/
+    baseUrl: https://mhauatweb.southeastasia.cloudapp.azure.com/
     allowWrites: true
 
 # Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
@@ -21,7 +21,8 @@ playwright:
   runner: mobilewright
   testDir: tests/e2e
 
-# Test accounts: usernames only. Passwords go in .env as MHM_<ROLE>_USER / MHM_<ROLE>_PASS.
+# Test accounts come from .env only: MHM_USER (mobile login = full NRIC; MHM_PASS empty on UAT) and, for the
+# MHA web checks, MHM_WEB_USER / MHM_WEB_PASS (default: the mha-spf account SPF_USER / SPF_PASS).
 auth:
   accounts: []
 

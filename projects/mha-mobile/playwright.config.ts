@@ -44,7 +44,8 @@ const config: PlaywrightTestConfig<MobilewrightUseOptions> & Pick<MobilewrightCo
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 1, // one emulator
-  timeout: 120_000, // app launch, login and data loading
+  // App launch, login and data loading; each screen read with a dropdown open takes ~5 s (uiautomator idle wait).
+  timeout: 240_000,
   reporter: [
     ['list'],
     ['html', { open: 'never', outputFolder: path.join(ROOT, 'reports/playwright-html') }],
@@ -64,7 +65,10 @@ const config: PlaywrightTestConfig<MobilewrightUseOptions> & Pick<MobilewrightCo
     grepInvert: env.allowWrites ? undefined : /@writes/, // read-only env: skip tests that change data
     metadata: { slug: 'mha-mobile', env: envName, baseUrl: baseURL, browser: 'android' },
     // mobilewright launches the app fresh before each test.
-    use: { ...desktopChrome, baseURL, platform: 'android', bundleId: 'com.iconsult.mhasgtwo' },
+    // MHA web hides header labels (Role:, Last Login) below 1400px, so the browser gets 1440x900 like mha-spf.
+    // animations 'off' turns off the emulator's system animations: reading the screen waits for the UI to be
+    // idle, which with animations on takes seconds per read (dropdowns, dialogs).
+    use: { ...desktopChrome, viewport: { width: 1440, height: 900 }, baseURL, platform: 'android', bundleId: 'com.iconsult.mhasgtwo', animations: 'off' },
   }],
 };
 

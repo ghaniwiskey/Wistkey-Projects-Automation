@@ -46,9 +46,20 @@ Sources: live ARTEMIS sessions on UAT 2026-10-08 (sessions 5741536c, 792d3ac9), 
 - Submit: the REVIEW tab has a full-width dark-blue Submit button > centered loading card + toast "Submission Successful" > REVIEW resets to 0. Submitting an empty REVIEW is a silent no-op (no toast).
 - App messages seen or present in the APK: "Submission Successful", "Submission complete", "Submission Failed", "Network Error", "Please Switch ON the internet", "Please try again."; logging out with unsent items asks "The stocktake data in the review is still not submitted, do you want to log out?".
 
+## Observed 2026-10-16 (exploration + MHM-002..006)
+- Accounts: the `.env` mobile account is TAN JUN YONG SHAWN (roles Agency Admin, UAO, URO, LOGS1, FALO, VET IC, Stocktaker). After login the app always starts as Agency Admin | 332100, which has **no home tiles**; switch role first. The web test account (SPF_USER) is Wong Pui Lai Annie; Tan Jun Yong Shawn is offered as FAVE stocktaker for 332600 on the web account's FAVE.
+- **Session ends ~10 minutes after login (BUG-001)**: the next request gets a 142-byte reply and the app drops to the login screen with no message; a sighting being saved is lost. A session the app restores at start-up that is older than that fails the same way. Tests log in fresh (fixture `mobileHome`).
+- The stocktaker sees in SELECT only the FAVE assets assigned to them (web FAVE > Assignment > Assign Stocktaker); "Pending: n" on the Stocktake list is the whole cost centre's. A web assignment shows on the phone at the next FAVE open. Web VET IC resetting a result to PENDING puts the asset back in the phone's SELECT.
+- Sighting -> web: SIGHTED + WORKING from the phone gives on MHA web Result & Condition "SIGHTED WORKING", HTD Follow-up "No Further Action", FSSC "Working condition", FAVE Status CLOSED, Location Status CLOSED, Correct Location ticked, the phone's remarks and the officer as Stocktaker (payload logged by the app as OKHTTP "entity", sightedMethod MANUAL). Web shows nothing until REVIEW > Submit.
+- Turning Sighted on turns on Correct Location and sets Asset Condition WORKING. The FAVE Home button always asks "Are you sure you want to exit without uploading?", even with REVIEW 0.
+- Switch Role panel: Select Cost Center does not reliably follow the role picked in the panel (seen: the active role's list, the role's own units, or all 37 agency cost centres); a role can be confirmed with a cost centre where it has no data (Stocktake "(0)"). Open lead, not filed.
+- Search Asset only finds assets of the active cost centre; another unit's asset gives an empty list and no message. Its detail matches MHA web Asset Details in other formats: "$26145.0" vs "$26,145.00", category "1KZ0" vs "1KZ0 / ...", group "APD" vs "Airport Police Division (APD)".
+- Automation timing: mobilecli reads the screen with `uiautomator dump`; with a Spinner dropdown open each read takes ~5 s and a locator tap ~10 s (two stable reads). AppScreen picks options from one tree read and taps coordinates; rapid back-to-back dumps of a busy UI restarted the emulator's system server once. `animations: 'off'` is set in the config.
+- MHA web login failed on 2026-10-15/16 morning with a raw SqlException shown to the user ("Procedure or function 'spTokenIns' expects parameter '@RefreshTokenHash'..."), a UAT deployment in progress; fixed the same day.
+
 ## Known issues and open leads
 - **"Network error" after submitting a FAVE (user report, NOT reproduced 2026-10-08)**: four attempts (three complete sight-and-submit cycles and one empty re-submit) all returned "Submission Successful"; logcat showed no socket/TLS/timeout failures and every request got a response, so it looks intermittent (network or server side). If it recurs: screenshot the exact message + time; the wording tells the layer ("Network Error" / "Please Switch ON the internet" = connectivity, "Submission Failed" = server rejected); check the "Response Size" logcat lines and reachability of the backend host.
-- **Anomaly, seen once**: after SAVE + CONFIRM the app returned to the login screen by itself (clean self-relaunch of MainActivity, no crash line; attempt #4, 13:38:45). If it happens, log in again and re-select role + cost centre.
+- **Return to the login screen after SAVE + CONFIRM** (2026-10-08 attempt #4): explained on 2026-10-16 as the 10-minute session end, BUG-001.
 - **Open lead: OFFLINE MODE**. Sight offline, then submit/upload; this sync path is untested and a likely place for the reported error.
 
 ## How testing runs
@@ -59,5 +70,7 @@ Sources: live ARTEMIS sessions on UAT 2026-10-08 (sessions 5741536c, 792d3ac9), 
 - History: until 2026-10-09 the app was tested with ARTEMIS (`C:\Artemis Project\artemis`); the 2026-10-08 "network error" hunt is in `traces\5741536c-186f-48a0-bc8e-f290009e54de\` there.
 
 ## Test data notes
-- Cost centre 332140 carries FAVE FY26-2006/FY26-2007 at the time of writing; numbers change per FY, so pick from the list at runtime. Assets sighted during the session: 111000020059 and 111000020058 (329560 / Block P / Level 3) and 401000040993 (088762 / Block D / B4).
+- Found at runtime, nothing fixed in code. MHM-005 (`faveTarget`): current FAVE on MHA web (VET IC), first cost centre not APPROVED that offers the mobile officer as stocktaker; there the first PENDING asset already assigned to the officer, else the first PENDING asset with no stocktaker, which the test assigns (no unassign; later runs reuse it). Teardown resets the result to PENDING. Skips when none fits: give the web account a unit where the mobile officer is a stocktaker.
+- MHM-006: first AVAILABLE asset of MHA web Asset Listing (LOGS1) whose cost centre the phone offers; read-only.
 - Sighting + submitting on UAT is safe to repeat (uploads results, no approval involved). Approvals belong to the web roles (VET IC / URO / UAO); do not go beyond Submit from the app.
+- Remarks typed by tests start with "QA auto mobile".

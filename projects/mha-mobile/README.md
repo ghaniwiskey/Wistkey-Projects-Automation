@@ -45,15 +45,27 @@ locators.
   server from `maestro-runner --driver uiautomator2` holds Android's UI automation:
   `adb shell am force-stop io.appium.uiautomator2.server.test` and `adb shell am force-stop io.appium.uiautomator2.server`.
 
-## Web target
+## Web target and suite layout
 
-None: `project.yaml` carries an `.invalid` placeholder URL so the project stays registered, and the web smoke spec
-(`tests/e2e/smoke/home.spec.ts`, MHM-001) skips itself while it is set.
+`project.yaml` baseUrl is **MHA web UAT** (same backend as the app). Tests use the browser `page` to set up data and
+to check what the phone sent; MHM-001 checks that MHA web is up.
+
+| Path | What |
+|---|---|
+| `tests/pages/mobile/` | Screen objects on mobilewright's `screen`: `LoginScreen`, `HomeScreen` (bottom bar, Switch Role panel, tiles), `StocktakeListScreen` / `FaveScreen` / `StocktakeDetailScreen` (stocktake.screen.ts), `SearchAssetScreen`; base `AppScreen` (resource-id locators, dialogs, dropdown picks) |
+| `tests/pages/web/` | Slim MHA web page objects (`WebLoginPage`, `WebFavePage`, `WebAssetPage` on `WebBasePage`), adapted from mha-spf because projects do not import from each other |
+| `tests/fixtures/pages.fixture.ts` | Extends `@mobilewright/test`: screen and page objects, `mobileHome` (fresh mobile login), `mobileOfficer`, `webRole` option (`test.use({ webRole: 'vet-ic' })`, saved web session), `faveTarget` (FAVE asset for the officer, reset to PENDING afterwards). Exports `expect` (phone) and `webExpect` (Playwright, browser locators) |
+| `tests/e2e/` | auth (MHM-002/003), role (MHM-004), stocktake (MHM-005), asset (MHM-006), smoke (MHM-001) |
+
+Phone locators: `screen.getByTestId('<resource-id>')` (the app has no accessibility labels). Never `fill()` the login:
+mobilewright puts the typed text in the step title, so `LoginScreen` types it through the driver.
 
 ## Test accounts
 
-In `.env` as `MHM_USER` / `MHM_PASS` (mobile login = the account's full NRIC; the UAT account is passwordless), read
-with `mhmAccount()` from tests/utils/test-data.ts. Never in the workspace.
+In `.env` only: `MHM_USER` / `MHM_PASS` (mobile login = the account's full NRIC; the UAT account is passwordless),
+read with `mhmAccount()`; MHA web: `MHM_WEB_USER` / `MHM_WEB_PASS`, defaulting to the mha-spf account
+(`SPF_USER` / `SPF_PASS`), read with `webAccount()` (tests/utils/test-data.ts). The web account needs VET IC
+(MHM-005) and LOGS1 (MHM-006); tests skip with a message when a role is missing. Never in the workspace.
 
 Testing details (login, role and cost-centre switching, the FAVE sighting and submit flow, submit findings, tool
 benchmarks): [context.md](context.md).
