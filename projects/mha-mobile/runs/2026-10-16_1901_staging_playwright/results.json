@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-16_1901_staging_playwright",
+  "workers": [
+    "mha-mobile"
+  ],
+  "startedAt": "2026-10-16T12:01:11.043Z",
+  "finishedAt": "2026-10-16T12:01:56.708Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "MHM-023",
+      "title": "asset registration form pre-fills the asset's location remarks",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-mobile/tests/e2e/registration/registration.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-16T12:01:11.043Z",
+      "durationMs": 45022,
+      "attempts": 1,
+      "checks": [],
+      "evidence": [
+        "traces/MHM-023-a1-1.zip"
+      ],
+      "notes": [],
+      "error": "Error: page.goto: net::ERR_CONNECTION_TIMED_OUT at https://mhauatweb.southeastasia.cloudapp.azure.com/\nCall log:\n  - navigating to \"https://mhauatweb.southeastasia.cloudapp.azure.com/\", waiting until \"load\"\n",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "Playwright project \"mha-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

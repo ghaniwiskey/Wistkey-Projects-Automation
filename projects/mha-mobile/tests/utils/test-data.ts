@@ -24,6 +24,7 @@ export const WEB_ROLES = {
   'vet-ic': 'Verification Team IC/2IC',
   logs1: 'Logistics Officer 1',
   uro: 'Unit Resource Officer',
+  'agency-admin': 'Agency Admin',
 } as const;
 export type WebRole = keyof typeof WEB_ROLES;
 

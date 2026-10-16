@@ -26,7 +26,7 @@ export type WebAsset = {
 /**
  * MHA web Asset > Listing (/Asset/Asset, #tblist; filters apply on Search) and Asset Details
  * (/Asset/AssetForm?assetId=...: label/value div pairs in the header and tabs Main Data, Location, ...).
- * Use a unit role such as LOGS1: as Agency Admin the listing holds ~48k assets and searching hangs.
+ * Use a unit role such as LOGS1 here; as Agency Admin use openAnyAsset (the full listing freezes on Search).
  * Slim version of mha-spf's AssetListingPage / AssetDetailsPage.
  */
 export class WebAssetPage extends WebBasePage {
@@ -67,6 +67,21 @@ export class WebAssetPage extends WebBasePage {
       if (id && costCentre) out.push({ id, costCentre });
     }
     return out;
+  }
+
+  /**
+   * Open an asset's details as Agency Admin (any unit). The listing's first, unfiltered page covers all
+   * ~48k assets: once it has loaded, a Search freezes the page for minutes, while a Search sent right after
+   * the page opens answers in a few seconds. So search at once, without waiting for the first load.
+   */
+  async openAnyAsset(assetId: string): Promise<void> {
+    await this.page.goto(WebAssetPage.path, { waitUntil: 'domcontentloaded' });
+    await this.page.getByPlaceholder('Asset ID/Asset ID2/Serial No/Desc').fill(assetId);
+    await this.searchButton.click();
+    const link = this.rows.filter({ hasText: `Asset ID: ${assetId}` }).getByRole('link', { name: `Asset ID: ${assetId}` });
+    await link.click({ timeout: 60_000 });
+    await expect(this.page).toHaveURL(/\/Asset\/AssetForm\?assetId=/);
+    await expect(this.field('Asset ID')).toBeVisible();
   }
 
   async openAsset(assetId: string): Promise<void> {

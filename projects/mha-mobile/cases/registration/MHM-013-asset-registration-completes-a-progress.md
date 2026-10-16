@@ -14,11 +14,12 @@ updated: 2026-10-16
 LOGS1/FALO completes the location of a partially registered (PROGRESS) asset on the phone; MHA web shows it registered with the new location and photo.
 
 ## Preconditions
-- A PROGRESS asset in a cost centre the mobile account holds as Logistics Officer 1
+- A PROGRESS asset in a cost centre the mobile account holds as Logistics Officer 1 (2026-10-16: 51 in 332140)
+- The web account holds Agency Admin (the only role of the test account that sees 332140)
 - A photo in the emulator gallery (the test pushes one)
 
 ## Data
-- Asset: the first PROGRESS asset of MHA web Asset Listing (LOGS1) whose cost centre the phone offers to LOGS1
+- Asset: the first one in the phone's Register Asset list, trying the cost centres the Switch Role panel offers to LOGS1 in order (no web lookup of candidates)
 - New Room No: R<unique> (max 5 characters); location remarks retyped as they are (BUG-004)
 
 ## Steps

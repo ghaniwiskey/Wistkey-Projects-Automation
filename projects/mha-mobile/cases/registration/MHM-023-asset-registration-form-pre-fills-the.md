@@ -17,7 +17,7 @@ The phone's Register Asset form shows the PROGRESS asset's current location rema
 - A PROGRESS asset with location remarks in a cost centre the mobile account holds as Logistics Officer 1
 
 ## Data
-- Asset: the first PROGRESS asset of MHA web Asset Listing (LOGS1) with location remarks whose cost centre the phone offers
+- Asset: among the first three in the phone's Register Asset list, the first that has location remarks on MHA web (read as Agency Admin)
 
 ## Steps
 1. MHA web: read the asset's location Remarks

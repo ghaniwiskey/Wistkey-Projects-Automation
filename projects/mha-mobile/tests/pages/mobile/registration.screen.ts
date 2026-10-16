@@ -118,6 +118,12 @@ export class RegistrationScreen extends AppScreen {
     await this.expectList();
   }
 
+  /** From the list back to the home screen (Back). */
+  async close(): Promise<void> {
+    await this.screen.pressButton('BACK');
+    await expect(this.count).toBeHidden({ timeout: 15_000 });
+  }
+
   /** Leave the form without saving (Back). */
   async leaveForm(): Promise<void> {
     await this.screen.pressButton('BACK');
