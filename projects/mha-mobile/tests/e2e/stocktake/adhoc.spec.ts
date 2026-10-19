@@ -12,7 +12,6 @@ test('MHM-019: ad hoc stocktake assigned on mha web reaches the stocktaker\'s mo
   webAssetPage,
   stocktakeListScreen,
 }) => {
-  test.fail(true, 'BUG-003: ad hoc stocktakes never reach the mobile app (no Stocktake Adhoc tile, Stocktake lists FAVEs only)');
   test.setTimeout(8 * 60_000);
   const prefix = `${QA_PREFIX} adhoc`;
   let stocktakeNo = '';
@@ -40,6 +39,8 @@ test('MHM-019: ad hoc stocktake assigned on mha web reaches the stocktaker\'s mo
 
   await test.step(`3. Phone: Stocktaker | ${costCentre} offers ${stocktakeNo} (Stocktake Adhoc tile or the Stocktake list)`, async () => {
     await mobileHome.switchTo(MOBILE_ROLES.stocktaker, costCentre);
+    // Marked only now, so a setup failure is reported as a failure, not as BUG-003.
+    test.fail(true, 'BUG-003: ad hoc stocktakes never reach the mobile app (no Stocktake Adhoc tile, Stocktake lists FAVEs only)');
     if ((await mobileHome.tileNames()).includes('Stocktake Adhoc')) return;
     await mobileHome.openTile('Stocktake');
     await stocktakeListScreen.expectLoaded();

@@ -77,7 +77,6 @@ test('MHM-008: relocation made on the mobile app is approved and moves the asset
 });
 
 test('MHM-009: relocate form pre-fills the asset\'s location remarks @regression', async ({ mobileHome, phoneAsset, assignScreen }) => {
-  test.fail(true, 'BUG-002: the Relocate form always shows "No Remarks" instead of the asset\'s location remarks');
   test.setTimeout(8 * 60_000);
   const role = MOBILE_ROLES.logs1;
   let a: WebAsset | undefined;
@@ -92,6 +91,8 @@ test('MHM-009: relocate form pre-fills the asset\'s location remarks @regression
     await assignScreen.selectAsset(asset.id);
     await assignScreen.pickType('RELOCATE');
   });
+  // Marked only now, so a setup failure is reported as a failure, not as BUG-002.
+  test.fail(true, 'BUG-002: the Relocate form always shows "No Remarks" instead of the asset\'s location remarks');
   await test.step(`Remarks shows "${asset.remarks}" (nothing is submitted)`, async () => {
     const form = await assignScreen.readRelocateForm();
     expect(form.remarks).toBe(asset.remarks);
