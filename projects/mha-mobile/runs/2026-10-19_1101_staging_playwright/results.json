@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-19_1101_staging_playwright",
+  "workers": [
+    "mha-mobile"
+  ],
+  "startedAt": "2026-10-19T04:01:11.881Z",
+  "finishedAt": "2026-10-19T04:01:36.442Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "MHM-019",
+      "title": "ad hoc stocktake assigned on mha web reaches the stocktaker's mobile app",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-mobile/tests/e2e/stocktake/adhoc.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-19T04:01:11.881Z",
+      "durationMs": 20113,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. MHA web (LOGS1): the newest one-off \"QA auto mobile adhoc\" has TAN JUN YONG SHAWN as stocktaker",
+          "pass": false,
+          "actual": "Error: the ad hoc stocktake has an asset  expect(received).not.toBe(expected) // Object.is equality"
+        },
+        {
+          "label": "Stocktake/Stocktake responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/StocktakeListing responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "the ad hoc stocktake has an asset",
+          "pass": false,
+          "actual": "Error: the ad hoc stocktake has an asset  expect(received).not.toBe(expected) // Object.is equality"
+        }
+      ],
+      "evidence": [
+        "screenshots/MHM-019-a1-1.png",
+        "traces/MHM-019-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "Error: the ad hoc stocktake has an asset\n\nexpect(received).not.toBe(expected) // Object.is equality\n\nExpected: not \"\"",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "Playwright project \"mha-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

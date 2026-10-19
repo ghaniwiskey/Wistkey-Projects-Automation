@@ -1,0 +1,236 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-19_1055_staging_playwright",
+  "workers": [
+    "mha-mobile"
+  ],
+  "startedAt": "2026-10-19T03:55:08.368Z",
+  "finishedAt": "2026-10-19T03:57:22.314Z",
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 1
+  },
+  "tests": [
+    {
+      "id": "MHM-009",
+      "title": "relocate form pre-fills the asset's location remarks",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-mobile/tests/e2e/assignment/relocate.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-19T03:55:08.368Z",
+      "durationMs": 107881,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. MHA web: an asset with location remarks",
+          "pass": false,
+          "actual": "Error: expect(locator).toBeVisible() failed  Locator: getByRole('heading', { name: 'Listing', level: 1 })"
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toHaveText()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Asset/Asset responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toBeVisible() failed  Locator: getByRole('heading', { name: 'Listing', level: 1 })"
+        }
+      ],
+      "evidence": [
+        "screenshots/MHM-009-a1-1.png",
+        "traces/MHM-009-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('heading', { name: 'Listing', level: 1 })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('heading', { name: 'Listing', level: 1 }) with timeout 5000ms\n  - waiting for getByRole('heading', { name: 'Listing', level: 1 })\n",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "MHM-019",
+      "title": "ad hoc stocktake assigned on mha web reaches the stocktaker's mobile app",
+      "status": "skipped",
+      "source": "playwright",
+      "file": "projects/mha-mobile/tests/e2e/stocktake/adhoc.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-19T03:55:08.368Z",
+      "durationMs": 18983,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. MHA web (LOGS1): the newest one-off \"QA auto mobile adhoc\" has TAN JUN YONG SHAWN as stocktaker",
+          "pass": false,
+          "actual": "Error: Test is skipped: No one-off ad hoc stocktake named \"QA auto mobile adhoc ...\" on MHA web. Create one with one asset of a unit the phone offers (Ad Hoc Setup > Create, One-Off, Manual)."
+        },
+        {
+          "label": "Stocktake/Stocktake responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"mha-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

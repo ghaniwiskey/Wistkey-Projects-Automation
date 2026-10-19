@@ -73,8 +73,9 @@ export class WebAdHocPage extends WebBasePage {
   async firstAssignment(): Promise<{ asset: string; stocktaker: string }> {
     await this.openTab('Assignment', this.assignInfo);
     const row = this.assignRows.first();
+    // The footer can read "Showing no records" while the table still shows "Loading...": wait for a row.
+    await expect(row, 'the ad hoc stocktake has an asset').toContainText(/Asset ID: \d+/, { timeout: 30_000 });
     const asset = ((await row.innerText()).match(/Asset ID: (\d+)/) ?? [])[1] ?? '';
-    expect(asset, 'the ad hoc stocktake has an asset').not.toBe('');
     return { asset, stocktaker: (await row.locator('td').last().innerText()).trim() };
   }
 
