@@ -2,7 +2,7 @@
 id: BUG-003
 title: "Ad hoc stocktakes assigned on MHA web never reach the mobile app (no Stocktake Adhoc tile, Stocktake lists FAVEs only)"
 severity: major
-status: open
+status: verified
 env: staging
 url: Mobile app home / Stocktake; set up on https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/StocktakeListing
 found: 2026-10-16
@@ -33,6 +33,10 @@ Home tiles as Stocktaker: Search Asset, Stocktake, New Asset, Settings (no Stock
 - Base URL: Mobile app home / Stocktake; set up on https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/StocktakeListing
 - Env: staging
 
+## Resolution
+Not an app defect: on UAT the Stocktaker role's MOBILE function **Stocktake (Ad Hoc)** was unticked (MHA web > User > Role Listing > STOCKTAKER > Functions > MOBILE; ticked were Search Asset, Stocktake, New Asset, Setting, which are exactly the tiles the phone showed). With it ticked (2026-10-19, with the user's go-ahead; WEB functions unchanged; affects the role's 195 users on UAT) the Stocktaker home shows a **Stocktake (Ad Hoc)** tile listing the officer's ad hoc stocktakes (9, including ADST00000034/35 created by Wong and ADST00000036 created by the officer on web as HTX-A4805FB), and an ad hoc asset can be sighted and submitted from the phone (web: SIGHTED with the phone's remarks). Check this role setting on other environments before release.
+
 ## History
 - 2026-10-16: filed from mobile exploration 2026-10-16 in the Test Manager app.
 - 2026-10-16: linked to MHM-019 (automated, expected to fail while open; reuses ADST00000034).
+- 2026-10-19: cause found: the Stocktaker role's MOBILE function Stocktake (Ad Hoc) was off on UAT. Ticked it (user's go-ahead); MHM-019 reworked into the full ad hoc sighting flow and passes (run 2026-10-19_1536). Status verified.

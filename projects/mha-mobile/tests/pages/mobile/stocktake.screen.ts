@@ -9,6 +9,9 @@ const TABS: FaveTab[] = ['SELECT', 'VERIFY', 'REVIEW'];
  * Stocktake list (home > Stocktake): title "Stocktake" with the count "(n)", one row per stocktake of the
  * active cost centre (date box, "FAVE FY26-2007", "<cost centre> - <name>", "Fave | Pending: <n>"; the
  * pending count is the cost centre's, not the stocktaker's). Empty list: "Nothing to show yet".
+ * Home > Stocktake (Ad Hoc) shows the same list for the officer's ad hoc stocktakes ("Stocktake (Ad Hoc)
+ * (n)", rows "ADST00000036", name, "Ad Hoc | Pending: <n>"); an ad hoc stocktake then uses the FAVE screens
+ * (SELECT / VERIFY / REVIEW; its detail has only Sighted, Remarks and the photo).
  * Opening a FAVE asks "Will do stocktake by OFFLINE MODE?": CONFIRM = offline (downloads every asset first),
  * CANCEL = online.
  */
@@ -48,7 +51,10 @@ export class StocktakeListScreen extends AppScreen {
 
   /** Open a stocktake by number and answer CANCEL (online mode) to the offline question. */
   async openOnline(stocktakeNo: string): Promise<void> {
-    await this.numbers.and(this.screen.getByText(stocktakeNo, { exact: true })).tap();
+    const row = this.numbers.and(this.screen.getByText(stocktakeNo, { exact: true }));
+    // The ad hoc list keeps every stocktake ever assigned to the officer: the row may be below the fold.
+    await row.scrollIntoViewIfNeeded({ maxSwipes: 15 });
+    await row.tap();
     await this.answer('Will do stocktake by OFFLINE MODE?', 'right');
   }
 

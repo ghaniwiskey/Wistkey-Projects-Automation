@@ -101,6 +101,22 @@ export class WebAdHocPage extends WebBasePage {
     return (text.match(/\b(NOT SIGHTED|SIGHTED|PENDING)\b/) ?? [''])[0];
   }
 
+  /**
+   * Details tab: the asset's result and remarks as the Update Result dialog shows them (opened read-only,
+   * then Cancel).
+   */
+  async readResult(assetId: string): Promise<{ result: string; remarks: string }> {
+    await this.openTab('Details', this.detailInfo);
+    await this.tickOne(this.detailRows.filter({ hasText: `Asset ID: ${assetId}` }), this.detailInfo);
+    await this.page.getByRole('button', { name: 'Update Result', exact: true }).click();
+    await expect(this.resultModal).toBeVisible();
+    const result = (await this.select2(this.resultModal, 'SightedResult').innerText()).trim();
+    const remarks = (await this.resultModal.locator('textarea').first().inputValue()).trim();
+    await this.resultModal.getByRole('button', { name: 'Cancel', exact: true }).click();
+    await expect(this.resultModal).toBeHidden();
+    return { result, remarks };
+  }
+
   /** Details tab: set the asset's result back to PENDING when it is not. */
   async ensurePending(assetId: string): Promise<void> {
     if ((await this.resultOf(assetId)) === 'PENDING') return;

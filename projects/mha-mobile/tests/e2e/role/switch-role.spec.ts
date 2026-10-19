@@ -1,4 +1,4 @@
-import { test, expect, MOBILE_ROLES } from '../../fixtures/pages.fixture';
+import { test, expect, MOBILE_ROLES, ROLE_TILES } from '../../fixtures/pages.fixture';
 
 // Test case: projects/mha-mobile/cases/role/MHM-004-*.md
 test('MHM-004: switching to stocktaker and a cost centre shows only that cost centre\'s stocktakes @smoke', async ({
@@ -25,7 +25,7 @@ test('MHM-004: switching to stocktaker and a cost centre shows only that cost ce
   });
   await test.step('Bottom bar shows the role and cost centre; the Stocktaker tiles show', async () => {
     await expect(mobileHome.roleAndCostCentre).toHaveText(`${role} | ${costCentre}`);
-    expect(await mobileHome.tileNames()).toEqual(['Search Asset', 'Stocktake', 'New Asset', 'Settings']);
+    expect(await mobileHome.tileNames()).toEqual(ROLE_TILES[role]);
   });
   await test.step('3. Open Stocktake', async () => {
     await mobileHome.openTile('Stocktake');

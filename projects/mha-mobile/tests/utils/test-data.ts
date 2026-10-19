@@ -42,7 +42,8 @@ export const ROLE_TILES: Record<string, string[]> = {
   'Logistics Officer 1': ['Asset Registration', 'Assign', 'Search Asset', 'Stocktake', 'New Asset', 'Settings'],
   'Unit Resource Officer': ['Assign', 'Search Asset', 'Stocktake', 'New Asset', 'Settings'],
   'Verification Team IC/2IC': ['Search Asset', 'Stocktake', 'New Asset', 'Settings'],
-  Stocktaker: ['Search Asset', 'Stocktake', 'New Asset', 'Settings'],
+  // Stocktake (Ad Hoc) since 2026-10-19: the role's MOBILE function was off on UAT (BUG-003, configuration).
+  Stocktaker: ['Search Asset', 'Stocktake', 'New Asset', 'Settings', 'Stocktake (Ad Hoc)'],
 };
 
 /** Photo for New Asset reports (a 70 KB screenshot of the app, no personal data). */
