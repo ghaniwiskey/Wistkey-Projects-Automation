@@ -15,10 +15,7 @@ test('MHM-006: search asset shows the same asset data as mha web @regression', a
   let web: WebAsset | undefined;
 
   await test.step('1. MHA web: first AVAILABLE asset whose cost centre the phone offers', async () => {
-    await mobileHome.openSwitch();
-    await mobileHome.pickRole(role);
-    const offered = await mobileHome.costCentreOptions();
-    await mobileHome.closeSwitch();
+    const offered = await mobileHome.costCentresOf(role);
     const pick = (await webAssetPage.listedWithStatus('AVAILABLE')).find((a) => offered.includes(a.costCentre));
     test.skip(!pick, `No AVAILABLE asset on the first MHA web listing page belongs to a cost centre the phone offers (${offered.join(', ')})`);
     await webAssetPage.openAsset(pick!.id);

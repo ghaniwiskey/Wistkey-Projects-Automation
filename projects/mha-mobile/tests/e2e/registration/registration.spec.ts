@@ -5,7 +5,7 @@ import type { WebAsset, WebAssetPage } from '../../pages/web/web-asset.page';
 
 // Test cases: projects/mha-mobile/cases/registration/MHM-013-*.md, MHM-023-*.md
 // Data comes from the phone: the first PROGRESS asset its Register Asset list offers, trying the cost centres
-// the Switch Role panel offers to LOGS1 in order until one has a list (UAT 2026-10-16: 51 in 332140). MHA web
+// the officer holds as LOGS1 in order until one has a list (UAT 2026-10-16: 51 in 332140). MHA web
 // is read as Agency Admin, the only web role of the test account that sees 332140.
 // Completing a registration cannot be undone, so MHM-013 uses one asset up per run.
 test.use({ webRole: 'agency-admin' });
@@ -15,7 +15,7 @@ const LOGS1 = MOBILE_ROLES.logs1;
 type Found = { costCentre: string; asset: WebAsset };
 
 /**
- * Phone: LOGS1 on each cost centre the Switch Role panel offers, in order, until Asset Registration lists
+ * Phone: LOGS1 on each cost centre the officer holds as LOGS1, in order, until Asset Registration lists
  * some; the first listed asset that fits (with location remarks when asked) is read on MHA web. Leaves the
  * phone on the Register Asset list. Skips when none fits.
  */
@@ -25,10 +25,7 @@ async function phoneProgressAsset(
   webAssetPage: WebAssetPage,
   opts: { withRemarks?: boolean } = {},
 ): Promise<Found> {
-  await mobileHome.openSwitch();
-  await mobileHome.pickRole(LOGS1);
-  const offered = await mobileHome.costCentreOptions();
-  await mobileHome.closeSwitch();
+  const offered = await mobileHome.costCentresOf(LOGS1);
   const tried: string[] = [];
   // Each empty cost centre costs about a minute of the ~10-minute mobile session (BUG-001): try a few.
   for (const costCentre of offered.slice(0, 5)) {
@@ -105,13 +102,14 @@ test('MHM-023: asset registration form pre-fills the asset\'s location remarks @
   registrationScreen,
   webAssetPage,
 }) => {
-  test.fail(true, 'BUG-004: the Register Asset form shows Remarks empty ("(Optional)") and saving clears the asset\'s remarks');
   test.setTimeout(10 * 60_000);
   let found: Found | undefined;
   await test.step('1. Phone: Asset Registration lists a PROGRESS asset that has location remarks on MHA web', async () => {
     found = await phoneProgressAsset(mobileHome, registrationScreen, webAssetPage, { withRemarks: true });
   });
   const { asset } = found as Found;
+  // Marked only once the data is found, so a setup failure is reported as a failure, not as BUG-004.
+  test.fail(true, 'BUG-004: the Register Asset form shows Remarks empty ("(Optional)") and saving clears the asset\'s remarks');
   await test.step(`2. Open ${asset.id} (no Save): Remarks shows "${asset.remarks}"`, async () => {
     await registrationScreen.open(asset.id);
     const form = await registrationScreen.readForm();

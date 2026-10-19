@@ -121,6 +121,31 @@ export class HomeScreen extends AppScreen {
     return this.optionsOf(this.costCentreSpinner);
   }
 
+  /**
+   * Cost centres a role holds. The panel's Select Cost Center lists the cost centres of the role that was
+   * active when the home screen was shown, whatever role is picked or confirmed since (BUG-005): after a
+   * fresh login (Agency Admin) all agency cost centres. So the role is confirmed first (with the first cost
+   * centre offered) and home is shown again (Settings and back) before the list is read. Leaves the role
+   * active (on that first cost centre) and the panel closed. Not for Agency Admin (no Settings tile).
+   */
+  async costCentresOf(role: string): Promise<string[]> {
+    if ((await this.active()).role !== role) {
+      await this.openSwitch();
+      await this.pickRole(role);
+      const [first] = await this.firstCostCentreOptions();
+      await this.closeSwitch();
+      await this.switchTo(role, first);
+    }
+    // The role may have been confirmed on this home screen: show home again either way.
+    await this.openTile('Settings');
+    await this.screen.pressButton('BACK');
+    await this.expectLoaded();
+    await this.openSwitch();
+    const held = await this.costCentreOptions();
+    await this.closeSwitch();
+    return held;
+  }
+
   /** The cost centres the open dropdown shows without scrolling (the first ten or so). */
   async firstCostCentreOptions(): Promise<string[]> {
     return this.firstOptionsOf(this.costCentreSpinner);

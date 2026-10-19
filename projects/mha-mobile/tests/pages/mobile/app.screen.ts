@@ -112,27 +112,44 @@ export abstract class AppScreen {
     throw new Error('The dropdown did not open');
   }
 
-  /** Close an open dropdown (Back closes the popup and keeps the screen). */
+  /**
+   * Close the dropdown if it is still open (Back closes the popup and keeps the screen). A swipe meant to
+   * scroll a short dropdown lands outside it and dismisses it; Back would then close the panel or screen
+   * behind it, so it is only pressed while options show.
+   */
   private async closeDropdown(): Promise<void> {
+    if ((await this.nodesOnScreen({ type: AppScreen.OPTION })).length === 0) return;
     await this.screen.pressButton('BACK');
     await expect(this.screen.getByType(AppScreen.OPTION).first()).toBeHidden();
   }
 
   /**
-   * Open a Spinner and pick an option, scrolling the dropdown when it is below the fold. The option is
+   * Open a Spinner and pick an option, scrolling the dropdown when it is out of view. The option is
    * tapped at its position from one tree read: a locator tap waits for two identical reads (~10 s here).
+   * Android opens a dropdown scrolled to the selected row, so the option may be above it: the search
+   * scrolls down to the end first, then back up to the top.
    */
   protected async pick(spinner: Locator, text: string): Promise<void> {
     await this.openDropdown(spinner);
-    for (let i = 0; i < 20; i++) {
+    let direction: 'up' | 'down' = 'up';
+    let lastShown = '';
+    for (let i = 0; i < 40; i++) {
+      const shown = await this.nodesOnScreen({ type: AppScreen.OPTION });
+      if (shown.length === 0) break; // a short dropdown, dismissed by the last swipe: all of it was seen
       // A row cut off at the edge of the dropdown is too thin to tap safely; scroll it in first.
-      const row = (await this.nodesOnScreen({ type: AppScreen.OPTION, text })).find((n) => (n.bounds?.height ?? 0) >= 80);
+      const row = shown.find((n) => n.text?.trim() === text && (n.bounds?.height ?? 0) >= 80);
       if (row?.bounds) {
         await this.screen.tap(Math.round(row.bounds.x + row.bounds.width / 2), Math.round(row.bounds.y + row.bounds.height / 2));
         await expect(this.screen.getByType(AppScreen.OPTION).first()).toBeHidden();
         return;
       }
-      await this.screen.swipe('up', { distance: 600 });
+      const key = shown.map((n) => n.text?.trim()).join('|');
+      if (key === lastShown) {
+        if (direction === 'down') break; // top reached too
+        direction = 'down'; // end of the list reached: go back up
+      }
+      lastShown = key;
+      await this.screen.swipe(direction, { distance: 600 });
     }
     await this.closeDropdown();
     throw new Error(`The dropdown does not offer "${text}"`);
@@ -144,7 +161,9 @@ export abstract class AppScreen {
     const seen: string[] = [];
     for (let unchanged = 0, i = 0; unchanged < 2 && i < 20; i++) {
       const before = seen.length;
-      for (const t of await this.textsOnScreen({ type: AppScreen.OPTION })) if (!seen.includes(t)) seen.push(t);
+      const shown = await this.textsOnScreen({ type: AppScreen.OPTION });
+      if (shown.length === 0) break; // a short dropdown, dismissed by the last swipe: all of it was seen
+      for (const t of shown) if (!seen.includes(t)) seen.push(t);
       unchanged = seen.length === before ? unchanged + 1 : 0;
       if (unchanged < 2) await this.screen.swipe('up', { distance: 600 });
     }

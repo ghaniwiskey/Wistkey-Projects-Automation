@@ -182,10 +182,7 @@ export const test = base.extend<Options & Fixtures>({
   },
   phoneAsset: async ({ mobileHome, webAssetPage }, use, testInfo) => {
     await use(async (role, opts) => {
-      await mobileHome.openSwitch();
-      await mobileHome.pickRole(role);
-      const offered = await mobileHome.costCentreOptions();
-      await mobileHome.closeSwitch();
+      const offered = await mobileHome.costCentresOf(role);
       const candidates = (await webAssetPage.listedWithStatus('AVAILABLE')).filter((a) => offered.includes(a.costCentre));
       for (const c of candidates) {
         await webAssetPage.openAsset(c.id);

@@ -12,11 +12,13 @@ test('MHM-004: switching to stocktaker and a cost centre shows only that cost ce
     await mobileHome.openSwitch();
     const roles = await mobileHome.roleOptions();
     test.skip(!roles.includes(role), `The mobile account has no ${role} role. It holds: ${roles.join(', ')}`);
-    await mobileHome.pickRole(role);
-    const offered = await mobileHome.firstCostCentreOptions();
     await mobileHome.closeSwitch();
-    costCentre = offered.find((c) => c !== current) ?? '';
-    test.skip(!costCentre, `Select Cost Center offers no cost centre other than ${current}`);
+    // The panel lists the previous role's cost centres until home is shown again (BUG-005): read the
+    // Stocktaker's own units, then take one other than where the app stands now.
+    const held = await mobileHome.costCentresOf(role);
+    const { costCentre: now } = await mobileHome.active();
+    costCentre = held.find((c) => c !== current && c !== now) ?? held.find((c) => c !== now) ?? '';
+    test.skip(!costCentre, `The ${role} role holds no cost centre other than ${now} (${held.join(', ')})`);
   });
   await test.step(`2. Switch to ${role} and the cost centre`, async () => {
     await mobileHome.switchTo(role, costCentre);

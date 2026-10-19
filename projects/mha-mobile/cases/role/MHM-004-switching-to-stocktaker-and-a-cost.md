@@ -7,7 +7,7 @@ tags: [smoke]
 envs: [all]
 automated: true
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-19
 ---
 
 ## Goal
@@ -30,4 +30,4 @@ Switch Role changes the active role and cost centre; the home tiles and the Stoc
 
 ## Notes
 Automated in tests/e2e/role/switch-role.spec.ts (screen objects tests/pages/mobile, web page objects tests/pages/web).
-Select Cost Center does not always follow the picked role (it may list all 37 agency cost centres); the page object scrolls the list to the wanted one.
+Select Cost Center lists the previous role's cost centres until home is shown again (BUG-005, after login all agency cost centres), so the test reads the Stocktaker's own units with HomeScreen.costCentresOf (confirm the role, Settings and back) and switches to one of them other than the current; picking from the login list could land on a unit the Stocktaker does not hold and pass on an empty Stocktake list.
