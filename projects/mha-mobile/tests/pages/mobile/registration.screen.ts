@@ -84,6 +84,30 @@ export class RegistrationScreen extends AppScreen {
     };
   }
 
+  /**
+   * Make sure Group/NPC/Base is set. A PROGRESS asset may have none (HTA 2026-10-20: the form shows "Select
+   * Location" and Save only toasts "Please select location"); SPF assets came with it. Picks the option the asset's
+   * MHA web group names ("Name (CODE)" or "CODE"), else the first one offered. Picking a group makes the app open
+   * "Select Address:-" for the form's postal code (HTA 2026-10-20), so the address is picked again (the asset's
+   * own, else the first row of its postal code). Returns the group the form shows.
+   */
+  async ensureGroup(webGroup = '', postalCode = '', address = ''): Promise<string> {
+    const shown = this.groupSpinner.getByTestId('text1');
+    await this.groupSpinner.scrollIntoViewIfNeeded();
+    const current = (await shown.getText()).trim();
+    if (current && current !== 'Select Location') return current;
+    const options = (await this.firstOptionsOf(this.groupSpinner)).filter((o) => o !== 'Select Location');
+    if (!options.length) throw new Error('Group/NPC/Base offers no location');
+    const wanted = options.find((o) => webGroup.trim() === o || webGroup.trim().endsWith(`(${o})`)) ?? options[0];
+    await this.pick(this.groupSpinner, wanted);
+    const addressList = this.screen.getByText('Select Address:-', { exact: true });
+    if (await expect(addressList).toBeVisible({ timeout: 8_000 }).then(() => true, () => false)) {
+      await this.pickAddressRow(postalCode, address);
+    }
+    await expect(shown).toHaveText(wanted);
+    return wanted;
+  }
+
   /** Replace a field's text (empty string clears it). */
   async setField(field: Locator, value: string): Promise<void> {
     await field.scrollIntoViewIfNeeded();

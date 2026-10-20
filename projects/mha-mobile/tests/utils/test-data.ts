@@ -53,8 +53,8 @@ export const MOBILE_ROLES = {
 /**
  * Home tiles per mobile role and agency (each role's MOBILE functions in MHA web > User > Role Listing).
  * SPF seen on UAT 2026-10-16 (FALO = LOGS1); its Stocktaker has Stocktake (Ad Hoc) since 2026-10-19 (BUG-003,
- * configuration). HTA seen on UAT 2026-10-20: Agency Admin has every tile, UAO = VET IC = Stocktaker, and its
- * Stocktaker has no Stocktake (Ad Hoc) (the role's MOBILE function is off, like SPF before 2026-10-19).
+ * configuration). HTA seen on UAT 2026-10-20: Agency Admin has every tile, UAO = VET IC (4 tiles); its Stocktaker
+ * got Stocktake (Ad Hoc) the same day (the user ticked the role's MOBILE function, off until then like on SPF).
  */
 const TILES_BY_AGENCY: Record<string, Record<string, string[]>> = {
   SPF: {
@@ -69,9 +69,15 @@ const TILES_BY_AGENCY: Record<string, Record<string, string[]>> = {
     'Logistics Officer 1': ['Asset Registration', 'Assign', 'Search Asset', 'Stocktake', 'New Asset', 'Settings'],
     'Unit Resource Officer': ['Assign', 'Search Asset', 'Stocktake', 'New Asset', 'Settings'],
     'Verification Team IC/2IC': ['Search Asset', 'Stocktake', 'New Asset', 'Settings'],
-    Stocktaker: ['Search Asset', 'Stocktake', 'New Asset', 'Settings'],
+    Stocktaker: ['Search Asset', 'Stocktake', 'New Asset', 'Settings', 'Stocktake (Ad Hoc)'],
   },
 };
+
+/**
+ * Agency code inside FAVE numbers: "FAVE FY26-2006" = FY 26, agency 20, running number 06. SPF = 20 (CR12 user
+ * manual); HTA = 90 (seen on UAT 2026-10-20: FAVE FY26-9001).
+ */
+export const FAVE_AGENCY_CODE: Record<string, string> = { SPF: '20', HTA: '90' };
 
 /** Home tiles per mobile role for this env's agency. */
 export const ROLE_TILES: Record<string, string[]> = TILES_BY_AGENCY[agency()] ?? TILES_BY_AGENCY.SPF;

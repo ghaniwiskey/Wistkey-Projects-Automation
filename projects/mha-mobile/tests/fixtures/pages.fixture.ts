@@ -108,6 +108,7 @@ export const test = base.extend<Options & Fixtures>({
       if (!(await web.sessionAlive())) throw new SessionEndedError();
       await page.goto('IndexBk');
       if (web.isLoginUrl()) throw new SessionEndedError();
+      await web.closeUnauthorisedPopup(); // the dashboard can repeat the check page's popup
       const roles = await web.availableRoles();
       testInfo.skip(!roles.includes(label), `The MHA web account has no role "${label}". It holds: ${roles.join(', ')}`);
       await web.switchRole(label);
@@ -237,4 +238,4 @@ export const test = base.extend<Options & Fixtures>({
 });
 
 export { expect, webExpect };
-export { MOBILE_ROLES, QA_PREFIX, ROLE_TILES, WEB_ROLES, amount, blankable, sameName, unique } from '../utils/test-data';
+export { FAVE_AGENCY_CODE, MOBILE_ROLES, QA_PREFIX, ROLE_TILES, WEB_ROLES, amount, blankable, sameName, unique } from '../utils/test-data';

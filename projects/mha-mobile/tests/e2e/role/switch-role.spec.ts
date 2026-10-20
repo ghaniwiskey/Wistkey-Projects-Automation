@@ -1,4 +1,5 @@
-import { test, expect, MOBILE_ROLES, ROLE_TILES } from '../../fixtures/pages.fixture';
+import { test, expect, MOBILE_ROLES, ROLE_TILES, FAVE_AGENCY_CODE } from '../../fixtures/pages.fixture';
+import { agency } from '../../utils/test-data';
 
 // Test case: projects/mha-mobile/cases/role/MHM-004-*.md
 test('MHM-004: switching to stocktaker and a cost centre shows only that cost centre\'s stocktakes @smoke', async ({
@@ -35,7 +36,8 @@ test('MHM-004: switching to stocktaker and a cost centre shows only that cost ce
     const names = await stocktakeListScreen.stocktakeNames();
     expect(numbers.length).toBe(total);
     if (total === 0) await expect(stocktakeListScreen.empty).toBeVisible();
-    for (const n of numbers) expect(n).toMatch(/^FAVE FY\d{2}-20\d{2}$/);
+    const code = FAVE_AGENCY_CODE[agency()] ?? '\\d{2}';
+    for (const n of numbers) expect(n).toMatch(new RegExp(`^FAVE FY\\d{2}-${code}\\d{2}$`));
     for (const n of names) expect(n).toMatch(new RegExp(`^${costCentre} - \\S`));
   });
 });

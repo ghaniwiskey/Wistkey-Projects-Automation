@@ -41,5 +41,5 @@ A potential asset reported from the phone (condition, description, remarks, loca
 - Step 8: "The reported new asset has been cancelled." and Status CANCELLED
 
 ## Notes
-Automated in tests/e2e/new-asset/new-asset.spec.ts.
+Automated in tests/e2e/new-asset/new-asset.spec.ts. The address is the asset's own when "Select Address:-" has a row reading exactly like it (SPF), else the first row of its postal code (HTA assets keep their own text); the web check expects the row picked.
 Writes on UAT and emails all LOGS1 and VET IC of the unit (like mha-spf SPF-016); the request is cancelled at the end. A tiny image (85-byte PNG) is dropped by the app without a message.

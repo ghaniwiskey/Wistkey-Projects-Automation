@@ -35,3 +35,4 @@ Step 2: Remarks shows "No Remarks" (deleting a character leaves "No Remark", so 
 ## History
 - 2026-10-16: filed from mobile exploration 2026-10-16 in the Test Manager app.
 - 2026-10-16: linked to MHM-009 (automated, expected to fail while open).
+- 2026-10-20: reproduces on HTA too (MHM-009 in the HTA runs: the Relocate form shows "No Remarks").

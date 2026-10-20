@@ -163,7 +163,7 @@ export type StocktakeAsset = { assetNo: string; assetId2: string; serial: string
 /** The new location typed when Correct Location is off. */
 export type NewLocation = {
   postalCode: string;
-  /** The address to pick in "Select Address:-", as the app lists it (e.g. the asset's current Address). */
+  /** The asset's address; picked in "Select Address:-" as it reads, or the row of the postal code (AppScreen.pickAddressRow). */
   address: string;
   room: string;
   remarks: string;
@@ -280,14 +280,10 @@ export class StocktakeDetailScreen extends AppScreen {
     if (!group) throw new Error('The new location offers no Group / NPC / Base');
     await this.pick(this.groupSpinner, group);
     await this.newPostalCode.fill(loc.postalCode.slice(0, 4));
-    await expect(this.screen.getByText('Select Address:-', { exact: true })).toBeVisible({ timeout: 30_000 });
-    const row = this.screen.getByText(loc.address, { exact: true });
-    await row.scrollIntoViewIfNeeded({ maxSwipes: 30 });
-    await row.tap();
-    await expect(this.screen.getByText('Your Selected Address is', { exact: true })).toBeVisible();
-    await this.alertOk.tap();
+    // The asset's own address when the list has it, else the list's row of its postal code (HTA).
+    const picked = await this.pickAddressRow(loc.postalCode, loc.address);
     await expect(this.newPostalCode).toHaveText(loc.postalCode, { timeout: 15_000 });
-    await expect(this.newAddress).toHaveText(loc.address);
+    await expect(this.newAddress).toHaveText(picked);
     await this.newRoom.scrollIntoViewIfNeeded();
     await this.newRoom.fill(loc.room);
     await this.hideKeyboard();

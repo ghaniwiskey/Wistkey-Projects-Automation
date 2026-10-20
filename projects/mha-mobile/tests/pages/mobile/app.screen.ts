@@ -196,6 +196,39 @@ export abstract class AppScreen {
     return seen;
   }
 
+  /**
+   * Pick a row in the app's "Select Address:-" dialog (it opens once 4 digits of a postal code are typed and lists
+   * every address containing them, e.g. 163 rows for "6989"), confirm "Your Selected Address is" with OK, and
+   * return the row's text. The row: the address itself when it reads like the list's rows (ending with its postal
+   * code, as SPF assets' addresses do: "35 AIRPORT BOULEVARD ... SINGAPORE 819645"); otherwise the first row of
+   * that postal code (HTA assets keep their own text, e.g. "501 Old Choa Chu Kang Road", which no row matches;
+   * the list has "501 OLD CHOA CHU KANG ROAD HOME TEAM ACADEMY (BLK 1) SINGAPORE 698928" and 23 more, 2026-10-20).
+   * Rows are read from the view tree and matched here (a text locator with a pattern did not find them).
+   */
+  protected async pickAddressRow(postalCode: string, address: string): Promise<string> {
+    await expect(this.screen.getByText('Select Address:-', { exact: true })).toBeVisible({ timeout: 30_000 });
+    const ofPostalCode = new RegExp(`\\b${postalCode}\\s*$`);
+    const exact = ofPostalCode.test(address.trim());
+    const wanted = (text: string) => (exact ? text === address.trim() : ofPostalCode.test(text));
+    let lastShown = '';
+    for (let i = 0; i < 40; i++) {
+      const rows = (await this.nodesOnScreen({})).filter((n) => /\d{6}\s*$/.test((n.text ?? '').trim()));
+      // A row cut off at the edge of the list is too thin to tap safely; it comes into view with the next swipe.
+      const row = rows.find((n) => wanted((n.text ?? '').trim()) && (n.bounds?.height ?? 0) >= 60);
+      if (row?.bounds) {
+        await this.screen.tap(Math.round(row.bounds.x + row.bounds.width / 2), Math.round(row.bounds.y + row.bounds.height / 2));
+        await expect(this.screen.getByText('Your Selected Address is', { exact: true })).toBeVisible({ timeout: 15_000 });
+        await this.alertOk.tap();
+        return (row.text ?? '').trim();
+      }
+      const key = rows.map((n) => n.text).join('|');
+      if (key === lastShown) break; // end of the list
+      lastShown = key;
+      await this.screen.swipe('up', { distance: 600 });
+    }
+    throw new Error(`"Select Address:-" has no row ${exact ? `"${address}"` : `of postal code ${postalCode}`}`);
+  }
+
   /** The options a Spinner shows without scrolling. */
   protected async firstOptionsOf(spinner: Locator): Promise<string[]> {
     await this.openDropdown(spinner);

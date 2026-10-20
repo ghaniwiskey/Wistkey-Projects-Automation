@@ -84,7 +84,21 @@ export abstract class WebBasePage extends AppPage {
    */
   async sessionAlive(): Promise<boolean> {
     await this.page.goto(WebBasePage.sessionCheckPath);
-    return !this.isLoginUrl();
+    if (this.isLoginUrl()) return false;
+    // A role without Asset > Listing (VET IC on HTA, the role the previous test may have left active) gets the
+    // popup "Unauthorised access.": the session is alive. Close the popup, it would block the role switch.
+    await this.closeUnauthorisedPopup();
+    return true;
+  }
+
+  /** Close the "Unauthorised access." popup if it shows up (it can appear shortly after the page loads). */
+  async closeUnauthorisedPopup(): Promise<void> {
+    const popup = this.alert.filter({ hasText: 'Unauthorised access.' });
+    await popup.waitFor({ state: 'visible', timeout: 2_500 }).catch(() => undefined);
+    if (await popup.isVisible()) {
+      await popup.getByRole('button', { name: 'Ok', exact: true }).click();
+      await expect(popup).toBeHidden();
+    }
   }
 
   /**

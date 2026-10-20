@@ -38,4 +38,4 @@ A stocktaker sights an asset but marks the location as wrong and enters the new 
 
 ## Notes
 Same as the web flow SPF-039 but raised from the phone. The test rejects the relocation (an approved one locks the FAVE result, mha-spf BUG-009 wont-fix).
-Automated in tests/e2e/stocktake/fave-outcomes.spec.ts.
+Automated in tests/e2e/stocktake/fave-outcomes.spec.ts. The new address is picked like in MHM-010: the asset's own row when the list has it, else the first row of its postal code (HTA).

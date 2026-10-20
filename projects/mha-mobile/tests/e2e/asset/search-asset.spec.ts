@@ -1,4 +1,4 @@
-import { test, expect, MOBILE_ROLES, amount } from '../../fixtures/pages.fixture';
+import { test, expect, MOBILE_ROLES, amount, blankable } from '../../fixtures/pages.fixture';
 import type { MobileAsset } from '../../pages/mobile/search-asset.screen';
 import type { WebAsset } from '../../pages/web/web-asset.page';
 
@@ -59,9 +59,10 @@ test('MHM-006: search asset shows the same asset data as mha web @regression', a
     expect(p.building).toBe(w.building);
     expect(p.address).toBe(w.address);
     expect(p.postalCode).toBe(w.postalCode);
-    expect(p.block).toBe(w.block);
-    expect(p.level).toBe(w.level);
-    expect(p.room).toBe(w.roomNo);
+    // Empty fields: web "-", phone "" or the field's hint (HTA 101000000323 has no block, level or room).
+    expect(blankable(p.block, 'Block')).toBe(blankable(w.block));
+    expect(blankable(p.level, 'Level')).toBe(blankable(w.level));
+    expect(blankable(p.room, 'Room')).toBe(blankable(w.roomNo));
     expect(p.locationRemarks).toBe(w.remarks === '-' ? '' : w.remarks);
   });
   // BUG-006: amounts of $10 million and more show in scientific notation ("$1.36449E8"). Marked as expected to

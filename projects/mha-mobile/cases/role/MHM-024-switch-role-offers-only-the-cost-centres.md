@@ -27,4 +27,4 @@ Select Cost Center in the Switch Role panel follows the role picked in Select Ro
 - Step 1 offers the same cost centres as step 2 (the units the officer holds as Logistics Officer 1)
 
 ## Notes
-Automated in tests/e2e/role/switch-role-cost-centres.spec.ts; expected to fail while BUG-005 is open: step 1 lists the previous role's cost centres (after login all agency cost centres, e.g. 332110), and the list changes only once home is shown again. UAT 2026-10-19: LOGS1 holds 332100, 332140, 332200, 332600.
+Automated in tests/e2e/role/switch-role-cost-centres.spec.ts; expected to fail while BUG-005 is open: step 1 lists the previous role's cost centres (after login all agency cost centres, e.g. 332110), and the list changes only once home is shown again. UAT 2026-10-19: LOGS1 holds 332100, 332140, 332200, 332600. The test reads the starting role's list too and skips when both roles hold the same cost centres (the bug cannot show then): HTA 2026-10-20, where the test account holds all 8 cost centres in every role.

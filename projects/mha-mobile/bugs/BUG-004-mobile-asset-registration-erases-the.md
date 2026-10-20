@@ -36,3 +36,4 @@ Step 4: "Success / Registration Success", Register Asset (0). Step 5: status AVA
 ## History
 - 2026-10-16: filed from mobile exploration 2026-10-16 in the Test Manager app.
 - 2026-10-16: linked to MHM-023 (automated, expected to fail while open); MHM-013 retypes the remarks.
+- 2026-10-20: reproduces on HTA too (MHM-023 in the HTA runs: the Register Asset form shows Remarks empty for 401000045306, web "B11-02-00; HTCL").

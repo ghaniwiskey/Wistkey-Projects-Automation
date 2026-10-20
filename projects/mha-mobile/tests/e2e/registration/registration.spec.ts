@@ -74,8 +74,11 @@ test('MHM-013: asset registration completes a progress asset from the phone @reg
     expect(blankable(form.level, 'Level')).toBe(blankable(asset.level));
     expect(blankable(form.room, 'Room')).toBe(blankable(asset.roomNo));
   });
-  await test.step(`2. Room ${newRoom}, remarks as they are, one photo, Save`, async () => {
+  let group = '';
+  await test.step(`2. Room ${newRoom}, remarks as they are, Group/NPC/Base set, one photo, Save`, async () => {
     await registrationScreen.setField(registrationScreen.room, newRoom);
+    // HTA PROGRESS assets can come without a group ("Select Location"; Save refuses): pick the asset's own or the first.
+    group = await registrationScreen.ensureGroup(asset.group, asset.postalCode, asset.address);
     await registrationScreen.setField(registrationScreen.remarks, remarks);
     await registrationScreen.uploadNewestPhoto();
     await registrationScreen.save();
@@ -88,6 +91,9 @@ test('MHM-013: asset registration completes a progress asset from the phone @reg
     const after = await webAssetPage.readAsset();
     expect(after.status).toBe('AVAILABLE');
     expect(after.roomNo).toBe(newRoom);
+    // Web "Name (CODE)" or "CODE", phone "CODE" (as in MHM-006).
+    const code = group.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    expect(after.group).toMatch(new RegExp(`\\(${code}\\)$|^${code}$`));
     expect({ postalCode: after.postalCode, block: after.block, level: after.level, remarks: after.remarks }).toEqual({
       postalCode: asset.postalCode,
       block: asset.block,

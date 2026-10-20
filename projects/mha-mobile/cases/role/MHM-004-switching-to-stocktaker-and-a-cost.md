@@ -29,5 +29,5 @@ Switch Role changes the active role and cost centre; the home tiles and the Stoc
 - Step 3: the Stocktake title count "(n)" equals the rows listed, and every row is "<cost centre> - <name>" with a FAVE number "FAVE FYaa-20cc"; with none, "Nothing to show yet"
 
 ## Notes
-Automated in tests/e2e/role/switch-role.spec.ts (screen objects tests/pages/mobile, web page objects tests/pages/web).
+Automated in tests/e2e/role/switch-role.spec.ts (screen objects tests/pages/mobile, web page objects tests/pages/web). The FAVE number's agency code depends on the env: SPF 20 (FAVE FY26-20cc), HTA 90 (FAVE FY26-90cc).
 Select Cost Center lists the previous role's cost centres until home is shown again (BUG-005, after login all agency cost centres), so the test reads the Stocktaker's own units with HomeScreen.costCentresOf (confirm the role, Settings and back) and switches to one of them other than the current; picking from the login list could land on a unit the Stocktaker does not hold and pass on an empty Stocktake list.

@@ -7,7 +7,10 @@ export type NewAssetReport = {
   description: string;
   remarks: string;
   postalCode: string;
-  /** Address to pick in "Select Address:-" (as MHA web shows it, e.g. "35 AIRPORT BOULEVARD ... 819645"). */
+  /**
+   * The asset's address (MHA web). Picked in "Select Address:-" when a row reads exactly like it (SPF:
+   * "35 AIRPORT BOULEVARD ... 819645"), else the row of the postal code (AppScreen.pickAddressRow).
+   */
   address: string;
   level: string;
   locationRemarks: string;
@@ -65,18 +68,14 @@ export class NewAssetScreen extends AppScreen {
     await this.hideKeyboard();
   }
 
-  /** Type the postal code, pick the address in the dialog and confirm it. */
-  async pickAddress(postalCode: string, address: string): Promise<void> {
+  /** Type the postal code, pick the address in the dialog and confirm it; returns the address picked. */
+  async pickAddress(postalCode: string, address: string): Promise<string> {
     await this.postalCode.scrollIntoViewIfNeeded();
     // The dialog opens after the 4th digit and lists every address containing them.
     await this.postalCode.fill(postalCode.slice(0, 4));
-    await expect(this.screen.getByText('Select Address:-', { exact: true })).toBeVisible({ timeout: 30_000 });
-    const row = this.screen.getByText(address, { exact: true });
-    await row.scrollIntoViewIfNeeded({ maxSwipes: 30 });
-    await row.tap();
-    await expect(this.screen.getByText('Your Selected Address is', { exact: true })).toBeVisible();
-    await this.alertOk.tap();
+    const picked = await this.pickAddressRow(postalCode, address);
     await expect(this.postalCode).toHaveText(postalCode, { timeout: 15_000 });
+    return picked;
   }
 
   /** Upload Image > the newest photo in the picker > Done; waits for the preview. */
@@ -92,14 +91,15 @@ export class NewAssetScreen extends AppScreen {
     await expect(this.photoPreview).toBeVisible({ timeout: 30_000 });
   }
 
-  /** Fill the whole form (no SAVE). */
-  async fill(r: NewAssetReport): Promise<void> {
+  /** Fill the whole form (no SAVE); returns the address picked in "Select Address:-". */
+  async fill(r: NewAssetReport): Promise<string> {
     await this.conditionSpinner.scrollIntoViewIfNeeded();
     await this.pick(this.conditionSpinner, r.condition);
     await this.type(this.description, r.description);
     await this.type(this.remarks, r.remarks);
-    await this.pickAddress(r.postalCode, r.address);
+    const address = await this.pickAddress(r.postalCode, r.address);
     await this.type(this.level, r.level);
     await this.type(this.locationRemarks, r.locationRemarks);
+    return address;
   }
 }

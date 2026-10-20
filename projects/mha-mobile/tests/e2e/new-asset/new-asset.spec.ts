@@ -46,8 +46,10 @@ test('MHM-010: new asset reported on the mobile app shows on mha web @regression
     await newAssetScreen.save();
     await expect(newAssetScreen.heading).toBeVisible();
   });
+  // The address actually sent: the asset's own when the list has it, else the list's row of its postal code.
+  let address = report.address;
   await test.step('3-4. Condition, description, remarks, address, level, location remarks', async () => {
-    await newAssetScreen.fill(report);
+    address = await newAssetScreen.fill(report);
   });
   await test.step(`5. Upload Image > the newest photo (${galleryPhoto})`, async () => {
     await newAssetScreen.uploadNewestPhoto();
@@ -81,7 +83,7 @@ test('MHM-010: new asset reported on the mobile app shows on mha web @regression
       description: report.description,
       remarks: report.remarks,
       postalCode: report.postalCode,
-      address: report.address,
+      address,
       level: report.level,
       locationRemarks: report.locationRemarks,
     });
