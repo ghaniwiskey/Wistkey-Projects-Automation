@@ -66,6 +66,27 @@ export abstract class WebBasePage extends AppPage {
     return /\/Account\/Login/.test(this.page.url());
   }
 
+  /** Open a page of the app; a redirect to the login page means the server ended the session. */
+  protected async openPage(path: string): Promise<void> {
+    await this.navigate(path);
+    if (this.isLoginUrl()) throw new SessionEndedError();
+  }
+
+  /** A page the server checks the session on (see sessionAlive). */
+  static readonly sessionCheckPath = 'Asset/Asset';
+
+  /**
+   * Whether the server still accepts the session. The dashboard (IndexBk) is no check: it renders from the
+   * login cookie even after the server ended the session (seen 2026-10-20: dashboard "Last Login" of the day
+   * before, while Asset Listing and Ad Hoc Listing went to the login page). Asset/Asset goes to the login
+   * page when the session is gone; a live session whose role has no Listing menu gets "Unauthorised
+   * access." there instead, which still counts as alive.
+   */
+  async sessionAlive(): Promise<boolean> {
+    await this.page.goto(WebBasePage.sessionCheckPath);
+    return !this.isLoginUrl();
+  }
+
   /**
    * Run an action that reloads a server-side DataTables table and wait for the new data: the table first
    * redraws empty, so wait for its `xhr` event, then the next `draw`, then for its last request to finish

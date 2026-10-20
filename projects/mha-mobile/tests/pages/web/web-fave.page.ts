@@ -72,7 +72,7 @@ export class WebFavePage extends WebBasePage {
 
   /** Open the newest FAVE in the list and return its number (e.g. "FAVE FY26-2007"). */
   async openCurrent(): Promise<string> {
-    await this.navigate(WebFavePage.path);
+    await this.openPage(WebFavePage.path);
     await expect(this.listInfo).toHaveText(/Showing \d/, { timeout: 30_000 });
     const faveNo = (await this.faveRows.first().locator('td').first().innerText()).trim();
     await this.faveRows.first().locator('td').last().getByRole('link').click();

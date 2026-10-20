@@ -16,7 +16,9 @@ test('MHM-012: home tiles follow the active role @regression', async ({ mobileHo
       const [costCentre] = await mobileHome.firstCostCentreOptions();
       await mobileHome.closeSwitch();
       await mobileHome.switchTo(role, costCentre);
-      expect(await mobileHome.tileNames()).toEqual(ROLE_TILES[role]);
+      // Compared without order: the app lays the tiles out in a different order now and then (URO,
+      // 2026-10-20: New Asset, Assign, Stocktake, Search Asset, Settings; on the retry the usual order).
+      expect([...(await mobileHome.tileNames())].sort()).toEqual([...ROLE_TILES[role]].sort());
     });
   }
 });

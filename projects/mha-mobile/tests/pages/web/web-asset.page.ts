@@ -48,7 +48,7 @@ export class WebAssetPage extends WebBasePage {
   }
 
   async gotoListing(): Promise<void> {
-    await this.navigate(WebAssetPage.path);
+    await this.openPage(WebAssetPage.path);
     await expect(this.heading).toBeVisible();
     await expect(this.info).toHaveText(/Showing \d/, { timeout: 30_000 });
   }

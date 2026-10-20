@@ -46,7 +46,7 @@ export class WebAssignmentPage extends WebBasePage {
   }
 
   async goto(): Promise<void> {
-    await this.navigate(WebAssignmentPage.path);
+    await this.openPage(WebAssignmentPage.path);
     await expect(this.info).toHaveText(/Showing \d/, { timeout: 30_000 });
   }
 

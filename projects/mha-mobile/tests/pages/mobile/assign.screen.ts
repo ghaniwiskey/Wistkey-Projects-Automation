@@ -81,8 +81,12 @@ export class AssignScreen extends AppScreen {
     await this.selectAssetButton.tap();
     await this.keywords.fill(assetId);
     await this.hideKeyboard();
+    const result = this.resultIds.and(this.screen.getByText(assetId, { exact: true }));
+    // A Search tap right after the keyboard closes can be lost (\"Nothing to show yet\", MHM-022 cleanup,
+    // 2026-10-20): tap it again once.
     await this.searchButton.tap();
-    await expect(this.resultIds.and(this.screen.getByText(assetId, { exact: true }))).toBeVisible({ timeout: 30_000 });
+    if (!(await result.isVisible({ timeout: 20_000 }).catch(() => false))) await this.searchButton.tap();
+    await expect(result).toBeVisible({ timeout: 30_000 });
     // One result for an exact Asset ID: its "+" is the first action box.
     await this.addButtons.first().tap();
     await this.closeSheetButton.tap();
@@ -186,21 +190,38 @@ export class AssignScreen extends AppScreen {
     };
   }
 
-  /** Replace a field's text (empty string clears it). */
+  /**
+   * Replace a field's text (empty string clears it). On a slow emulator mobilewright's clear (also the
+   * first half of fill) can delete a single character and then fail with "Failed to clear element"
+   * ("QXXV6" -> "QXXV", MHM-008/022 cleanups, 2026-10-20); each try deletes more, so it is retried.
+   */
   async setField(field: Locator, value: string): Promise<void> {
     await field.scrollIntoViewIfNeeded();
-    if (value) await field.fill(value);
-    else await field.clear();
+    for (let attempt = 1; ; attempt++) {
+      try {
+        if (value) await field.fill(value);
+        else await field.clear();
+        break;
+      } catch (e) {
+        if (attempt >= 6 || !/Failed to clear/.test(String(e))) throw e;
+      }
+    }
     await this.hideKeyboard();
   }
 
   /** Complete; the app resets the form when the transaction is saved. */
   async complete(): Promise<void> {
     await this.completeButton.scrollIntoViewIfNeeded();
-    await this.completeButton.tap();
     // The form resets: the type goes back to its prompt. ("Asset Selected" at the top is off-screen after
     // a long form such as ASSIGN & RELOCATE, and off-screen views are not in the view tree.)
-    await expect(this.screen.getByText('Select a transaction type', { exact: true })).toBeVisible({ timeout: 30_000 });
+    const reset = this.screen.getByText('Select a transaction type', { exact: true });
+    await this.completeButton.tap();
+    // A tap while the keyboard is still closing can be lost (form unchanged, MHM-008, 2026-10-20). Tap again
+    // only when Complete is still there: a saved transaction resets the form, so this cannot submit twice.
+    if (!(await reset.isVisible({ timeout: 15_000 }).catch(() => false)) && (await this.completeButton.isVisible())) {
+      await this.completeButton.tap();
+    }
+    await expect(reset).toBeVisible({ timeout: 30_000 });
   }
 
   /** Relocate one asset to a new Room No, with these remarks (empty = none). */

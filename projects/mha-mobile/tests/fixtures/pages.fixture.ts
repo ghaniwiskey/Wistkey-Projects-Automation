@@ -13,7 +13,7 @@ import { type WebAsset, WebAssetPage } from '../pages/web/web-asset.page';
 import { WebAssignmentPage } from '../pages/web/web-assignment.page';
 import { WebNewAssetPage } from '../pages/web/web-new-asset.page';
 import { WebAdHocPage } from '../pages/web/web-adhoc.page';
-import { SessionEndedError } from '../pages/web/web-base.page';
+import { SessionEndedError, WebBasePage } from '../pages/web/web-base.page';
 import { type FaveTarget, WebFavePage } from '../pages/web/web-fave.page';
 import { WebLoginPage } from '../pages/web/web-login.page';
 import { mhmAccount, QA_PHOTO, webAccount, WEB_ROLES, type WebRole } from '../utils/test-data';
@@ -91,9 +91,10 @@ export const test = base.extend<Options & Fixtures>({
           await login.goto();
           await login.login(account.username, account.password);
         },
+        // Not the dashboard: it renders from the cookie even after the server ended the session.
         isLoggedIn: async (page) => {
-          await page.goto('IndexBk');
-          return /\/IndexBk/.test(page.url());
+          await page.goto(WebBasePage.sessionCheckPath);
+          return !/\/Account\/Login/.test(page.url());
         },
       }),
     );
@@ -104,6 +105,7 @@ export const test = base.extend<Options & Fixtures>({
     const web = new WebFavePage(page);
     const label = WEB_ROLES[webRole];
     try {
+      if (!(await web.sessionAlive())) throw new SessionEndedError();
       await page.goto('IndexBk');
       if (web.isLoginUrl()) throw new SessionEndedError();
       const roles = await web.availableRoles();
@@ -121,6 +123,12 @@ export const test = base.extend<Options & Fixtures>({
       await web.switchRole(label);
     }
     await use(page);
+    // Keep the saved session current. MHA web renews its login cookie (.ATS_443, chunked) during a test;
+    // the next test starting from the cookie saved at login then got "Unauthorised access." and the
+    // session ended (MHM-009 and MHM-015, 2026-10-19), most likely a reused, already renewed token.
+    if (!web.isLoginUrl()) {
+      await resaveSession(page, 'mha-mobile', String(testInfo.project.metadata.env || ''), webAccount().username).catch(() => {});
+    }
   },
 
   homePage: async ({ page }, use) => {

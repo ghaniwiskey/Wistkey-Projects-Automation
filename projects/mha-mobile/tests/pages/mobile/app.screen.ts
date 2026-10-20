@@ -123,6 +123,29 @@ export abstract class AppScreen {
     await expect(this.screen.getByType(AppScreen.OPTION).first()).toBeHidden();
   }
 
+  private screenHeightPx = 0;
+
+  /** Height of the screen in pixels (from the view tree's root, read once). */
+  private async screenHeight(): Promise<number> {
+    if (!this.screenHeightPx) {
+      const roots = (await this.screen.viewTree()) as TreeNode[];
+      this.screenHeightPx = Math.max(0, ...roots.map((n) => (n.bounds?.y ?? 0) + (n.bounds?.height ?? 0))) || 2400;
+    }
+    return this.screenHeightPx;
+  }
+
+  /**
+   * Whether a dropdown shows all its rows: a list longer than the screen fills the popup down to the
+   * screen's bottom edge, a short one ends well above it. A short list must not be swiped: the swipe lands
+   * outside the popup and dismisses it, or near the bottom edge counts as Android's go-home gesture (the
+   * app went to the background in MHM-006, 2026-10-20).
+   */
+  private async dropdownFits(rows: TreeNode[]): Promise<boolean> {
+    const bottom = Math.max(0, ...rows.map((n) => (n.bounds?.y ?? 0) + (n.bounds?.height ?? 0)));
+    const rowHeight = Math.max(0, ...rows.map((n) => n.bounds?.height ?? 0));
+    return bottom + 2 * rowHeight < (await this.screenHeight());
+  }
+
   /**
    * Open a Spinner and pick an option, scrolling the dropdown when it is out of view. The option is
    * tapped at its position from one tree read: a locator tap waits for two identical reads (~10 s here).
@@ -143,6 +166,7 @@ export abstract class AppScreen {
         await expect(this.screen.getByType(AppScreen.OPTION).first()).toBeHidden();
         return;
       }
+      if (i === 0 && (await this.dropdownFits(shown))) break; // every row is on screen
       const key = shown.map((n) => n.text?.trim()).join('|');
       if (key === lastShown) {
         if (direction === 'down') break; // top reached too
@@ -161,9 +185,10 @@ export abstract class AppScreen {
     const seen: string[] = [];
     for (let unchanged = 0, i = 0; unchanged < 2 && i < 20; i++) {
       const before = seen.length;
-      const shown = await this.textsOnScreen({ type: AppScreen.OPTION });
-      if (shown.length === 0) break; // a short dropdown, dismissed by the last swipe: all of it was seen
-      for (const t of shown) if (!seen.includes(t)) seen.push(t);
+      const rows = await this.nodesOnScreen({ type: AppScreen.OPTION });
+      if (rows.length === 0) break; // a short dropdown, dismissed by the last swipe: all of it was seen
+      for (const t of rows.map((n) => (n.text ?? '').trim())) if (!seen.includes(t)) seen.push(t);
+      if (i === 0 && (await this.dropdownFits(rows))) break; // every row is on screen
       unchanged = seen.length === before ? unchanged + 1 : 0;
       if (unchanged < 2) await this.screen.swipe('up', { distance: 600 });
     }

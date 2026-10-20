@@ -39,7 +39,7 @@ export class WebNewAssetPage extends WebBasePage {
 
   /** Search the list (request number or description); returns the rows' cells. */
   async search(keyword: string): Promise<string[][]> {
-    await this.navigate(WebNewAssetPage.path);
+    await this.openPage(WebNewAssetPage.path);
     await expect(this.info).toHaveText(/Showing/, { timeout: 30_000 });
     await this.page.getByPlaceholder('Request No / Asset Desc').fill(keyword);
     await this.reloadsTable('#tblist', () => this.page.getByRole('button', { name: 'Search', exact: true }).click());

@@ -38,7 +38,7 @@ export class WebAdHocPage extends WebBasePage {
   }
 
   private async searchList(path: string, placeholder: string, keyword: string): Promise<void> {
-    await this.navigate(path);
+    await this.openPage(path);
     await expect(this.info).toHaveText(/Showing/, { timeout: 30_000 });
     await this.page.getByPlaceholder(placeholder, { exact: true }).fill(keyword);
     await this.reloadsTable('#tblist', () => this.page.getByRole('button', { name: 'Search', exact: true }).click());
