@@ -49,7 +49,7 @@ test('MHM-006: search asset shows the same asset data as mha web @regression', a
     expect(p.serial).toBe(w.serial);
     expect(w.category.split('/')[0].trim()).toBe(p.category); // web "1KZ0 / Mechanical & ...", phone "1KZ0"
     expect(p.capitalisationDate).toBe(w.capitalisedOn);
-    expect(amount(p.acquisitionValue)).toBe(amount(w.acquisitionValue)); // "$26145.0" vs "$26,145.00"
+    expect(amount(p.acquisitionValue)).toBe(amount(w.acquisitionValue)); // "$26145.0" vs "$26,145.00"; "$1.36449E8" (BUG-006) is read too
     expect(p.description1).toBe(w.description);
     expect(p.status).toBe(w.status);
     expect(p.sensitive).toBe(w.sensitivity === 'Yes');
@@ -63,5 +63,11 @@ test('MHM-006: search asset shows the same asset data as mha web @regression', a
     expect(p.level).toBe(w.level);
     expect(p.room).toBe(w.roomNo);
     expect(p.locationRemarks).toBe(w.remarks === '-' ? '' : w.remarks);
+  });
+  // BUG-006: amounts of $10 million and more show in scientific notation ("$1.36449E8"). Marked as expected to
+  // fail only when this run's asset is one of them, so a smaller asset still checks the format.
+  test.fail(/\dE\d/i.test(p.acquisitionValue), 'BUG-006: the phone shows amounts of $10 million and more in scientific notation');
+  await test.step(`Acquisition Value "${p.acquisitionValue}" is a plain amount (no exponent)`, async () => {
+    expect(p.acquisitionValue).not.toMatch(/\dE\d/i);
   });
 });

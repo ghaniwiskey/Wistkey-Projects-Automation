@@ -2,6 +2,7 @@ import { expect } from '@mobilewright/test';
 import type { Locator, Screen } from 'mobilewright';
 import { AppScreen } from './app.screen';
 import type { LoginScreen } from './login.screen';
+import { knownCostCentres, knownMobileRoles, saveCostCentres, saveMobileRoles } from '../../utils/role-cache';
 
 /**
  * Home: tiles (Search Asset, Stocktake, New Asset, Settings for Stocktaker; none for Agency Admin), the
@@ -121,21 +122,29 @@ export class HomeScreen extends AppScreen {
     return this.optionsOf(this.costCentreSpinner);
   }
 
+  /** The roles the account holds (Switch Role panel). Read once per run, then remembered (role-cache.ts). */
+  async roles(): Promise<string[]> {
+    const known = knownMobileRoles();
+    if (known) return known;
+    await this.openSwitch();
+    const roles = await this.roleOptions();
+    await this.closeSwitch();
+    saveMobileRoles(roles);
+    return roles;
+  }
+
   /**
-   * Cost centres a role holds. The panel's Select Cost Center lists the cost centres of the role that was
-   * active when the home screen was shown, whatever role is picked or confirmed since (BUG-005): after a
-   * fresh login (Agency Admin) all agency cost centres. So the role is confirmed first (with the first cost
-   * centre offered) and home is shown again (Settings and back) before the list is read. Leaves the role
-   * active (on that first cost centre) and the panel closed. Not for Agency Admin (no Settings tile).
+   * Cost centres a role holds. Read once per run, then remembered (role-cache.ts): later calls do not touch the
+   * phone. `fresh` reads them again (MHM-024 checks the panel itself).
+   * Reading them: the panel's Select Cost Center lists the cost centres of the role that was active when the home
+   * screen was shown, whatever role is picked or confirmed since (BUG-005; after a fresh login, Agency Admin: all
+   * agency cost centres). So the role is made active first and home shown again (Settings and back) before the
+   * list is read. That leaves the role active and the panel closed. Not for Agency Admin (no Settings tile).
    */
-  async costCentresOf(role: string): Promise<string[]> {
-    if ((await this.active()).role !== role) {
-      await this.openSwitch();
-      await this.pickRole(role);
-      const [first] = await this.firstCostCentreOptions();
-      await this.closeSwitch();
-      await this.switchTo(role, first);
-    }
+  async costCentresOf(role: string, opts: { fresh?: boolean } = {}): Promise<string[]> {
+    const known = opts.fresh ? undefined : knownCostCentres(role);
+    if (known) return known;
+    if ((await this.active()).role !== role) await this.switchRole(role);
     // The role may have been confirmed on this home screen: show home again either way.
     await this.openTile('Settings');
     await this.screen.pressButton('BACK');
@@ -143,6 +152,7 @@ export class HomeScreen extends AppScreen {
     await this.openSwitch();
     const held = await this.costCentreOptions();
     await this.closeSwitch();
+    saveCostCentres(role, held);
     return held;
   }
 
@@ -151,15 +161,46 @@ export class HomeScreen extends AppScreen {
     return this.firstOptionsOf(this.costCentreSpinner);
   }
 
-  /** Switch role and cost centre: Switch > role > cost centre > Confirm; waits for the bottom bar. */
-  async switchTo(role: string, costCentre: string): Promise<void> {
-    await this.openSwitch();
-    await this.pickRole(role);
-    await this.pick(this.costCentreSpinner, costCentre);
-    await expect(this.selected(this.costCentreSpinner)).toHaveText(costCentre);
+  /** Confirm the open panel; waits until the bottom bar shows the role and cost centre. */
+  private async confirmPanel(role: string, costCentre: string): Promise<void> {
     await this.confirmButton.tap();
     await expect(this.panelTitle).toBeHidden({ timeout: 30_000 });
     await expect(this.roleAndCostCentre).toHaveText(`${role} | ${costCentre}`, { timeout: 30_000 });
+  }
+
+  /**
+   * Make a role active on whatever cost centre the panel shows (no cost centre dropdown: the app accepts any,
+   * BUG-005). For checks that only need the role (its tiles, or reading its cost centres afterwards).
+   * Returns that cost centre.
+   */
+  async switchRole(role: string): Promise<string> {
+    await this.openSwitch();
+    await this.pickRole(role);
+    const costCentre = (await this.selected(this.costCentreSpinner).getText()).trim();
+    await this.confirmPanel(role, costCentre);
+    return costCentre;
+  }
+
+  /**
+   * Switch role and cost centre: Switch > role > cost centre > Confirm; waits for the bottom bar. Nothing to do
+   * when the bar already shows both. On a slow emulator a tap can be lost (the panel stays open, or the bar keeps
+   * the old role: HTA MHM-008, 2026-10-20, fine by hand), so the switch is tried once more.
+   */
+  async switchTo(role: string, costCentre: string): Promise<void> {
+    if ((await this.roleAndCostCentre.getText()).trim() === `${role} | ${costCentre}`) return;
+    for (let attempt = 1; ; attempt++) {
+      await this.openSwitch();
+      await this.pickRole(role);
+      await this.pick(this.costCentreSpinner, costCentre);
+      await expect(this.selected(this.costCentreSpinner)).toHaveText(costCentre);
+      try {
+        await this.confirmPanel(role, costCentre);
+        return;
+      } catch (e) {
+        if (attempt >= 2) throw e;
+        if (await this.panelTitle.isVisible()) await this.closeSwitch();
+      }
+    }
   }
 
   /**

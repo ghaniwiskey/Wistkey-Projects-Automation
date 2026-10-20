@@ -7,11 +7,24 @@ description: "MHA Mobile native Android app (com.iconsult.mhasgtwo) on the Andro
 # allowWrites: false skips tests tagged @writes on that env.
 # MHA Mobile is a native app. baseUrl is MHA web on the same UAT backend: the tests use it (Playwright `page`)
 # to set up data (FAVE stocktaker assignment) and to check what the phone sent. Never production.
+# Each env also names the app's login agency and the .env variables of its accounts:
+#   agency          login screen agency (SPF / HTA)
+#   mobileAccount   prefix of the phone login vars (<prefix>_USER / <prefix>_PASS)
+#   webAccount      prefix of the MHA web login vars; omitted = MHM_WEB_USER, else the mha-spf account (SPF_USER)
+# Run HTA with QA_ENV=staging-hta.
 defaultEnv: staging
 envs:
   staging:
     baseUrl: https://mhauatweb.southeastasia.cloudapp.azure.com/
     allowWrites: true
+    agency: SPF
+    mobileAccount: MHM
+  staging-hta:
+    baseUrl: https://mhauatwebhta.southeastasia.cloudapp.azure.com/
+    allowWrites: true
+    agency: HTA
+    mobileAccount: MHM_HTA
+    webAccount: HTA
 
 # Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
 # A test links to a test case when its title starts with the ID: test('MHM-001: ...').

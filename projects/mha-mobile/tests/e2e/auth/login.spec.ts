@@ -1,5 +1,5 @@
 import { test, expect, unique } from '../../fixtures/pages.fixture';
-import { mhmAccount } from '../../utils/test-data';
+import { agency, mhmAccount } from '../../utils/test-data';
 
 // Test cases: projects/mha-mobile/cases/auth/MHM-002-*.md, MHM-003-*.md
 test.describe('Mobile login', () => {
@@ -8,7 +8,7 @@ test.describe('Mobile login', () => {
       await homeScreen.ensureLoggedOut(loginScreen);
       await loginScreen.expectShown();
     });
-    await test.step('2. Log in with the .env account, empty password, agency SPF', async () => {
+    await test.step(`2. Log in with the .env account, empty password, agency ${agency()}`, async () => {
       const account = mhmAccount();
       await loginScreen.login(account.username, account.password);
       await homeScreen.expectLoaded();

@@ -18,6 +18,7 @@ Start the emulator first (Android Studio > Device Manager). Then, from the repo 
 ```
 npm run test:mhm                                                    # every MHA Mobile test
 npm run test:mhm -- --grep MHM-002                                  # one test
+$env:QA_ENV='staging-hta'; npm run test:mhm                           # HTA (agency HTA, HTA web, MHM_HTA_USER + HTA_USER)
 npm run test:auto -- -c projects/mha-mobile/playwright.config.ts    # with Test Manager's heal flow
 ```
 

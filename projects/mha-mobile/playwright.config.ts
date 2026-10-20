@@ -23,13 +23,20 @@ try {
 
 type ProjectYaml = {
   defaultEnv?: string;
-  envs?: Record<string, { baseUrl?: string; allowWrites?: boolean }>;
+  envs?: Record<string, { baseUrl?: string; allowWrites?: boolean; agency?: string; mobileAccount?: string; webAccount?: string }>;
   playwright?: { testDir?: string };
 };
 const cfg = (YAML.parse(fs.readFileSync(path.join(__dirname, 'project.yaml'), 'utf8')) || {}) as ProjectYaml;
 const envName = process.env.QA_ENV || cfg.defaultEnv || '';
 const env = cfg.envs?.[envName] ?? {};
 const baseURL = process.env.MHM_BASE_URL || env.baseUrl;
+// The env's agency and account variables, for tests/utils/test-data.ts (workers load this config too).
+process.env.MHM_AGENCY ||= env.agency || 'SPF';
+process.env.MHM_MOBILE_ACCOUNT ||= env.mobileAccount || 'MHM';
+if (env.webAccount) process.env.MHM_WEB_ACCOUNT ||= env.webAccount;
+// One id per run (the runner sets it, its workers inherit it): what tests learn about the mobile account (roles,
+// cost centres per role) is remembered for the rest of the run only (tests/utils/role-cache.ts).
+process.env.MHM_RUN_ID ||= String(Date.now());
 // Browser settings for tests that also check MHA web, minus the `screen` option: mobilewright's phone fixture
 // has that name, and Playwright refuses a config value for a fixture that is not an option.
 // (The descriptor carries `screen` at runtime although its type does not declare it.)

@@ -1,5 +1,8 @@
 import { test, expect, webExpect, MOBILE_ROLES, WEB_ROLES, blankable, sameName, unique } from '../../fixtures/pages.fixture';
 import type { AssignScreen } from '../../pages/mobile/assign.screen';
+import type { HomeScreen } from '../../pages/mobile/home.screen';
+import { agency } from '../../utils/test-data';
+import { knownToLack } from '../../utils/role-cache';
 import type { WebAsset } from '../../pages/web/web-asset.page';
 import type { AssignmentRow } from '../../pages/web/web-assignment.page';
 
@@ -25,6 +28,19 @@ async function selectOwnedAsset(assignScreen: AssignScreen, officer: string, cos
   return id as string;
 }
 
+// HTA has no Fixed Asset Liaison Officer. Once a test of the run has read the account's roles (role-cache.ts),
+// these tests skip before their fixtures run, so there is no login just to find that out.
+test.skip(() => knownToLack(FALO), `The mobile account has no ${FALO} role (agency ${agency()}; role list read earlier in this run)`);
+
+/**
+ * Skip when the mobile account has no such role. Reads the roles from the Switch Role panel only when no test
+ * of the run has read them yet, and remembers them for the following tests.
+ */
+async function requireMobileRole(home: HomeScreen, role: string): Promise<void> {
+  const roles = await home.roles();
+  test.skip(!roles.includes(role), `The mobile account has no ${role} role (it holds ${roles.join(', ')}); agency ${agency()} has no FALO.`);
+}
+
 test('MHM-014: assignment to a falo made on the mobile app is auto-approved on mha web @regression @writes', async ({
   mobileHome,
   mobileOfficer,
@@ -34,6 +50,7 @@ test('MHM-014: assignment to a falo made on the mobile app is auto-approved on m
   webAssignmentPage,
 }) => {
   test.setTimeout(10 * 60_000);
+  await test.step(`Phone: the account holds ${FALO}`, async () => requireMobileRole(mobileHome, FALO));
   let unit: WebAsset | undefined;
   await test.step('MHA web: a cost centre of the phone', async () => {
     unit = await phoneAsset(LOGS1);
@@ -84,6 +101,7 @@ test('MHM-016: recall made on the mobile app needs uro approval and clears the f
   webAssignmentPage,
 }) => {
   test.setTimeout(10 * 60_000);
+  await test.step(`Phone: the account holds ${FALO}`, async () => requireMobileRole(mobileHome, FALO));
   let unit: WebAsset | undefined;
   await test.step('MHA web: a cost centre of the phone', async () => {
     unit = await phoneAsset(LOGS1);
@@ -141,6 +159,7 @@ test('MHM-015: falo return made on the mobile app is approved by logs1 on mha we
   webAssignmentPage,
 }) => {
   test.setTimeout(10 * 60_000);
+  await test.step(`Phone: the account holds ${FALO}`, async () => requireMobileRole(mobileHome, FALO));
   let unit: WebAsset | undefined;
   await test.step('MHA web: a cost centre of the phone', async () => {
     unit = await phoneAsset(LOGS1);
@@ -193,6 +212,7 @@ test('MHM-022: assign and relocate made on the mobile app is auto-approved on mh
   webAssignmentPage,
 }) => {
   test.setTimeout(10 * 60_000);
+  await test.step(`Phone: the account holds ${FALO}`, async () => requireMobileRole(mobileHome, FALO));
   let unit: WebAsset | undefined;
   await test.step('MHA web: a cost centre of the phone', async () => {
     unit = await phoneAsset(LOGS1);

@@ -19,7 +19,7 @@ test('MHM-024: switch role offers only the cost centres of the role picked in th
     await mobileHome.closeSwitch();
   });
   await test.step(`2. Confirm ${role}, open Settings and go back, Switch: the cost centres ${role} holds`, async () => {
-    held = await mobileHome.costCentresOf(role);
+    held = await mobileHome.costCentresOf(role, { fresh: true }); // this test checks the panel itself: no remembered list
     expect(held.length).toBeGreaterThan(0);
   });
   // Marked only now, so a setup failure is reported as a failure, not as BUG-005.
