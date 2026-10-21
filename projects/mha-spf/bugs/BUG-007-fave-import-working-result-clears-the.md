@@ -2,7 +2,7 @@
 id: BUG-007
 title: "FAVE: Import Working Result saves the result as 'Sighted' instead of SIGHTED, so Update Result shows no Sighted Result"
 severity: major
-status: open
+status: verified
 env: staging
 url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/FaveForm?stktakeFAVEId=<id>
 found: 2026-10-06
@@ -47,3 +47,5 @@ Before the fix (2026-10-06): Result & Condition, HTD Follow-up and FSSC Outcome 
 - 2026-10-06: filed from explorations/2026-10-06-uncovered-flows.md in the Test Manager app.
 - 2026-10-21: status open -> fixed; developer reports it fixed (told by the user); SPF-036 no longer expects the failure (test.fail removed, case notes updated) and now starts the asset from PENDING so an earlier result cannot make it pass.
 - 2026-10-21: status fixed -> open; retest after the developer's fix (runs/2026-10-21_0851_staging_playwright, SPF-036 failed on both attempts; repeated by hand on 332100 / 111000011019): partly fixed. The import now fills Result & Condition, HTD Follow-up "No Further Action" and FSSC Outcome "Working condition", the Summary counts the asset under SIGHTED / WORKING and the Result = SIGHTED filter finds it, but the result is saved as "Sighted" (manual results show SIGHTED): the row reads "Sighted WORKING" and Update Result opens with an empty Sighted Result (select value "", options SIGHTED / NOT SIGHTED / PENDING). Reopened; title was "FAVE: Import Working Result clears the sighting result instead of setting Sighted / Working". SPF-036 expects the failure again and now also checks the Update Result pre-load.
+- 2026-10-21: status open -> fixed; developer reports the remaining part fixed (told by the user); SPF-036 no longer expects the failure (test.fail removed, case notes updated).
+- 2026-10-21: status fixed -> verified; retest passed in runs/2026-10-21_0949_staging_playwright (SPF-036, first attempt, all 63 checks; 332100 / 111000011019): after the import the row reads SIGHTED / WORKING, No Further Action, Working condition, and Update Result pre-loads Sighted Result SIGHTED, Asset Condition WORKING, HTD Follow-up No Further Action, FSSC Outcome Working condition, FAVE Status and Location Status CLOSED, the same as a result saved by hand. SPF-036 keeps checking it.

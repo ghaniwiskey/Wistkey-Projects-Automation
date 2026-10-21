@@ -36,6 +36,6 @@ Import Working Result batch-sights assets without RFID tags: every imported asse
 - Step 5: the dialog is pre-loaded with Sighted Result SIGHTED, Asset Condition WORKING and HTD Follow-up "No Further Action"
 
 ## Notes
-Known bug BUG-007: the test is marked as expected to fail. Reported fixed on 2026-10-21, but the retest showed a partial fix: the import now fills the result, HTD Follow-up and FSSC Outcome, but saves "Sighted" instead of SIGHTED, so the row reads "Sighted WORKING" and Update Result opens with no Sighted Result (step 5). The asset starts PENDING so that an earlier result cannot make step 4 pass; cleanup sets it back to PENDING.
+Covers BUG-007, verified on 2026-10-21 (the import first cleared the result, then saved "Sighted" instead of SIGHTED so Update Result showed no Sighted Result): the test must pass. The asset starts PENDING so that an earlier result cannot make step 4 pass; cleanup sets it back to PENDING.
 
 Automated in tests/e2e/stocktake-fave/fave-import.spec.ts.

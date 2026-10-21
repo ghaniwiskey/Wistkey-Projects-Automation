@@ -13,7 +13,6 @@ test.describe('Stocktake FAVE: Import Working Result', () => {
     faveTarget: { costCentre, asset },
   }, testInfo) => {
     test.slow();
-    test.fail(true, 'BUG-007: the import saves the result as "Sighted" instead of SIGHTED, so Update Result shows no Sighted Result');
     // The manual's template: header A1 "LMSAssetID", one asset ID per row. Excel stores a typed ID as a number.
     const file = testInfo.outputPath('fave-working-result.xlsx');
     fs.writeFileSync(file, writeXlsx([['LMSAssetID'], [Number(asset)]]));
@@ -34,7 +33,8 @@ test.describe('Stocktake FAVE: Import Working Result', () => {
         expect(await favePage.submitImport()).toBe('The import record(s) have been successful.');
       });
 
-      await test.step('4. The asset is SIGHTED / WORKING with the FSSC mapping (BUG-007)', async () => {
+      // Steps 4-5 are the BUG-007 retest (the import cleared the result, later saved "Sighted" instead of SIGHTED).
+      await test.step('4. The asset is SIGHTED / WORKING with the FSSC mapping', async () => {
         await favePage.openForCostCentre(costCentre);
         await favePage.searchDetails(asset);
         await expect(favePage.resultOf(asset)).toContainText('SIGHTED');
