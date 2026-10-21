@@ -85,6 +85,17 @@ export abstract class StocktakeFormPage extends BasePage {
     return this.detailRows.filter({ hasText: `Asset ID: ${assetId}` });
   }
 
+  /**
+   * Asset ID of a Details or Assignment row, read from the row's own "Asset ID: <id>" line. The row text
+   * cannot be used: while the tab is hidden it has no line breaks, so a description starting with a digit
+   * ("9I030 PANIC ALARM SYSTEM") runs into the ID.
+   */
+  async assetIdOf(row: Locator): Promise<string | undefined> {
+    const label = row.getByText(/^\s*Asset ID: \d+\s*$/).first();
+    if (!(await label.count())) return undefined;
+    return (await label.textContent())?.match(/Asset ID: (\d+)/)?.[1];
+  }
+
   assignRow(assetId: string): Locator {
     return this.assignRows.filter({ hasText: `Asset ID: ${assetId}` });
   }

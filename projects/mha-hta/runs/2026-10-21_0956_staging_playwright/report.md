@@ -1,0 +1,26 @@
+# Run report: mha-hta / playwright / staging
+
+| Field | Value |
+|---|---|
+| Result | **PASS** |
+| Run | 2026-10-21_0956_staging_playwright |
+| Runner | playwright |
+| Base URL | https://mhauatwebhta.southeastasia.cloudapp.azure.com/ |
+| Started | 2026-10-21 09:56 |
+| Duration | 29.2s |
+
+## Summary
+
+| Total | Pass | Fail | Flaky | Blocked | Skipped |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 1 | 0 | 0 | 0 | 0 |
+
+## Results
+
+| ID | Title | Status | Checks | Time | Notes | Evidence |
+|---|---|---|---|---|---|---|
+| HTA-036 | vet ic imports a working result file and the assets become sighted / working | pass | 70/70 | 27.7s | - | - |
+
+## Notes
+
+Playwright project "mha-hta". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run).

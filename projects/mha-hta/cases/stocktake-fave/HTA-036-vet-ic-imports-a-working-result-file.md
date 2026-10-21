@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [staging]
 automated: true
 created: 2026-10-07
-updated: 2026-10-07
+updated: 2026-10-21
 ---
 
 ## Goal
@@ -22,17 +22,20 @@ Import Working Result batch-sights assets without RFID tags: every imported asse
 - File: .xlsx with A1 "LMSAssetID" and A2 `<asset>` (built by the test)
 
 ## Steps
-1. Open the FAVE on `<cc>`, Details tab, **Import Working Result**
+1. Open the FAVE on `<cc>`, Details tab, search `<asset>` (if it has a result, set it back to PENDING with **Update Result**), then **Import Working Result**
 2. Excel file: choose the file
 3. Import
 4. Search `<asset>` in the Details tab
+5. Tick the asset and click **Update Result**
 
 ## Expected
+- Step 1: `<asset>` shows PENDING before the import
 - Step 2 lists row 1 with `<asset>`
 - Step 3 shows "The import record(s) have been successful."
-- Step 4: Result & Condition shows SIGHTED and WORKING, HTD Follow-up "No Further Action", FSSC Outcome "Working condition"
+- Step 4: Result & Condition shows SIGHTED and WORKING (as for a result saved with Update Result), HTD Follow-up "No Further Action", FSSC Outcome "Working condition"
+- Step 5: the dialog is pre-loaded with Sighted Result SIGHTED, Asset Condition WORKING and HTD Follow-up "No Further Action"
 
 ## Notes
-On SPF the result is cleared instead (mha-spf BUG-007); on HTA the import works (2026-10-07), and an imported result reads "Sighted" (mixed case), so the check ignores case. Cleanup sets the asset back to PENDING.
+Same checks as mha-spf SPF-036. mha-spf BUG-007 (verified on SPF 2026-10-21): the import first cleared the result, then saved "Sighted" instead of SIGHTED, so Update Result showed no Sighted Result. HTA showed "Sighted" on 2026-10-07 (the check then ignored case); since 2026-10-21 the test expects SIGHTED exactly and checks the Update Result pre-load, and it passes on HTA (the fix is deployed there too). The asset starts PENDING so that an earlier result cannot make step 4 pass; cleanup sets it back to PENDING.
 
 Automated in tests/e2e/stocktake-fave/fave-import.spec.ts.

@@ -155,7 +155,7 @@ export class FavePage extends StocktakeFormPage {
   async firstPendingAssetOf(logs1: string): Promise<string | undefined> {
     if (!(await this.filterDetails({ logs1, result: 'PENDING' }))) return undefined;
     if ((await this.tableTotal(this.page.locator('#tbdetail_info'))) === 0) return undefined;
-    return (await this.detailRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+    return this.assetIdOf(this.detailRows.first());
   }
 
   async openImport(): Promise<void> {
@@ -323,7 +323,7 @@ export class FavePage extends StocktakeFormPage {
   /** Asset ID of the first row in the Details table of the selected cost centre. */
   async firstAssetId(): Promise<string> {
     await expect(this.page.locator('#tbdetail_info')).toHaveText(/Showing \d/, { timeout: 30_000 });
-    const id = (await this.detailRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+    const id = await this.assetIdOf(this.detailRows.first()); // Details tab may be hidden (Summary active)
     if (!id) throw new Error('No asset in the FAVE details of the selected cost centre');
     return id;
   }
