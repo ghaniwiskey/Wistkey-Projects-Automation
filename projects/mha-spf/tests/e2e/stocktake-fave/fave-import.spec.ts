@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import { test, expect, writeXlsx } from '../../fixtures/pages.fixture';
 
 // Import Working Result on the first non-approved cost centre of the current FAVE and its first asset
-// (fixture faveTarget: brings the cost centre back to VET IC, VET IC active). The asset is set back to
-// PENDING afterwards.
+// (fixture faveTarget: brings the cost centre back to VET IC, VET IC active). The asset is set to PENDING
+// before the import and again afterwards.
 test.describe('Stocktake FAVE: Import Working Result', () => {
   test.use({ role: 'vet-ic' });
 
@@ -13,14 +13,17 @@ test.describe('Stocktake FAVE: Import Working Result', () => {
     faveTarget: { costCentre, asset },
   }, testInfo) => {
     test.slow();
-    test.fail(true, 'BUG-007: the import clears the result instead of setting SIGHTED / WORKING');
+    test.fail(true, 'BUG-007: the import saves the result as "Sighted" instead of SIGHTED, so Update Result shows no Sighted Result');
     // The manual's template: header A1 "LMSAssetID", one asset ID per row. Excel stores a typed ID as a number.
     const file = testInfo.outputPath('fave-working-result.xlsx');
     fs.writeFileSync(file, writeXlsx([['LMSAssetID'], [Number(asset)]]));
 
     try {
-      await test.step(`1-2. Open the FAVE on ${costCentre}, choose a file with ${asset}`, async () => {
-        await favePage.openForCostCentre(costCentre);
+      await test.step(`1-2. Open the FAVE on ${costCentre} with ${asset} PENDING, choose a file with ${asset}`, async () => {
+        // A result left by another test would make step 4 pass without the import doing anything.
+        await favePage.ensurePending(costCentre, asset);
+        await favePage.searchDetails(asset);
+        await expect(favePage.resultOf(asset)).toHaveText(/^\s*PENDING\b/);
         await favePage.openImport();
         await favePage.chooseImportFile(file);
         await expect(favePage.importRows).toHaveCount(1);
@@ -38,6 +41,13 @@ test.describe('Stocktake FAVE: Import Working Result', () => {
         await expect(favePage.resultOf(asset)).toContainText('WORKING');
         await expect(favePage.followUpOf(asset)).toHaveText('No Further Action');
         await expect(favePage.fsscOf(asset)).toHaveText('Working condition');
+      });
+
+      await test.step('5. Update Result is pre-loaded with the imported result, as for a result saved by hand', async () => {
+        await favePage.openUpdateResult(asset);
+        await expect(favePage.sightedResult).toHaveText('SIGHTED');
+        await expect(favePage.assetCondition).toHaveText('WORKING');
+        await expect(favePage.followUp).toHaveText('No Further Action');
       });
     } finally {
       await favePage.ensurePending(costCentre, asset);

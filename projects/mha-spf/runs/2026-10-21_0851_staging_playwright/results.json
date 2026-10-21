@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-21_0851_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-10-21T01:51:01.935Z",
+  "finishedAt": "2026-10-21T01:52:10.137Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-036",
+      "title": "vet ic imports a working result file and the assets become sighted / working",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-fave/fave-import.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-21T01:51:01.935Z",
+      "durationMs": 64862,
+      "attempts": 2,
+      "checks": [
+        {
+          "label": "Step: 1-2. Open the FAVE on 332100 with 111000011019 PENDING, choose a file with 111000011019",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Import",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 4. The asset is SIGHTED / WORKING with the FSSC mapping",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 111000011019' }).locator('xpath=td[count(ancestor::table[1]/thead//th[normalize-space()=\"Result & Condition\"]/preceding-sibling::th)+1]')"
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 111000011019' }).locator('xpath=td[count(ancestor::table[1]/thead//th[normalize-space()=\"Result & Condition\"]/preceding-sibling::th)+1]')"
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toPass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        }
+      ],
+      "evidence": [
+        "screenshots/SPF-036-a1-1.png",
+        "traces/SPF-036-a1-3.zip",
+        "screenshots/SPF-036-a2-1.png",
+        "traces/SPF-036-a2-3.zip"
+      ],
+      "notes": [
+        "Retest of the BUG-007 fix: the import now sets \"Sighted WORKING\" / No Further Action / Working condition, but saves \"Sighted\" instead of SIGHTED; by hand Update Result opens with no Sighted Result. BUG-007 reopened (partly fixed)"
+      ],
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 111000011019' }).locator('xpath=td[count(ancestor::table[1]/thead//th[normalize-space()=\"Result & Condition\"]/preceding-sibling::th)+1]')\nTimeout: 5000ms\n- Expected substring  - 1\n+ Received string     + 4\n\n- SIGHTED\n+\n+                                 Sighted\n+                                 WORKING\n+                                 \n\nCall log:\n  - Expect \"toContainText\" locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 111000011019' }).locator('xpath=td[count(ancestor::table[1]/thead//th[normalize-space()=\"Result & Condition\"]/preceding-sibling::th)+1]') with timeout 5000ms\n  - waiting for locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 111000011",
+      "failureType": "product-bug",
+      "history": [
+        {
+          "status": "fail",
+          "failed": [
+            "Step: 4. The asset is SIGHTED / WORKING with the FSSC mapping",
+            "Expect \"toContainText\""
+          ],
+          "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 111000011019' }).locator('xpath=td[count(ancestor::table[1]/thead//th[normalize-space()=\"Result & Condition\"]/preceding-sibling::th)+1]')\nTimeout: 5000ms\n- Expected substring  -"
+        }
+      ],
+      "bug": "BUG-007"
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}
