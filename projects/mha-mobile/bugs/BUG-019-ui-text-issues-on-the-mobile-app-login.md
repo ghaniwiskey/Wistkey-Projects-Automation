@@ -38,3 +38,4 @@ As listed in the steps.
 
 ## History
 - 2026-10-22: filed from explorations/2026-10-22-bug-hunt-edges.md in the Test Manager app.
+- 2026-10-22: More text issues: the offline download dialog reads 'All data assets has been downloaded' (FAVE) / 'All data assets and postal code has been downloaded' (ad hoc) with two unclear buttons CONTINUE and OK.

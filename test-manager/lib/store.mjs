@@ -686,7 +686,7 @@ export function updatePlan(slug, planId, d) {
 
 // ---------------------------------------------------------------- bugs
 function bugFrontmatter(fm) {
-  return ['---', `id: ${fm.id}`, `title: ${q(fm.title)}`, `severity: ${fm.severity}`, `status: ${fm.status}`, `env: ${fm.env || ''}`, `url: ${fm.url || ''}`,
+  return ['---', `id: ${fm.id}`, `title: ${q(fm.title)}`, `severity: ${fm.severity}`, `status: ${fm.status}`, `env: ${fm.env || ''}`, `url: ${fm.url ? q(fm.url) : ''}`,
     `found: ${fm.found || today()}`, `foundBy: ${fm.foundBy ? q(fm.foundBy) : '""'}`, `tests: ${flow(fm.tests || [])}`, `frequency: ${fm.frequency || 'always'}`, '---', ''].join('\n');
 }
 
