@@ -32,3 +32,4 @@ A connectivity message such as 'Please Switch ON the internet' (the app already 
 
 ## History
 - 2026-10-22: filed from explorations/2026-10-22-bug-hunt-edges.md in the Test Manager app.
+- 2026-10-22: Also reproduces on HTA (agency HTA, MHM_HTA_USER).

@@ -35,3 +35,4 @@ Toast 'Submit success', form reset. No transaction appears on web. Reproduced 2/
 
 ## History
 - 2026-10-22: filed from explorations/2026-10-22-bug-hunt-edges.md in the Test Manager app.
+- 2026-10-22: Also reproduces on HTA (QA_ENV=staging-hta, Logistics Officer 1 | 338000): 'Submit success' with 0 assets (explorations/2026-10-22-bug-hunt-untouched.md).

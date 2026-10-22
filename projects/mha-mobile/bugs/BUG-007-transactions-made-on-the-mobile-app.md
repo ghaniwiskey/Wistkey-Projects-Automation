@@ -35,3 +35,4 @@ Search ASG00006469 -> 2 records: '332400 RELOCATE Teo Siew Inn, Logistics Office
 
 ## History
 - 2026-10-22: filed from explorations/2026-10-22-bug-hunt-edges.md in the Test Manager app.
+- 2026-10-22: Reproduced again in explorations/2026-10-22-bug-hunt-untouched.md: phone relocations ASG00006472 (332140, 11:55 SGT) and ASG00006473 (332600, two assets in one transaction, 12:04 SGT) also duplicate Teo Siew Inn's 16-Oct web transactions; ASG00006471 was skipped (only Teo's). Each record's view link opens its own transaction.

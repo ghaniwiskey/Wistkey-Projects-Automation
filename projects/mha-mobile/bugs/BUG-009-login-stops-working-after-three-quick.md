@@ -33,3 +33,4 @@ logcat: three login bursts within 60 ms, one 'Response Size: 142 bytes'. Screen 
 
 ## History
 - 2026-10-22: filed from explorations/2026-10-22-bug-hunt-edges.md in the Test Manager app.
+- 2026-10-22: Seen again on 2026-10-22 after LOGIN taps while the agency dropdown was open and an offline attempt: LOGIN gave no response until force-stop; a clean attempt after restart worked.
