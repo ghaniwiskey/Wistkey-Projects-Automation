@@ -1,0 +1,35 @@
+name: Storeberry CRM
+slug: storeberry-crm
+testIdPrefix: SCRM
+description: Storeberry Flower CRM workflows on staging and production. Staging is the only writable environment.
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with SCRM_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: https://www.stagingl10.storeberry.xyz/
+    allowWrites: true
+  production:
+    baseUrl: https://www.mystoreberry.com/
+    allowWrites: false
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# A test links to a test case when its title starts with the ID: test('SCRM-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium]        # chromium | firefox | webkit | mobile; first one is the "storeberry-crm" Playwright project
+  fullyParallel: true
+
+# Shared Storeberry Flower CRM account. Company, username and password live in local .env only.
+auth:
+  accounts:
+    - username: from .env
+      roles: [store-admin]
+      envUser: SCRM_USERNAME
+      envPass: SCRM_PASSWORD
+      notes: Company name is configured as SCRM_COMPANY; same account for staging and production.
+
+suites:
+  smoke: { tags: [smoke], description: Fast checks of the main journeys }
+  regression: { tags: [regression, smoke], description: Full regression }
