@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "playwright",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-23_1303_local_playwright",
+  "workers": [
+    "tung-wah-whatsapp"
+  ],
+  "startedAt": "2026-10-23T06:03:42.813Z",
+  "finishedAt": "2026-10-23T06:03:44.756Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "TWW-001",
+      "title": "home page loads",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/tung-wah-whatsapp/tests/e2e/smoke/home.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-23T06:03:42.813Z",
+      "durationMs": 738,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the home page",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Page has a title and visible content",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveTitle\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"tung-wah-whatsapp\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

@@ -1,0 +1,27 @@
+name: Tung Wah Whatsapp
+slug: tung-wah-whatsapp
+testIdPrefix: TWW
+description: ""
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with TWW_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+defaultEnv: local
+envs:
+  local:
+    baseUrl: http://localhost:3000/
+    allowWrites: false
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# A test links to a test case when its title starts with the ID: test('TWW-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium]        # chromium | firefox | webkit | mobile; first one is the "tung-wah-whatsapp" Playwright project
+  fullyParallel: true
+
+# Test accounts: usernames only. Passwords go in .env as TWW_<ROLE>_USER / TWW_<ROLE>_PASS.
+auth:
+  accounts: []
+
+suites:
+  smoke: { tags: [smoke], description: Fast checks of the main journeys }
+  regression: { tags: [regression, smoke], description: Full regression }
