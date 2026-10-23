@@ -28,4 +28,4 @@ A shopper can add a product to the cart, verify the cart line, and remove it wit
 - No order is submitted
 
 ## Notes
-Run only in staging; the production environment is read-only. On the first staging attempt the header badge changed to 1 while the cart panel displayed no items; needs CRM-first follow-up before triage.
+Run only in staging; the production environment is read-only. BUG-002 is open: Add To Cart reports success and increments the badge, but the cart drawer shows no items (and may remain loading after reload). Do not place an order during this case.

@@ -11,6 +11,10 @@ Staging allows writes for approved temporary cart tests. Production is read-only
 
 The originally supplied `https://www.mystoreberry.com/` is the CRM login, not the public eShop. CRM tests and credentials are in `projects/storeberry-crm/`. Guest storefront checks require no login.
 
+## Known staging issue
+
+- `BUG-002` (open): adding an available item reports success and increments the cart badge, but the cart drawer does not show the item; after reload it may remain on a spinner. Do not place an order during cart checks. See `projects/storeberry-compare/bugs/BUG-002-cart-drawer-stays-empty-after.md`.
+
 ## Run
 
 ```powershell
