@@ -1,0 +1,36 @@
+name: Storeberry Flower Comparison
+slug: storeberry-compare
+testIdPrefix: SBF
+description: Compare Storeberry Flower staging and production storefronts using equivalent journeys.
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with SBF_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: https://storeberry-flower.stagingl10.storeberry.xyz/
+    allowWrites: false
+  production:
+    baseUrl: https://www.mystoreberry.com/
+    allowWrites: false
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# A test links to a test case when its title starts with the ID: test('SBF-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium]        # chromium | firefox | webkit | mobile; first one is the "storeberry-compare" Playwright project
+  fullyParallel: true
+
+# Shared account for both storefronts. Company is configured in .env as SBF_COMPANY.
+# Credentials are never stored in this file.
+auth:
+  accounts:
+    - username: from .env
+      roles: [store-admin]
+      envUser: SBF_USERNAME
+      envPass: SBF_PASSWORD
+      notes: Shared by staging and production storefronts; company is SBF_COMPANY.
+
+suites:
+  smoke: { tags: [smoke], description: Fast checks of the main journeys }
+  regression: { tags: [regression, smoke], description: Full regression }
