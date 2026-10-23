@@ -356,11 +356,15 @@ export const test = base.extend<Options & PageFixtures>({
   },
   faveTarget: async ({ favePage, returnFaveToVetIc }, use, testInfo) => {
     // The first cost centre of the current FAVE that is not approved (SPF-027 always leaves one).
-    const costCentre = await favePage.firstNotApproved();
+    const requestedCostCentre = process.env.SPF_FAVE_COST_CENTRE;
+    const openCostCentres = await favePage.notApprovedCostCentres();
+    const costCentre = requestedCostCentre ?? openCostCentres[0];
     testInfo.skip(!costCentre, 'Every cost centre of the current FAVE is APPROVED. Give the test account another unit (User > User Listing, see context.md)');
+    testInfo.skip(!openCostCentres.includes(costCentre as string), `Requested cost centre ${costCentre} is not an unapproved cost centre in the current FAVE`);
     await returnFaveToVetIc(costCentre as string);
     await favePage.openForCostCentre(costCentre as string);
-    await use({ costCentre: costCentre as string, asset: await favePage.firstAssetId() });
+    const requestedAsset = process.env.SPF_FAVE_ASSET_ID;
+    await use({ costCentre: costCentre as string, asset: requestedAsset ?? await favePage.firstAssetId() });
   },
   faveRelocateTarget: async ({ favePage, officer, returnFaveToVetIc }, use, testInfo) => {
     let target: { costCentre: string; asset: string } | undefined;

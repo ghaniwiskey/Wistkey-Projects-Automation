@@ -18,7 +18,7 @@ Import Working Result batch-sights assets without RFID tags: every imported asse
 - A FAVE exists with a cost centre that is not APPROVED
 
 ## Data
-- Cost centre `<cc>` and asset `<asset>`: the first non-approved cost centre of the current FAVE and its first asset (fixture faveTarget)
+- Cost centre `<cc>` and asset `<asset>`: normally the first non-approved cost centre of the current FAVE and its first asset (fixture faveTarget). For a targeted run, `SPF_FAVE_COST_CENTRE` and `SPF_FAVE_ASSET_ID` may select a specific unapproved cost centre and asset; the asset must be present in that cost centre's FAVE.
 - File: .xlsx with A1 "LMSAssetID" and A2 `<asset>` (built by the test)
 
 ## Steps

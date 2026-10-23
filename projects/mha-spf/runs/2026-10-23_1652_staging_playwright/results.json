@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "bug-007-htx-332130-499",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-23_1652_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-10-23T09:52:51.691Z",
+  "finishedAt": "2026-10-23T09:53:00.188Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 1
+  },
+  "tests": [
+    {
+      "id": "SPF-036",
+      "title": "vet ic imports a working result file and the assets become sighted / working",
+      "status": "skipped",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-fave/fave-import.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-23T09:52:51.691Z",
+      "durationMs": 7835,
+      "attempts": 1,
+      "checks": [],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

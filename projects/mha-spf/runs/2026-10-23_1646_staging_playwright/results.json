@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "bug-007-asset-499",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-10-23_1646_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-10-23T09:46:13.124Z",
+  "finishedAt": "2026-10-23T09:47:32.577Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-036",
+      "title": "vet ic imports a working result file and the assets become sighted / working",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-fave/fave-import.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-10-23T09:46:13.124Z",
+      "durationMs": 77260,
+      "attempts": 2,
+      "checks": [
+        {
+          "label": "Step: 1-2. Open the FAVE on 332100 with 499 PENDING, choose a file with 499",
+          "pass": false,
+          "actual": "Error: expect(locator).toHaveCount(expected) failed  Locator:  locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' })"
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toHaveCount(expected) failed  Locator:  locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' })"
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toHaveCount(expected) failed  Locator:  locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' })"
+        }
+      ],
+      "evidence": [
+        "screenshots/SPF-036-a1-1.png",
+        "traces/SPF-036-a1-3.zip",
+        "screenshots/SPF-036-a2-1.png",
+        "traces/SPF-036-a2-3.zip"
+      ],
+      "notes": [
+        "Requested asset 499 was not present in the test fixture’s first non-approved FAVE cost centre (FAVE FY26-2001, 332100 A&F); the test stopped before import."
+      ],
+      "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' })\nExpected: 1\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' }) with timeout 5000ms\n  - waiting for locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' })\n    14 × locator resolved to 0 elements\n       - unexpected value \"0\"\n",
+      "failureType": "environment",
+      "history": [
+        {
+          "status": "fail",
+          "failed": [
+            "Step: 1-2. Open the FAVE on 332100 with 499 PENDING, choose a file with 499",
+            "Expect \"toHaveCount\"",
+            "Expect \"toHaveCount\""
+          ],
+          "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' })\nExpected: 1\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" locator('#tbdetail tbody tr').filter({ hasText: 'Asset ID: 499' }) with timeout 5000ms\n  - wa"
+        }
+      ]
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}
