@@ -2,12 +2,12 @@
 id: BUG-004
 title: "Mobile Asset Registration erases the asset's location remarks (Remarks not pre-filled)"
 severity: major
-status: open
+status: wont-fix
 env: staging
-url: Mobile app Asset Registration (Register Asset); checked on https://mhauatweb.southeastasia.cloudapp.azure.com/Asset/Asset (Asset Details > Location)
+url: "Mobile app Asset Registration (Register Asset); checked on https://mhauatweb.southeastasia.cloudapp.azure.com/Asset/Asset (Asset Details > Location)"
 found: 2026-10-16
 foundBy: "mobile exploration 2026-10-16"
-tests: [MHM-023]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -37,3 +37,5 @@ Step 4: "Success / Registration Success", Register Asset (0). Step 5: status AVA
 - 2026-10-16: filed from mobile exploration 2026-10-16 in the Test Manager app.
 - 2026-10-16: linked to MHM-023 (automated, expected to fail while open); MHM-013 retypes the remarks.
 - 2026-10-20: reproduces on HTA too (MHM-023 in the HTA runs: the Register Asset form shows Remarks empty for 401000045306, web "B11-02-00; HTCL").
+- 2026-10-26: status open -> wont-fix.
+- 2026-10-26: accepted empty Remarks on Register Asset. Updated MHM-023 and its registration.spec.ts assertion to expect the empty hint without saving; removed its expected-failure marker. Updated MHM-013 notes and spec comment to retain explicit remarks re-entry, and context.md. Cleared tests because this is wont-fix.

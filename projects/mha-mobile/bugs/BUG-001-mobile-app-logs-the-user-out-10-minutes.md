@@ -2,12 +2,12 @@
 id: BUG-001
 title: "Mobile app logs the user out 10 minutes after login and loses the sighting being saved"
 severity: major
-status: open
+status: wont-fix
 env: staging
-url: https://mhauatapp.southeastasia.cloudapp.azure.com:8100 (mobile API)
+url: "https://mhauatapp.southeastasia.cloudapp.azure.com:8100 (mobile API)"
 found: 2026-10-16
 foundBy: "mobile exploration 2026-10-16"
-tests: [MHM-007]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Step 3: the app shows the login screen at once, no message. Step 4: REVIEW 0, th
 
 ## History
 - 2026-10-16: filed from mobile exploration 2026-10-16 in the Test Manager app.
+- 2026-10-26: status open -> wont-fix.
+- 2026-10-26: accepted the ~10-minute session expiry and loss of an in-flight sighting; updated MHM-007 to check expiry with a read-only request and MHM-005 notes to retain a fresh login. Updated context.md; cleared tests because this is wont-fix.

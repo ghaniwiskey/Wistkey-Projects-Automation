@@ -7,7 +7,7 @@ tags: [smoke, writes]
 envs: [all]
 automated: true
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-26
 ---
 
 ## Goal
@@ -43,4 +43,4 @@ A stocktaker sights an asset of the current FAVE on the phone and submits it; MH
 
 ## Notes
 Automated in tests/e2e/stocktake/fave-sighting.spec.ts (screen objects tests/pages/mobile, web page objects tests/pages/web).
-Writes on UAT: assigns a stocktaker once (no unassign; later runs reuse the asset) and records a result that the cleanup resets to PENDING. Approvals are never touched. The mobile session lasts about 10 minutes (BUG-001), so the test logs in fresh before the phone part.
+Writes on UAT: assigns a stocktaker once (no unassign; later runs reuse the asset) and records a result that the cleanup resets to PENDING. Approvals are never touched. BUG-001, closed as wont-fix on 2026-10-26: the mobile session lasts about 10 minutes and an in-flight sighting can be lost at expiry. This case works around that accepted behavior by logging in fresh before the phone part.

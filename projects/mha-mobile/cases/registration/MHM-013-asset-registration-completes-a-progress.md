@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: true
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-26
 ---
 
 ## Goal
@@ -33,5 +33,6 @@ LOGS1/FALO completes the location of a partially registered (PROGRESS) asset on 
 - Step 4: status AVAILABLE (was PROGRESS), Room No is the new value, postal code, block, level and remarks unchanged, the photo is the asset's default photo
 
 ## Notes
+BUG-004, closed as wont-fix on 2026-10-26: Register Asset leaves Remarks empty; saving without re-entry clears existing remarks. This case tests registration around that accepted behavior by explicitly retyping the original remarks before Save.
 Completing cannot be undone, so each run uses an asset up; the test skips when none is left. Explored 2026-10-16 on 111000011323 (the only PROGRESS asset in the officer's units; 16 more are in 332300, which the mobile account does not hold): Registration Success, AVAILABLE, Room and photo on web, but the remarks were erased (BUG-004; restored by a phone relocation). Empty postal code: toast "Please input postal code". Upload Image asks for the camera permission first. The registration left Current LOGS1 / FALO "-".
 Automated in tests/e2e/registration/registration.spec.ts. HTA (2026-10-20): the PROGRESS asset may have no Group/NPC/Base (Save toasts "Please select location"); the test picks the asset's web group or the first offered, and picking one reopens "Select Address:-" for the postal code, where it picks the address again. The web check then also expects that group.

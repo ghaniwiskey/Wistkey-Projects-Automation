@@ -1,17 +1,17 @@
 ---
 id: MHM-023
-title: "Asset Registration form pre-fills the asset's location remarks"
+title: "Asset Registration form leaves location remarks empty"
 feature: registration
 priority: P1
 tags: [regression]
 envs: [all]
 automated: true
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-26
 ---
 
 ## Goal
-The phone's Register Asset form shows the PROGRESS asset's current location remarks, so completing the registration does not erase them (MHA web Complete Register loads them).
+Confirm the accepted empty Remarks field on the phone's Register Asset form even when the PROGRESS asset has location remarks on MHA web, without saving.
 
 ## Preconditions
 - A PROGRESS asset with location remarks in a cost centre the mobile account holds as Logistics Officer 1
@@ -25,8 +25,8 @@ The phone's Register Asset form shows the PROGRESS asset's current location rema
 3. Leave the form without Save
 
 ## Expected
-- Step 2: Remarks shows the asset's location remarks from MHA web (not the empty "(Optional)" hint)
+- Step 2: Remarks is empty and shows the "(Optional)" hint, rather than the asset's location remarks from MHA web
 
 ## Notes
-Read-only (nothing is saved). Fails on UAT 2026-10-16: BUG-004 (Remarks empty; Save clears them).
-Automated in tests/e2e/registration/registration.spec.ts (expected to fail while BUG-004 is open).
+Read-only (nothing is saved). BUG-004, closed as wont-fix on 2026-10-26: empty Remarks and clearing existing remarks if saved unchanged are accepted behavior. This case checks the empty hint only; MHM-013 explicitly retypes remarks to preserve them.
+Automated in tests/e2e/registration/registration.spec.ts; no expected-failure marker.

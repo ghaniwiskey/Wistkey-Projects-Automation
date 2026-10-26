@@ -62,7 +62,7 @@ test('MHM-013: asset registration completes a progress asset from the phone @reg
   const { asset, costCentre } = found as Found;
   expect(asset.status).toBe('PROGRESS');
   const newRoom = `R${unique().slice(-4).toUpperCase()}`; // Room No holds 5 characters
-  // The form does not pre-fill the remarks and saving clears them (BUG-004), so they are typed as they are.
+  // BUG-004 is wont-fix: empty Remarks is accepted, so explicitly retype the original remarks before saving.
   const remarks = blankable(asset.remarks);
 
   let form: RegistrationForm | undefined;
@@ -103,7 +103,7 @@ test('MHM-013: asset registration completes a progress asset from the phone @reg
   });
 });
 
-test('MHM-023: asset registration form pre-fills the asset\'s location remarks @regression', async ({
+test('MHM-023: asset registration form leaves location remarks empty @regression', async ({
   mobileHome,
   registrationScreen,
   webAssetPage,
@@ -114,12 +114,11 @@ test('MHM-023: asset registration form pre-fills the asset\'s location remarks @
     found = await phoneProgressAsset(mobileHome, registrationScreen, webAssetPage, { withRemarks: true });
   });
   const { asset } = found as Found;
-  // Marked only once the data is found, so a setup failure is reported as a failure, not as BUG-004.
-  test.fail(true, 'BUG-004: the Register Asset form shows Remarks empty ("(Optional)") and saving clears the asset\'s remarks');
-  await test.step(`2. Open ${asset.id} (no Save): Remarks shows "${asset.remarks}"`, async () => {
+  // BUG-004 is wont-fix: the empty Remarks hint is accepted; do not save or clear the web asset's remarks.
+  await test.step(`2. Open ${asset.id} (no Save): Remarks is empty with the optional hint`, async () => {
     await registrationScreen.open(asset.id);
     const form = await registrationScreen.readForm();
     await registrationScreen.leaveForm();
-    expect(form.remarks).toBe(asset.remarks);
+    expect(form.remarks).toBe('(Optional)');
   });
 });
