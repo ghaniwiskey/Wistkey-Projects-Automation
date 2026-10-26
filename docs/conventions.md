@@ -41,7 +41,7 @@ How the code is written (Page Object Model, selectors, fixtures) is covered in t
 | `@smoke` | The few critical journeys; the whole suite should run in a few minutes |
 | `@regression` | Everything else that is automated |
 | `@writes` | The test creates, changes or deletes server data, sends messages or emails, or places orders. Skipped automatically on envs with `allowWrites: false` |
-| `@final` | Also `@writes`, and the change cannot be undone or uses up limited data (e.g. mha-spf SPF-027: UAO approval makes a FAVE cost centre final; each run approves one more). Leave it out of a run with `--grep-invert @final` |
+| `@final` | Also `@writes`, and the change cannot be undone or uses up limited data (e.g. mha-spf SPF-027: UAO approval makes a FAVE cost centre final; each run approves one more). Requires explicit user approval for each scenario and run/retry (see Safety). Exclude until approved with `--grep-invert @final` |
 
 Tags go at the end of the Playwright test title (`... @smoke`) and in the case's `tags:` list (without `@`).
 
@@ -111,6 +111,9 @@ How to tell them apart: reproduce the failing steps by hand (or in Aside's brows
 
 ## Safety
 
+- **Stop and ask before irreversible testing.** This applies to exploratory/manual testing, automated suites, setup, cleanup, API calls, reruns and retries. Before an irreversible or potentially irreversible action, explain the scenario, affected environment/data and consequences, and obtain the user's explicit approval for that specific scenario and run. If reversibility is uncertain, ask first. Examples: permanent deletion, final submission/approval, payments/purchases, external messages/emails, publishing, or consuming limited data that cannot be restored.
+- A general request to test, a sandbox, `allowWrites: true`, or previous approval does not authorize a new irreversible scenario or another run/retry. Existing stricter restrictions below still apply. Do not bypass the approval requirement through helpers or other agents.
+- **Preflight automated runs:** inspect selected cases/specs for irreversible effects, not only tags. Exclude unapproved scenarios (including `@final`, e.g. `--grep-invert @final`), record them as skipped/blocked pending approval, and continue only safe scenarios. Never let an unattended retry repeat an irreversible action without fresh approval.
 - Use the dedicated test accounts listed in each `project.yaml`, never personal accounts.
 - Tests that write data are tagged `@writes`; production envs keep `allowWrites: false`.
 - Never place real payments, send real emails or messages to real people, or delete shared data unless the env is explicitly a sandbox for it. Check the project's notes first (MHA UAT writes can trigger real emails).
