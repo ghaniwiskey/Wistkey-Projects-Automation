@@ -158,6 +158,43 @@ export class FavePage extends StocktakeFormPage {
     return (await this.detailRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
   }
 
+  /** Clear Details filters and return the current cost centre's full asset count. */
+  async detailAssetCount(): Promise<number> {
+    await this.openDetails();
+    const pane = this.page.locator('#detail_tab');
+    await pane.getByPlaceholder('Asset ID/Asset ID2/Serial No/Desc').fill('');
+    await this.reloadsTable('#tbdetail', () => pane.getByRole('button', { name: 'Search', exact: true }).click());
+    return this.tableTotal(this.page.locator('#tbdetail_info'));
+  }
+
+  /** Count a result category from the current FAVE Summary tab. */
+  async resultCount(result: SightedResult): Promise<number> {
+    await this.openSummary();
+    const text = (await this.summaryCount(result).innerText()).replace(/,/g, '').trim();
+    const count = Number(text);
+    if (!Number.isSafeInteger(count)) throw new Error(`Could not read the ${result} count from the FAVE Summary: ${text}`);
+    return count;
+  }
+
+  /** Select all assets in a verified-size cost centre and bulk-reset their results to PENDING. */
+  async resetAllToPending(expectedCount: number): Promise<void> {
+    const actualCount = await this.detailAssetCount();
+    if (actualCount !== expectedCount) throw new Error(`Refusing bulk reset: expected ${expectedCount} assets, found ${actualCount}`);
+    const info = this.page.locator('#tbdetail_info');
+    const selectAll = this.page.locator('#tbdetail thead input[type="checkbox"]');
+    await selectAll.check();
+    await expect(info).toContainText(new RegExp(`${expectedCount.toLocaleString()} rows? selected`), { timeout: 30_000 });
+    await this.updateResultButton.click();
+    await expect(this.resultModal).toBeVisible();
+    await this.fillResult({ sighted: 'PENDING' });
+    await this.submitResult();
+  }
+
+  /** Count rows in the uploaded Import Working Result preview. */
+  async importPreviewCount(): Promise<number> {
+    return this.tableTotal(this.page.locator('#tbimport_info'));
+  }
+
   async openImport(): Promise<void> {
     await this.openDetails();
     await this.importButton.click();
