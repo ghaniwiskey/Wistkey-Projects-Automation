@@ -1,0 +1,281 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-26_0929_staging_playwright",
+  "workers": [
+    "storeberry-crm"
+  ],
+  "startedAt": "2026-10-26T02:29:00.004Z",
+  "finishedAt": "2026-10-26T02:29:22.352Z",
+  "summary": {
+    "total": 4,
+    "pass": 4,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SCRM-001",
+      "title": "CRM login page loads with sign-in controls",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/storeberry-crm/tests/e2e/auth/login.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-26T02:29:00.004Z",
+      "durationMs": 3100,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the staging CRM sign-in page",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Verify the company, username, password, and LOGIN controls",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SCRM-003",
+      "title": "pending payment filter shows matching CRM orders",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/storeberry-crm/tests/e2e/orders/pending-payment.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-26T02:29:00.004Z",
+      "durationMs": 6500,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open Orders and record the last-12-month order count",
+          "pass": true
+        },
+        {
+          "label": "/orders responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Filter orders to Pending payment",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeHidden\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Confirm the filtered count and visible status labels",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeLessThan\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeGreaterThan\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SCRM-004",
+      "title": "CRM customer list loads with search controls",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/storeberry-crm/tests/e2e/customers/search.spec.ts",
+      "tags": [
+        "@regression"
+      ],
+      "startedAt": "2026-10-26T02:29:00.004Z",
+      "durationMs": 8460,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the customer list and confirm it loads",
+          "pass": true
+        },
+        {
+          "label": "/customers responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Confirm member and remark search controls are available",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. Search for a unique value that should not match a customer",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "SCRM-005",
+      "title": "store admin signs in to Storeberry Flower CRM",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/storeberry-crm/tests/e2e/auth/login.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-26T02:29:00.004Z",
+      "durationMs": 3633,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Sign in with the staging Storeberry Flower test account",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Confirm the CRM workspace is available",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveTitle\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"storeberry-crm\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

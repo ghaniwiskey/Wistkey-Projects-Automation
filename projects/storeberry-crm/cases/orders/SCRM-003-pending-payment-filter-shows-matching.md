@@ -4,10 +4,10 @@ title: "Pending payment filter shows matching CRM orders"
 feature: orders
 priority: P1
 tags: [regression]
-envs: [all]
-automated: false
+envs: [staging]
+automated: true
 created: 2026-10-23
-updated: 2026-10-23
+updated: 2026-10-26
 ---
 
 ## Goal
@@ -17,15 +17,15 @@ A CRM user can filter the order list to orders pending payment.
 - Order date range: default last 12 months
 
 ## Steps
-1. Log in to the CRM.
-2. Open Orders.
+1. Sign in to the CRM as the staging store admin.
+2. Open Orders and record the count in the default date range.
 3. Select Pending payment.
-4. Review the order count and visible order statuses.
+4. Review the filtered order count and visible status labels.
 
 ## Expected
-- The order list finishes loading and shows a non-zero count when pending orders exist in the selected date range.
-- Each displayed order has the Pending payment status.
-- The total count is lower than the unfiltered All orders count when other statuses are present.
+- The order list finishes loading and shows a count for the selected date range.
+- When pending-payment records exist, the filtered count is non-zero and visible order status labels match Pending payment.
+- When other statuses exist, the filtered count is lower than the All orders count.
 
 ## Notes
-Read-only. On staging the initial all-orders list showed 1,017 orders; Pending payment showed 204 on 2026-10-23.
+Read-only; tests assert counts/statuses only and do not include customer or order details in the report. Counts vary over time. Automated in tests/e2e/orders/pending-payment.spec.ts (page object tests/pages/orders.page.ts).
