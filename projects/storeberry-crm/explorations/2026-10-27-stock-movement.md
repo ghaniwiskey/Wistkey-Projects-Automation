@@ -57,3 +57,9 @@ status: done
 - Category (vue-treeselect) kept after switching tabs, both by clicking the option and by typing "Course" + Enter. Courses 3201 (English Class) and 3202 (Demo) saved with category Course and Hidden Product; not visible on the eShop. BUG-015 -> verified, SCRM-090 pass.
 - The timetable picker hides timetables already linked to a course (English Class disappeared after 3201 used it); QA timetable 70 was never offered.
 - Courses list Actions > Terminate Course runs with no confirmation (same pattern as BUG-003 for products). 3202 terminated; 3201 kept for SCRM-063.
+
+## SCRM-063 enrolment (user approved, ~19:00 HKT)
+- Hidden course 3201 redirects to the eShop home page, so the sale was done in Web POS (Storeberry HK, member MEMy001164526, Cash). With timetable English Class (capacity 0) checkout was refused with "該課程沒有足夠的容量。" (Traditional Chinese only, UI in English; seen once). Switched 3201 to Sat Horse Class (capacity 30, not shared): TXN1126102700005 Complete, enrolment 388, session 2026-10-31 15:00-16:00, day view 1 / 30, visible in the member's My Courses & Enrolment.
+- The HKD 0 sale upgraded the member to Level 2 (+100 Upgrade Reward, Level 2 threshold is $0) and moved point expiry from 2026-11-26 to 2027-10-26.
+- In the course edit page the timetable picker also lists names that look like terminated timetables (英語課程, Thai); there are active timetables with the same names, not investigated.
+- QA data: course 3201 now on Sat Horse Class with 1 enrolment (31 Oct 15:00).

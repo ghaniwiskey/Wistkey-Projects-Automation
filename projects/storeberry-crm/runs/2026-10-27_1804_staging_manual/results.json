@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-enrolment",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1804_staging_manual",
+  "startedAt": "2026-10-27T11:04:58.716Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-063",
+      "title": "Enroll a QA learner in an available course session",
+      "priority": "P0",
+      "feature": "courses",
+      "file": "projects/storeberry-crm/cases/courses/SCRM-063-enroll-a-qa-learner-in-an-available.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A QA learner can enroll in an available course session and receives a confirmed enrollment.",
+      "preconditions": [
+        "An active staging course timetable has an available session and notification routing is confirmed safe."
+      ],
+      "data": [
+        "QA learner contact details only.",
+        "Course and available session selected dynamically."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open course enrolment.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select a course session with available seats.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter QA-only learner details and submit the enrolment.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the enrollment record and timetable.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The enrollment is linked to the selected learner, course, and session.",
+          "status": "pass"
+        },
+        {
+          "text": "The enrollment status is confirmed and session availability reflects the new enrollment.",
+          "status": "pass"
+        },
+        {
+          "text": "No message reaches a real person.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The enrollment is linked to the selected learner, course, and session.",
+          "pass": true
+        },
+        {
+          "label": "The enrollment status is confirmed and session availability reflects the new enrollment.",
+          "pass": true
+        },
+        {
+          "label": "No message reaches a real person.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Run approved by the user. Course 3201 \"QA Course Retest mvqkjw49\" (HKD 0, 1 session) sold in Web POS Storeberry HK to QA member MEMy001164526 (example.com), Cash: TXN1126102700005 Complete. First attempt with timetable English Class (capacity 0) was refused: \"該課程沒有足夠的容量。\" (Chinese only on the English POS). Switched the course to Sat Horse Class (capacity 30, unshared): enrolment 388 created, Complete, session 2026-10-31 15:00-16:00 auto-assigned; Enrolment Status day view shows Sat Horse Class / QA Course Retest 1 / 30; member sees it under My Courses & Enrolment. No real person contacted."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:04:58.752Z"
+    }
+  ],
+  "notes": "SCRM-063 enrolment run",
+  "finishedAt": "2026-10-27T11:04:58.788Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
