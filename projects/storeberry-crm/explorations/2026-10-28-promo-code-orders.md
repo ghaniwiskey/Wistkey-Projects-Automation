@@ -56,7 +56,7 @@ status: done
 
 | # | Type | Summary | Severity | Link |
 |---|---|---|---|---|
-| 9 | question | Exclusive code raises the total with no notice | - | questions/Q-018-should-an-exclusive-promo-code-be-allowed.md |
+| 9 | question | Exclusive code raises the total with no notice | - | questions/Q-018-should-an-exclusive-promo-code-be.md |
 | 10 | risk | Refund point row has no order number; order Payment History has no refund line | - | - |
 | 11 | risk | POS "Invalid promotion code." does not say the code is for another shop | - | - |
 
