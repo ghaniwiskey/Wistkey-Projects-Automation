@@ -18,7 +18,8 @@ status: done
 - Orders: list 1,025 (last 12 months). 1 of 100 rows shows "Invalid date" in the paid-date column: an HKD 0.00 order fully paid by eGift -> BUG-002. 4 of 100 rows show negative available stock "(-1 / 0)" (data, noted as risk). Order detail of that order reconciled (eGift $200 covers the $200 item).
 - Products: negatives typed into price fields are reset to 0; a HKD 0.00 Hidden product saved with no warning (product 3199) -> question (SCRM-057). Edited price to 1.00 (persisted), then terminated via Actions; this runs with no confirmation -> BUG-003. Active 88 -> 87, terminated 82 -> 83.
 - Product detail (follow-up after user question): every existing product shows the toast 'undefined: Unexpected Error' ~0.5 s after load. Cause: GET cmsapiv2.storeberry.ai/cmsapi/addon-products/templates/product/<id> -> 500 {code:9999}; the template list endpoint is also 500, so Add-On Products > Import From Template shows 'Cannot Fetch Templates' / 'Records Not Found'. The first pass missed it because the toast is short-lived and only visible text/console were checked. Tip: list XHRs with performance.getEntriesByType('resource') (responseStatus), since page.on('response') does not fire in Aside's browser.
-- Inventory (follow-up): Transfer Orders and Replenish Request lists, details (305/304/303, 153/152/151) and edit pages load with no error toast, no failed XHR and no JS errors; search, qty changes (0/-1 snap to 1) and dropdowns raise no errors. Status is locked on edit. Prices show '$ $190.00' (double currency sign); the product picker uses the CN name 'test product CN 1'. Nothing was submitted.
+- Inventory (follow-up): Transfer Orders and Replenish Request lists, details (305/304/303, 153/152/151) and edit pages load with no error toast, no failed XHR and no JS errors; search, qty changes (0/-1 snap to 1) and dropdowns raise no errors. Status is locked on edit. Prices show '$ $190.00' (double currency sign); the product picker uses the CN name 'test product CN 1'. Nothing was submitted on existing records.
+- Inventory edit submit (follow-up after user report): created QA transfer 306 (Transfer261027024000a35a) and QA replenish request 154 (Request261027024246d853), TaiPo -> test 1, product test 2 qty 1. Create works. Edit > Submit > Confirm fails on both with 'The deleted ids must be a valid JSON string.'; also after removing and re-adding the row. Both QA records cancelled afterwards (replenish cancel toast says 'Cancelled transfer order').
 - Promotions: VIP888 maps to 3 promotions; #605 is a whole-order HKD 20 off with no minimum, so the eShop HKD 20 -> 0 total was correct.
 - Order created from the eShop (TXN0126102700002, member MEMy001164525) checked here: Pending Payment, Bank Transfer HKD 400.00, 門市自取 荔枝角, items and remark match.
 
@@ -30,6 +31,7 @@ status: done
 | 3 | bug | "Make product terminated in all platforms" has no confirmation | minor | bugs/BUG-003-bulk-make-product-terminated-in-all.md |
 | 4 | bug | Copy/label errors: "Perference", "plaform", Original Price named "Cost" | trivial | bugs/BUG-004-crm-copy-and-label-errors-on-customer.md |
 | 4b | bug | Every product detail page shows 'undefined: Unexpected Error' (add-on template API cmsapiv2 returns 500; Import From Template broken) | major | bugs/BUG-005-product-detail-shows-undefined.md |
+| 4f | bug | Transfer order and replenish request edit always fail on Submit: 'The deleted ids must be a valid JSON string.' (no deleted_ids sent; error_code 2208) | critical | bugs/BUG-008-editing-a-transfer-order-or-replenish.md |
 | 4c | bug | Replenish request times shown in UTC vs local time on transfer orders | minor | bugs/BUG-006-replenish-request-times-are-shown-in.md |
 | 4d | bug | Transfer order reserves more than available stock (TaiPo 0 / -3); edit form accepts qty 99999 | major | bugs/BUG-007-transfer-order-can-reserve-more-stock.md |
 | 4e | question | Edit pages of a Received transfer (303) and an Approved replenish request (151) open fully editable with an active Submit (status locked). Should they be read-only? Not submitted. | - | - |
@@ -48,6 +50,7 @@ status: done
 
 ## Test data left on staging
 - Member MEMy001164525 (aside.member.qamvq1nfsl@example.com) and order TXN0126102700002 (Pending Payment, Bank Transfer, HKD 400) placed with user approval. Not cancelled; ask before cancelling (it releases reserved stock).
+- QA transfer 306 and QA replenish request 154: Canceled.
 - Terminated product 3199 ASIDE-CRM-QA-qamvq1nfsl (in the terminated list). Customer MEMy001164524 was deleted.
 
 ## Knowledge updates
