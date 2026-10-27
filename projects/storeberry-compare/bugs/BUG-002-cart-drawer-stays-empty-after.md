@@ -36,3 +36,4 @@ The toast says Item added successfully and the badge increments, but the drawer 
 
 ## History
 - 2026-10-23: filed from explorations/2026-10-23-cart-follow-up.md in the Test Manager app.
+- 2026-10-27: Retested in explorations/2026-10-27-eshop-critical.md: not reproduced - adding 偈油x10 qty 2 showed the line (HKD 20.00) in the drawer and it persisted after reload. Left open for the user to set fixed/verified.

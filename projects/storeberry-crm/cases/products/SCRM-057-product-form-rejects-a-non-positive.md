@@ -7,7 +7,7 @@ tags: [regression]
 envs: [staging]
 automated: false
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -32,4 +32,4 @@ The product form rejects a zero or negative price without saving the product.
 - No product is created with the invalid price.
 
 ## Notes
-Validation-only. Stop if an invalid value is accepted and do not create additional test products.
+Validation-only. Stop if an invalid value is accepted and do not create additional test products. 2026-10-27: the price fields reset typed negatives to 0, and a HKD 0.00 hidden product saved without any message (product 3199, terminated afterwards). Open question to the product owner whether 0 must be allowed (free gifts); until answered, this expectation is unconfirmed.

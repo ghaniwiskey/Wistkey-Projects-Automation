@@ -34,3 +34,4 @@ The results page heading shows the query Disable Test, but the results include u
 
 ## History
 - 2026-10-23: filed from explorations/2026-10-23-storefront-search.md in the Test Manager app.
+- 2026-10-27: Retested in explorations/2026-10-27-eshop-critical.md: still reproduces; the query is ignored entirely - "Shoesss", "偈油x10" and the nonsense "zzqxnotexist123" all return the same 24 products, none matching.
