@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-stock-take",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1707_staging_manual",
+  "startedAt": "2026-10-27T10:07:10.230Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-030",
+      "title": "Completed stock take records variances and updates inventory",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-030-completed-stock-take-records-variances.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Completing a stock take records counted variances and updates the affected inventory.",
+      "preconditions": [
+        "A staging warehouse and product variant with a known current quantity are available."
+      ],
+      "data": [
+        "Job name: QA-<unique>.",
+        "A controlled staff count for one selected product variant."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and record the current quantity of a suitable test product at a staging warehouse.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create a uniquely named stock take job for that warehouse and product variant.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a controlled staff count, submit the job, review its variance, and complete the job.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen Inventory and Inventory History for the product.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The job progresses through the applicable In Progress, Submitted, Reviewed, and Completed states.",
+          "status": "fail"
+        },
+        {
+          "text": "The initial variance equals staff count minus the snapshot quantity.",
+          "status": "fail"
+        },
+        {
+          "text": "The completed count is reflected in inventory and a corresponding movement appears in Inventory History.",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The job progresses through the applicable In Progress, Submitted, Reviewed, and Completed states.",
+          "pass": false
+        },
+        {
+          "label": "The initial variance equals staff count minus the snapshot quantity.",
+          "pass": false
+        },
+        {
+          "label": "The completed count is reflected in inventory and a corresponding movement appears in Inventory History.",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Blocked at job creation: Assignee list empty for every warehouse although ghani now has Stock Take Staff + Admin and is mapped (also after re-login). No job could be created."
+      ],
+      "evidence": [
+        "screenshots/SCRM-030-m01-assignee-empty.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:07:10.265Z",
+      "failureType": "product-bug",
+      "bug": "BUG-021"
+    }
+  ],
+  "notes": "Stock take retest after the user gave ghani Stock Take roles",
+  "finishedAt": "2026-10-27T10:07:10.336Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

@@ -7,7 +7,7 @@ tags: [smoke, writes, final]
 envs: [staging]
 automated: false
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -32,4 +32,4 @@ Completing a stock take records counted variances and updates the affected inven
 - The completed count is reflected in inventory and a corresponding movement appears in Inventory History.
 
 ## Notes
-Data-changing and final. Staging only. Obtain explicit approval before each run; completing stock take can permanently adjust inventory.
+Data-changing. Staging only, on own QA jobs; stock-take completion is allowed without asking each time (user, 2026-10-27). Setup: ghani has Stock Take Staff + Admin roles (added by the user 2026-10-27) and is mapped to TaiPo and other warehouses. Currently fails: BUG-021, the Assignee list is always empty so no job can be created.
