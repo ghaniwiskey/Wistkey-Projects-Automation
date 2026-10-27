@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-stock-take-setup",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1700_staging_manual",
+  "startedAt": "2026-10-27T10:00:58.826Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-095",
+      "title": "Warehouse Users panel shows the users already mapped to the warehouse",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-095-warehouse-users-panel-shows-the-users.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff can see and keep existing warehouse user mappings before saving changes.",
+      "preconditions": [
+        "A warehouse with at least one mapped user (check POST /inventory/get-warehouse-detail -> mapped_user_ids)"
+      ],
+      "data": [
+        "Warehouse found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Inventory > Warehouses, search the warehouse and click Edit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the Warehouse Users field",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The mapped users are shown as selected chips",
+          "status": "fail"
+        },
+        {
+          "text": "No \"error exist!\" toast appears",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The mapped users are shown as selected chips",
+          "pass": false
+        },
+        {
+          "label": "No \"error exist!\" toast appears",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "TaiPo (twice) and Causeway Bay: Warehouse Users empty + \"error exist!\" while get-warehouse-detail mapped_user_ids holds users (serialized PHP collection object)."
+      ],
+      "evidence": [
+        "screenshots/SCRM-095-m01-warehouse-users-empty.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:00:58.862Z",
+      "failureType": "product-bug",
+      "bug": "BUG-020"
+    }
+  ],
+  "notes": "Stock take setup follow-up, explorations/2026-10-27-stock-movement.md",
+  "finishedAt": "2026-10-27T10:00:58.938Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

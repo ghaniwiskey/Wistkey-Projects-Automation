@@ -37,3 +37,10 @@ status: done
 - README: transfer/replenish flow notes (row toggle before Receive, approve opens a prefilled transfer form, warehouse_id=12 is TaiPo).
 - `page.screenshot()` in Aside times out on long CRM pages unless `type: 'jpeg'` and a longer timeout are used; save with `fs.writeFile` (the `path` option must stay inside the session dir).
 - QA data left: transfers 308 and 310 (Received), replenish 155 (Approved), product test 2 +3 at TaiPo / -3 at Office; guest order TXN0126102700016 (Payment Rejected).
+
+## Follow-up: stock take setup (user approved mapping the test account to one warehouse)
+- Mapping lives in Inventory > Warehouses > Edit > Warehouse Users > Save Users (POST /inventory/update-warehouse-users). Mapped ghani (158) to TaiPo Warehouse: "Warehouse users saved.", mapped_user_ids [158].
+- The panel never shows existing users: "error exist!" toast and an empty field, because get-warehouse-detail returns mapped_user_ids as a serialized PHP collection object. Save Users replaces the whole list, so saving from the panel can wipe existing users -> BUG-020 (SCRM-095). The previous TaiPo list is unknown for this reason.
+- ghani was already mapped to Causeway Bay, IFC WH, IFC Warehouse, EXPO, HKTVMALL, HOME and B. Still, POST /stock-take/get-warehouse-assignees returns users [] for every warehouse, including Causeway Bay where jacky (116, Stock Take Staff + Admin roles) is mapped. The assignee list probably depends on the logged-in user's Stock Take role; ghani cannot edit its own staff record (Access Denied). SCRM-030 stays blocked (Q-008 updated).
+- Staff Account > user edit has "Stock Take Staff" / "Stock Take Admin" roles and "Assigned Warehouses".
+- The CRM UI switched to Simplified Chinese once mid-session without us changing it (shared account, likely the other tester); switched back with /switchLang?lang=en.
