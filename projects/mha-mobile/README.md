@@ -15,12 +15,14 @@ run records (`runs/`).
 
 Start the emulator first (Android Studio > Device Manager). Then, from the repo root:
 
+```powershell
+.\qa mhm                                              # every MHA Mobile test
+.\qa mhm --grep "MHM-002:"                            # one test
+$env:QA_ENV='staging-hta'; .\qa mhm                   # HTA (agency HTA, HTA web, MHM_HTA_USER + HTA_USER)
+.\qa auto -c projects/mha-mobile/playwright.config.ts # with Test Manager's heal flow
 ```
-npm run test:mhm                                                    # every MHA Mobile test
-npm run test:mhm -- --grep MHM-002                                  # one test
-$env:QA_ENV='staging-hta'; npm run test:mhm                           # HTA (agency HTA, HTA web, MHM_HTA_USER + HTA_USER)
-npm run test:auto -- -c projects/mha-mobile/playwright.config.ts    # with Test Manager's heal flow
-```
+
+npm equivalents: `npm run test:mhm [-- args]`, `npm run test:auto -- -c <that config>`.
 
 The tests run with their own config, [playwright.config.ts](playwright.config.ts): mobilewright's global setup starts
 its device pool and mobilecli, which web runs must not pay for, so the root config skips this project
@@ -69,5 +71,5 @@ read with `mhmAccount()`; MHA web: `MHM_WEB_USER` / `MHM_WEB_PASS`, defaulting t
 (`SPF_USER` / `SPF_PASS`), read with `webAccount()` (tests/utils/test-data.ts). The web account needs VET IC
 (MHM-005), LOGS1 (MHM-006) and URO (MHM-016); tests skip with a message when a role is missing. Never in the workspace.
 
-Testing details (login, role and cost-centre switching, the FAVE sighting and submit flow, submit findings, tool
-benchmarks): [context.md](context.md).
+Testing details: [context.md](context.md) (app, accounts, login and roles, sessions, emulator quirks, test data) and
+[context/](context/) (stocktake, assets, hta, manual).
