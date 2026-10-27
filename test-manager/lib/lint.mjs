@@ -5,6 +5,12 @@ import YAML from 'yaml';
 import { PROJECTS, ROOT, SHARED, rel, projectSlugs, loadProject } from './workspace.mjs';
 
 const PRIORITIES = ['P0', 'P1', 'P2', 'P3'];
+// Knowledge files (docs/conventions.md > Knowledge files): what every task reads, so they stay small and current.
+const KB = 1024;
+const README_BUDGET = 6 * KB;
+const CONTEXT_BUDGET = 12 * KB;
+const DATED_HEADING = /^#{1,6}\s.*\b20\d\d-\d\d-\d\d\b/;
+const BUG_STATUS_LINE = /^\s*[-*]\s*(?:open|fixed|verified(?: fixed)?|won'?t fix|wont-fix|closed)\b[^:\n]{0,40}:.*\bBUG-\d{3,}/i;
 const SEVERITIES = ['critical', 'major', 'minor', 'trivial'];
 const BUG_STATUSES = ['open', 'fixed', 'verified', 'wont-fix', 'duplicate'];
 
@@ -14,6 +20,41 @@ export function prefixCounts() {
     try { const pf = YAML.parse(fs.readFileSync(path.join(PROJECTS, s, 'project.yaml'), 'utf8')).testIdPrefix; prefixes.set(pf, (prefixes.get(pf) || 0) + 1); } catch { /* reported by lint */ }
   }
   return prefixes;
+}
+
+// README.md, context.md and context/*.md of a project (or of a shared/<name> folder), with their size budget.
+function knowledgeFiles(dir) {
+  const out = [];
+  const add = (f, budget) => { if (fs.existsSync(f)) out.push([f, budget]); };
+  add(path.join(dir, 'README.md'), README_BUDGET);
+  add(path.join(dir, 'context.md'), CONTEXT_BUDGET);
+  const cdir = path.join(dir, 'context');
+  if (fs.existsSync(cdir)) for (const n of fs.readdirSync(cdir).filter((x) => x.endsWith('.md')).sort()) add(path.join(cdir, n), CONTEXT_BUDGET);
+  return out;
+}
+
+export function lintKnowledge(file, budget) {
+  const W = [];
+  const src = fs.readFileSync(file, 'utf8');
+  const size = Buffer.byteLength(src);
+  const f = rel(file);
+  if (size > budget) W.push(`${f}: ${(size / KB).toFixed(1)} KB, over the ${budget / KB} KB budget; ${budget === README_BUDGET ? 'move behavior and quirks to context.md' : 'split it by area into context/<area>.md'} (docs/conventions.md > Knowledge files)`);
+  src.split('\n').forEach((line, i) => {
+    if (DATED_HEADING.test(line)) W.push(`${f}:${i + 1}: dated heading "${line.trim()}"; merge it into the topic sections (session notes go to explorations/)`);
+    else if (BUG_STATUS_LINE.test(line)) W.push(`${f}:${i + 1}: bug status list; statuses live in the bug files (.\\qa bugs <slug>)`);
+  });
+  return W;
+}
+
+// Knowledge files under shared/<name>/ (e.g. shared/mha-ats), which no single project lints.
+export function lintShared() {
+  const W = [];
+  if (fs.existsSync(SHARED)) {
+    for (const d of fs.readdirSync(SHARED, { withFileTypes: true }).filter((x) => x.isDirectory())) {
+      for (const [f, budget] of knowledgeFiles(path.join(SHARED, d.name))) W.push(...lintKnowledge(f, budget));
+    }
+  }
+  return { E: [], W };
 }
 
 export function lintSlug(slug) {
@@ -146,5 +187,6 @@ export function lintProject(p, prefixes) {
     if (!pl.name) W.push(`${f}: missing name`);
     for (const id of (pl.scope && pl.scope.tests) || []) if (!ids.has(id)) W.push(`${f}: scope test ${id} does not exist`);
   }
+  for (const [f, budget] of knowledgeFiles(p.dir)) W.push(...lintKnowledge(f, budget));
   return { E, W };
 }

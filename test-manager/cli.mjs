@@ -64,11 +64,12 @@ const PW = path.join(ROOT, 'node_modules', 'playwright', 'cli.js');
 const TSC = path.join(ROOT, 'node_modules', 'typescript', 'bin', 'tsc');
 
 async function lintAll() {
-  const { lintSlug } = await import('./lib/lint.mjs');
+  const { lintSlug, lintShared } = await import('./lib/lint.mjs');
   let errors = 0;
   const clean = [];
-  for (const slug of projectSlugs()) {
-    const { E, W } = lintSlug(slug);
+  const results = projectSlugs().map((slug) => [slug, lintSlug(slug)]);
+  results.push(['shared', lintShared()]);
+  for (const [slug, { E, W }] of results) {
     errors += E.length;
     if (!E.length && !W.length) { clean.push(slug); continue; }
     console.log(`${slug}: ${E.length} error(s), ${W.length} warning(s)`);
