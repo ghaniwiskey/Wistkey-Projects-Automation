@@ -1,4 +1,4 @@
-import { sortIssues } from '../issue-sort.js';
+import { sortIssues, formatIssueDate } from '../issue-sort.js';
 // Open questions for the product owner: unclear intended behavior found while testing (projects/<slug>/questions/).
 import { html, useState, useEffect } from '../../vendor/preact-htm.mjs';
 import { useResource, post, put, toast } from '../api.js';
@@ -23,10 +23,10 @@ export function QuestionList({ slug }) {
         <option value="recent">Most recent</option><option value="oldest">Oldest first</option><option value="default">Status / ID</option>
       </select>
       <span class="muted small right">${rows.length} questions</span></div>
-    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Status</th><th>Question</th><th>Tests</th><th>Bugs</th><th>Asked</th><th>Answered</th><th>Updated</th></tr></thead><tbody>
+    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Status</th><th>Question</th><th>Tests</th><th>Bugs</th><th>Asked</th><th>Answered</th><th title="Times use your browser’s local timezone">Updated (local)</th></tr></thead><tbody>
       ${rows.map((x) => html`<tr><td><a href=${`#/p/${slug}/questions/${x.id}`}><strong>${x.id}</strong></a></td><td><span class="tag">${x.status}</span></td>
         <td><a href=${`#/p/${slug}/questions/${x.id}`} style="color:inherit">${x.title}</a></td><td>${links(slug, 'tests', x.tests)}</td><td>${links(slug, 'bugs', x.bugs)}</td>
-        <td class="nowrap">${x.found}</td><td class="nowrap">${x.answered || '-'}</td><td class="nowrap">${x.updated || x.found || '-'}</td></tr>`)}
+        <td class="nowrap">${formatIssueDate(x.found)}</td><td class="nowrap">${formatIssueDate(x.answered)}</td><td class="nowrap">${formatIssueDate(x.updated || x.found)}</td></tr>`)}
     </tbody></table></div>` : html`<${Empty} title="No questions here">Record unclear behavior found while testing, then add the product owner's answer.</${Empty}>`}
   </${Page}>`;
 }
@@ -42,7 +42,7 @@ export function QuestionDetail({ slug, qid }) {
     try { await put(`/api/projects/${slug}/questions/${qid}`, { ...patch, note }); setNote(''); setAnswer(null); toast(`${qid} updated`, 'good'); } catch (e) { toast(e.message, 'error'); }
   };
   return html`<${Page} crumbs=${[{ label: slug, href: `#/p/${slug}` }, { label: 'Questions', href: `#/p/${slug}/questions` }]} title=${html`<span class="muted">${x.id}</span> ${x.title}`}
-    sub=${html`<span class="tag">${x.status}</span> asked ${x.found}${x.askedTo ? ` to ${x.askedTo}` : ''}${x.answered ? `, answered ${x.answered}` : ''}`}>
+    sub=${html`<span class="tag">${x.status}</span> asked ${formatIssueDate(x.found)}${x.askedTo ? ` to ${x.askedTo}` : ''}${x.answered ? `, answered ${formatIssueDate(x.answered)}` : ''}`}>
     <div class="cols">
       <div class="card pad md"><${Html} html=${x.html} /></div>
       <div>

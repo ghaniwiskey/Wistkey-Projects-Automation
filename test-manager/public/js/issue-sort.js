@@ -18,3 +18,17 @@ export function sortIssues(rows, order = 'recent') {
     return order === 'oldest' ? a.id.localeCompare(b.id, undefined, { numeric: true }) : b.id.localeCompare(a.id, undefined, { numeric: true });
   });
 }
+
+// Browser-local 24-hour display; date-only legacy records have no known time.
+export function formatIssueDate(value, timeZone) {
+  if (!value) return '-';
+  const text = String(value);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  const date = new Date(text);
+  if (!Number.isFinite(date.getTime())) return '-';
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
+    timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  }).formatToParts(date).map(({ type, value }) => [type, value]));
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}`;
+}

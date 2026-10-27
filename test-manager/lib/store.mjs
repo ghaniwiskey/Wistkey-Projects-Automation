@@ -717,7 +717,7 @@ export function createBug(slug, d) {
   if (!title) bad('Bug title is required.');
   const severity = SEVERITIES.includes(d.severity) ? d.severity : bad('Severity must be critical, major, minor or trivial.');
   const id = nextId(p.bugs.map(idOfDoc), 'BUG');
-  const fm = { id, title, severity, status: 'open', env: clean(d.env), url: clean(d.url), found: today(), foundBy: clean(d.foundBy), tests: cleanTags(d.tests), frequency: clean(d.frequency) || 'always' };
+  const fm = { id, title, severity, status: 'open', env: clean(d.env), url: clean(d.url), found: new Date().toISOString(), foundBy: clean(d.foundBy), tests: cleanTags(d.tests), frequency: clean(d.frequency) || 'always' };
   const steps = cleanList(d.steps);
   const body = [
     '## Summary', clean(d.summary) || title, '',
@@ -800,7 +800,7 @@ export function createQuestion(slug, d) {
   const title = clean(d.title);
   if (!title) bad('Question title is required.');
   const id = nextId(p.questions.map(idOfDoc), 'Q');
-  const fm = { id, title, status: 'open', askedTo: clean(d.askedTo), env: clean(d.env), found: today(), foundBy: clean(d.foundBy), tests: cleanTags(d.tests), bugs: cleanTags(d.bugs) };
+  const fm = { id, title, status: 'open', askedTo: clean(d.askedTo), env: clean(d.env), found: new Date().toISOString(), foundBy: clean(d.foundBy), tests: cleanTags(d.tests), bugs: cleanTags(d.bugs) };
   const body = [
     '## Question', clean(d.question) || title, '',
     '## Context', clean(d.context) || '-', '',
@@ -835,7 +835,7 @@ export function updateQuestion(slug, qid, d) {
     if (!QUESTION_STATUSES.includes(d.status)) bad('Status must be open, answered or closed.');
     changes.push(`status ${fm.status} -> ${d.status}`);
     fm.status = d.status;
-    fm.answered = d.status === 'open' ? '' : (fm.answered || today());
+    fm.answered = d.status === 'open' ? '' : (fm.answered || new Date().toISOString());
   }
   if (d.title !== undefined && clean(d.title)) fm.title = clean(d.title);
   if (d.askedTo !== undefined) fm.askedTo = clean(d.askedTo);

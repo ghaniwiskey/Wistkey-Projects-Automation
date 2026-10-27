@@ -1,4 +1,4 @@
-import { sortIssues } from '../issue-sort.js';
+import { sortIssues, formatIssueDate } from '../issue-sort.js';
 import { html, useState, useEffect } from '../../vendor/preact-htm.mjs';
 import { useResource, get, post, put, toast } from '../api.js';
 import { Page, Sev, Empty, Loading, ErrorBox, Field, Html, ListEditor, TagPicker } from '../ui.js';
@@ -21,9 +21,9 @@ export function BugList({ slug }) {
         <option value="recent">Most recent</option><option value="oldest">Oldest first</option><option value="default">Severity / ID</option>
       </select>
       <span class="muted small right">${rows.length} bugs</span></div>
-    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Title</th><th>Tests</th><th>Found</th><th>Updated</th></tr></thead><tbody>
+    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Title</th><th>Tests</th><th>Found</th><th title="Times use your browser’s local timezone">Updated (local)</th></tr></thead><tbody>
       ${rows.map((b) => html`<tr><td><a href=${`#/p/${slug}/bugs/${b.id}`}><strong>${b.id}</strong></a></td><td><${Sev} s=${b.severity} /></td><td><span class="tag">${b.status}</span></td>
-        <td><a href=${`#/p/${slug}/bugs/${b.id}`} style="color:inherit">${b.title}</a></td><td>${b.tests.map((t) => html`<a href=${`#/p/${slug}/tests/${t}`}>${t}</a> `)}</td><td class="nowrap">${b.found}</td><td class="nowrap">${b.updated || b.found || '-'}</td></tr>`)}
+        <td><a href=${`#/p/${slug}/bugs/${b.id}`} style="color:inherit">${b.title}</a></td><td>${b.tests.map((t) => html`<a href=${`#/p/${slug}/tests/${t}`}>${t}</a> `)}</td><td class="nowrap">${formatIssueDate(b.found)}</td><td class="nowrap">${formatIssueDate(b.updated || b.found)}</td></tr>`)}
     </tbody></table></div>` : html`<${Empty} title="No bugs here">Failed tests can be turned into bug reports from the run page.</${Empty}>`}
   </${Page}>`;
 }
@@ -37,7 +37,7 @@ export function BugDetail({ slug, bugId }) {
     try { await put(`/api/projects/${slug}/bugs/${bugId}`, { ...patch, note }); setNote(''); toast(`${bugId} updated`, 'good'); } catch (e) { toast(e.message, 'error'); }
   };
   return html`<${Page} crumbs=${[{ label: slug, href: `#/p/${slug}` }, { label: 'Bugs', href: `#/p/${slug}/bugs` }]} title=${html`<span class="muted">${b.id}</span> ${b.title}`}
-    sub=${html`<${Sev} s=${b.severity} /> <span class="tag">${b.status}</span> found ${b.found}${b.foundBy ? ` (${b.foundBy})` : ''}`}>
+    sub=${html`<${Sev} s=${b.severity} /> <span class="tag">${b.status}</span> found ${formatIssueDate(b.found)}${b.foundBy ? ` (${b.foundBy})` : ''}`}>
     <div class="cols">
       <div class="card pad md"><${Html} html=${b.html} /></div>
       <div>

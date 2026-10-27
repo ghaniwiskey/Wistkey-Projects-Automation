@@ -61,3 +61,5 @@ test-manager/
 Both lists default to **Most recent**, with **Oldest first** and the original severity/status order available in **Sort by**. Activity uses the latest recorded updated, found, answered or History date, not filesystem modification times. Same-date items use numeric IDs as a tie-breaker; undated records appear last. App edits persist an exact update timestamp. Status filters work independently of sorting.
 
 Focused regression checks: `node --test test-manager/tests/issue-sort.test.mjs`.
+
+Bug and question dates display as `YYYY-MM-DD HH:mm` (24-hour, browser-local timezone) in lists and detail headers when a timestamp is available. New bugs/questions and answer status changes store full timestamps; older date-only records remain date-only because their time was not recorded.
