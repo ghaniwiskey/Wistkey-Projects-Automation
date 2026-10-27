@@ -7,7 +7,7 @@ tags: [smoke, writes, final]
 envs: [staging]
 automated: false
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ Approving a replenishment request creates a traceable transfer order for the req
 - A linked transfer order number is shown and its source, destination, product, and quantity match the request.
 
 ## Notes
-Data-changing and final. Staging only. Obtain explicit approval before each run; approval creates a persistent transfer record.
+Data-changing. Staging only, on own QA requests; replenish approve is allowed without asking each time (user, 2026-10-27). "Approve and Create Transfer Order" opens a prefilled Add Transfer Order form; the request becomes Approved only after Submit > Confirm there. Verified manually 2026-10-27: QA-RR-mvqi08o1 -> Transfer26102709445029e9. Detail times are UTC (BUG-006).

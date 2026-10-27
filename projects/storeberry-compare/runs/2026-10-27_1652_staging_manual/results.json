@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-cart-payment-review",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1652_staging_manual",
+  "startedAt": "2026-10-27T09:52:07.790Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-004",
+      "title": "Add and remove a product from the cart",
+      "priority": "P0",
+      "feature": "cart",
+      "file": "projects/storeberry-compare/cases/cart/SBF-004-add-and-remove-a-product-from-the-cart.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A shopper can add a product to the cart, verify the cart line, and remove it without placing an order.",
+      "preconditions": [],
+      "data": [
+        "A currently listed in-stock, non-booking product"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open an in-stock product detail page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add one unit to the cart",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the cart and confirm the product line and quantity",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove the item from the cart",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The cart shows the selected product with quantity 1 and its price",
+          "status": "pass"
+        },
+        {
+          "text": "After removal, the cart is empty and the cart badge shows 0",
+          "status": "pass"
+        },
+        {
+          "text": "No order is submitted",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The cart shows the selected product with quantity 1 and its price",
+          "pass": true
+        },
+        {
+          "label": "After removal, the cart is empty and the cart badge shows 0",
+          "pass": true
+        },
+        {
+          "label": "No order is submitted",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Guest, NAKAJIMA cake HKD 0.10: Add To Cart -> \"Item added successfully\", badge 1, drawer line HKD 0.10 Qty 1. Remove icon -> \"Item remove successfully\", badge 0, \"You have no items in your cart !\", still 0 after reload. No order. Remove icon has no accessible name."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:52:07.804Z"
+    },
+    {
+      "id": "SBF-019",
+      "title": "Guest checkout accepts a plus-addressed email",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-019-guest-checkout-accepts-a-plus-addressed.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Valid emails such as name+tag@example.com can place an order, and invalid ones get a field-level message.",
+      "preconditions": [
+        "A non-quota product in the guest cart (e.g. NAKAJIMA cake)"
+      ],
+      "data": [
+        "Guest email name+<unique>@example.com",
+        "Shipping 門市自取, first pickup store, Bank Transfer"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /checkout as a guest and fill First Name, Last Name, Contact Number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a plus-addressed email (name+tag@example.com) in Your Details",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose 門市自取, a pickup store and an address, Bank Transfer, tick 結帳前同意",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Proceed to checkout",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The order is placed and the thank-you page shows the order number",
+          "status": "fail"
+        },
+        {
+          "text": "If an email is rejected, the message names the Email field and the reason",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The order is placed and the thank-you page shows the order number",
+          "pass": false
+        },
+        {
+          "label": "If an email is rejected, the message names the Email field and the reason",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "chan.taiman+<id>@example.com -> \"Please fill all required info\", Email labels red, no text (twice). Without \"+\" the order was placed (TXN0126102700016)."
+      ],
+      "evidence": [
+        "screenshots/SBF-019-m01-email-plus-rejected.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:52:07.816Z",
+      "failureType": "product-bug",
+      "bug": "BUG-012"
+    }
+  ],
+  "notes": "Exploratory session explorations/2026-10-27-cart-payment-review.md",
+  "finishedAt": "2026-10-27T09:52:07.844Z",
+  "summary": {
+    "total": 2,
+    "pass": 1,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

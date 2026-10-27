@@ -1,0 +1,355 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-stock-movement",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1652_staging_manual",
+  "startedAt": "2026-10-27T09:52:07.517Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-022",
+      "title": "Inventory quantities reflect selected warehouse and product variants",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-022-inventory-quantities-reflect-selected.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can inspect available stock by warehouse and variant.",
+      "preconditions": [
+        "At least one active product with variants is available in staging inventory."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Inventory.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select a warehouse and locate a product with variants.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose View by: Variants and review the available, stock, and pre-order quantities.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The inventory view identifies the selected warehouse and product variants.",
+          "status": "pass"
+        },
+        {
+          "text": "Each variant displays its own quantities for the selected warehouse.",
+          "status": "pass"
+        },
+        {
+          "text": "Changing the warehouse changes the warehouse context without altering stock.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The inventory view identifies the selected warehouse and product variants.",
+          "pass": true
+        },
+        {
+          "label": "Each variant displays its own quantities for the selected warehouse.",
+          "pass": true
+        },
+        {
+          "label": "Changing the warehouse changes the warehouse context without altering stock.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "View by Variants for test product EN 1: per-variant Available/Stock/Pre-order and per-warehouse columns; variant sums reconcile to the product row (avail 77, stock 84). Selecting TaiPo Warehouse (warehouse_id=12) switches Available/Stock/Pre-order to TaiPo (large-blue 35/39) without changing stock. Negative per-warehouse available values exist in data (e.g. large-red TaiPo -1; BUG-007 family)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:52:07.553Z"
+    },
+    {
+      "id": "SCRM-028",
+      "title": "Transfer receipt moves stock between warehouses",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-028-transfer-receipt-moves-stock-between.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A transfer order records a controlled movement of stock from a source warehouse to a destination warehouse.",
+      "preconditions": [
+        "Two active staging warehouses and a product with sufficient source stock are available."
+      ],
+      "data": [
+        "Transfer number: QA-<unique>.",
+        "Product, source, destination, and a small controlled quantity selected dynamically."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and record the available quantity of a suitable product at two active warehouses.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create a uniquely identified transfer order for a small quantity from the source warehouse to the destination warehouse.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Move the order through dispatch/in-transit and receive the transferred quantity at the destination.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the transfer record and both warehouse inventory views.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The transfer progresses through the applicable Pending, In-transit, and Received states.",
+          "status": "pass"
+        },
+        {
+          "text": "The received quantity is reflected at the destination and the source/destination stock totals reconcile to the transfer.",
+          "status": "pass"
+        },
+        {
+          "text": "The transfer number and receive time are visible in the record.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The transfer progresses through the applicable Pending, In-transit, and Received states.",
+          "pass": true
+        },
+        {
+          "label": "The received quantity is reflected at the destination and the source/destination stock totals reconcile to the transfer.",
+          "pass": true
+        },
+        {
+          "label": "The transfer number and receive time are visible in the record.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "QA-TO-mvqhvu1l (id 308) Office -> TaiPo, product test 2 x2. Same From/To rejected (\"From warehouse and to warehouse cannot be the same.\"). Create: Pending, Office available 48 -> 46. Transfer > OK: In-transit 17:41:48, Office stock 46. Receive with row toggled: Received 17:42:39, TaiPo 7/6 -> 9/8. Inventory History: PENDING_TRANSFER -2, IN_TRANSIT -2, TRANSFERRED -2, TRANSFER_RECEIVED +2 linked to the transfer. Receive without toggling does nothing (BUG-019, SCRM-094)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:52:07.589Z"
+    },
+    {
+      "id": "SCRM-029",
+      "title": "Approved replenishment request creates a linked transfer",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-029-approved-replenishment-request-creates.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Approving a replenishment request creates a traceable transfer order for the requested stock.",
+      "preconditions": [
+        "Two active warehouses and a product eligible for replenishment are available in staging."
+      ],
+      "data": [
+        "Request identifier: QA-<unique>.",
+        "Product, warehouses, and a small controlled quantity selected dynamically."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Inventory > Replenishment Request.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create a unique replenishment request for a suitable product, source warehouse, destination warehouse, and small quantity.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Approve the request.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the request and its linked transfer order.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The request changes to Approved.",
+          "status": "pass"
+        },
+        {
+          "text": "A linked transfer order number is shown and its source, destination, product, and quantity match the request.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The request changes to Approved.",
+          "pass": true
+        },
+        {
+          "label": "A linked transfer order number is shown and its source, destination, product, and quantity match the request.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "QA-RR-mvqi08o1 (id 155) Office -> TaiPo, product test 2 x1. Approve and Create Transfer Order -> prefilled transfer form -> Submit > Confirm: request Approved, linked Transfer26102709445029e9 (id 310) Pending with same warehouses/product/qty. Shipped and received it: request shows Transfer order status Received; TaiPo 10/9. Qty 999 vs 45 available reached Confirm with no warning (BUG-007 note, not submitted). Detail times in UTC (BUG-006)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:52:07.622Z"
+    },
+    {
+      "id": "SCRM-049",
+      "title": "Reject a payment-review order and verify rejection history",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-049-reject-a-payment-review-order-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Rejecting a QA payment-review order records the rejection outcome and any supplied reason.",
+      "preconditions": [
+        "A dedicated staging QA order is in Payment review and uses a non-routable QA contact."
+      ],
+      "data": [
+        "A unique QA rejection reason.",
+        "Existing QA order selected dynamically by status."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the QA order in Payment review.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reject the payment review and enter the QA reason if the form requests one.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the order and review its status history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The order shows Payment rejected or the corresponding rejection state.",
+          "status": "pass"
+        },
+        {
+          "text": "The status history records the rejection and the entered reason when supported.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The order shows Payment rejected or the corresponding rejection state.",
+          "pass": true
+        },
+        {
+          "label": "The status history records the rejection and the entered reason when supported.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Guest order TXN0126102700016 (Bank Transfer, HKD 0.10) with uploaded receipt in Payment review. Receipt tab > comment > Deny > OK: Order Status Payment Rejected, Payment Status Pending payment; Status History \"Rejected\" by ghani 17:50 with the comment. Guest Order Tracking shows REJECTED and the comment, receipts can be replaced."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:52:07.654Z"
+    },
+    {
+      "id": "SCRM-094",
+      "title": "Receiving a transfer with no product toggled tells staff to select items",
+      "priority": "P2",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-094-receiving-a-transfer-with-no-product.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Receive on an in-transit transfer gives feedback when no product row is marked as received.",
+      "preconditions": [
+        "An own QA transfer order in In-transit status"
+      ],
+      "data": [
+        "Transfer created at runtime (small qty between two warehouses)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the In-transit transfer detail",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Leave every Received All / row toggle off and click Receive",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click OK in \"Confirm receive\"",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A message says to select at least one product (or Receive is disabled)",
+          "status": "fail"
+        },
+        {
+          "text": "Status stays In-transit and no stock moves",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "A message says to select at least one product (or Receive is disabled)",
+          "pass": false
+        },
+        {
+          "label": "Status stays In-transit and no stock moves",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Receive > OK with no row toggled: POST /inventory/transfer-receive 200, no message, still In-transit (twice)."
+      ],
+      "evidence": [
+        "screenshots/SCRM-094-m01-receive-nothing-toggled.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:52:07.687Z",
+      "failureType": "product-bug",
+      "bug": "BUG-019"
+    }
+  ],
+  "notes": "Exploratory session explorations/2026-10-27-stock-movement.md",
+  "finishedAt": "2026-10-27T09:52:07.745Z",
+  "summary": {
+    "total": 5,
+    "pass": 4,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

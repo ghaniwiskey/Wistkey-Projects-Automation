@@ -7,7 +7,7 @@ tags: [regression, writes, final]
 envs: [staging]
 automated: false
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ Rejecting a QA payment-review order records the rejection outcome and any suppli
 - The status history records the rejection and the entered reason when supported.
 
 ## Notes
-Data-changing final scenario. Staging only. Obtain explicit user approval before each run/retry. Use only QA data; never use real customer/payment details. Rejection can trigger operational notifications.
+Data-changing. Staging only, on own QA orders (allowed without asking each time, user 2026-10-27, including customer notifications). Get the order into Payment review by placing a Bank Transfer order and uploading a receipt (guest: thank-you page > Upload Payment Prove > Choose File). Reject = order detail > Receipt tab > comment > Deny > OK. The customer sees REJECTED and the comment in Order Tracking. Verified manually 2026-10-27: TXN0126102700016.

@@ -1,0 +1,39 @@
+---
+project: storeberry-crm
+env: staging
+charter: "Explore the uncovered P0 stock flows (inventory by warehouse/variant, transfer ship/receive, replenish approve) and payment-review rejection with boundary inputs and stock reconciliation to discover silent failures and stock drift."
+date: 2026-10-27
+timebox: 30m
+status: done
+---
+
+## Scope
+- In scope: Inventory (View by Variants, warehouse filter), Transfer Orders (create, ship, receive), Replenish Request (create, approve, linked transfer), Inventory History, order Receipt Deny (SCRM-022, 028, 029, 049).
+- Out of scope: Stock Take (blocked, Q-008: no warehouse assignees; mapping staff needs the user's OK), card/wallet payments, other people's records.
+- eShop half (guest order used for the rejection): `projects/storeberry-compare/explorations/2026-10-27-cart-payment-review.md`.
+
+## Coverage notes
+- Inventory (SCRM-022, read-only): View by Variants for test product EN 1 lists 9 variants with Available/Stock/Pre-order and one column per warehouse. Variant sums reconcile with the product row (available 77, stock 84, Office 22, TaiPo 34, TEST12 20). Warehouse button TaiPo (`warehouse_id=12`) switches the three totals to TaiPo (large-blue 35/39) without touching stock. Data still has negative per-warehouse available values (large-red TaiPo -1, Sample promo group a -1).
+- Transfer (SCRM-028): QA-TO-mvqhvu1l (id 308), custom number accepted. Same From/To -> "From warehouse and to warehouse cannot be the same." Office -> TaiPo, product test 2 x2: Submit > Confirm -> Pending, Office available 48 -> 46. Transfer > OK -> In-transit (Office stock 46). Receive > OK with no row toggle -> POST /inventory/transfer-receive 200, nothing changes, no message (twice) -> BUG-019. With the row toggle on -> Received, TaiPo 7/6 -> 9/8. Inventory History: PENDING_TRANSFER -2 / IN_TRANSIT -2 / TRANSFERRED -2 / TRANSFER_RECEIVED +2, all linked to the transfer. Another tester (jacky) moved product test 2 out of Office at the same minute; check the history rows by transfer number before reconciling.
+- Replenish (SCRM-029): QA-RR-mvqi08o1 (id 155), Office -> TaiPo, product test 2. Qty 999 against 45 available reaches the Confirm dialog with no warning (not confirmed; noted on BUG-007). Created with qty 1 -> Awaiting. "Approve and Create Transfer Order" opens a prefilled Add Transfer Order form (`transfer-create?replenish_request_id=155`); after Submit > Confirm the request is Approved with linked Transfer26102709445029e9 (id 310). Shipped and received it: request shows Transfer order status Received, TaiPo 10/9. Detail times still UTC while the list shows HKT (BUG-006).
+- Payment-review rejection (SCRM-049): guest order TXN0126102700016 (Bank Transfer HKD 0.10, receipt uploaded) -> Receipt tab > comment > Deny > "change order status to REJECTED?" OK -> Order Status Payment Rejected, Payment Status Pending payment, Status History "Rejected" with the comment. The guest sees REJECTED and the comment in Order Tracking and can Replace the receipt.
+- Heuristics: boundaries (same warehouse, qty above available, receive nothing), interrupted flow (receive before toggling), cross-module reconciliation (transfer -> inventory -> history; CRM -> eShop tracking), concurrent users on the shared account.
+
+## Findings
+| # | Type | Summary | Severity | Link |
+|---|---|---|---|---|
+| 1 | bug | Transfer Receive with no product toggled silently does nothing (server 200, no message) | minor | bugs/BUG-019-transfer-receive-with-no-product.md |
+| 2 | bug | Replenish/transfer create accepts qty 999 against 45 available up to Confirm (creation path of BUG-007) | major | bugs/BUG-007-transfer-order-can-reserve-more-stock.md |
+| 3 | bug | Replenish detail times still in UTC (BUG-006 still open) | minor | bugs/BUG-006-replenish-request-times-are-shown-in.md |
+| 4 | risk | Receive has no quantity input: partial receipt is only per product row, not per unit | - | - |
+| 5 | risk | NAKAJIMA cake sells at HKD 0.10 with avg. cost HKD 36.49 (shown in order detail); test data, but margin reports will be skewed | - | - |
+
+## New test ideas
+- [x] SCRM-094: Receive with no product toggled tells staff to select items (P2, regression, writes) - created, fails (BUG-019).
+- [ ] Cancel an In-transit transfer and check stock returns to the source (P1, regression, writes).
+- [ ] Transfer with two products, receive one row only -> Partial Received, stock moves for that row only (P1, regression, writes).
+
+## Knowledge updates
+- README: transfer/replenish flow notes (row toggle before Receive, approve opens a prefilled transfer form, warehouse_id=12 is TaiPo).
+- `page.screenshot()` in Aside times out on long CRM pages unless `type: 'jpeg'` and a longer timeout are used; save with `fs.writeFile` (the `path` option must stay inside the session dir).
+- QA data left: transfers 308 and 310 (Received), replenish 155 (Approved), product test 2 +3 at TaiPo / -3 at Office; guest order TXN0126102700016 (Payment Rejected).

@@ -5,6 +5,7 @@ severity: minor
 status: open
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/inventory/replenish-request-detail?id=151"
+updated: 2026-10-27T09:51:38.788Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
 tests: []
@@ -33,3 +34,4 @@ Replenish request: Approve Date 01:46:30. Transfer order created by that approva
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
+- 2026-10-27: Still reproduces 2026-10-27 17:44 HKT: new request QA-RR-mvqi08o1 (id 155) lists 17:44:20 in the list but detail Create Time 09:44:20; its auto transfer number Transfer26102709445029e9 embeds UTC.

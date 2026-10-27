@@ -67,3 +67,12 @@ Staging only. Production is read-only.
 - Purchase order form: selecting the Supplier also filters the product picker to that supplier; reset the picker filter to All Suppliers before choosing products. Supplier/Warehouse are select2: click the combobox, then `.select2-results__option`. Receive qty is capped at the outstanding qty.
 - Another tester uses the same `ghani` staff account; identify our records by order/lot number, not staff name.
 - Notes: `explorations/2026-10-27-fulfilment-stock.md`.
+
+## Stock movement and payment rejection (explored 2026-10-27, evening)
+
+- Transfer: Add Transfer Order > Submit > Confirm (Pending, source available reserved) > Transfer > OK (In-transit) > turn on the row toggle or Received All > Receive > OK (Received). Receive with no toggle does nothing (BUG-019). There is no receive-qty input.
+- Replenish: "Approve and Create Transfer Order" opens a prefilled transfer form (`transfer-create?replenish_request_id=<id>`); the request turns Approved only after that form is submitted and confirmed.
+- Inventory: `inventory?view_mode=variants&warehouse_id=<id>&search_str=<name>`; TaiPo Warehouse is warehouse_id 12.
+- Payment review reject: order detail > Receipt tab > comment > Deny > OK -> Payment Rejected; the comment reaches the customer's Order Tracking.
+- Another tester (jacky) moves the same products at the same time; reconcile stock by transfer number in Inventory History, not by totals alone.
+- Notes: `explorations/2026-10-27-stock-movement.md`.

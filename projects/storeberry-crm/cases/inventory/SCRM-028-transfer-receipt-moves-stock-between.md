@@ -7,7 +7,7 @@ tags: [smoke, writes, final]
 envs: [staging]
 automated: false
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -32,4 +32,4 @@ A transfer order records a controlled movement of stock from a source warehouse 
 - The transfer number and receive time are visible in the record.
 
 ## Notes
-Data-changing and final. Staging only. Obtain explicit approval before each run; stock movement and audit history are persistent.
+Data-changing. Staging only, on own QA transfers; transfer ship/receive is allowed without asking each time (user, 2026-10-27). Receive Qty has no input: turn on the row toggle (or Received All) before Receive, otherwise nothing happens (BUG-019). Verified manually 2026-10-27: QA-TO-mvqhvu1l, Office -> TaiPo x2.

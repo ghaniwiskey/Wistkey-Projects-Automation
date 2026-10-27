@@ -41,3 +41,9 @@ Staging only. Production is read-only.
 - Test data can use normal, realistic names; no QA prefix or special email format is required.
 - Also allowed: refunds, voids and cancellations of orders; stock-changing steps (PO Receive, transfer ship/receive, replenish approve, stock-take completion); in-store POS sales; actions that send messages or notifications to customers (WhatsApp/SMS/Messenger/email).
 - Ask first: changes to other people's records, bulk/Select All actions on data we did not create, and settings or staff mapping changes.
+
+## Guest checkout notes (2026-10-27, evening)
+
+- Plus-addressed emails (`name+tag@...`) are refused at guest checkout with only "Please fill all required info" (BUG-012); use dotted unique emails for test data.
+- 門市自取 requires an Address (Q-007). Receipt upload in automation: use `input[name=receipt_img]` ("Or Choose File") then Submit.
+- Notes: `explorations/2026-10-27-cart-payment-review.md`.
