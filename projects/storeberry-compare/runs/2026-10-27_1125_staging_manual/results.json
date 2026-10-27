@@ -1,0 +1,252 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-guest",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1125_staging_manual",
+  "startedAt": "2026-10-27T04:25:19.921Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-016",
+      "title": "Guest places a bank transfer order with home delivery",
+      "priority": "P0",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-016-guest-places-a-bank-transfer-order-with.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A guest can buy a non-quota product with home delivery and Bank Transfer, and the CRM order matches.",
+      "preconditions": [
+        "Logged out; promo popup and notification prompt dismissed",
+        "A non-quota product (quota products need a member, BUG-005)"
+      ],
+      "data": [
+        "Guest name/email/phone: realistic, unique email",
+        "Bank Transfer (fn-bank-transfer) only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add the product to the cart and open /checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill Your Details as guest",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Shipping Method 住宅送貨, recipient, phone, address, delivery date, time slot and every other Delivery Info field",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Payment Bank Transfer, tick 結帳前同意, Proceed to checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the order in the CRM",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Missing delivery info is refused with a message",
+          "status": "pass"
+        },
+        {
+          "text": "Thank-you page /checkout/thank-you?txn_key=TXN... with the order number and UPLOAD PAYMENT PROVE",
+          "status": "pass"
+        },
+        {
+          "text": "CRM order: Pending Payment, Bank Transfer, total, recipient, address and delivery info as entered",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Missing delivery info is refused with a message",
+          "pass": true
+        },
+        {
+          "label": "Thank-you page /checkout/thank-you?txn_key=TXN... with the order number and UPLOAD PAYMENT PROVE",
+          "pass": true
+        },
+        {
+          "label": "CRM order: Pending Payment, Bank Transfer, total, recipient, address and delivery info as entered",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700006, NAKAJIMA cake HKD 0.10, 住宅送貨, shipping 0.00, Bank Transfer. Missing 回收聖誕樹日期 refused with a message."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.935Z"
+    },
+    {
+      "id": "SBF-017",
+      "title": "Guest tracks an order by order number and email",
+      "priority": "P1",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-017-guest-tracks-an-order-by-order-number.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Order Tracking shows a guest order only to someone who knows its email, and reflects later status changes.",
+      "preconditions": [
+        "A guest order (SBF-016)"
+      ],
+      "data": [
+        "Order number and email of that order; a different email; another order number"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Footer > Order Tracking (/guest-order-tracking): order number + correct email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Same order + a different email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Same order with upper-case email and lower-case order number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Another order number + this email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel the order in the CRM, track it again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Correct pair shows the order (date, payment, total, status, details, delivery info)",
+          "status": "pass"
+        },
+        {
+          "text": "Wrong email and other order: \"The related order does not exist.\" with no order data",
+          "status": "pass"
+        },
+        {
+          "text": "Case differences are ignored",
+          "status": "pass"
+        },
+        {
+          "text": "After cancellation the status shows CANCELED",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Correct pair shows the order (date, payment, total, status, details, delivery info)",
+          "pass": true
+        },
+        {
+          "label": "Wrong email and other order: \"The related order does not exist.\" with no order data",
+          "pass": true
+        },
+        {
+          "label": "Case differences are ignored",
+          "pass": true
+        },
+        {
+          "label": "After cancellation the status shows CANCELED",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "All combinations behave; CANCELED shown after CRM void."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.951Z"
+    },
+    {
+      "id": "SBF-018",
+      "title": "Forgot password gives the same answer for registered and unknown emails",
+      "priority": "P2",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-018-forgot-password-gives-the-same-answer.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The reset form does not reveal which emails have an account.",
+      "preconditions": [
+        "Logged out"
+      ],
+      "data": [
+        "A registered QA member email",
+        "A well-formed email with no account"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "/forgot-password: submit the registered email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Submit the unknown email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Submit \"notanemail\"",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Registered and unknown emails get the same neutral confirmation",
+          "status": "fail"
+        },
+        {
+          "text": "Only a malformed address gets a format error",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Registered and unknown emails get the same neutral confirmation",
+          "pass": false
+        },
+        {
+          "label": "Only a malformed address gets a format error",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Registered -> Success; unknown -> \"Please provide correct email.\""
+      ],
+      "evidence": [
+        "screenshots/SBF-018-m01-unknown-email.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.966Z",
+      "failureType": "product-bug",
+      "bug": "BUG-011"
+    }
+  ],
+  "notes": "Exploratory session 2026-10-27: guest checkout, order tracking, forgot password.",
+  "finishedAt": "2026-10-27T04:25:19.996Z",
+  "summary": {
+    "total": 3,
+    "pass": 2,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

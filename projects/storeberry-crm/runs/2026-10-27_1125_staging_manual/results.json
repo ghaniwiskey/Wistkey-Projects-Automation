@@ -1,0 +1,483 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-pos",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1125_staging_manual",
+  "startedAt": "2026-10-27T04:25:19.524Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-085",
+      "title": "Web POS cash sale for a member creates a completed order and earns points",
+      "priority": "P0",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-085-web-pos-cash-sale-for-a-member-creates.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An in-store POS sale with Cash records a completed offline order on the member, with payment and loyalty points.",
+      "preconditions": [
+        "Staging CRM login",
+        "Active store with Web POS (e.g. Storeberry HK) and a cash drawer selectable in POS Settings > Cash In Out",
+        "A QA member and a product in stock in the store warehouse"
+      ],
+      "data": [
+        "Store, product and member chosen at runtime; Cash is the only tender (user approval 2026-10-27)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Physical Stores POS > Use (store) and select the cash drawer in Settings > Cash In Out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add the product, select the QA member, click Total",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose Cash, enter the exact amount, Submit, CHECK OUT",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Note order number, points added and points balance on the Complete dialog, click Done",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the order in the CRM and the member Point History",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Complete dialog shows an order number (TXN11...) with total, change 0 and points added",
+          "status": "pass"
+        },
+        {
+          "text": "CRM order: Status Complete, Channel OFFLINE, Store and Warehouse of the POS, Payment History Cash with the paid amount, Delivery Status Complete",
+          "status": "pass"
+        },
+        {
+          "text": "Point History has a Point Earned line for the order and the balance matches the Complete dialog",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Complete dialog shows an order number (TXN11...) with total, change 0 and points added",
+          "pass": true
+        },
+        {
+          "label": "CRM order: Status Complete, Channel OFFLINE, Store and Warehouse of the POS, Payment History Cash with the paid amount, Delivery Status Complete",
+          "pass": true
+        },
+        {
+          "label": "Point History has a Point Earned line for the order and the balance matches the Complete dialog",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN1126102700001, Storeberry HK / TEST12, Cash HKD 10, +1 point, balance 601 (incl. +100 Upgrade Reward)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.552Z"
+    },
+    {
+      "id": "SCRM-086",
+      "title": "Refund a completed POS cash sale reverses payment and points and keeps fulfilment closed",
+      "priority": "P0",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-086-refund-a-completed-pos-cash-sale.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A full refund of a POS sale creates a linked refund order, reverses earned points and does not reopen delivery.",
+      "preconditions": [
+        "A completed QA POS cash sale (SCRM-085)"
+      ],
+      "data": [
+        "QA POS order created in the same session"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the POS order detail, Actions > Refund this order",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose Original Payment Method, add a remark, Refund > Yes",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read Order Status, Payment Status, Delivery Status and the Refund order link",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the refund order and the member Point History",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Order Status and Payment Status Refunded; a refund order <TXN>R exists with Cash -<amount>",
+          "status": "pass"
+        },
+        {
+          "text": "Point History has Refund - Transaction removing the points earned by the order",
+          "status": "pass"
+        },
+        {
+          "text": "Delivery Status stays Complete (the goods left the store at the sale)",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Order Status and Payment Status Refunded; a refund order <TXN>R exists with Cash -<amount>",
+          "pass": true
+        },
+        {
+          "label": "Point History has Refund - Transaction removing the points earned by the order",
+          "pass": true
+        },
+        {
+          "label": "Delivery Status stays Complete (the goods left the store at the sale)",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Refunded, refund order TXN1126102700001R Cash -10, -1 point. Delivery Status Complete -> Pending."
+      ],
+      "evidence": [
+        "screenshots/SCRM-086-m01-delivery-pending-after-refund.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.585Z",
+      "failureType": "product-bug",
+      "bug": "BUG-012"
+    },
+    {
+      "id": "SCRM-087",
+      "title": "Void a completed POS sale cancels it and keeps fulfilment closed",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-087-void-a-completed-pos-sale-cancels-it.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Voiding a completed POS sale cancels the order without reopening delivery.",
+      "preconditions": [
+        "A completed QA POS cash sale"
+      ],
+      "data": [
+        "QA POS order created in the same session"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the POS order, Actions > Void this order > Yes",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read Order Status, Payment Status and Delivery Status",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Order Status and Payment Status Canceled",
+          "status": "pass"
+        },
+        {
+          "text": "Delivery Status stays Complete",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Order Status and Payment Status Canceled",
+          "pass": true
+        },
+        {
+          "label": "Delivery Status stays Complete",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "TXN1126102700002 voided -> Canceled; Delivery Status Complete -> Pending."
+      ],
+      "evidence": [
+        "screenshots/SCRM-087-m01-delivery-pending-after-void.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.646Z",
+      "failureType": "product-bug",
+      "bug": "BUG-012"
+    },
+    {
+      "id": "SCRM-088",
+      "title": "POS checkout tells the cashier when no cash drawer is selected",
+      "priority": "P2",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-088-pos-checkout-tells-the-cashier-when-no.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Total never fails silently.",
+      "preconditions": [
+        "Web POS open with no cash drawer selected (localStorage cashDrawerConfig empty)"
+      ],
+      "data": [
+        "Any product"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add a product to the POS cart",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Total",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A visible message asks to select a cash drawer (Settings > Cash In Out), or the payment screen opens",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "A visible message asks to select a cash drawer (Settings > Cash In Out), or the payment screen opens",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Total does nothing; console.error only."
+      ],
+      "evidence": [
+        "screenshots/SCRM-088-m01-pos-context.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.701Z",
+      "failureType": "product-bug",
+      "bug": "BUG-014"
+    },
+    {
+      "id": "SCRM-089",
+      "title": "Refund is not offered on an unpaid order",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-089-refund-is-not-offered-on-an-unpaid-order.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Money cannot be refunded on an order that was never paid, and the UI never accepts an action that it then ignores.",
+      "preconditions": [
+        "A QA online order in Pending Payment (Bank Transfer, no receipt)"
+      ],
+      "data": [
+        "QA order created in the same session"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the order detail > Actions",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "If Refund this order is listed: Original Payment Method > Refund > Yes",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Refund this order is not listed (or disabled) for unpaid orders",
+          "status": "fail"
+        },
+        {
+          "text": "If an action is refused, a message explains why",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Refund this order is not listed (or disabled) for unpaid orders",
+          "pass": false
+        },
+        {
+          "label": "If an action is refused, a message explains why",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "TXN0126102700006: Refund offered on Pending Payment; confirm does nothing, no message (twice)."
+      ],
+      "evidence": [
+        "screenshots/SCRM-089-m01-refund-offered-unpaid.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.759Z",
+      "failureType": "product-bug",
+      "bug": "BUG-013"
+    },
+    {
+      "id": "SCRM-050",
+      "title": "Cancel an eligible unpaid order and verify its history",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-050-cancel-an-eligible-unpaid-order-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Canceling an eligible QA order records a canceled state and audit entry.",
+      "preconditions": [
+        "A dedicated staging QA order is unpaid and eligible for cancellation."
+      ],
+      "data": [
+        "QA order selected dynamically; never select a real customer order."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the eligible QA order and verify it is unpaid.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel the QA order using the available cancellation flow.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen its detail and status history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The order shows Canceled.",
+          "status": "pass"
+        },
+        {
+          "text": "The order history records the cancellation and time.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The order shows Canceled.",
+          "pass": true
+        },
+        {
+          "label": "The order history records the cancellation and time.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Unpaid guest order TXN0126102700006 voided -> Canceled; Status History \"2026-10-27 12:22 by ghani Canceled\"; stock released (VOID +1 Available)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.817Z"
+    },
+    {
+      "id": "SCRM-051",
+      "title": "Refund a completed QA order and reconcile the refund amount",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-051-refund-a-completed-qa-order-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A refund on a completed QA order records the selected amount and refund state consistently.",
+      "preconditions": [
+        "A dedicated staging QA order is completed and paid only through a documented sandbox payment method.",
+        "A sandbox refund operation is available."
+      ],
+      "data": [
+        "QA order selected dynamically.",
+        "Refund amount bounded by the QA order total."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the completed QA order and record its total.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Issue a refund for the full eligible amount using the sandbox flow.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the order and payment/refund history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The order displays the corresponding refunded/refund state.",
+          "status": "pass"
+        },
+        {
+          "text": "The refund history shows the submitted amount and links to the QA order.",
+          "status": "pass"
+        },
+        {
+          "text": "No live payment rail is used.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The order displays the corresponding refunded/refund state.",
+          "pass": true
+        },
+        {
+          "label": "The refund history shows the submitted amount and links to the QA order.",
+          "pass": true
+        },
+        {
+          "label": "No live payment rail is used.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "POS cash order TXN1126102700001 refunded in full (Cash, no gateway); refund order TXN1126102700001R -10.00 linked both ways. Delivery Status side effect tracked in BUG-012."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T04:25:19.850Z"
+    }
+  ],
+  "notes": "Exploratory session 2026-10-27: POS sale, refund, void, unpaid refund/void.",
+  "finishedAt": "2026-10-27T04:25:19.880Z",
+  "summary": {
+    "total": 7,
+    "pass": 3,
+    "fail": 4,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

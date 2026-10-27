@@ -43,3 +43,11 @@ Staging only. Production is read-only.
 - Test data can use normal, realistic names; no QA prefix or special email format is required.
 - Also allowed: refunds, voids and cancellations of orders; stock-changing steps (PO Receive, transfer ship/receive, replenish approve, stock-take completion); in-store POS sales; actions that send messages or notifications to customers (WhatsApp/SMS/Messenger/email).
 - Ask first: changes to other people's records, bulk/Select All actions on data we did not create, and settings or staff mapping changes.
+
+## Web POS and order lifecycle (explored 2026-10-27)
+
+- Web POS: Physical Stores POS > Use (`/webpos?store_id=<id>`). It has no accessibility tree; use DOM text clicks, `button.remove-item-btn`, `.swal2-popup button`, CSS-pixel coordinates.
+- Select a cash drawer first (POS menu > Settings > Cash In Out); it is stored only in localStorage `cashDrawerConfig`. Without it Total does nothing (BUG-014).
+- POS tender for tests: Cash only (user, 2026-10-27). Storeberry HK sells from warehouse TEST12; 偈油x10 is untracked and quota (needs a customer).
+- Refund/Void are under order detail Actions. Both reset Delivery Status to Pending on POS sales (BUG-012). Refund is also offered on unpaid orders and does nothing (BUG-013). Unpaid orders are cancelled with Void.
+- Notes: `explorations/2026-10-27-pos-order-lifecycle.md`.

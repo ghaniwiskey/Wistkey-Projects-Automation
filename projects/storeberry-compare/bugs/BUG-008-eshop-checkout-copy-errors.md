@@ -33,3 +33,4 @@ As listed.
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-27: more copy errors seen in explorations/2026-10-27-guest-order-recovery.md: "All Delivery info selection should be choose." (checkout) and "Receipient" (Order Tracking result).

@@ -23,6 +23,8 @@ The originally supplied `https://www.mystoreberry.com/` is the CRM login, not th
 - Close the promo popup with `#close_promo_popup`; dismiss the notification prompt (`button.close-button` NOT NOW) before clicking Proceed to checkout.
 - Shipping Address/Method only appear when the cart has a weighted item; quota products (e.g. test product EN 1) need a logged-in member.
 - Session log: `explorations/2026-10-27-eshop-critical.md`.
+- Guests cannot buy quota products (偈油x10, test product EN 1); use a non-quota item such as the NAKAJIMA cake (HKD 0.10). 住宅送貨 requires every Delivery Info field, including 回收聖誕樹日期 (November dates only).
+- Guest Order Tracking: `/guest-order-tracking` with order number + order email (case-insensitive). Forgot password: `/forgot-password` (BUG-011). Notes: `explorations/2026-10-27-guest-order-recovery.md`.
 
 ## Run
 
