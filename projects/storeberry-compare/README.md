@@ -37,4 +37,5 @@ Staging only. Production is read-only.
 - Allowed without asking each time, on our own QA data: create, edit, submit/confirm, cancel and delete; placing eShop orders.
 - Payment: **Bank Transfer only** (`fn-bank-transfer`). Never card, wallet or other gateways.
 - Test data can use normal, realistic names; no QA prefix or special email format is required.
-- Ask first: changes to other people's records, bulk/Select All actions, stock-changing steps (PO Receive, stock-take completion), refunds/voids of real orders, settings or staff mapping changes, and anything that messages real people (WhatsApp/SMS/Messenger bulk actions, emails to real addresses).
+- Also allowed: refunds, voids and cancellations of orders; stock-changing steps (PO Receive, transfer ship/receive, replenish approve, stock-take completion); in-store POS sales; actions that send messages or notifications to customers (WhatsApp/SMS/Messenger/email).
+- Ask first: changes to other people's records, bulk/Select All actions on data we did not create, and settings or staff mapping changes.
