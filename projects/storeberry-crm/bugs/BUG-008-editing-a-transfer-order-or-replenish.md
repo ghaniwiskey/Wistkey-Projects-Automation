@@ -7,7 +7,7 @@ env: staging
 url: "https://www.stagingl10.storeberry.xyz/inventory/transfer-edit?id=306"
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
-tests: []
+tests: [SCRM-083, SCRM-084]
 frequency: always
 ---
 ## Summary

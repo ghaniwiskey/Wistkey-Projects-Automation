@@ -1,0 +1,1634 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1016_staging_manual",
+  "startedAt": "2026-10-27T03:16:25.487Z",
+  "inProgress": false,
+  "tester": "Aside (exploratory, 2026-10-27)",
+  "tests": [
+    {
+      "id": "SCRM-001",
+      "title": "CRM login page loads with sign-in controls",
+      "priority": "P0",
+      "feature": "auth",
+      "file": "projects/storeberry-crm/cases/auth/SCRM-001-crm-login-page-loads.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The staging CRM exposes its sign-in form when a user opens the root URL.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the staging CRM root URL.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the sign-in form controls.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The browser reaches `/auth/login` without an HTTP error.",
+          "status": "pass"
+        },
+        {
+          "text": "The page shows the heading \"Log in to your store\" and company, username/email, password, and LOGIN controls.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The browser reaches `/auth/login` without an HTTP error.",
+          "pass": true
+        },
+        {
+          "label": "The page shows the heading \"Log in to your store\" and company, username/email, password, and LOGIN controls.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Login page at /auth/login with company, username/email, password and LOGIN."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.521Z"
+    },
+    {
+      "id": "SCRM-005",
+      "title": "Store admin signs in to Storeberry Flower CRM",
+      "priority": "P0",
+      "feature": "auth",
+      "file": "projects/storeberry-crm/cases/auth/SCRM-005-store-admin-signs-in-to-storeberry.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The dedicated store admin can authenticate and reach the CRM workspace.",
+      "preconditions": [],
+      "data": [
+        "Company, username, and password from SCRM_COMPANY, SCRM_USERNAME, and SCRM_PASSWORD in local .env."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the staging CRM sign-in page.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the dedicated Storeberry Flower company name, username, and password.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select LOGIN.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Confirm that the CRM workspace opens.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The browser leaves the /auth/login route and reaches the CRM Get Started workspace.",
+          "status": "pass"
+        },
+        {
+          "text": "The CRM navigation shows the Get Started link.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The browser leaves the /auth/login route and reaches the CRM Get Started workspace.",
+          "pass": true
+        },
+        {
+          "label": "The CRM navigation shows the Get Started link.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Shared account reached /get-start; wrong password shows \"Password incorrect, 3 attempts remaining.\""
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.550Z"
+    },
+    {
+      "id": "SCRM-004",
+      "title": "CRM customer list loads with search controls",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-004-crm-customer-list-loads-with-search.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can open the customer list and search without exposing customer data in test reports.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the CRM as the staging store admin.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Customers > Customers.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Confirm the customer count and both search controls are available.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search for a unique value that should not match any member.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The customer list loads and displays a numeric total.",
+          "status": "pass"
+        },
+        {
+          "text": "A search field is available for Member ID, Name, Mobile, or Email, and a separate search field is available for Remark.",
+          "status": "pass"
+        },
+        {
+          "text": "The unique no-match search returns `No. of Customer: 0`.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The customer list loads and displays a numeric total.",
+          "pass": true
+        },
+        {
+          "label": "A search field is available for Member ID, Name, Mobile, or Email, and a separate search field is available for Remark.",
+          "pass": true
+        },
+        {
+          "label": "The unique no-match search returns `No. of Customer: 0`.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "List total 321; both search fields present; QA email search after delete returned No. of Customer: 0."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.577Z"
+    },
+    {
+      "id": "SCRM-020",
+      "title": "Add Customer requires First Name and Email",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-020-add-customer-requires-first-name-and.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The Add Customer form blocks submission when required identity fields are missing.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Customers > Add Customer.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Leave First Name and Email blank.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select Save.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The form stays open and indicates that First Name and Email are required.",
+          "status": "fail"
+        },
+        {
+          "text": "No customer record is created and the customer count does not increase.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The form stays open and indicates that First Name and Email are required.",
+          "pass": false
+        },
+        {
+          "label": "No customer record is created and the customer count does not increase.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Empty Save shows \"The First Name is required. The Language Perference is required.\" Email is not flagged until First Name is filled (validation comes in stages). No customer created."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.607Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "SCRM-021",
+      "title": "Create customer respects email opt-in and member level",
+      "priority": "P0",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-021-create-customer-respects-email-opt-in.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can create a staging customer with an explicit opt-in choice and member level.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [
+        "First name: QA-<unique>.",
+        "Email: qa-<unique>@example.invalid.",
+        "Opt-in: No.",
+        "Member level selected from the available levels."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Customers > Add Customer.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a unique QA first name and a non-routable example.invalid email address.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Set Opt-in to No and select a member level.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Save the record and reopen it from the customer directory.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The new QA customer appears once in the directory.",
+          "status": "pass"
+        },
+        {
+          "text": "Opt-in remains No and the selected member level is retained after reopening.",
+          "status": "pass"
+        },
+        {
+          "text": "No email or marketing message is sent.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The new QA customer appears once in the directory.",
+          "pass": true
+        },
+        {
+          "label": "Opt-in remains No and the selected member level is retained after reopening.",
+          "pass": true
+        },
+        {
+          "label": "No email or marketing message is sent.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "QA customer MEMy001164524 created with Opt-in No and Level 1; values kept after reopening; @example.com email."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.663Z"
+    },
+    {
+      "id": "SCRM-054",
+      "title": "Reject duplicate customer email or Member ID values",
+      "priority": "P2",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-054-reject-duplicate-customer-email-or.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customer creation prevents a duplicate email or editable Member ID from creating a second record.",
+      "preconditions": [
+        "At least one dedicated QA customer exists; Member ID branch requires that the CRM UI permits setting a Member ID."
+      ],
+      "data": [
+        "Existing QA customer email and, if editable, Member ID selected dynamically.",
+        "Second customer uses a unique QA first name and example.invalid email for the untested identifier."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Add Customer.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Attempt to save a second QA customer with the existing QA customer email.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify the duplicate is rejected and no second record is created.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "If Member ID can be set in the form, repeat with the existing QA Member ID and a unique email.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Duplicate email is rejected with a visible validation message and no duplicate customer appears.",
+          "status": "pass"
+        },
+        {
+          "text": "If Member ID is editable, duplicate Member ID is likewise rejected without creating a record.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Duplicate email is rejected with a visible validation message and no duplicate customer appears.",
+          "pass": true
+        },
+        {
+          "label": "If Member ID is editable, duplicate Member ID is likewise rejected without creating a record.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Duplicate (uppercase) email rejected: \"The email is already registered.\""
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.692Z"
+    },
+    {
+      "id": "SCRM-057",
+      "title": "Product form rejects a non-positive price",
+      "priority": "P2",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-057-product-form-rejects-a-non-positive.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The product form rejects a zero or negative price without saving the product.",
+      "preconditions": [
+        "A staging product form and an existing category are available."
+      ],
+      "data": [
+        "Product name: QA-<unique>.",
+        "Price: 0, then -1 only if the form allows a second validation attempt.",
+        "An existing category selected from the UI."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Add Product.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a unique QA name, select an existing category, and enter price 0.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Attempt to save; if the form accepts the input, correct it and try -1.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search product lists for the QA name.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The form displays a price validation error for each attempted non-positive value.",
+          "status": "fail"
+        },
+        {
+          "text": "No product is created with the invalid price.",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The form displays a price validation error for each attempted non-positive value.",
+          "pass": false
+        },
+        {
+          "label": "No product is created with the invalid price.",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Negative input resets to 0; HKD 0.00 hidden product saved without message (id 3199, terminated after). Open question whether HKD 0 must be allowed; triage after product owner answers."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.720Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "SCRM-071",
+      "title": "Customer birthday rejects an impossible date",
+      "priority": "P2",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-071-customer-birthday-rejects-an-impossible.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "An impossible MM-DD birthday is never saved on a customer.",
+      "preconditions": [
+        "A QA customer created for this test (email @example.com, opt-in No)"
+      ],
+      "data": [
+        "Birthday: 02-30, then 13-45; control 05-15"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the QA customer > Edit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Type 02-30 in Birthday (MM-DD), close the picker and Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen Edit and read Birthday",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Repeat with 13-45, then with 05-15",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "02-30 and 13-45 are rejected with a validation message, or the previous birthday is kept",
+          "status": "fail"
+        },
+        {
+          "text": "Birthday never becomes today's date unless typed",
+          "status": "fail"
+        },
+        {
+          "text": "05-15 saves and shows 05-15 after reopening",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "02-30 and 13-45 are rejected with a validation message, or the previous birthday is kept",
+          "pass": false
+        },
+        {
+          "label": "Birthday never becomes today's date unless typed",
+          "pass": false
+        },
+        {
+          "label": "05-15 saves and shows 05-15 after reopening",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "02-30 and 13-45 saved as 10-27 (today); 05-15 saved correctly."
+      ],
+      "evidence": [
+        "screenshots/SCRM-071-m01-01-birthday-02-30-saved-as-today.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.774Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "SCRM-072",
+      "title": "Delete removes only the selected QA customer",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-072-delete-removes-only-the-selected-qa.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Deleting one ticked customer removes exactly that record.",
+      "preconditions": [
+        "A QA customer created for this test"
+      ],
+      "data": [
+        "Customer email: aside.<unique>@example.com"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Search the customer list for the QA email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick only its row checkbox (not Select All)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Delete and read the confirmation",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search the QA email again and note the total customer count",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Confirmation reads \"Are you sure want to delete selected customers?\"",
+          "status": "pass"
+        },
+        {
+          "text": "After OK the search shows No. of Customer: 0",
+          "status": "pass"
+        },
+        {
+          "text": "Total count drops by exactly 1",
+          "status": "pass"
+        },
+        {
+          "text": "Opening the old detail URL redirects to the customer list",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Confirmation reads \"Are you sure want to delete selected customers?\"",
+          "pass": true
+        },
+        {
+          "label": "After OK the search shows No. of Customer: 0",
+          "pass": true
+        },
+        {
+          "label": "Total count drops by exactly 1",
+          "pass": true
+        },
+        {
+          "label": "Opening the old detail URL redirects to the customer list",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Only the QA row ticked; confirmation \"Are you sure want to delete selected customers?\"; search returns 0; detail URL redirects to list."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.825Z"
+    },
+    {
+      "id": "SCRM-073",
+      "title": "Add Customer validates email format and password confirmation",
+      "priority": "P2",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-073-add-customer-validates-email-format-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Invalid email and mismatched passwords block customer creation.",
+      "preconditions": [],
+      "data": [
+        "Email: not-an-email",
+        "Password: Abc12345! / Confirm: Different99!"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Customers > Add Customer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter First Name AsideQA, pick a language, Email not-an-email, mismatched passwords",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear Email and Save again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"The Email must be a valid email address.\" and \"The Password confirmation does not match.\" are shown",
+          "status": "pass"
+        },
+        {
+          "text": "With an empty email \"Email is required.\" is shown",
+          "status": "pass"
+        },
+        {
+          "text": "No customer is created (URL stays /customers/create)",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"The Email must be a valid email address.\" and \"The Password confirmation does not match.\" are shown",
+          "pass": true
+        },
+        {
+          "label": "With an empty email \"Email is required.\" is shown",
+          "pass": true
+        },
+        {
+          "label": "No customer is created (URL stays /customers/create)",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "\"The Email must be a valid email address.\", \"The Password confirmation does not match.\", \"Email is required.\""
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.853Z"
+    },
+    {
+      "id": "SCRM-074",
+      "title": "Order list paid date never shows Invalid date",
+      "priority": "P3",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-074-order-list-paid-date-never-shows.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The paid date column shows a date or a dash for every order.",
+      "preconditions": [],
+      "data": [
+        "Last 12 Months, 100 per page"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Orders, Last 12 Months, 100 items per page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Scan the Paid date / Payment approval date column, including HKD 0.00 eGift-paid orders",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No cell reads \"Invalid date\"",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "No cell reads \"Invalid date\"",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "TXN1226102600001 (HKD 0, paid by eGift) shows \"Invalid date\" (1 of 100 rows)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.880Z",
+      "failureType": "product-bug",
+      "bug": "BUG-002"
+    },
+    {
+      "id": "SCRM-047",
+      "title": "Checkout review shows delivery and payment choices without submitting",
+      "priority": "P0",
+      "feature": "storefront",
+      "file": "projects/storeberry-crm/cases/storefront/SCRM-047-checkout-review-shows-delivery-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A shopper can review checkout delivery and payment information without placing an order.",
+      "preconditions": [
+        "A staging storefront product and an isolated test checkout session are available."
+      ],
+      "data": [
+        "Test-only contact details; never use a real customer identity or payment card."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the staging storefront in a clean, isolated test session.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add an available product to the cart and proceed to checkout.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Use test-only contact details and review delivery and payment choices.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Stop before the final order submission or payment action.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Checkout displays the selected cart items, totals, and available delivery and payment choices.",
+          "status": "pass"
+        },
+        {
+          "text": "Required checkout fields and any validation are visible.",
+          "status": "pass"
+        },
+        {
+          "text": "No order is created, no message is sent, and no payment is attempted.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Checkout displays the selected cart items, totals, and available delivery and payment choices.",
+          "pass": true
+        },
+        {
+          "label": "Required checkout fields and any validation are visible.",
+          "pass": true
+        },
+        {
+          "label": "No order is created, no message is sent, and no payment is attempted.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Checkout review on the staging eShop shows items, totals, shipping and payment choices; required-field validation visible. Payment list has raw keys (storeberry-compare BUG-004)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.907Z"
+    },
+    {
+      "id": "SCRM-048",
+      "title": "Approve a payment-review order and verify processing status",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-048-approve-a-payment-review-order-and.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Approving a QA payment-review order advances it to the appropriate processing state.",
+      "preconditions": [
+        "A dedicated staging QA order is in Payment review and uses a non-routable QA contact.",
+        "A safe staging payment-review action is available; do not use a live payment rail."
+      ],
+      "data": [
+        "Existing QA order selected dynamically by Payment review status."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the QA order in Payment review and confirm its order number and amount.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Approve the payment review.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the order and its status history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The order leaves Payment review and shows the resulting processing/approved status.",
+          "status": "fail"
+        },
+        {
+          "text": "The order history records the approval and updated status.",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The order leaves Payment review and shows the resulting processing/approved status.",
+          "pass": false
+        },
+        {
+          "label": "The order history records the approval and updated status.",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Bulk Accept Receipt on TXN0126102700002A and TXN0126102700003: \"Whoops! Please contact our admin\", Failed 1/1; order stays in Payment Review."
+      ],
+      "evidence": [
+        "screenshots/SCRM-048-m01-07-accept-receipt-whoops.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.934Z",
+      "failureType": "product-bug",
+      "bug": "BUG-009"
+    },
+    {
+      "id": "SCRM-075",
+      "title": "Accept an uploaded bank transfer receipt from the order detail",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-075-accept-an-uploaded-bank-transfer.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff can approve a bank transfer payment after the customer uploads a receipt.",
+      "preconditions": [
+        "A QA member order paid by Bank Transfer with an uploaded receipt (status Payment Review)",
+        "User approval to place the order"
+      ],
+      "data": [
+        "Order found at runtime in Orders > Payment review, created by the QA member"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the order detail > Receipt tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a comment and click Accept > OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the order",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open eShop My Orders for that order",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No warning is shown",
+          "status": "fail"
+        },
+        {
+          "text": "Order Status Processing, Payment Status Paid",
+          "status": "fail"
+        },
+        {
+          "text": "eShop shows the order as Processing",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "No warning is shown",
+          "pass": false
+        },
+        {
+          "label": "Order Status Processing, Payment Status Paid",
+          "pass": false
+        },
+        {
+          "label": "eShop shows the order as Processing",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Receipt tab > Accept on TXN0126102700003 and TXN0126102700004: /orders/receipt-change-status returns FAIL \"Whoops! Please contact our admin\"."
+      ],
+      "evidence": [
+        "screenshots/SCRM-075-m01-08-receipt-accept-detail.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:25.988Z",
+      "failureType": "product-bug",
+      "bug": "BUG-009"
+    },
+    {
+      "id": "SCRM-076",
+      "title": "Deny an uploaded bank transfer receipt",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-076-deny-an-uploaded-bank-transfer-receipt.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can reject a wrong payment receipt.",
+      "preconditions": [
+        "A QA order in Payment Review with an uploaded receipt"
+      ],
+      "data": [
+        "Comment: Aside QA test - deny"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Order detail > Receipt tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the comment, click Deny > OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the order",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Order Status Payment Rejected",
+          "status": "pass"
+        },
+        {
+          "text": "Payment Status Pending payment",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Order Status Payment Rejected",
+          "pass": true
+        },
+        {
+          "label": "Payment Status Pending payment",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Deny on TXN0126102700003 -> Payment Rejected."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.045Z"
+    },
+    {
+      "id": "SCRM-077",
+      "title": "Edit this order keeps warehouse, shipping store, remark and product names",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-077-edit-this-order-keeps-warehouse.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Editing an order changes only what the user changed.",
+      "preconditions": [
+        "A pending QA order with warehouse Office and a customer remark"
+      ],
+      "data": [
+        "Reduce one line by 1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Order detail > Actions > Edit this order > Use order creation date",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the POS warehouse matches the order warehouse",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reduce one line by 1, Total > Bank Transfer > CHECK OUT > OK > Done",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the replacement order (…A) in the CRM and in eShop My Orders",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Original order is Canceled and the replacement total is reduced by the line price",
+          "status": "pass"
+        },
+        {
+          "text": "Warehouse and Shipping Store equal the original",
+          "status": "fail"
+        },
+        {
+          "text": "Customer remark appears once",
+          "status": "fail"
+        },
+        {
+          "text": "Product names are unchanged (same language as the original)",
+          "status": "fail"
+        },
+        {
+          "text": "Internal remark contains the original order number",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Original order is Canceled and the replacement total is reduced by the line price",
+          "pass": true
+        },
+        {
+          "label": "Warehouse and Shipping Store equal the original",
+          "pass": false
+        },
+        {
+          "label": "Customer remark appears once",
+          "pass": false
+        },
+        {
+          "label": "Product names are unchanged (same language as the original)",
+          "pass": false
+        },
+        {
+          "label": "Internal remark contains the original order number",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Replacement TXN0126102700002A: warehouse TaiPo (was Office, stock -1), Shipping Store dropped, remark duplicated, names \"test product CN 1\". Internal remark carried over."
+      ],
+      "evidence": [
+        "screenshots/SCRM-077-m01-06-order-edit-result.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.070Z",
+      "failureType": "product-bug",
+      "bug": "BUG-010"
+    },
+    {
+      "id": "SCRM-078",
+      "title": "Create, edit and cancel a purchase order",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-078-create-edit-and-cancel-a-purchase-order.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Purchase orders can be created, edited and cancelled without affecting stock.",
+      "preconditions": [],
+      "data": [
+        "Supplier: Default Supplier",
+        "Warehouse: test 1",
+        "Product of that supplier, qty 1, unit cost 1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add Purchase Order with empty form > Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill supplier, warehouse, remark, one product qty 1 cost 1 > Submit > Confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Edit Purchase Order: qty 2 and new remark > Submit > Confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel Purchase Order > CONFIRM",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Empty submit shows \"Please select supplier\"",
+          "status": "pass"
+        },
+        {
+          "text": "Create shows \"Create successful...\" and status Processing",
+          "status": "pass"
+        },
+        {
+          "text": "Edit shows \"Update successful...\" and total cost $2.00",
+          "status": "pass"
+        },
+        {
+          "text": "Cancel shows \"Order status successfully updated\" and status Canceled",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Empty submit shows \"Please select supplier\"",
+          "pass": true
+        },
+        {
+          "label": "Create shows \"Create successful...\" and status Processing",
+          "pass": true
+        },
+        {
+          "label": "Edit shows \"Update successful...\" and total cost $2.00",
+          "pass": true
+        },
+        {
+          "label": "Cancel shows \"Order status successfully updated\" and status Canceled",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Lot2610270247224c90: create, edit to qty 2 (total $2.00), cancel. Receive not clicked."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.118Z"
+    },
+    {
+      "id": "SCRM-079",
+      "title": "Create, edit and delete a hidden category",
+      "priority": "P2",
+      "feature": "categories",
+      "file": "projects/storeberry-crm/cases/categories/SCRM-079-create-edit-and-delete-a-hidden-category.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Category CRUD works without exposing test data to shoppers.",
+      "preconditions": [],
+      "data": [
+        "Name: ASIDE-QA-CAT-<unique>",
+        "Show in Retail/Online: off"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add Category with no name > Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the name, untick both Show in ... options > Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open it, rename and set parent General > Save, reopen",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick only it in the list > Action > Delete the category > OK",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"The Category name is required.\"",
+          "status": "pass"
+        },
+        {
+          "text": "\"Create category successful...\" and both platform bubbles off",
+          "status": "pass"
+        },
+        {
+          "text": "\"Update successful\"; name and parent persist",
+          "status": "pass"
+        },
+        {
+          "text": "Category no longer listed",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"The Category name is required.\"",
+          "pass": true
+        },
+        {
+          "label": "\"Create category successful...\" and both platform bubbles off",
+          "pass": true
+        },
+        {
+          "label": "\"Update successful\"; name and parent persist",
+          "pass": true
+        },
+        {
+          "label": "Category no longer listed",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Category 326 created hidden, edited (name + parent General), deleted."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.144Z"
+    },
+    {
+      "id": "SCRM-080",
+      "title": "Create, edit and delete a brand",
+      "priority": "P2",
+      "feature": "brands",
+      "file": "projects/storeberry-crm/cases/brands/SCRM-080-create-edit-and-delete-a-brand.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Brand CRUD works.",
+      "preconditions": [],
+      "data": [
+        "Name: ASIDE-QA-BRAND-<unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add Brand: name + short description > Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the brand, change the name > Save, reopen",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick only it > Action > Delete the brand > OK",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Create brand successful...\"",
+          "status": "pass"
+        },
+        {
+          "text": "\"Update successful\"-type message and the new name persists",
+          "status": "fail"
+        },
+        {
+          "text": "Brand no longer listed",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Create brand successful...\"",
+          "pass": true
+        },
+        {
+          "label": "\"Update successful\"-type message and the new name persists",
+          "pass": false
+        },
+        {
+          "label": "Brand no longer listed",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Brand 24: create OK, edit returns HTTP 500 \"error exist!\" (twice), delete OK."
+      ],
+      "evidence": [
+        "screenshots/SCRM-080-m01-09-brand-edit-500.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.169Z",
+      "failureType": "product-bug",
+      "bug": "BUG-011"
+    },
+    {
+      "id": "SCRM-081",
+      "title": "Adjust member points with admin endorsement",
+      "priority": "P1",
+      "feature": "loyalty",
+      "file": "projects/storeberry-crm/cases/loyalty/SCRM-081-adjust-member-points-with-admin.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can add and subtract member points with endorsement and see it in Point History.",
+      "preconditions": [
+        "A QA member with a known balance"
+      ],
+      "data": [
+        "+100, then Subtract 100",
+        "Endorsement: the shared CRM account from .env"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Customer detail > Membership points edit button",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Leave the toggle on Add (+), enter 100 and a remark, Save without endorsement",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the endorsement username and password, Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Repeat with the toggle on Subtract (-) and 100",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Without endorsement: \"The endorse username is required. The endorse user password is required.\"",
+          "status": "pass"
+        },
+        {
+          "text": "Adjusted Balance preview = balance + 100, then \"Point updated.\"",
+          "status": "pass"
+        },
+        {
+          "text": "Membership points show the new balance and Point History lists the adjustment with the remark",
+          "status": "pass"
+        },
+        {
+          "text": "Subtract returns the balance to the start value",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Without endorsement: \"The endorse username is required. The endorse user password is required.\"",
+          "pass": true
+        },
+        {
+          "label": "Adjusted Balance preview = balance + 100, then \"Point updated.\"",
+          "pass": true
+        },
+        {
+          "label": "Membership points show the new balance and Point History lists the adjustment with the remark",
+          "pass": true
+        },
+        {
+          "label": "Subtract returns the balance to the start value",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Missing endorsement rejected; +100 / -100 saved with \"Point updated.\"; balance back to 500."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.224Z"
+    },
+    {
+      "id": "SCRM-082",
+      "title": "Existing product detail opens without an error message",
+      "priority": "P1",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-082-existing-product-detail-opens-without.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Opening a product in the CRM shows no error and add-on templates load.",
+      "preconditions": [],
+      "data": [
+        "Any existing active product, picked from the list at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Products and click an existing product",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait 2 seconds on the Product Details tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Add-On Products > Import From Template",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No error toast appears (e.g. \"undefined: Unexpected Error\")",
+          "status": "fail"
+        },
+        {
+          "text": "The template picker lists templates or says none exist, with no \"Cannot Fetch Templates\" error",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "No error toast appears (e.g. \"undefined: Unexpected Error\")",
+          "pass": false
+        },
+        {
+          "label": "The template picker lists templates or says none exist, with no \"Cannot Fetch Templates\" error",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Toast \"undefined: Unexpected Error\" on 5 of 5 products; GET cmsapiv2.storeberry.ai/cmsapi/addon-products/templates/... returns 500; Import From Template -> \"Cannot Fetch Templates\"."
+      ],
+      "evidence": [
+        "screenshots/SCRM-082-m01-02-product-detail-unexpected-error.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.253Z",
+      "failureType": "product-bug",
+      "bug": "BUG-005"
+    },
+    {
+      "id": "SCRM-083",
+      "title": "Edit a pending transfer order and save the change",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-083-edit-a-pending-transfer-order-and-save.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A pending transfer order can be edited and saved.",
+      "preconditions": [
+        "A QA transfer order created for this test (TaiPo Warehouse -> test 1, 1 x an in-stock product)"
+      ],
+      "data": [
+        "Qty 1 -> 2",
+        "Remark: Aside QA test transfer - edited"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the QA transfer > Edit Transfer Order",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change Qty to 2 and the Remark",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Submit > Confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the transfer detail",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel the QA transfer afterwards",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Update successful\"-type message, no \"The deleted ids must be a valid JSON string.\"",
+          "status": "fail"
+        },
+        {
+          "text": "Detail shows Qty 2 and the new remark",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Update successful\"-type message, no \"The deleted ids must be a valid JSON string.\"",
+          "pass": false
+        },
+        {
+          "label": "Detail shows Qty 2 and the new remark",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "QA transfer 306: \"The deleted ids must be a valid JSON string.\" (error_code 2208), also after removing/re-adding the row. Cancelled afterwards."
+      ],
+      "evidence": [
+        "screenshots/SCRM-083-m01-04-transfer-edit-submit.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.309Z",
+      "failureType": "product-bug",
+      "bug": "BUG-008"
+    },
+    {
+      "id": "SCRM-084",
+      "title": "Edit an awaiting replenish request and save the change",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-084-edit-an-awaiting-replenish-request-and.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "An awaiting replenish request can be edited and saved.",
+      "preconditions": [
+        "A QA replenish request created for this test"
+      ],
+      "data": [
+        "Qty 1 -> 2",
+        "Remark: Aside QA test replenish - edited"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the QA replenish request > Edit Replenish Request",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change Qty to 2 and the Remark",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Submit > Confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the detail",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel the QA request afterwards",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Update successful\"-type message, no \"The deleted ids must be a valid JSON string.\"",
+          "status": "fail"
+        },
+        {
+          "text": "Detail shows Qty 2 and the new remark",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Update successful\"-type message, no \"The deleted ids must be a valid JSON string.\"",
+          "pass": false
+        },
+        {
+          "label": "Detail shows Qty 2 and the new remark",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "QA replenish request 154: same \"deleted ids\" error. Cancelled afterwards."
+      ],
+      "evidence": [
+        "screenshots/SCRM-084-m01-05-replenish-edit-submit.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.366Z",
+      "failureType": "product-bug",
+      "bug": "BUG-008"
+    }
+  ],
+  "notes": "Results from the 2026-10-27 exploratory sessions (Aside browser). Only cases actually executed today are included; partially covered cases were left out. Explorations: explorations/2026-10-27-*.md",
+  "finishedAt": "2026-10-27T03:16:26.423Z",
+  "summary": {
+    "total": 23,
+    "pass": 12,
+    "fail": 11,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,976 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1016_staging_manual",
+  "startedAt": "2026-10-27T03:16:26.498Z",
+  "inProgress": false,
+  "tester": "Aside (exploratory, 2026-10-27)",
+  "tests": [
+    {
+      "id": "SBF-001",
+      "title": "Home page loads",
+      "priority": "P0",
+      "feature": "smoke",
+      "file": "projects/storeberry-compare/cases/smoke/SBF-001-home-page-loads.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The app is up and its home page renders.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the home page",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page responds without an HTTP error",
+          "status": "pass"
+        },
+        {
+          "text": "The page has a title and visible content",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The page responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "The page has a title and visible content",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Home page loads; promo popup closes via its X and stays closed."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.512Z"
+    },
+    {
+      "id": "SBF-002",
+      "title": "Product detail shows the selected product and price",
+      "priority": "P1",
+      "feature": "catalog",
+      "file": "projects/storeberry-compare/cases/catalog/SBF-002-product-detail-shows-the-selected.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A shopper can identify the selected item and its price before deciding to buy.",
+      "preconditions": [],
+      "data": [
+        "A currently listed product with a visible price"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the storefront home page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select a currently listed product",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review its product detail page",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The detail page shows the selected product name",
+          "status": "pass"
+        },
+        {
+          "text": "The detail page shows a price for the selected product",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The detail page shows the selected product name",
+          "pass": true
+        },
+        {
+          "label": "The detail page shows a price for the selected product",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "偈油x10 and test product EN 1 pages show name and price."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.522Z"
+    },
+    {
+      "id": "SBF-003",
+      "title": "Search results match the submitted product name",
+      "priority": "P1",
+      "feature": "search",
+      "file": "projects/storeberry-compare/cases/search/SBF-003-search-results-match-the-submitted.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A shopper can find a known product using its name.",
+      "preconditions": [],
+      "data": [
+        "Product currently listed on the storefront: Disable Test"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the storefront home page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search for Disable Test",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the search results",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The results page identifies the query Disable Test",
+          "status": null
+        },
+        {
+          "text": "Each returned product matches the query, including Disable Test when it is listed",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Each returned product matches the query, including Disable Test when it is listed",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Queries \"Shoesss\", \"偈油x10\" and \"zzqxnotexist123\" all return the same 24 unrelated products."
+      ],
+      "evidence": [
+        "screenshots/SBF-003-m01-01-search-nonsense-query-returns-products.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.535Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "SBF-005",
+      "title": "Member places a bank transfer order with store pickup",
+      "priority": "P0",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-005-member-places-a-bank-transfer-order.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A logged-in member can place an order paid by Bank Transfer and it appears in My Orders and the CRM.",
+      "preconditions": [
+        "A QA member account (email @example.com)",
+        "User approval to create one staging order"
+      ],
+      "data": [
+        "An in-stock product found at runtime",
+        "Shipping: Hong Kong, 門市自取, first listed pickup store",
+        "Payment: Bank Transfer - 3 Work Days only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to the eShop as the QA member",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add an in-stock product and open checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check Your Details are pre-filled with the member data",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose 門市自取 and a pickup store, enter a QA address and remark",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select Bank Transfer, tick 結帳前同意, dismiss any notification prompt",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Proceed to checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open My Account > My Orders",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the CRM search Orders by the order number",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Thank-you page shows \"YOUR ORDER NO.: TXN...\" and the cart badge is 0",
+          "status": "pass"
+        },
+        {
+          "text": "My Orders lists the order as Pending Payment",
+          "status": "pass"
+        },
+        {
+          "text": "CRM order shows Pending Payment, Bank Transfer, the same items, quantities and total, delivery method 門市自取 and the remark",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Thank-you page shows \"YOUR ORDER NO.: TXN...\" and the cart badge is 0",
+          "pass": true
+        },
+        {
+          "label": "My Orders lists the order as Pending Payment",
+          "pass": true
+        },
+        {
+          "label": "CRM order shows Pending Payment, Bank Transfer, the same items, quantities and total, delivery method 門市自取 and the remark",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700002 (HKD 400, Bank Transfer, 門市自取 荔枝角): thank-you page, My Orders Pending Payment, CRM matches. Notification prompt had to be dismissed first (BUG-006)."
+      ],
+      "evidence": [
+        "screenshots/SBF-005-m01-06-order-confirmation.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.563Z"
+    },
+    {
+      "id": "SBF-006",
+      "title": "New member registers and can log in",
+      "priority": "P0",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-006-new-member-registers-and-can-log-in.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Shoppers can create an account and sign in.",
+      "preconditions": [],
+      "data": [
+        "Email: aside.member.<unique>@example.com",
+        "Marketing: No"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill First Name, Last Name, unique email, mobile, password twice, choose marketing No, agree to the policy",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in on /login with the same email and password",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Thank you for your registration. Please check your e-mail to complete registration process.\" is shown and /login opens",
+          "status": "pass"
+        },
+        {
+          "text": "Login shows \"Login successful !\" and My Account is available",
+          "status": "pass"
+        },
+        {
+          "text": "The member appears in the CRM customer list with the entered name and Opt-in No",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Thank you for your registration. Please check your e-mail to complete registration process.\" is shown and /login opens",
+          "pass": true
+        },
+        {
+          "label": "Login shows \"Login successful !\" and My Account is available",
+          "pass": true
+        },
+        {
+          "label": "The member appears in the CRM customer list with the entered name and Opt-in No",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Registered aside.member.qamvq1nfsl@example.com, logged in (login allowed before email verification)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.591Z"
+    },
+    {
+      "id": "SBF-007",
+      "title": "Registration validates policy, password length, confirmation and birthday",
+      "priority": "P2",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-007-registration-validates-policy-password.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Invalid registration input is rejected with clear messages.",
+      "preconditions": [],
+      "data": [
+        "Password 123 / confirm 456",
+        "Birthday 02-30"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /register and fill name and a unique email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter password 123 and confirmation 456, leave the policy unticked, Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fix the passwords, tick the policy, type birthday 02-30, Register",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Warning lists \"The Agreement of Privacy policy is required.\", \"The Password must be at least 6 characters.\" and \"The Password confirmation does not match.\"",
+          "status": "pass"
+        },
+        {
+          "text": "Birthday 02-30 is rejected; no account is created with a different birthday",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Warning lists \"The Agreement of Privacy policy is required.\", \"The Password must be at least 6 characters.\" and \"The Password confirmation does not match.\"",
+          "pass": true
+        },
+        {
+          "label": "Birthday 02-30 is rejected; no account is created with a different birthday",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "All three warnings shown; birthday 02-30 accepted and stored as 10-27."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.605Z",
+      "failureType": "product-bug",
+      "bug": "BUG-003"
+    },
+    {
+      "id": "SBF-008",
+      "title": "Product page rejects quantity below 1 and sold-out variants",
+      "priority": "P2",
+      "feature": "catalog",
+      "file": "projects/storeberry-compare/cases/catalog/SBF-008-product-page-rejects-quantity-below-1.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers cannot add zero/negative quantities or sold-out variants.",
+      "preconditions": [],
+      "data": [
+        "A product with at least one SOLD OUT variant, found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open a product page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Set quantity 0 and click Add To Cart",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Set quantity -3 and click Add To Cart",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick a variant marked SOLD OUT",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Quantity must be greater than or equal to 1\" is shown and the cart badge is unchanged for 0 and -3",
+          "status": "pass"
+        },
+        {
+          "text": "For a sold-out variant the button reads SOLD OUT and nothing is added",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Quantity must be greater than or equal to 1\" is shown and the cart badge is unchanged for 0 and -3",
+          "pass": true
+        },
+        {
+          "label": "For a sold-out variant the button reads SOLD OUT and nothing is added",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Qty 0 and -3 -> \"Quantity must be greater than or equal to 1\"; sold-out variant shows SOLD OUT."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.620Z"
+    },
+    {
+      "id": "SBF-009",
+      "title": "Promotion code: invalid code message and whole-order discount",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-009-promotion-code-invalid-code-message-and.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Promo codes give clear feedback and correct totals.",
+      "preconditions": [],
+      "data": [
+        "Invalid: BADCODE999",
+        "Valid whole-order code read from CRM Promotions (e.g. VIP888, $20 off)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add a product to the cart and open checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply BADCODE999",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply the valid code",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click REMOVE",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Promotion code is invalid, expired or exceed the usage limit\" is shown and totals do not change",
+          "status": "pass"
+        },
+        {
+          "text": "With the valid code a Basket Discount line appears and Total = Sub-total minus the discount (not below 0)",
+          "status": "pass"
+        },
+        {
+          "text": "After REMOVE the discount line is gone, Total equals Sub-total and the promo box is empty",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Promotion code is invalid, expired or exceed the usage limit\" is shown and totals do not change",
+          "pass": true
+        },
+        {
+          "label": "With the valid code a Basket Discount line appears and Total = Sub-total minus the discount (not below 0)",
+          "pass": true
+        },
+        {
+          "label": "After REMOVE the discount line is gone, Total equals Sub-total and the promo box is empty",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Invalid code message OK; VIP888 -HKD 20 OK; after REMOVE the promo box still shows \"VIP888\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.635Z",
+      "failureType": "product-bug",
+      "bug": "BUG-007"
+    },
+    {
+      "id": "SBF-010",
+      "title": "Checkout payment methods have readable unique names",
+      "priority": "P2",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-010-checkout-payment-methods-have-readable.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Customers can tell payment methods apart.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add a product to the cart and open checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the Payment Methods dropdown and read every option",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No option text starts with \"order.checkout_v2.\"",
+          "status": "fail"
+        },
+        {
+          "text": "No two options have the same text",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "No option text starts with \"order.checkout_v2.\"",
+          "pass": false
+        },
+        {
+          "label": "No two options have the same text",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Raw keys order.checkout_v2.methods.fn-allinpay / aip-alipay (ocu-20000 now \"Custom1\"); FPS and PayMe duplicated."
+      ],
+      "evidence": [
+        "screenshots/SBF-010-m01-03-checkout-payment-methods-raw-keys.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.649Z",
+      "failureType": "product-bug",
+      "bug": "BUG-004"
+    },
+    {
+      "id": "SBF-011",
+      "title": "Guest is told before checkout that a quota product needs login",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-011-guest-is-told-before-checkout-that-a.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Guests learn early that a quota product needs a member account.",
+      "preconditions": [],
+      "data": [
+        "A quota product (e.g. test product EN 1), found in CRM"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As a guest add the quota product to the cart",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open checkout",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A message naming the product says login is required before the guest fills the form",
+          "status": "fail"
+        },
+        {
+          "text": "No order is created for the guest",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "A message naming the product says login is required before the guest fills the form",
+          "pass": false
+        },
+        {
+          "label": "No order is created for the guest",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Guest only warned after Proceed to checkout: \"Member is requried for quota product.\" No order created."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.681Z",
+      "failureType": "product-bug",
+      "bug": "BUG-005"
+    },
+    {
+      "id": "SBF-012",
+      "title": "Member uploads a bank transfer receipt",
+      "priority": "P0",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-012-member-uploads-a-bank-transfer-receipt.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers can upload payment proof for a bank transfer order.",
+      "preconditions": [
+        "A QA member order paid by Bank Transfer in Pending Payment (user approval to place it)"
+      ],
+      "data": [
+        "A small PNG image"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "My Orders > the order > Upload Receipt",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Submit without a file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose the image and Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the order page",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Without a file the browser asks to select a file",
+          "status": "pass"
+        },
+        {
+          "text": "\"Your receipt is successfully uploaded, and waiting for approval\" with no error modal",
+          "status": "pass"
+        },
+        {
+          "text": "Status Payment Review; the receipt is visible in the CRM order Receipt tab",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Without a file the browser asks to select a file",
+          "pass": true
+        },
+        {
+          "label": "\"Your receipt is successfully uploaded, and waiting for approval\" with no error modal",
+          "pass": true
+        },
+        {
+          "label": "Status Payment Review; the receipt is visible in the CRM order Receipt tab",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700003 and TXN0126102700004: success message, no modal, status Payment Review, receipt visible in CRM. On the edited order TXN0126102700002A a false \"Whoops\" modal appears (BUG-009)."
+      ],
+      "evidence": [
+        "screenshots/SBF-012-m01-07-receipt-upload-whoops.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.697Z"
+    },
+    {
+      "id": "SBF-013",
+      "title": "Member edits profile and it syncs to the CRM",
+      "priority": "P1",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-013-member-edits-profile-and-it-syncs-to.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Profile changes persist and reach the CRM.",
+      "preconditions": [],
+      "data": [
+        "Last name: <unique>",
+        "Mobile: 9123xxxx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "My Profile: clear First Name > Save Change",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Restore it, change Last Name and Mobile > Save Change",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload My Profile",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the member in the CRM",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Blank First Name is blocked (required)",
+          "status": "pass"
+        },
+        {
+          "text": "\"Update successful\"",
+          "status": "pass"
+        },
+        {
+          "text": "New values shown after reload",
+          "status": "pass"
+        },
+        {
+          "text": "CRM customer detail shows the new last name and mobile",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Blank First Name is blocked (required)",
+          "pass": true
+        },
+        {
+          "label": "\"Update successful\"",
+          "pass": true
+        },
+        {
+          "label": "New values shown after reload",
+          "pass": true
+        },
+        {
+          "label": "CRM customer detail shows the new last name and mobile",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Blank first name blocked; last name and mobile saved (\"Update successful\") and shown in CRM."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.730Z"
+    },
+    {
+      "id": "SBF-014",
+      "title": "Member adds, edits and deletes an address",
+      "priority": "P2",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-014-member-adds-edits-and-deletes-an-address.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Address book CRUD works.",
+      "preconditions": [],
+      "data": [
+        "Hong Kong, 住宅送貨, QA address text"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "My Address Book > Add New, choose Hong Kong and a shipping method, leave Phone/Address empty > Add",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill all required fields > Add",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Edit it, change the address > Save Change",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete it > OK",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Empty required fields are blocked (\"Please fill out this field.\")",
+          "status": "pass"
+        },
+        {
+          "text": "Address listed after Add",
+          "status": "pass"
+        },
+        {
+          "text": "Edited text shown after reload",
+          "status": "pass"
+        },
+        {
+          "text": "\"Are you sure you want to remove this address?\" then no QA address remains",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Empty required fields are blocked (\"Please fill out this field.\")",
+          "pass": true
+        },
+        {
+          "label": "Address listed after Add",
+          "pass": true
+        },
+        {
+          "label": "Edited text shown after reload",
+          "pass": true
+        },
+        {
+          "label": "\"Are you sure you want to remove this address?\" then no QA address remains",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Required fields blocked; add, edit and delete worked."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.744Z"
+    },
+    {
+      "id": "SBF-015",
+      "title": "Member changes password and can only log in with the new one",
+      "priority": "P1",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-015-member-changes-password-and-can-only.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Password change is validated and takes effect.",
+      "preconditions": [],
+      "data": [
+        "New password: <unique>, 6+ chars"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Change Password with a wrong current password",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Correct current, mismatched new passwords",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "New password \"12\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Valid change",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Logout, open My Orders, log in with the old then the new password",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Your current password is incorrect!\"",
+          "status": "pass"
+        },
+        {
+          "text": "\"The New Password confirmation does not match.\"",
+          "status": "pass"
+        },
+        {
+          "text": "\"The New Password must be at least 6 characters.\"",
+          "status": "pass"
+        },
+        {
+          "text": "\"Update successful\"",
+          "status": "pass"
+        },
+        {
+          "text": "After logout My Orders redirects to /login; old password fails; new password shows \"Login successful !\"",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Your current password is incorrect!\"",
+          "pass": true
+        },
+        {
+          "label": "\"The New Password confirmation does not match.\"",
+          "pass": true
+        },
+        {
+          "label": "\"The New Password must be at least 6 characters.\"",
+          "pass": true
+        },
+        {
+          "label": "\"Update successful\"",
+          "pass": true
+        },
+        {
+          "label": "After logout My Orders redirects to /login; old password fails; new password shows \"Login successful !\"",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Wrong current / mismatch / too short messages; \"Update successful\"; after logout old password rejected, new one accepted."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T03:16:26.760Z"
+    }
+  ],
+  "notes": "Results from the 2026-10-27 exploratory sessions (Aside browser). Only cases actually executed today are included; partially covered cases were left out. Explorations: explorations/2026-10-27-*.md",
+  "finishedAt": "2026-10-27T03:16:26.775Z",
+  "summary": {
+    "total": 14,
+    "pass": 9,
+    "fail": 5,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

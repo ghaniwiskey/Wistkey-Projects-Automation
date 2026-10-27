@@ -7,7 +7,7 @@ env: staging
 url: "https://www.stagingl10.storeberry.xyz/products/edit?id=3197"
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
-tests: []
+tests: [SCRM-082]
 frequency: always
 ---
 ## Summary
