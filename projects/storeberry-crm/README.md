@@ -44,6 +44,12 @@ Staging only. Production is read-only.
 - Also allowed: refunds, voids and cancellations of orders; stock-changing steps (PO Receive, transfer ship/receive, replenish approve, stock-take completion); in-store POS sales; actions that send messages or notifications to customers (WhatsApp/SMS/Messenger/email).
 - Ask first: changes to other people's records, bulk/Select All actions on data we did not create, and settings or staff mapping changes.
 
+## Course flow (explored 2026-10-27)
+
+- Course creation currently loses the selected Category when switching from Info to Session & Timetable; Save then says `Please select a category!` (BUG-015; SCRM-090).
+- QA timetable ID 70 (`QA Course Flow 2026-10-27`) was created for a controlled course test. It is active, capacity 1, Wednesday 14:00–15:00, and not yet linked to a course. Remove it after successful retest if no longer needed.
+- Details and evidence: `explorations/2026-10-27-course-flow/README.md`.
+
 ## Web POS and order lifecycle (explored 2026-10-27)
 
 - Web POS: Physical Stores POS > Use (`/webpos?store_id=<id>`). It has no accessibility tree; use DOM text clicks, `button.remove-item-btn`, `.swal2-popup button`, CSS-pixel coordinates.
