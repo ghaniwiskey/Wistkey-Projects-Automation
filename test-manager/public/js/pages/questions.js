@@ -1,3 +1,4 @@
+import { sortIssues } from '../issue-sort.js';
 // Open questions for the product owner: unclear intended behavior found while testing (projects/<slug>/questions/).
 import { html, useState, useEffect } from '../../vendor/preact-htm.mjs';
 import { useResource, post, put, toast } from '../api.js';
@@ -10,18 +11,22 @@ export function QuestionList({ slug }) {
   const { data: qs, error } = useResource(`/api/projects/${slug}/questions`, { project: slug, kinds: ['questions'] });
   const { data: p } = useResource(`/api/projects/${slug}`, { project: slug });
   const [status, setStatus] = useState('open');
+  const [sort, setSort] = useState('recent');
   if (error) return html`<${ErrorBox} error=${error} />`;
   if (!qs || !p) return html`<${Loading} />`;
-  const rows = qs.filter((x) => status === 'all' || x.status === status);
+  const rows = sortIssues(qs.filter((x) => status === 'all' || x.status === status), sort);
   return html`<${Page} crumbs=${[{ label: p.name, href: `#/p/${slug}` }]} title="Questions" sub=${`Unclear intended behavior to confirm with the product owner. Stored as Markdown in projects/${slug}/questions/`}
     actions=${html`<a class="btn primary" href=${`#/p/${slug}/questions/new`}>New question</a>`}>
-    <div class="toolbar"><select value=${status} onChange=${(e) => setStatus(e.target.value)}>
+    <div class="toolbar"><select aria-label="Filter by status" value=${status} onChange=${(e) => setStatus(e.target.value)}>
       ${STATUSES.map((s) => html`<option value=${s}>${s}</option>`)}<option value="all">All</option></select>
+      <select aria-label="Sort by" value=${sort} onChange=${(e) => setSort(e.target.value)}>
+        <option value="recent">Most recent</option><option value="oldest">Oldest first</option><option value="default">Status / ID</option>
+      </select>
       <span class="muted small right">${rows.length} questions</span></div>
-    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Status</th><th>Question</th><th>Tests</th><th>Bugs</th><th>Asked</th><th>Answered</th></tr></thead><tbody>
+    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Status</th><th>Question</th><th>Tests</th><th>Bugs</th><th>Asked</th><th>Answered</th><th>Updated</th></tr></thead><tbody>
       ${rows.map((x) => html`<tr><td><a href=${`#/p/${slug}/questions/${x.id}`}><strong>${x.id}</strong></a></td><td><span class="tag">${x.status}</span></td>
         <td><a href=${`#/p/${slug}/questions/${x.id}`} style="color:inherit">${x.title}</a></td><td>${links(slug, 'tests', x.tests)}</td><td>${links(slug, 'bugs', x.bugs)}</td>
-        <td class="nowrap">${x.found}</td><td class="nowrap">${x.answered || '-'}</td></tr>`)}
+        <td class="nowrap">${x.found}</td><td class="nowrap">${x.answered || '-'}</td><td class="nowrap">${x.updated || x.found || '-'}</td></tr>`)}
     </tbody></table></div>` : html`<${Empty} title="No questions here">Record unclear behavior found while testing, then add the product owner's answer.</${Empty}>`}
   </${Page}>`;
 }

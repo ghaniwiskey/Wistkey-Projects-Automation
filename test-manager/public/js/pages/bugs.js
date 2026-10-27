@@ -1,3 +1,4 @@
+import { sortIssues } from '../issue-sort.js';
 import { html, useState, useEffect } from '../../vendor/preact-htm.mjs';
 import { useResource, get, post, put, toast } from '../api.js';
 import { Page, Sev, Empty, Loading, ErrorBox, Field, Html, ListEditor, TagPicker } from '../ui.js';
@@ -8,17 +9,21 @@ export function BugList({ slug }) {
   const { data: bugs, error } = useResource(`/api/projects/${slug}/bugs`, { project: slug, kinds: ['bugs'] });
   const { data: p } = useResource(`/api/projects/${slug}`, { project: slug });
   const [status, setStatus] = useState('active');
+  const [sort, setSort] = useState('recent');
   if (error) return html`<${ErrorBox} error=${error} />`;
   if (!bugs || !p) return html`<${Loading} />`;
-  const rows = bugs.filter((b) => status === 'all' || (status === 'active' ? ['open', 'fixed'].includes(b.status) : b.status === status));
+  const rows = sortIssues(bugs.filter((b) => status === 'all' || (status === 'active' ? ['open', 'fixed'].includes(b.status) : b.status === status)), sort);
   return html`<${Page} crumbs=${[{ label: p.name, href: `#/p/${slug}` }]} title="Bugs" sub=${`Stored as Markdown in projects/${slug}/bugs/`}
     actions=${html`<a class="btn primary" href=${`#/p/${slug}/bugs/new`}>New bug</a>`}>
-    <div class="toolbar"><select value=${status} onChange=${(e) => setStatus(e.target.value)}>
+    <div class="toolbar"><select aria-label="Filter by status" value=${status} onChange=${(e) => setStatus(e.target.value)}>
       <option value="active">Open or fixed (needs verification)</option><option value="all">All</option>${['open', 'fixed', 'verified', 'wont-fix', 'duplicate'].map((s) => html`<option value=${s}>${s}</option>`)}</select>
+      <select aria-label="Sort by" value=${sort} onChange=${(e) => setSort(e.target.value)}>
+        <option value="recent">Most recent</option><option value="oldest">Oldest first</option><option value="default">Severity / ID</option>
+      </select>
       <span class="muted small right">${rows.length} bugs</span></div>
-    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Title</th><th>Tests</th><th>Found</th></tr></thead><tbody>
+    ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr><th>ID</th><th>Severity</th><th>Status</th><th>Title</th><th>Tests</th><th>Found</th><th>Updated</th></tr></thead><tbody>
       ${rows.map((b) => html`<tr><td><a href=${`#/p/${slug}/bugs/${b.id}`}><strong>${b.id}</strong></a></td><td><${Sev} s=${b.severity} /></td><td><span class="tag">${b.status}</span></td>
-        <td><a href=${`#/p/${slug}/bugs/${b.id}`} style="color:inherit">${b.title}</a></td><td>${b.tests.map((t) => html`<a href=${`#/p/${slug}/tests/${t}`}>${t}</a> `)}</td><td class="nowrap">${b.found}</td></tr>`)}
+        <td><a href=${`#/p/${slug}/bugs/${b.id}`} style="color:inherit">${b.title}</a></td><td>${b.tests.map((t) => html`<a href=${`#/p/${slug}/tests/${t}`}>${t}</a> `)}</td><td class="nowrap">${b.found}</td><td class="nowrap">${b.updated || b.found || '-'}</td></tr>`)}
     </tbody></table></div>` : html`<${Empty} title="No bugs here">Failed tests can be turned into bug reports from the run page.</${Empty}>`}
   </${Page}>`;
 }

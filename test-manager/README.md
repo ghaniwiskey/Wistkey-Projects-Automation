@@ -55,3 +55,9 @@ test-manager/
    });
    ```
 4. `npm run tm:lint` checks the link and the POM rules: no `page.locator()` in specs, no `waitForTimeout`, no `.only`, imports exist, IDs unique, no imports from another project.
+
+## Bugs and Questions sorting
+
+Both lists default to **Most recent**, with **Oldest first** and the original severity/status order available in **Sort by**. Activity uses the latest recorded updated, found, answered or History date, not filesystem modification times. Same-date items use numeric IDs as a tie-breaker; undated records appear last. App edits persist an exact update timestamp. Status filters work independently of sorting.
+
+Focused regression checks: `node --test test-manager/tests/issue-sort.test.mjs`.

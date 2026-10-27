@@ -1,3 +1,4 @@
+import { latestIssueDate } from '../public/js/issue-sort.js';
 // Data access for the Test Manager web app. Test management data lives in plain files:
 // projects/<slug>/{project.yaml,cases,plans,bugs,runs,archive}. Automation is the project's Playwright POM suite
 // (projects/<slug>/tests/e2e/**/*.spec.ts + tests/pages), linked to a test case by the ID at the start of the test title.
@@ -688,14 +689,14 @@ export function updatePlan(slug, planId, d) {
 // ---------------------------------------------------------------- bugs
 function bugFrontmatter(fm) {
   return ['---', `id: ${fm.id}`, `title: ${q(fm.title)}`, `severity: ${fm.severity}`, `status: ${fm.status}`, `env: ${fm.env || ''}`, `url: ${fm.url ? q(fm.url) : ''}`,
-    `found: ${fm.found || today()}`, `foundBy: ${fm.foundBy ? q(fm.foundBy) : '""'}`, `tests: ${flow(fm.tests || [])}`, `frequency: ${fm.frequency || 'always'}`, '---', ''].join('\n');
+    `updated: ${fm.updated || fm.found || today()}`, `found: ${fm.found || today()}`, `foundBy: ${fm.foundBy ? q(fm.foundBy) : '""'}`, `tests: ${flow(fm.tests || [])}`, `frequency: ${fm.frequency || 'always'}`, '---', ''].join('\n');
 }
 
 export function listBugs(slug) {
   const { p } = project(slug);
   return p.bugs.filter((b) => b.fm && b.fm.id).map((b) => ({
     id: b.fm.id, title: b.fm.title, severity: b.fm.severity, status: b.fm.status, env: b.fm.env || '', url: b.fm.url || '', found: String(b.fm.found || ''),
-    tests: b.fm.tests || [], file: rel(b.file),
+    tests: b.fm.tests || [], updated: latestIssueDate(b.fm, b.body), file: rel(b.file),
   })).sort((a, b) => (SEVERITIES.indexOf(a.severity) - SEVERITIES.indexOf(b.severity)) || a.id.localeCompare(b.id));
 }
 
@@ -757,6 +758,7 @@ export function updateBug(slug, bugId, d) {
     const line = `- ${today()}: ${[...changes, note].filter(Boolean).join('; ')}.`;
     body = /^##\s+History\s*$/m.test(body) ? body.replace(/\s*$/, '\n') + line + '\n' : body.replace(/\s*$/, '\n\n') + `## History\n${line}\n`;
   }
+  fm.updated = new Date().toISOString();
   fs.writeFileSync(b.file, bugFrontmatter(fm) + body.replace(/^\n+/, ''));
   invalidate(slug);
   return getBug(slug, bugId);
@@ -768,12 +770,12 @@ export function updateBug(slug, bugId, d) {
 function questionFrontmatter(fm) {
   return ['---', `id: ${fm.id}`, `title: ${q(fm.title)}`, `status: ${fm.status}`, `askedTo: ${fm.askedTo ? q(fm.askedTo) : '""'}`, `env: ${fm.env || ''}`,
     `found: ${fm.found || today()}`, `foundBy: ${fm.foundBy ? q(fm.foundBy) : '""'}`, `tests: ${flow(fm.tests || [])}`, `bugs: ${flow(fm.bugs || [])}`,
-    `answered: ${fm.answered || '""'}`, '---', ''].join('\n');
+    `updated: ${fm.updated || fm.found || today()}`, `answered: ${fm.answered || '""'}`, '---', ''].join('\n');
 }
 
 const questionRow = (x) => ({
   id: x.fm.id, title: x.fm.title, status: x.fm.status || 'open', askedTo: x.fm.askedTo || '', env: x.fm.env || '', found: String(x.fm.found || ''),
-  answered: String(x.fm.answered || ''), tests: x.fm.tests || [], bugs: x.fm.bugs || [], file: rel(x.file),
+  updated: latestIssueDate(x.fm, x.body), answered: String(x.fm.answered || ''), tests: x.fm.tests || [], bugs: x.fm.bugs || [], file: rel(x.file),
 });
 
 export function listQuestions(slug) {
@@ -844,6 +846,7 @@ export function updateQuestion(slug, qid, d) {
     const line = `- ${today()}: ${[...changes, note].filter(Boolean).join('; ')}.`;
     body = /^##\s+History\s*$/m.test(body) ? body.replace(/\s*$/, '\n') + line + '\n' : body.replace(/\s*$/, '\n\n') + `## History\n${line}\n`;
   }
+  fm.updated = new Date().toISOString();
   fs.writeFileSync(x.file, questionFrontmatter(fm) + body.replace(/^\n+/, ''));
   invalidate(slug);
   return getQuestion(slug, qid);
