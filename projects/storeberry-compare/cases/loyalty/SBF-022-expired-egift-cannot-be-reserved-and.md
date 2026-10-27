@@ -11,7 +11,7 @@ updated: 2026-10-27
 ---
 
 ## Goal
-An eGift outside its reserve period is refused with a visible message and no points are taken; error responses do not expose server internals.
+An eGift outside its reserve period is refused with a visible message and no points are taken.
 
 ## Preconditions
 - Logged-in QA member with points
@@ -28,7 +28,6 @@ An eGift outside its reserve period is refused with a visible message and no poi
 ## Expected
 - A message says the gift is out of its reserve period (or Reserve is disabled)
 - No points are deducted and no reservation is created
-- The API response contains no stack trace or server paths
 
 ## Notes
-Currently fails: BUG-015 (silent) and BUG-016 (stack trace) (2026-10-27).
+Currently fails: BUG-015 (no message) (2026-10-27). The stack trace in the error response (BUG-016) was closed as won't fix (2026-10-27): accepted behavior, not checked here.

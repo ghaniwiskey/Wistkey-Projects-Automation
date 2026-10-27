@@ -48,3 +48,4 @@ Staging only. Production is read-only.
 - 門市自取 requires an Address (Q-007). Receipt upload in automation: use `input[name=receipt_img]` ("Or Choose File") then Submit.
 - Notes: `explorations/2026-10-27-cart-payment-review.md`.
 - Promotions at checkout (2026-10-27): basket 全單買滿$1000減$300, VIP888 (605/606), free gift 631 at net $800, add-on 620 at $1000. After removing an item the add-on block can show the wrong product until reload (BUG-013).
+- BUG-016 (stack trace in eShop API error responses) closed as won't fix by the user (2026-10-27): accepted behavior, do not re-report.

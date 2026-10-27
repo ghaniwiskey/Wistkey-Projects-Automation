@@ -2,13 +2,13 @@
 id: BUG-016
 title: "eShop API error responses include a full server stack trace with file paths"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/egift/reserve"
-updated: 2026-10-27T11:38:01.287Z
+updated: 2026-10-27T12:10:50.918Z
 found: 2026-10-27T11:38:01.287Z
 foundBy: "explorations/2026-10-27-cart-payment-review.md"
-tests: [SBF-022]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,4 @@ Error responses only contain a user-safe message and code.
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-cart-payment-review.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix; Closed by the user as won't fix: the stack trace in eShop API error responses is accepted behavior; SBF-022 no longer checks it.
