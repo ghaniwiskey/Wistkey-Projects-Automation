@@ -6,7 +6,7 @@ import path from 'node:path';
 import { PROJECTS, projectSlugs, loadProject, rel } from '../lib/workspace.mjs';
 import { summarize, renderReport } from '../lib/report-md.mjs';
 import { buildHtmlReport } from '../lib/html-report.mjs';
-import { buildRunReport } from '../lib/run-report.mjs';
+import { buildRunReport, buildMissingRunReports } from '../lib/run-report.mjs';
 
 const stripAnsi = (s) => String(s || '').replace(/\u001b\[[0-9;]*m/g, '');
 const pad = (n) => String(n).padStart(2, '0');
@@ -143,6 +143,7 @@ export default class QaReporter {
     }
     if (!this.buckets.size) return;
     try {
+      buildMissingRunReports();
       const html = buildHtmlReport();
       console.log(`[qa] overview report: ${rel(html.out)}`);
     } catch (e) {

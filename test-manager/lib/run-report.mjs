@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ROOT, loadProject, sections, rel, fmtDate, isPseudoRun } from './workspace.mjs';
+import { ROOT, loadProject, projectSlugs, sections, rel, fmtDate, isPseudoRun } from './workspace.mjs';
 import {
   esc, when, dur, pct, badge, statusBar, counts, verdict, checksList, issuesBlock, a11yTable, perfCells, makeImager, stripId,
   versionOf, kpi, summaryOf, runMs, shots, REPORT_CSS, REPORT_JS, RUNNER_LABEL, STATUS_LABEL,
@@ -295,6 +295,21 @@ export function buildStaleRunReports(slug) {
     if (r.inProgress || isReportFresh(r.dir)) continue;
     fs.writeFileSync(path.join(r.dir, 'report.html'), renderRunReport(p, r));
     built.push(r.runId);
+  }
+  return built;
+}
+
+// Build report.html for finished runs that have none. report.html is not committed (.gitignore), so a fresh
+// clone has none; the overview report links to each run's report.html, so its builders call this first.
+export function buildMissingRunReports(slugs = projectSlugs()) {
+  let built = 0;
+  for (const slug of slugs) {
+    let p;
+    try { p = loadProject(slug); } catch { continue; }
+    for (const r of p.runs) {
+      if (r.inProgress || fs.existsSync(path.join(r.dir, 'report.html'))) continue;
+      try { fs.writeFileSync(path.join(r.dir, 'report.html'), renderRunReport(p, r)); built++; } catch (e) { console.warn(`Run report for ${r.runId} not built: ${e.message}`); }
+    }
   }
   return built;
 }

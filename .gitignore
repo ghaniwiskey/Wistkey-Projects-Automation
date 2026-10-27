@@ -3,9 +3,10 @@ node_modules/
 playwright/.auth/
 # Generated output: Playwright HTML report, test-results scratch, JSON results, Test Manager overview report
 /reports/
-# Run evidence grows over time. Uncomment to keep results but not images and traces:
-# projects/*/runs/**/screenshots/
-# projects/*/runs/**/traces/
+# Run artifacts kept on this PC only: Playwright traces (large, can hold session data) and each run's report.html
+# (rebuilt from results.json by the Test Manager). results.json, report.md and screenshots stay in git.
+projects/*/runs/**/traces/
+projects/*/runs/**/report.html
 
 # Aside's project memory (local notes, updated automatically)
 MEMORY.md

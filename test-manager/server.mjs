@@ -7,6 +7,7 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { ROOT, PROJECTS, REPORTS } from './lib/workspace.mjs';
 import { buildHtmlReport } from './lib/html-report.mjs';
+import { buildMissingRunReports } from './lib/run-report.mjs';
 import * as store from './lib/store.mjs';
 import * as jobs from './lib/jobs.mjs';
 
@@ -169,6 +170,7 @@ route('POST', '/api/jobs/playwright', ({ body }) => {
 route('POST', '/api/jobs/:id/cancel', ({ params }) => ({ cancelled: jobs.cancelJob(params.id) }));
 
 route('POST', '/api/report', () => {
+  buildMissingRunReports();
   const r = buildHtmlReport();
   return { url: '/report', kb: r.kb };
 });
@@ -206,7 +208,7 @@ async function handle(req, res) {
   }
   if (p === '/report') {
     // Served under /files/ so its relative links to each run's report.html resolve.
-    if (!fs.existsSync(path.join(REPORTS, 'index.html'))) buildHtmlReport();
+    if (!fs.existsSync(path.join(REPORTS, 'index.html'))) { buildMissingRunReports(); buildHtmlReport(); }
     res.writeHead(302, { location: '/files/reports/index.html' });
     return res.end();
   }

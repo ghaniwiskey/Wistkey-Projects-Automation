@@ -28,6 +28,8 @@ if (cmd === 'app') {
   } catch (e) { console.error(e.message); process.exit(1); }
 } else if (cmd === 'report') {
   const { buildHtmlReport } = await import('./lib/html-report.mjs');
+  const { buildMissingRunReports } = await import('./lib/run-report.mjs');
+  buildMissingRunReports();
   const r = buildHtmlReport();
   console.log(`Overview report: ${rel(r.out)} (${r.kb} KB, ${r.projects} project(s))`);
 } else if (cmd === 'lint') {
