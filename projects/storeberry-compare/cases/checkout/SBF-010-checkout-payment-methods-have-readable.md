@@ -18,8 +18,8 @@ Customers can tell payment methods apart.
 2. Open the Payment Methods dropdown and read every option
 
 ## Expected
-- No option text starts with "order.checkout_v2."
-- No two options have the same text
+- The Payment Methods list loads and includes "Bank Transfer - 3 Work Days"
+- Selecting Bank Transfer shows the bank account details
 
 ## Notes
-Read-only. Currently fails (raw keys, duplicate FPS/PayMe), 2026-10-27.
+Read-only. BUG-004 is wont-fix (2026-10-27): raw labels such as "order.checkout_v2.methods.fn-allinpay" and the duplicate FPS/PayMe entries are accepted behavior and are not checked here.

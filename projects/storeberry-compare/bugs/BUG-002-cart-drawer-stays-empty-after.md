@@ -2,7 +2,7 @@
 id: BUG-002
 title: "Cart drawer stays empty after successful add-to-cart"
 severity: major
-status: open
+status: fixed
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/products/%E5%81%88%E6%B2%B9x10"
 found: 2026-10-23
@@ -37,3 +37,6 @@ The toast says Item added successfully and the badge increments, but the drawer 
 ## History
 - 2026-10-23: filed from explorations/2026-10-23-cart-follow-up.md in the Test Manager app.
 - 2026-10-27: Retested in explorations/2026-10-27-eshop-critical.md: not reproduced - adding 偈油x10 qty 2 showed the line (HKD 20.00) in the drawer and it persisted after reload. Left open for the user to set fixed/verified.
+- 2026-10-27: status open -> verified.
+- 2026-10-27: status verified -> fixed.
+- 2026-10-27: fixed: SBF-004 notes updated, the case must now pass.

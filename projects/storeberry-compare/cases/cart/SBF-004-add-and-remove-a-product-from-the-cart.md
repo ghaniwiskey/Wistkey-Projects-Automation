@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-23
-updated: 2026-10-23
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -28,4 +28,4 @@ A shopper can add a product to the cart, verify the cart line, and remove it wit
 - No order is submitted
 
 ## Notes
-Run only in staging; the production environment is read-only. BUG-002 is open: Add To Cart reports success and increments the badge, but the cart drawer shows no items (and may remain loading after reload). Do not place an order during this case.
+Run only in staging; the production environment is read-only. BUG-002 (cart drawer stayed empty) is fixed (2026-10-27): the drawer must show the added line, so this case must pass. Do not place an order during this case.

@@ -38,4 +38,4 @@ A logged-in member can place an order paid by Bank Transfer and it appears in My
 - CRM order shows Pending Payment, Bank Transfer, the same items, quantities and total, delivery method 門市自取 and the remark
 
 ## Notes
-Never choose a card/wallet payment. Verified manually 2026-10-27: TXN0126102700002 (HKD 400.00).
+BUG-006 is wont-fix (2026-10-27): the "Do You Want To Receive Notifications?" prompt over checkout is accepted behavior; dismiss it (NOT NOW) before Proceed to checkout. Never choose a card/wallet payment. Verified manually 2026-10-27: TXN0126102700002 (HKD 400.00).

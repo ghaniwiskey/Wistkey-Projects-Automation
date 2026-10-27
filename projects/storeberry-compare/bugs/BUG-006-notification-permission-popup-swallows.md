@@ -2,12 +2,12 @@
 id: BUG-006
 title: "Notification permission popup swallows the Proceed to checkout click"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/checkout"
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-eshop-critical.md"
-tests: [SBF-005]
+tests: []
 frequency: intermittent
 ---
 ## Summary
@@ -33,3 +33,5 @@ The notification modal appears, no order is created (My Orders: "You currently h
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: wont-fix: SBF-005 notes updated (dismiss the notification prompt before Proceed); tests emptied.
