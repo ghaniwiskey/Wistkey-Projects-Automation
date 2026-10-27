@@ -2,9 +2,10 @@
 id: BUG-010
 title: "Proceed to checkout does nothing when a required shipping field is missing"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/checkout"
+updated: 2026-10-27T09:08:00.376Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-eshop-critical.md"
 tests: []
@@ -33,3 +34,5 @@ Nothing happens; the user is not told what is missing. After choosing 門市自�
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: no linked cases; nothing to update.

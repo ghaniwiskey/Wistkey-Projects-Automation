@@ -1,6 +1,6 @@
 ---
 id: SBF-018
-title: "Forgot password gives the same answer for registered and unknown emails"
+title: "Forgot password confirms registered emails and rejects unknown or malformed ones"
 feature: account
 priority: P2
 tags: [regression, security]
@@ -11,7 +11,7 @@ updated: 2026-10-27
 ---
 
 ## Goal
-The reset form does not reveal which emails have an account.
+The reset form sends a reset for registered emails and refuses other input.
 
 ## Preconditions
 - Logged out
@@ -26,8 +26,9 @@ The reset form does not reveal which emails have an account.
 3. Submit "notanemail"
 
 ## Expected
-- Registered and unknown emails get the same neutral confirmation
-- Only a malformed address gets a format error
+- Registered email: "Success ... check your mailbox" and redirect to /login
+- Unknown well-formed email: "Please provide correct email."
+- Malformed address: a format error and no request
 
 ## Notes
-2026-10-27: registered -> "Success ... check your mailbox" and redirect to /login; unknown -> "Please provide correct email." (BUG-011).
+2026-10-27: registered -> "Success ... check your mailbox" and redirect to /login; unknown -> "Please provide correct email." BUG-011 closed as wont-fix on 2026-10-27: telling registered and unknown emails apart is accepted behavior.

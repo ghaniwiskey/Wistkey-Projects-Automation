@@ -2,9 +2,10 @@
 id: BUG-001
 title: "Product search returns unrelated results for a matching product name"
 severity: major
-status: open
+status: verified
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/product/search?q=Disable+Test"
+updated: 2026-10-27T09:08:00.320Z
 found: 2026-10-23
 foundBy: "explorations/2026-10-23-storefront-search.md"
 tests: [SBF-003]
@@ -35,3 +36,6 @@ The results page heading shows the query Disable Test, but the results include u
 ## History
 - 2026-10-23: filed from explorations/2026-10-23-storefront-search.md in the Test Manager app.
 - 2026-10-27: Retested in explorations/2026-10-27-eshop-critical.md: still reproduces; the query is ignored entirely - "Shoesss", "偈油x10" and the nonsense "zzqxnotexist123" all return the same 24 products, none matching.
+- 2026-10-27: status open -> fixed.
+- 2026-10-27: status fixed -> verified.
+- 2026-10-27: SBF-003 note updated: must pass.

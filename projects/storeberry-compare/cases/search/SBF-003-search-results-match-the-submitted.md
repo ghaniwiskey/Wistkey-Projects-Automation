@@ -7,7 +7,7 @@ tags: [smoke]
 envs: [all]
 automated: false
 created: 2026-10-23
-updated: 2026-10-23
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -26,4 +26,4 @@ A shopper can find a known product using its name.
 - Each returned product matches the query, including Disable Test when it is listed
 
 ## Notes
-Staging result set did not match this query; see BUG-001.
+BUG-001 (search ignored the query) verified fixed on 2026-10-27; this case must pass.

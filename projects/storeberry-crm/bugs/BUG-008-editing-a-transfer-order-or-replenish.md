@@ -2,9 +2,10 @@
 id: BUG-008
 title: "Editing a transfer order or replenish request always fails: \"The deleted ids must be a valid JSON string.\""
 severity: critical
-status: open
+status: verified
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/inventory/transfer-edit?id=306"
+updated: 2026-10-27T09:08:00.421Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
 tests: [SCRM-083, SCRM-084]
@@ -39,3 +40,6 @@ Toast "The deleted ids must be a valid JSON string." every time; detail page sti
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
+- 2026-10-27: status open -> fixed.
+- 2026-10-27: status fixed -> verified.
+- 2026-10-27: SCRM-083 and SCRM-084 notes updated: must pass.

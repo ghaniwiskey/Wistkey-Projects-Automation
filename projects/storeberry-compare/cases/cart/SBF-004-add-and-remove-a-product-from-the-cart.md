@@ -28,4 +28,4 @@ A shopper can add a product to the cart, verify the cart line, and remove it wit
 - No order is submitted
 
 ## Notes
-Run only in staging; the production environment is read-only. BUG-002 (cart drawer stayed empty) is fixed (2026-10-27): the drawer must show the added line, so this case must pass. Do not place an order during this case.
+Run only in staging; the production environment is read-only. BUG-002 (cart drawer stayed empty) is verified fixed (2026-10-27): the drawer must show the added line, so this case must pass. Do not place an order during this case.

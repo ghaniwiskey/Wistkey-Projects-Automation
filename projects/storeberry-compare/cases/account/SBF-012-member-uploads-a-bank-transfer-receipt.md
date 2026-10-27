@@ -31,4 +31,4 @@ Customers can upload payment proof for a bank transfer order.
 - Status Payment Review; the receipt is visible in the CRM order Receipt tab
 
 ## Notes
-Edited (…A) orders currently show a false "Whoops" modal (2026-10-27).
+BUG-009 (false "Whoops" modal on edited …A orders) verified fixed on 2026-10-27; this case must pass for edited orders too.

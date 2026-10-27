@@ -2,12 +2,13 @@
 id: BUG-011
 title: "Forgot password reveals whether an email is registered"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/forgot-password"
+updated: 2026-10-27T09:08:00.365Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-guest-order-recovery.md"
-tests: [SBF-018]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -32,3 +33,5 @@ Different responses; unknown email -> Warning "Please provide correct email."
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-guest-order-recovery.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: SBF-018 rewritten to the accepted behavior (registered vs unknown email answers differ); tests emptied.

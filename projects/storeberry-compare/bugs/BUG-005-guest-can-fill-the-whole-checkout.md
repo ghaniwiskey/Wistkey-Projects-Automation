@@ -2,12 +2,13 @@
 id: BUG-005
 title: "Guest can add a package (quota) product and fill the whole checkout before being told it needs a member"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/checkout"
+updated: 2026-10-27T09:08:00.355Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-eshop-critical.md"
-tests: [SBF-011]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +36,5 @@ Modal "Member is requried for quota product." only after the full form is filled
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
 - 2026-10-27: Retested 2026-10-27 ~11:20 after the user could not reproduce: still reproduces for guests whenever a Package product is in the cart (cart A: 2 x 偈油x10 + test product EN 1 large-blue; cart B: 11 x 偈油x10 only). Root cause of the earlier confusion: 偈油x10 is CRM type Package (= quota product); test product EN 1 is a Physical Product and is not involved. Title/steps corrected and severity lowered to minor because the block is intended; the issue is the late, unnamed, misspelled warning. Members are not affected..
 - 2026-10-27: still reproduces: guest checkout with 偈油x10 only warned at Proceed ("Member is requried for quota product."), and the guest details/store selection reverted afterwards (explorations/2026-10-27-guest-order-recovery.md).
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: SBF-011 rewritten to the accepted behavior (guest blocked at Proceed to checkout); SBF-016 note updated; tests emptied.

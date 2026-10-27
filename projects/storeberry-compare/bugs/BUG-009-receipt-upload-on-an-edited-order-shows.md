@@ -2,9 +2,10 @@
 id: BUG-009
 title: "Receipt upload on an edited order shows \"Whoops! Please contact our admin\" although it succeeded"
 severity: major
-status: open
+status: verified
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/my-account/orders-detail?txn_key=TXN0126102700002A&tab=order-receipt"
+updated: 2026-10-27T09:08:00.345Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-eshop-critical.md"
 tests: [SBF-012]
@@ -34,3 +35,7 @@ Success text plus modal "Warning - Whoops! Please contact our admin". Customers 
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-27: status open -> verified.
+- 2026-10-27: status verified -> fixed.
+- 2026-10-27: status fixed -> verified.
+- 2026-10-27: SBF-012 note updated: must pass.

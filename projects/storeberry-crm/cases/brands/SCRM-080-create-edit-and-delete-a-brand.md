@@ -27,4 +27,4 @@ Brand CRUD works.
 - Brand no longer listed
 
 ## Notes
-Edit currently fails with HTTP 500 (2026-10-27).
+BUG-011 (brand edit HTTP 500) verified fixed on 2026-10-27; edit must pass.

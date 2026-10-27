@@ -11,11 +11,11 @@ Staging allows writes for approved temporary cart tests. Production is read-only
 
 The originally supplied `https://www.mystoreberry.com/` is the CRM login, not the public eShop. CRM tests and credentials are in `projects/storeberry-crm/`. Guest storefront checks require no login.
 
-## Known staging issues (as of 2026-10-27)
+## Known staging issues (as of 2026-10-27, afternoon)
 
-- `BUG-001` (open): search ignores the query; every search returns the same 24 products.
-- `BUG-002` (open, not reproduced on 2026-10-27): cart drawer stayed empty after add-to-cart.
-- `BUG-003`..`BUG-008` (open): registration birthday saved as today, raw payment-method keys, late quota-product warning, notification popup blocking Proceed to checkout, stale checkout data, copy errors.
+- Open: `BUG-003` registration birthday saved as today, `BUG-007` stale checkout data, `BUG-008` copy errors.
+- Verified fixed: `BUG-001` search, `BUG-002` cart drawer, `BUG-009` false Whoops on receipt upload.
+- Won't fix (accepted behavior): `BUG-004` raw payment-method keys, `BUG-005` late quota-product warning, `BUG-006` notification popup, `BUG-010` silent Proceed without shipping method, `BUG-011` forgot password reveals registered emails.
 
 ## Checkout notes
 

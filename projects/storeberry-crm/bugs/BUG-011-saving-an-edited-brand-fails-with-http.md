@@ -2,9 +2,10 @@
 id: BUG-011
 title: "Saving an edited brand fails with HTTP 500 (\"error exist!\")"
 severity: major
-status: open
+status: verified
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/brands/edit?id=24"
+updated: 2026-10-27T09:08:00.453Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
 tests: [SCRM-080]
@@ -34,3 +35,7 @@ Toast "error exist!"; network 500 Server Error; values unchanged. Reproduced twi
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
+- 2026-10-27: status open -> verified.
+- 2026-10-27: status verified -> fixed.
+- 2026-10-27: status fixed -> verified.
+- 2026-10-27: SCRM-080 note updated: must pass.

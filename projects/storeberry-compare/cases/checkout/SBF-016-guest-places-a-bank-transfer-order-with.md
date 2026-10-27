@@ -15,7 +15,7 @@ A guest can buy a non-quota product with home delivery and Bank Transfer, and th
 
 ## Preconditions
 - Logged out; promo popup and notification prompt dismissed
-- A non-quota product (quota products need a member, BUG-005)
+- A non-quota product (quota products need a member; accepted behavior, BUG-005 closed as wont-fix)
 
 ## Data
 - Guest name/email/phone: realistic, unique email

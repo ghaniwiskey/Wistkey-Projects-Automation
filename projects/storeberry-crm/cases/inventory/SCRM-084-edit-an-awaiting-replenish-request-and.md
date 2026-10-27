@@ -32,4 +32,4 @@ An awaiting replenish request can be edited and saved.
 - Detail shows Qty 2 and the new remark
 
 ## Notes
-Linked bug: storeberry-crm BUG-008.
+BUG-008 ("The deleted ids must be a valid JSON string.") verified fixed on 2026-10-27; this case must pass.
