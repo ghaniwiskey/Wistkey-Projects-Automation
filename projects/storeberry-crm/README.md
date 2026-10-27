@@ -34,3 +34,11 @@ The login session is reused for authenticated checks through `shared/auth/sessio
 - Product Actions > "Make product terminated in all platforms" runs without confirmation (BUG-003); select one row only.
 - Left on staging: member MEMy001164525 and order TXN0126102700002 (Pending Payment, Bank Transfer, HKD 400) placed from the eShop with user approval; terminated product 3199.
 - Notes: `explorations/2026-10-27-crm-eshop-critical.md`.
+
+## Testing permissions (user, 2026-10-27)
+
+Staging only. Production is read-only.
+- Allowed without asking each time, on our own QA data: create, edit, submit/confirm, cancel and delete; placing eShop orders.
+- Payment: **Bank Transfer only** (`fn-bank-transfer`). Never card, wallet or other gateways.
+- QA data: names `ASIDE-QA-...`/`AsideQA`, emails `aside.*@example.com`, marketing opt-in No. Cancel/delete QA records when done; list anything left in the session notes.
+- Ask first: changes to other people's records, bulk/Select All actions, stock-changing steps (PO Receive, stock-take completion), refunds/voids of real orders, settings or staff mapping changes, and anything that messages real people (WhatsApp/SMS/Messenger bulk actions, emails to real addresses).

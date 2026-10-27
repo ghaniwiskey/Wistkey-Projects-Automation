@@ -30,3 +30,11 @@ The originally supplied `https://www.mystoreberry.com/` is the CRM login, not th
 $env:QA_ENV='staging'     # or production
 & 'C:\Users\USER\.aside\runtime\node\node.exe' node_modules/playwright/cli.js test --project=storeberry-compare
 ```
+
+## Testing permissions (user, 2026-10-27)
+
+Staging only. Production is read-only.
+- Allowed without asking each time, on our own QA data: create, edit, submit/confirm, cancel and delete; placing eShop orders.
+- Payment: **Bank Transfer only** (`fn-bank-transfer`). Never card, wallet or other gateways.
+- QA data: names `ASIDE-QA-...`/`AsideQA`, emails `aside.*@example.com`, marketing opt-in No. Cancel/delete QA records when done; list anything left in the session notes.
+- Ask first: changes to other people's records, bulk/Select All actions, stock-changing steps (PO Receive, stock-take completion), refunds/voids of real orders, settings or staff mapping changes, and anything that messages real people (WhatsApp/SMS/Messenger bulk actions, emails to real addresses).
