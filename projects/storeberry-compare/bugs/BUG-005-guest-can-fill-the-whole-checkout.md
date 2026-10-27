@@ -1,7 +1,7 @@
 ---
 id: BUG-005
-title: "Guest can fill the whole checkout before being told a quota product needs a member"
-severity: major
+title: "Guest can add a package (quota) product and fill the whole checkout before being told it needs a member"
+severity: minor
 status: open
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/checkout"
@@ -11,18 +11,18 @@ tests: [SBF-011]
 frequency: always
 ---
 ## Summary
-As a guest, adding "test product EN 1" (a quota product) is allowed and the checkout accepts all guest, shipping and payment details. Only after clicking Proceed to checkout does a modal say "Member is requried for quota product." It does not name the product, and "requried" is misspelled.
+"Quota product" in the message means a **Package** product (CRM product type Package, e.g. 偈油x10, Facial Package): its uses are tracked per member, so guests cannot buy it. The block itself is intended. The defect is the flow: a guest can add a package product to the cart and fill in the whole checkout; only after Proceed to checkout does a modal say "Member is requried for quota product." It does not name the item, does not offer login/register, and "requried" is misspelled.
 
 ## Steps to reproduce
-1. As a guest add test product EN 1 (large-red and large-blue) and another product to the cart
-2. Open checkout, fill guest details, shipping (門市自取, 荔枝角), Bank Transfer, tick 結帳前同意
-3. Click Proceed to checkout
+1. As a guest (logged out), add 偈油x10 (CRM type Package) to the cart.
+2. Open checkout, fill guest details, choose Bank Transfer, tick 結帳前同意.
+3. Click Proceed to checkout.
 
 ## Expected
-The cart/product page tells a guest up front that the item requires login, naming the product; the message is spelled correctly.
+The product page or cart tells the guest that this package product requires login (naming the item, with Login/Register links) before checkout details are entered; the text is spelled correctly.
 
 ## Actual
-Warning modal "Member is requried for quota product." after the whole form is filled; no order is created.
+Modal "Member is requried for quota product." only after the full form is filled. No order is created.
 
 ## Evidence
 - Logged in as a new member, the same cart placed order TXN0126102700002 successfully.
@@ -33,3 +33,4 @@ Warning modal "Member is requried for quota product." after the whole form is fi
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-27: Retested 2026-10-27 ~11:20 after the user could not reproduce: still reproduces for guests whenever a Package product is in the cart (cart A: 2 x 偈油x10 + test product EN 1 large-blue; cart B: 11 x 偈油x10 only). Root cause of the earlier confusion: 偈油x10 is CRM type Package (= quota product); test product EN 1 is a Physical Product and is not involved. Title/steps corrected and severity lowered to minor because the block is intended; the issue is the late, unnamed, misspelled warning. Members are not affected..

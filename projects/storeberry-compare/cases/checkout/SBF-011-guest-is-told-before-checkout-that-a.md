@@ -1,6 +1,6 @@
 ---
 id: SBF-011
-title: "Guest is told before checkout that a quota product needs login"
+title: "Guest is told before checkout that a package (quota) product needs login"
 feature: checkout
 priority: P1
 tags: [regression]
@@ -14,7 +14,7 @@ updated: 2026-10-27
 Guests learn early that a quota product needs a member account.
 
 ## Data
-- A quota product (e.g. test product EN 1), found in CRM
+- A Package product (CRM Products > Package filter, e.g. 偈油x10), found at runtime
 
 ## Steps
 1. As a guest add the quota product to the cart
@@ -25,4 +25,4 @@ Guests learn early that a quota product needs a member account.
 - No order is created for the guest
 
 ## Notes
-Today the warning only appears after Proceed to checkout ("Member is requried for quota product.").
+"Quota product" = CRM product type Package (uses tracked per member). Regular products such as test product EN 1 are not affected. Today the warning only appears after Proceed to checkout ("Member is requried for quota product.").
