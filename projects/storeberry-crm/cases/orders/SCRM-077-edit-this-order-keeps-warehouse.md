@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-28
 ---
 
 ## Goal
@@ -34,3 +34,4 @@ Editing an order changes only what the user changed.
 
 ## Notes
 Currently fails (warehouse switched to TaiPo, remark duplicated, CN names), 2026-10-27.
+2026-10-28 retest: still fails (BUG-010), TXN0126102700027 -> 027A: TaiPo, no Shipping Store, remark twice, CN name, line became Pre-order Qty 1.

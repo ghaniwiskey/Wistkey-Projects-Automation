@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "retest-bug-010-order-edit",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_0549_staging_manual",
+  "startedAt": "2026-10-27T22:49:21.411Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-077",
+      "title": "Edit this order keeps warehouse, shipping store, remark and product names",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-077-edit-this-order-keeps-warehouse.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Editing an order changes only what the user changed.",
+      "preconditions": [
+        "A pending QA order with warehouse Office and a customer remark"
+      ],
+      "data": [
+        "Reduce one line by 1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Order detail > Actions > Edit this order > Use order creation date",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the POS warehouse matches the order warehouse",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reduce one line by 1, Total > Bank Transfer > CHECK OUT > OK > Done",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the replacement order (…A) in the CRM and in eShop My Orders",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Original order is Canceled and the replacement total is reduced by the line price",
+          "status": "pass"
+        },
+        {
+          "text": "Warehouse and Shipping Store equal the original",
+          "status": "fail"
+        },
+        {
+          "text": "Customer remark appears once",
+          "status": "fail"
+        },
+        {
+          "text": "Product names are unchanged (same language as the original)",
+          "status": "fail"
+        },
+        {
+          "text": "Internal remark contains the original order number",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Original order is Canceled and the replacement total is reduced by the line price",
+          "pass": true
+        },
+        {
+          "label": "Warehouse and Shipping Store equal the original",
+          "pass": false
+        },
+        {
+          "label": "Customer remark appears once",
+          "pass": false
+        },
+        {
+          "label": "Product names are unchanged (same language as the original)",
+          "pass": false
+        },
+        {
+          "label": "Internal remark contains the original order number",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700027 -> 027A: original Canceled, total 323.00 -> 161.50 (correct). Warehouse Office -> TaiPo (line now Pre-order Qty 1), Shipping Store dropped, customer remark twice, \"test product CN 1\" in CRM and eShop. Internal remark has the original number. 027A voided afterwards."
+      ],
+      "evidence": [
+        "screenshots/SCRM-077-m01-pos-preselects-taipo.png",
+        "screenshots/SCRM-077-m02-replacement-order.png",
+        "screenshots/SCRM-077-m03-customer-sees-cn-name.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:49:21.459Z",
+      "failureType": "product-bug",
+      "bug": "BUG-010"
+    }
+  ],
+  "notes": "Retest of BUG-010 (Edit this order), 2026-10-28.",
+  "finishedAt": "2026-10-27T22:49:21.640Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

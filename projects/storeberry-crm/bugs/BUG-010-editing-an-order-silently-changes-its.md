@@ -5,6 +5,7 @@ severity: major
 status: open
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=10967"
+updated: 2026-10-27T22:49:21.348Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
 tests: [SCRM-077]
@@ -37,3 +38,4 @@ Warehouse TaiPo Warehouse (was Office), 偈油x10 available at TaiPo -1 / 0, Shi
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
+- 2026-10-28: Retested 2026-10-28 06:45-06:50 HKT, still open, all four symptoms reproduced. TXN0126102700027 (Online Shop, Shipping Store Storeberry KN, Warehouse Office, test product EN 1 large-red x2, customer remark) edited to qty 1 -> TXN0126102700027A: Warehouse TaiPo Warehouse (POS preselected it), Shipping Store missing, customer remark shown twice (CRM and eShop), item "test product CN 1" (CRM, POS and eShop My Orders). New detail: TaiPo has no large-red, so the replaced line became "Pre-order Qty: 1" while Office released 2 (Office 20 -> 22, TaiPo 34 -> 33, Pre-order 1 -> 2). POS still showed "Balance due $ -161.50" and a blank Custom1 tile. Internal remark "原訂單 Original order" is correct. Evidence: ../explorations/2026-10-28-order-edit-retest/. 027A voided afterwards (stock back).
