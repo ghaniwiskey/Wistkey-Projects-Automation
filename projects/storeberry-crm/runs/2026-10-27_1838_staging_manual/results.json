@@ -519,7 +519,8 @@
         }
       ],
       "notes": [
-        "Expired gifts are not listed; by URL, Reserve is refused by the server and no points are taken. No message is shown and the error leaks a stack trace (storeberry-compare bugs)."
+        "Expired gifts are not listed; by URL, Reserve is refused by the server and no points are taken. No message is shown and the error leaks a stack trace (storeberry-compare bugs).",
+        "Correction 2026-10-27: a toast \"Gift out of reserve period\" is shown (missed at first); storeberry-compare BUG-015 withdrawn. BUG-016 (stack trace) closed as won't fix."
       ],
       "evidence": [],
       "durationMs": 0,
