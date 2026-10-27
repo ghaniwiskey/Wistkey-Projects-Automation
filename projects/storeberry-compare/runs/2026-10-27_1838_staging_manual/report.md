@@ -20,7 +20,7 @@
 | ID | Title | Status | Checks | Time | Notes | Evidence |
 |---|---|---|---|---|---|---|
 | SBF-021 | Course page only lets customers book upcoming sessions and books the chosen one | fail | 0/2 | 0.0s | product-bug; BUG-014 | [1](screenshots/SBF-021-m01-enrolment-4-nov.jpg) |
-| SBF-022 | Expired eGift cannot be reserved and the customer is told why | fail | 1/3 | 0.0s | product-bug; BUG-015 | [1](screenshots/SBF-022-m01-expired-egift.jpg) |
+| SBF-022 | Expired eGift cannot be reserved and the customer is told why | fail | 1/3 | 0.0s | test-issue | [1](screenshots/SBF-022-m01-expired-egift.jpg) |
 | SBF-023 | Member places a home-delivery order and staff deliver it | pass | 3/3 | 0.0s | - | - |
 
 ## Failures and warnings
@@ -37,11 +37,12 @@
 
 ### SBF-022: Expired eGift cannot be reserved and the customer is told why (fail)
 
-- Failure type: product-bug (bug BUG-015)
+- Failure type: test-issue
 - Source: `projects/storeberry-compare/cases/loyalty/SBF-022-expired-egift-cannot-be-reserved-and.md`
 - Failed: A message says the gift is out of its reserve period (or Reserve is disabled)
 - Failed: The API response contains no stack trace or server paths
 - Note: No message; points untouched; response has a stack trace (BUG-016).
+- Note: Re-checked 2026-10-27 from the saved screenshot: the page does show a toast "Gift out of reserve period" (bottom right). The check only looked for modals and missed the short-lived toast. BUG-015 withdrawn; no points were taken, so the case passes.
 
 ![SBF-022](screenshots/SBF-022-m01-expired-egift.jpg)
 

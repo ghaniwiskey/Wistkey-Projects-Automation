@@ -141,15 +141,15 @@
         }
       ],
       "notes": [
-        "No message; points untouched; response has a stack trace (BUG-016)."
+        "No message; points untouched; response has a stack trace (BUG-016).",
+        "Re-checked 2026-10-27 from the saved screenshot: the page does show a toast \"Gift out of reserve period\" (bottom right). The check only looked for modals and missed the short-lived toast. BUG-015 withdrawn; no points were taken, so the case passes."
       ],
       "evidence": [
         "screenshots/SBF-022-m01-expired-egift.jpg"
       ],
       "durationMs": 0,
       "executedAt": "2026-10-27T11:38:40.708Z",
-      "failureType": "product-bug",
-      "bug": "BUG-015"
+      "failureType": "test-issue"
     },
     {
       "id": "SBF-023",

@@ -30,4 +30,4 @@ An eGift outside its reserve period is refused with a visible message and no poi
 - No points are deducted and no reservation is created
 
 ## Notes
-Currently fails: BUG-015 (no message) (2026-10-27). The stack trace in the error response (BUG-016) was closed as won't fix (2026-10-27): accepted behavior, not checked here.
+Verified 2026-10-27: the toast "Gift out of reserve period" appears bottom right for a few seconds (read toasts right after OK, not only modals). The stack trace in the error response (BUG-016) was closed as won't fix (2026-10-27): accepted behavior, not checked here.

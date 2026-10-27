@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "recheck-sbf-022",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1913_staging_manual",
+  "startedAt": "2026-10-27T12:13:01.277Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-022",
+      "title": "Expired eGift cannot be reserved and the customer is told why",
+      "priority": "P2",
+      "feature": "loyalty",
+      "file": "projects/storeberry-compare/cases/loyalty/SBF-022-expired-egift-cannot-be-reserved-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An eGift outside its reserve period is refused with a visible message and no points are taken.",
+      "preconditions": [
+        "Logged-in QA member with points",
+        "An eGift whose reserve period has ended (e.g. /egift/detail/8 Nice meat, /egift/detail/9 testA)"
+      ],
+      "data": [
+        "Expired eGift found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the expired eGift detail page by URL",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Reserve, then OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the page, the member points and E-Gift Redemption Record",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A message says the gift is out of its reserve period (or Reserve is disabled)",
+          "status": "pass"
+        },
+        {
+          "text": "No points are deducted and no reservation is created",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "A message says the gift is out of its reserve period (or Reserve is disabled)",
+          "pass": true
+        },
+        {
+          "label": "No points are deducted and no reservation is created",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Evidence from the 2026-10-27 session (explorations/2026-10-27-cart-payment-review/11-expired-egift-after-ok.jpg): after Reserve > OK on expired gift 8 (Nice meat) the toast \"Gift out of reserve period\" is shown; points stayed 590 and no reservation was created."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T12:13:01.295Z"
+    }
+  ],
+  "notes": "Recheck of BUG-015 (withdrawn)",
+  "finishedAt": "2026-10-27T12:13:01.314Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
