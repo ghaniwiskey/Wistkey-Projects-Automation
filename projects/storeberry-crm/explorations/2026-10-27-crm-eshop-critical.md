@@ -30,8 +30,8 @@ status: done
 | 3 | bug | "Make product terminated in all platforms" has no confirmation | minor | bugs/BUG-003-bulk-make-product-terminated-in-all.md |
 | 4 | bug | Copy/label errors: "Perference", "plaform", Original Price named "Cost" | trivial | bugs/BUG-004-crm-copy-and-label-errors-on-customer.md |
 | 4b | bug | Every product detail page shows 'undefined: Unexpected Error' (add-on template API cmsapiv2 returns 500; Import From Template broken) | major | bugs/BUG-005-product-detail-shows-undefined.md |
-| 4c | bug | Replenish request times shown in UTC vs local time on transfer orders | minor | bugs/BUG-006-replenish-request-times-are-shown-in-utc.md |
-| 4d | bug | Transfer order reserves more than available stock (TaiPo 0 / -3); edit form accepts qty 99999 | major | bugs/BUG-007-transfer-order-can-reserve-more-stock-than.md |
+| 4c | bug | Replenish request times shown in UTC vs local time on transfer orders | minor | bugs/BUG-006-replenish-request-times-are-shown-in.md |
+| 4d | bug | Transfer order reserves more than available stock (TaiPo 0 / -3); edit form accepts qty 99999 | major | bugs/BUG-007-transfer-order-can-reserve-more-stock.md |
 | 4e | question | Edit pages of a Received transfer (303) and an Approved replenish request (151) open fully editable with an active Submit (status locked). Should they be read-only? Not submitted. | - | - |
 | 5 | question | Should a HKD 0.00 product be savable (free gifts) or rejected (SCRM-057)? | - | - |
 | 6 | question | Points expiry: CRM-created member 2027-10-26 (1 year) vs eShop-registered member 2026-11-26 (1 month). Intended? | - | - |
