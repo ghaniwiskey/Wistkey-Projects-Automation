@@ -7,7 +7,7 @@ tags: [regression, writes, final]
 envs: [staging]
 automated: false
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -32,3 +32,4 @@ Approving a QA payment-review order advances it to the appropriate processing st
 
 ## Notes
 Data-changing final scenario. Staging only. Obtain explicit user approval before each run/retry. Use only QA data; never use real customer/payment details. Approval may release the order for fulfillment or notifications.
+Retest for BUG-009 (bulk Accept Receipt failed with "Whoops! Please contact our admin"), reported fixed on 2026-10-27; must pass. Approving our own QA order on staging is allowed without asking (user, 2026-10-27).

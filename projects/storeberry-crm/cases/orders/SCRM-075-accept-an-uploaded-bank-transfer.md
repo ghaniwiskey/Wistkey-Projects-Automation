@@ -32,4 +32,4 @@ Staff can approve a bank transfer payment after the customer uploads a receipt.
 - eShop shows the order as Processing
 
 ## Notes
-Currently fails: CRM bug "Accepting a bank transfer receipt always fails" (2026-10-27). Bulk path is SCRM-048.
+Bulk path is SCRM-048. BUG-009 (accept always failed with "Whoops! Please contact our admin") reported fixed on 2026-10-27; this case must pass and is its retest.

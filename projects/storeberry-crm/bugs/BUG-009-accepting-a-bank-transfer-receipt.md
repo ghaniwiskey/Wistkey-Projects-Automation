@@ -2,12 +2,13 @@
 id: BUG-009
 title: "Accepting a bank transfer receipt always fails: \"Whoops! Please contact our admin\""
 severity: critical
-status: open
+status: fixed
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=10969"
+updated: 2026-10-27T07:05:58.657Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
-tests: [SCRM-075]
+tests: [SCRM-075, SCRM-048]
 frequency: always
 ---
 ## Summary
@@ -37,3 +38,4 @@ Bulk dialog: "Completed: 1/1, 100% Error message: <order>: Whoops! Please contac
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
+- 2026-10-27: status open -> fixed; user reports fixed; SCRM-075 and SCRM-048 notes updated to expect a pass, retest by rerunning them.
