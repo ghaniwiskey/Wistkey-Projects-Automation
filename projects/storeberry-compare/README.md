@@ -36,5 +36,5 @@ $env:QA_ENV='staging'     # or production
 Staging only. Production is read-only.
 - Allowed without asking each time, on our own QA data: create, edit, submit/confirm, cancel and delete; placing eShop orders.
 - Payment: **Bank Transfer only** (`fn-bank-transfer`). Never card, wallet or other gateways.
-- QA data: names `ASIDE-QA-...`/`AsideQA`, emails `aside.*@example.com`, marketing opt-in No. Cancel/delete QA records when done; list anything left in the session notes.
+- Test data can use normal, realistic names; no QA prefix or special email format is required.
 - Ask first: changes to other people's records, bulk/Select All actions, stock-changing steps (PO Receive, stock-take completion), refunds/voids of real orders, settings or staff mapping changes, and anything that messages real people (WhatsApp/SMS/Messenger bulk actions, emails to real addresses).
