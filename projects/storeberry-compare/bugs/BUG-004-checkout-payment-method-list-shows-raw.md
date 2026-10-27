@@ -32,3 +32,4 @@ Options include "order.checkout_v2.methods.ocu-20000", "order.checkout_v2.method
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-27: Rechecked 2026-10-27 ~11:00 after an apparent deploy: ocu-20000 now shows "Custom1" (still not a real name); "order.checkout_v2.methods.fn-allinpay" and "order.checkout_v2.methods.aip-alipay" still raw; FPS and PayMe still duplicated.

@@ -20,6 +20,14 @@ status: done
 - Product detail (follow-up after user question): every existing product shows the toast 'undefined: Unexpected Error' ~0.5 s after load. Cause: GET cmsapiv2.storeberry.ai/cmsapi/addon-products/templates/product/<id> -> 500 {code:9999}; the template list endpoint is also 500, so Add-On Products > Import From Template shows 'Cannot Fetch Templates' / 'Records Not Found'. The first pass missed it because the toast is short-lived and only visible text/console were checked. Tip: list XHRs with performance.getEntriesByType('resource') (responseStatus), since page.on('response') does not fire in Aside's browser.
 - Inventory (follow-up): Transfer Orders and Replenish Request lists, details (305/304/303, 153/152/151) and edit pages load with no error toast, no failed XHR and no JS errors; search, qty changes (0/-1 snap to 1) and dropdowns raise no errors. Status is locked on edit. Prices show '$ $190.00' (double currency sign); the product picker uses the CN name 'test product CN 1'. Nothing was submitted on existing records.
 - Inventory edit submit (follow-up after user report): created QA transfer 306 (Transfer261027024000a35a) and QA replenish request 154 (Request261027024246d853), TaiPo -> test 1, product test 2 qty 1. Create works. Edit > Submit > Confirm fails on both with 'The deleted ids must be a valid JSON string.'; also after removing and re-adding the row. Both QA records cancelled afterwards (replenish cancel toast says 'Cancelled transfer order').
+- Round 3 (critical flows, all saves submitted on QA data):
+  - Purchase order: create (empty submit -> 'Please select supplier'), edit qty 1->2 + remark ('Update successful', total $2.00), cancel ('Order status successfully updated'). Works; deleted_ids bug does not affect POs. Receive not tested (would add stock).
+  - Stock take: blocked, no assignees for any warehouse.
+  - Order processing on QA order TXN0126102700002: internal remark save OK; Edit this order (web POS) -> replacement TXN0126102700002A, original Canceled; side effects in BUG-010; POS showed Balance due '$ -390.00' and a blank 'Custom1' tile.
+  - Payment flow: receipt upload (eShop) works; Accept fails everywhere (BUG-009) on orders 2A, 3 and 4 (in-stock item); Deny works (order 3 -> Payment Rejected).
+  - Category CRUD (hidden QA category 326) works. Brand create/delete works; edit 500 (BUG-011).
+  - Loyalty points adjust with endorsement works (validation for missing endorsement OK). My first save subtracted 100 because I toggled to Subtract; restored to 500.
+- QA data left: member MEMy001164525 (password changed, stored nowhere), orders TXN0126102700002 (Canceled), TXN0126102700002A and TXN0126102700004 (Payment Review), TXN0126102700003 (Payment Rejected). PO Lot2610270247224c90 Canceled. Category 326 and brand 24 deleted.
 - Promotions: VIP888 maps to 3 promotions; #605 is a whole-order HKD 20 off with no minimum, so the eShop HKD 20 -> 0 total was correct.
 - Order created from the eShop (TXN0126102700002, member MEMy001164525) checked here: Pending Payment, Bank Transfer HKD 400.00, 門市自取 荔枝角, items and remark match.
 
@@ -32,6 +40,11 @@ status: done
 | 4 | bug | Copy/label errors: "Perference", "plaform", Original Price named "Cost" | trivial | bugs/BUG-004-crm-copy-and-label-errors-on-customer.md |
 | 4b | bug | Every product detail page shows 'undefined: Unexpected Error' (add-on template API cmsapiv2 returns 500; Import From Template broken) | major | bugs/BUG-005-product-detail-shows-undefined.md |
 | 4f | bug | Transfer order and replenish request edit always fail on Submit: 'The deleted ids must be a valid JSON string.' (no deleted_ids sent; error_code 2208) | critical | bugs/BUG-008-editing-a-transfer-order-or-replenish.md |
+| 4g | bug | Accepting a bank transfer receipt always fails ('Whoops! Please contact our admin'), bulk and detail paths; Deny works | critical | bugs/BUG-009-accepting-a-bank-transfer-receipt.md |
+| 4h | bug | Edit this order silently switches warehouse Office -> TaiPo (negative stock), drops Shipping Store, duplicates remark, switches product names to CN | major | bugs/BUG-010-editing-an-order-silently-changes-its.md |
+| 4i | bug | Brand edit save returns HTTP 500 ('error exist!') | major | bugs/BUG-011-saving-an-edited-brand-fails-with-http.md |
+| 4j | question | Stock Take cannot be created: Assignee is required but /stock-take/get-warehouse-assignees returns no users for any warehouse. Config (no staff mapped) or bug? | - | - |
+| 4k | question | New eShop orders today are assigned to TaiPo Warehouse (morning order was Office). Intended warehouse rule? | - | - |
 | 4c | bug | Replenish request times shown in UTC vs local time on transfer orders | minor | bugs/BUG-006-replenish-request-times-are-shown-in.md |
 | 4d | bug | Transfer order reserves more than available stock (TaiPo 0 / -3); edit form accepts qty 99999 | major | bugs/BUG-007-transfer-order-can-reserve-more-stock.md |
 | 4e | question | Edit pages of a Received transfer (303) and an Approved replenish request (151) open fully editable with an active Submit (status locked). Should they be read-only? Not submitted. | - | - |

@@ -34,3 +34,4 @@ Notice persists while the item is in the cart; shipping Email = aside.guest...@e
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-27: Rechecked 2026-10-27 ~11:00: member checkout shipping email now pre-fills the member email (that part looks fixed); remark duplication now seen on edited orders (see CRM order edit bug).

@@ -20,6 +20,7 @@ status: done
 - Checkout (guest): invalid promo -> "Promotion code is invalid, expired or exceed the usage limit"; VIP888 takes HKD 20 off (whole-order promo #605, correct). REMOVE leaves "VIP888" in the box. Empty Continue only turns labels red (no text). Payment list has raw i18n keys and duplicates -> BUG-004. With only 偈油x10 (0 kg) no shipping section appears; with a 2 kg item Shipping Address/Method appear. Guest Proceed with a quota product -> "Member is requried for quota product." only at the end -> BUG-005.
 - Registration: missing policy / short password / mismatch reported together. Birthday 02-30 accepted and stored as 10-27 -> BUG-003. Login works before email verification. Guest cart carried over to the member.
 - Checkout (member): details pre-filled, but shipping Email kept the old guest email (reverted after reload) -> BUG-007. A notification permission modal blocked Proceed twice with no order and no message -> BUG-006. After dismissing it: order TXN0126102700002, HKD 400.00, Bank Transfer, 門市自取 荔枝角; thank-you page, My Orders = Pending Payment, CRM matches.
+- Round 3: after an apparent deploy (~11:00) checkout has a country-code picker and no Continue button; ocu-20000 now 'Custom1'. Placed QA bank-transfer orders TXN0126102700003 (偈油x10) and TXN0126102700004 (product test 2). Receipt upload works (false Whoops only on the edited 2A order). Profile edit (syncs to CRM; email/birthday read-only), address book add/edit/delete, change password (wrong current / mismatch / too short / success), logout protects My Orders, old password rejected and new one accepted: all OK. URL typo /my-account/package-reocrd.
 - No JS errors or HTTP >= 400 responses captured on the eShop during the session.
 
 ## Findings
@@ -33,6 +34,9 @@ status: done
 | 6 | bug | Copy errors: "leave you gift message", "PAYMENT PROVE", "requried" | trivial | bugs/BUG-008-eshop-checkout-copy-errors.md |
 | 7 | bug (existing) | BUG-001 search ignores the query: still reproduces | major | bugs/BUG-001-product-search-returns-unrelated.md |
 | 8 | retest | BUG-002 cart drawer empty: not reproduced today | - | bugs/BUG-002-cart-drawer-stays-empty-after.md |
+| 6b | bug | Receipt upload on an edited order shows a false 'Whoops! Please contact our admin' modal | major | bugs/BUG-009-receipt-upload-on-an-edited-order-shows.md |
+| 6c | bug | Proceed to checkout silently does nothing when Shipping Method is missing | minor | bugs/BUG-010-proceed-to-checkout-does-nothing-when-a.md |
+| 6d | question | product test 2 shows HKD 100.00 on the product page but HKD 49.00 in the member cart, with no member-price label. Intended? | - | - |
 | 9 | question | Is it intended that a 0 kg product skips shipping address/method? | - | - |
 | 10 | question | Login allowed before email verification: intended? | - | - |
 | 11 | question | Marketing opt-in defaults to Yes on registration (consent/PDPO concern)? | - | - |
