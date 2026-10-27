@@ -2,13 +2,13 @@
 id: BUG-017
 title: "Exchange takes back more loyalty points than the original order earned (HKD 49 order: +4, exchange: -5)"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=10969"
-updated: 2026-10-27T09:05:39.151Z
+updated: 2026-10-27T09:33:51.574Z
 found: 2026-10-27T09:05:39.151Z
 foundBy: "explorations/2026-10-27-fulfilment-stock.md"
-tests: [SCRM-052]
+tests: []
 frequency: 1/1 (deterministic calculation)
 ---
 ## Summary
@@ -36,3 +36,5 @@ Points deducted are at most what the original order earned for the returned valu
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-fulfilment-stock.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: SCRM-052 note updated to the accepted behavior (points amount not checked); tests emptied.

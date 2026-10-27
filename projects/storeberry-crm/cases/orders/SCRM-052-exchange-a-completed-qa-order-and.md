@@ -31,4 +31,4 @@ An exchange creates a linked exchange record for a completed QA order.
 
 ## Notes
 Data-changing final scenario. Staging only. Obtain explicit user approval before each run/retry. Use only QA data; never use real customer/payment details. Do not create shipment or fulfillment outside the staging workflow.
-Exchange opens the POS in an iframe side panel on the order page (no accessibility tree; drive it via iframe.webpos-iframe contentDocument). Run 2026-10-27: exchange works, but points deduction is wrong: BUG-017.
+Exchange opens the POS in an iframe side panel on the order page (no accessibility tree; drive it via iframe.webpos-iframe contentDocument). BUG-017 closed as wont-fix on 2026-10-27: the points taken back on an exchange (e.g. -5 on an order that earned +4) are accepted behavior; this case does not check the points amount.
