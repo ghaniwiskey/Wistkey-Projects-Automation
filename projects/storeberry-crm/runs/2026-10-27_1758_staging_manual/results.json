@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "retest-bug-015",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1758_staging_manual",
+  "startedAt": "2026-10-27T10:58:35.089Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-090",
+      "title": "Course creation retains the required category across tabs",
+      "priority": "P0",
+      "feature": "courses",
+      "file": "projects/storeberry-crm/cases/courses/SCRM-090-create-a-course-retains-required-category.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A course can be created with a selected category and timetable.",
+      "preconditions": [
+        "A category and active timetable are available."
+      ],
+      "data": [
+        "Course name, slug, and SKU: `<unique>`.",
+        "QA-only course details and a QA timetable."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Courses & Enrolment > Courses Information > Add New Course.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a unique course name and slug, select an existing category, and set the product type to Hidden Product.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Session & Timetable, set one session per purchase, and select an active timetable.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Save the course.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search the course list for the unique course name.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The category remains selected when switching tabs.",
+          "status": "pass"
+        },
+        {
+          "text": "The course saves successfully and appears in the course list with the selected category and timetable.",
+          "status": "pass"
+        },
+        {
+          "text": "The Hidden Product is not visible in the online store catalog.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The category remains selected when switching tabs.",
+          "pass": true
+        },
+        {
+          "label": "The course saves successfully and appears in the course list with the selected category and timetable.",
+          "pass": true
+        },
+        {
+          "label": "The Hidden Product is not visible in the online store catalog.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Retest 2026-10-27 ~18:55 HKT, two ways: (1) pick Course from the category dropdown, (2) type Course + Enter (original steps). The Course chip stayed after switching Info -> Session & Timetable -> Info. Saved: course 3201 (Hidden Product, 1 session, timetable English Class) and 3202 (timetable Demo); edit page shows category Course, Hidden Product, 1 session, timetable. eShop search \"QA Course Retest\" -> \"No Products are available.\" 3202 terminated afterwards; 3201 kept for the enrollment test."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:58:35.128Z"
+    }
+  ],
+  "notes": "BUG-015 retest",
+  "finishedAt": "2026-10-27T10:58:35.165Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

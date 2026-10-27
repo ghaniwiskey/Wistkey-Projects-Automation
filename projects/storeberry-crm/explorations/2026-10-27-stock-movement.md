@@ -52,3 +52,8 @@ status: done
 - Loyalty (SCRM-066): new member MEMy001164526, 500 points; 100 points = $100, max $100/order (150 clamps to 100). Bank Transfer order TXN0126102700019 total 600 after -$300 basket and -$100 cash dollar; points 400. Void in CRM returned the 100 points.
 - Promotions (SCRM-035/036): VIP888 on C applies 606 (-$20 each) + 605 (-$20 order), not 607 (20%) -> storeberry-compare Q-008. Free gift 631 offered only at net >= $800 and removed with the qualifying item. Stale add-on after removing an item -> storeberry-compare BUG-013.
 - QA data: appointment 2026-10-29 14:00 (guest Siu Ming Wong), member MEMy001164526 (password not stored), order TXN0126102700019 (Canceled).
+
+## BUG-015 retest (user request, ~18:55 HKT)
+- Category (vue-treeselect) kept after switching tabs, both by clicking the option and by typing "Course" + Enter. Courses 3201 (English Class) and 3202 (Demo) saved with category Course and Hidden Product; not visible on the eShop. BUG-015 -> verified, SCRM-090 pass.
+- The timetable picker hides timetables already linked to a course (English Class disappeared after 3201 used it); QA timetable 70 was never offered.
+- Courses list Actions > Terminate Course runs with no confirmation (same pattern as BUG-003 for products). 3202 terminated; 3201 kept for SCRM-063.

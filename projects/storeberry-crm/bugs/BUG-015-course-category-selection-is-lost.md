@@ -2,15 +2,15 @@
 id: BUG-015
 title: "Course category selection is lost when switching tabs during creation"
 severity: major
-status: open
+status: verified
 env: staging
-url: https://www.stagingl10.storeberry.xyz/bookings/services/create
+url: "https://www.stagingl10.storeberry.xyz/bookings/services/create"
+updated: 2026-10-27T10:58:35.242Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-course-flow/README.md"
 tests: [SCRM-090]
 frequency: always
 ---
-
 ## Summary
 The required Category selected in the Info tab is cleared when switching to Session & Timetable. Saving the otherwise completed course form then rejects the submission, blocking course creation through this flow.
 
@@ -37,3 +37,4 @@ The required Category selected in the Info tab is cleared when switching to Sess
 
 ## History
 - 2026-10-27: filed from the staging course creation exploration; reproduced twice.
+- 2026-10-27: status open -> verified; Retest passed in runs/2026-10-27_1758_staging_manual (category kept across tabs, courses 3201 and 3202 saved).

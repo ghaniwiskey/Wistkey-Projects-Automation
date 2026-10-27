@@ -33,4 +33,4 @@ A course can be created with a selected category and timetable.
 - The Hidden Product is not visible in the online store catalog.
 
 ## Notes
-Data-changing staging test. Use unique QA data and delete only the course created by this test after verification. Linked bug: BUG-015.
+Data-changing staging test. Use unique QA data and delete only the course created by this test after verification. BUG-015 verified fixed (2026-10-27): the category must stay selected across tabs, so this case must pass. Timetables already linked to a course are not offered in the timetable picker; pick one that is listed.
