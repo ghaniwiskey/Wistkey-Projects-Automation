@@ -1,6 +1,6 @@
 # Test Manager
 
-Local web app for test cases, runs, test plans and bugs across every project in `projects/`, wired to each project's **Playwright POM suite**. No other test framework is involved: automated runs are plain `playwright test --project=<slug>` with the root `playwright.config.ts`.
+Local web app for test cases, runs, test plans, bugs and open questions across every project in `projects/`, wired to each project's **Playwright POM suite**. No other test framework is involved: automated runs are plain `playwright test --project=<slug>` with the root `playwright.config.ts`.
 
 ```bash
 npm run tm                    # start at http://127.0.0.1:7358/ and open the browser (or "Start Test Manager.cmd")
@@ -21,6 +21,7 @@ projects/<slug>/
   cases/<feature>/             test cases  <PREFIX>-<NNN>-<slug>.md
   plans/                       PLAN-<NNN>-*.yaml (scope by tags or IDs, progress, sign-off)
   bugs/                        BUG-<NNN>-*.md
+  questions/                   Q-<NNN>-*.md open questions for the product owner (open | answered | closed)
   runs/<run>/                  results.json, report.md, report.html, screenshots/, traces/
   archive/cases/               archived test cases (IDs are never reused)
 projects/_template/            copied by "New project" / tm:new ({{name}}, {{prefix}}, ... are filled in)

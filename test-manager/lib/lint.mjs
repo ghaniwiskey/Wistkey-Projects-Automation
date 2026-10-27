@@ -108,6 +108,19 @@ export function lintProject(p, prefixes) {
       W.push(`${f}: ${fm.id} is ${fm.status} but still lists tests [${fm.tests.join(', ')}]; update those cases/specs (wont-fix: accepted behavior; duplicate: link the original bug), then empty tests: (docs/conventions.md > Bugs)`);
     }
   }
+  const qIds = new Map();
+  for (const x of p.questions || []) {
+    const f = at(x.file);
+    if (x.error) { E.push(`${f}: ${x.error}`); continue; }
+    const fm = x.fm;
+    if (!fm.id || !/^Q-\d{3,}$/.test(fm.id)) E.push(`${f}: id must look like Q-001`);
+    if (fm.id && qIds.has(fm.id)) E.push(`${f}: duplicate question id ${fm.id}`);
+    if (fm.id) qIds.set(fm.id, f);
+    if (!fm.title) E.push(`${f}: missing title`);
+    if (!['open', 'answered', 'closed'].includes(fm.status)) E.push(`${f}: status must be open, answered or closed`);
+    for (const b of fm.bugs || []) if (!bugIds.has(b)) W.push(`${f}: links ${b}, which is not a bug in this project`);
+    if (fm.status === 'answered' && /^##\s+Answer\s*\n+Not answered yet\./m.test(x.body)) W.push(`${f}: ${fm.id} is answered but the ## Answer section is empty`);
+  }
   // Only an OPEN bug may be expected to fail. fixed/verified: the test must pass now; wont-fix: test the
   // accepted behavior; duplicate: refer to the original bug.
   const closedStatus = new Map(p.bugs.filter((b) => !b.error && b.fm.id && b.fm.status && b.fm.status !== 'open').map((b) => [b.fm.id, b.fm.status]));

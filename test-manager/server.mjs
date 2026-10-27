@@ -155,6 +155,10 @@ route('GET', '/api/projects/:slug/bugs', ({ params }) => S.listBugs(params.slug)
 route('POST', '/api/projects/:slug/bugs', ({ params, body }) => S.createBug(params.slug, body));
 route('GET', '/api/projects/:slug/bugs/:bugId', ({ params }) => S.getBug(params.slug, params.bugId));
 route('PUT', '/api/projects/:slug/bugs/:bugId', ({ params, body }) => S.updateBug(params.slug, params.bugId, body));
+route('GET', '/api/projects/:slug/questions', ({ params }) => S.listQuestions(params.slug));
+route('POST', '/api/projects/:slug/questions', ({ params, body }) => S.createQuestion(params.slug, body));
+route('GET', '/api/projects/:slug/questions/:qid', ({ params }) => S.getQuestion(params.slug, params.qid));
+route('PUT', '/api/projects/:slug/questions/:qid', ({ params, body }) => S.updateQuestion(params.slug, params.qid, body));
 
 route('GET', '/api/jobs', () => jobs.listJobs());
 route('GET', '/api/jobs/:id', ({ params }) => jobs.getJob(params.id) || { error: 'not found' });

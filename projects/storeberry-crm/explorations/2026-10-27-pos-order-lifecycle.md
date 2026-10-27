@@ -29,9 +29,9 @@ status: done
 | 1 | bug | Refund or void of a completed POS sale resets Delivery Status Complete -> Pending | major | bugs/BUG-012-refunding-or-voiding-a-completed-pos.md |
 | 2 | bug | Refund this order offered on an unpaid order; confirm silently does nothing | minor | bugs/BUG-013-refund-this-order-is-offered-on-an.md |
 | 3 | bug | Web POS Total silently does nothing without a cash drawer (console only, typo "Pleas") | minor | bugs/BUG-014-web-pos-total-silently-does-nothing.md |
-| 4 | question | Upgrade Reward (+100 points) and Silver tier (15% off) earned by a sale stay after that sale is fully refunded. Intended? | - | - |
-| 5 | question | Voiding a paid Cash POS sale adds no reversal to Payment History. How is the cash drawer reconciled? | - | - |
-| 6 | question | Guest orders show Customer Name/Email N/A in the CRM header although the guest entered them. Intended? | - | - |
+| 4 | question | Upgrade Reward (+100 points) and Silver tier (15% off) earned by a sale stay after that sale is fully refunded. Intended? | - | questions/Q-001-should-a-refund-take-back-the-upgrade.md |
+| 5 | question | Voiding a paid Cash POS sale adds no reversal to Payment History. How is the cash drawer reconciled? | - | questions/Q-002-how-is-the-cash-drawer-reconciled-when.md |
+| 6 | question | Guest orders show Customer Name/Email N/A in the CRM header although the guest entered them. Intended? | - | questions/Q-003-should-guest-orders-show-the-guest-name.md |
 | 7 | risk | POS cash-drawer selection disappeared once (localStorage) and then Total fails silently | - | - |
 | 8 | risk | POS lets the cashier Continue with out-of-stock items (oversell) | - | - |
 | 9 | risk | Web POS has no accessible roles/names; automation needs DOM selectors | - | - |

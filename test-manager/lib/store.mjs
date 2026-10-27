@@ -23,6 +23,7 @@ const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
 const PRIORITIES = ['P0', 'P1', 'P2', 'P3'];
 const SEVERITIES = ['critical', 'major', 'minor', 'trivial'];
 const BUG_STATUSES = ['open', 'fixed', 'verified', 'wont-fix', 'duplicate'];
+const QUESTION_STATUSES = ['open', 'answered', 'closed'];
 const RESULT_STATUSES = ['pass', 'fail', 'blocked', 'skipped', 'untested'];
 const FAILURE_TYPES = ['product-bug', 'test-issue', 'environment', 'untriaged'];
 const PLAN_STATUSES = ['draft', 'active', 'done'];
@@ -116,7 +117,7 @@ function projectSummary(slug) {
   return {
     slug, name: m.name, description: m.cfg.description || '', prefix: m.cfg.testIdPrefix || '', defaultEnv: m.cfg.defaultEnv, envs: envList(m.cfg),
     tests: m.tests.length, automated: m.automated, passRate: m.passRate, failing: m.failing.map((t) => t.id), flaky: m.flaky.map((t) => t.id),
-    neverRun: m.never.length, openBugs: m.openBugs.length, runs: p.runs.length, lastRun: m.lastRun ? runSummary(m.lastRun) : null,
+    neverRun: m.never.length, openBugs: m.openBugs.length, openQuestions: p.questions.filter((x) => x.fm && x.fm.id && (x.fm.status || 'open') === 'open').length, runs: p.runs.length, lastRun: m.lastRun ? runSummary(m.lastRun) : null,
     activePlans: m.plans.filter((pl) => pl.status === 'active').map((pl) => ({ id: pl.id, name: pl.name, counts: pl.progress.counts, ready: pl.progress.ready })),
     inProgressRuns: p.runs.filter((r) => r.inProgress).map((r) => r.runId),
     folder: rel(p.dir), specDir: rel(p.specDir), pagesDir: rel(path.join(p.testsDir, 'pages')), specFiles: p.specs.length,
@@ -759,6 +760,93 @@ export function updateBug(slug, bugId, d) {
   fs.writeFileSync(b.file, bugFrontmatter(fm) + body.replace(/^\n+/, ''));
   invalidate(slug);
   return getBug(slug, bugId);
+}
+
+// ---------------------------------------------------------------- questions
+// Open questions for the product owner (unclear intended behavior found while testing), one Markdown file each:
+// projects/<slug>/questions/Q-NNN-<slug>.md with ## Question, ## Context, ## Answer, ## History.
+function questionFrontmatter(fm) {
+  return ['---', `id: ${fm.id}`, `title: ${q(fm.title)}`, `status: ${fm.status}`, `askedTo: ${fm.askedTo ? q(fm.askedTo) : '""'}`, `env: ${fm.env || ''}`,
+    `found: ${fm.found || today()}`, `foundBy: ${fm.foundBy ? q(fm.foundBy) : '""'}`, `tests: ${flow(fm.tests || [])}`, `bugs: ${flow(fm.bugs || [])}`,
+    `answered: ${fm.answered || '""'}`, '---', ''].join('\n');
+}
+
+const questionRow = (x) => ({
+  id: x.fm.id, title: x.fm.title, status: x.fm.status || 'open', askedTo: x.fm.askedTo || '', env: x.fm.env || '', found: String(x.fm.found || ''),
+  answered: String(x.fm.answered || ''), tests: x.fm.tests || [], bugs: x.fm.bugs || [], file: rel(x.file),
+});
+
+export function listQuestions(slug) {
+  const { p } = project(slug);
+  return p.questions.filter((x) => x.fm && x.fm.id).map(questionRow)
+    .sort((a, b) => (QUESTION_STATUSES.indexOf(a.status) - QUESTION_STATUSES.indexOf(b.status)) || a.id.localeCompare(b.id, undefined, { numeric: true }));
+}
+
+export function getQuestion(slug, qid) {
+  const { p } = project(slug);
+  const x = p.questions.find((d) => d.fm && d.fm.id === qid) || notFound(`Question ${qid}`);
+  const image = (src, alt) => {
+    const r = rel(path.resolve(path.dirname(x.file), src));
+    return r.startsWith('..') ? `<span class="ref">${alt}</span>` : `<img class="zoom" src="/files/${r.split('/').map(encodeURIComponent).join('/')}" alt="${alt}">`;
+  };
+  const answer = (/^##\s+Answer\s*$([\s\S]*?)(?=^##\s|(?![\s\S]))/m.exec(x.body) || [])[1];
+  return { ...questionRow(x), body: x.body, html: md(x.body, image), answer: clean(answer) === 'Not answered yet.' ? '' : clean(answer) };
+}
+
+export function createQuestion(slug, d) {
+  const { p } = project(slug);
+  const title = clean(d.title);
+  if (!title) bad('Question title is required.');
+  const id = nextId(p.questions.map(idOfDoc), 'Q');
+  const fm = { id, title, status: 'open', askedTo: clean(d.askedTo), env: clean(d.env), found: today(), foundBy: clean(d.foundBy), tests: cleanTags(d.tests), bugs: cleanTags(d.bugs) };
+  const body = [
+    '## Question', clean(d.question) || title, '',
+    '## Context', clean(d.context) || '-', '',
+    ...(cleanList(d.evidence).length ? ['## Evidence', ...cleanList(d.evidence).map((e) => `- ${e}`), ''] : []),
+    '## Answer', 'Not answered yet.', '',
+    '## History', `- ${today()}: asked${fm.foundBy ? ` from ${fm.foundBy}` : ''}.`, '',
+  ].join('\n');
+  const file = path.join(p.dir, 'questions', `${id}-${shortSlug(title) || 'question'}.md`);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, questionFrontmatter(fm) + body);
+  invalidate(slug);
+  return { id, file: rel(file) };
+}
+
+// answer: replaces the ## Answer section and marks the question answered (unless a status is given).
+export function updateQuestion(slug, qid, d) {
+  const { p } = project(slug);
+  const x = p.questions.find((e) => e.fm && e.fm.id === qid) || notFound(`Question ${qid}`);
+  const fm = { ...x.fm, status: x.fm.status || 'open' };
+  const changes = [];
+  let body = x.body;
+  const answer = clean(d.answer);
+  if (answer) {
+    const section = `## Answer\n${answer}\n\n`;
+    body = /^##\s+Answer\s*$/m.test(body)
+      ? body.replace(/^##\s+Answer\s*$[\s\S]*?(?=^##\s|(?![\s\S]))/m, section)
+      : body.replace(/^##\s+History\s*$/m, `${section}## History`);
+    changes.push('answer recorded');
+    if (d.status === undefined && fm.status === 'open') d = { ...d, status: 'answered' };
+  }
+  if (d.status !== undefined && d.status !== fm.status) {
+    if (!QUESTION_STATUSES.includes(d.status)) bad('Status must be open, answered or closed.');
+    changes.push(`status ${fm.status} -> ${d.status}`);
+    fm.status = d.status;
+    fm.answered = d.status === 'open' ? '' : (fm.answered || today());
+  }
+  if (d.title !== undefined && clean(d.title)) fm.title = clean(d.title);
+  if (d.askedTo !== undefined) fm.askedTo = clean(d.askedTo);
+  if (d.tests !== undefined) fm.tests = cleanTags(d.tests);
+  if (d.bugs !== undefined) fm.bugs = cleanTags(d.bugs);
+  const note = clean(d.note);
+  if (changes.length || note) {
+    const line = `- ${today()}: ${[...changes, note].filter(Boolean).join('; ')}.`;
+    body = /^##\s+History\s*$/m.test(body) ? body.replace(/\s*$/, '\n') + line + '\n' : body.replace(/\s*$/, '\n\n') + `## History\n${line}\n`;
+  }
+  fs.writeFileSync(x.file, questionFrontmatter(fm) + body.replace(/^\n+/, ''));
+  invalidate(slug);
+  return getQuestion(slug, qid);
 }
 
 // ---------------------------------------------------------------- files

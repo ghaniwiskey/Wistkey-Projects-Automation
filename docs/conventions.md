@@ -103,6 +103,13 @@ How to tell them apart: reproduce the failing steps by hand (or in Aside's brows
 
   Add a History line to the bug naming the updated tests. `tm:lint` reports a `test.fail()` that expects a non-open bug (error), a case note calling a non-open bug "expected to fail" (warning), and a wont-fix/duplicate bug that still lists tests (warning).
 
+## Questions
+
+- Unclear intended behavior (not clearly a bug) goes to `projects/<slug>/questions/Q-<NNN>-<slug>.md`: Test Manager > Questions > New question, or `store.createQuestion(slug, { title, question, context, askedTo, env, foundBy, tests, bugs, evidence })`.
+- One question per file: what to decide, what was seen (IDs, data, date), linked cases/bugs, screenshot. Statuses: `open`, `answered`, `closed`.
+- When the answer comes: record it (`updateQuestion(slug, id, { answer })` or the Answer box; marks it answered). Then act on it the same session: a bug -> file it and add it to the question's `bugs:`; intended behavior -> update the linked cases' expected results/notes. Close it when nothing is left to do.
+- `tm:lint` checks ids, statuses, linked bugs and an answered question with an empty Answer.
+
 ## Retries and flakiness
 
 - `npm test` has no retries locally; CI retries twice (`playwright.config.ts`); `npm run test:auto` retries once and auto-triages environment failures. Pass on retry = `flaky`.

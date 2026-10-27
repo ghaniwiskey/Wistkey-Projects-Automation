@@ -8,6 +8,7 @@ import { RunList, RunDetail, JobConsole } from './pages/runs.js';
 import { ManualRun } from './pages/manual.js';
 import { PlanList, PlanDetail, PlanEditor } from './pages/plans.js';
 import { BugList, BugDetail, BugEditor } from './pages/bugs.js';
+import { QuestionList, QuestionDetail, QuestionEditor } from './pages/questions.js';
 
 function parseRoute() {
   const raw = location.hash.replace(/^#/, '') || '/';
@@ -34,6 +35,7 @@ function Sidebar({ state, route, connected, openNew }) {
         <a href=${`#/p/${p.slug}/runs`} class=${on(sub === 'runs' || sub === 'manual')}>Runs<span class="count">${p.runs}</span></a>
         <a href=${`#/p/${p.slug}/plans`} class=${on(sub === 'plans')}>Test plans<span class="count">${p.activePlans.length || ''}</span></a>
         <a href=${`#/p/${p.slug}/bugs`} class=${on(sub === 'bugs')}>Bugs<span class="count">${p.openBugs || ''}</span></a>
+        <a href=${`#/p/${p.slug}/questions`} class=${on(sub === 'questions')}>Questions<span class="count">${p.openQuestions || ''}</span></a>
         <a href=${`#/p/${p.slug}/settings`} class=${on(sub === 'settings')}>Settings</a>
       </div>` : null}
     </div>`)}
@@ -70,6 +72,11 @@ function Content({ route, state, openNew }) {
       if (!b) return html`<${BugList} slug=${slug} />`;
       if (b === 'new') return html`<${BugEditor} slug=${slug} query=${query} />`;
       return html`<${BugDetail} slug=${slug} bugId=${b} />`;
+    }
+    if (a === 'questions') {
+      if (!b) return html`<${QuestionList} slug=${slug} />`;
+      if (b === 'new') return html`<${QuestionEditor} slug=${slug} />`;
+      return html`<${QuestionDetail} slug=${slug} qid=${b} />`;
     }
     if (a === 'settings') return html`<${ProjectSettings} slug=${slug} />`;
   }

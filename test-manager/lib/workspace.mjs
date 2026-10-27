@@ -107,7 +107,7 @@ export function loadProject(slug) {
     .map((x) => ({ ...x.data, file: x.file }))
     .sort((a, b) => String(a.id).localeCompare(String(b.id), undefined, { numeric: true }));
   return {
-    slug, dir, cfg, cfgError, specDir: specDirOf(cfg, slug), testsDir: path.join(dir, 'tests'), tests: docs('cases'), archived: docs(path.join('archive', 'cases')), bugs: docs('bugs'),
+    slug, dir, cfg, cfgError, specDir: specDirOf(cfg, slug), testsDir: path.join(dir, 'tests'), tests: docs('cases'), archived: docs(path.join('archive', 'cases')), bugs: docs('bugs'), questions: docs('questions'),
     specs, runs, plans,
   };
 }
