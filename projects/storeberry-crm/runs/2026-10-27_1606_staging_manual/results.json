@@ -1,0 +1,589 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-fulfilment",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1606_staging_manual",
+  "startedAt": "2026-10-27T09:06:15.436Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-075",
+      "title": "Accept an uploaded bank transfer receipt from the order detail",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-075-accept-an-uploaded-bank-transfer.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can approve a bank transfer payment after the customer uploads a receipt.",
+      "preconditions": [
+        "A QA member order paid by Bank Transfer with an uploaded receipt (status Payment Review)",
+        "User approval to place the order"
+      ],
+      "data": [
+        "Order found at runtime in Orders > Payment review, created by the QA member"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the order detail > Receipt tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a comment and click Accept > OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the order",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open eShop My Orders for that order",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No warning is shown",
+          "status": "pass"
+        },
+        {
+          "text": "Order Status Processing, Payment Status Paid",
+          "status": "pass"
+        },
+        {
+          "text": "eShop shows the order as Processing",
+          "status": null
+        }
+      ],
+      "checks": [
+        {
+          "label": "No warning is shown",
+          "pass": true
+        },
+        {
+          "label": "Order Status Processing, Payment Status Paid",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700004: Receipt > Accept > OK, no warning; Processing, payment Complete. eShop My Orders not checked (member password unknown). BUG-009 retest."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.488Z"
+    },
+    {
+      "id": "SCRM-048",
+      "title": "Approve a payment-review order and verify processing status",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-048-approve-a-payment-review-order-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Approving a QA payment-review order advances it to the appropriate processing state.",
+      "preconditions": [
+        "A dedicated staging QA order is in Payment review and uses a non-routable QA contact.",
+        "A safe staging payment-review action is available; do not use a live payment rail."
+      ],
+      "data": [
+        "Existing QA order selected dynamically by Payment review status."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the QA order in Payment review and confirm its order number and amount.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Approve the payment review.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the order and its status history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The order leaves Payment review and shows the resulting processing/approved status.",
+          "status": "pass"
+        },
+        {
+          "text": "The order history records the approval and updated status.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The order leaves Payment review and shows the resulting processing/approved status.",
+          "pass": true
+        },
+        {
+          "label": "The order history records the approval and updated status.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700002A: Payment review > Bulk Accept Receipt (1) > Start: Completed 1/1; Processing / payment Complete; Status History has Processing with the comment. BUG-009 retest."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.527Z"
+    },
+    {
+      "id": "SCRM-065",
+      "title": "Award loyalty points once for an eligible QA purchase",
+      "priority": "P1",
+      "feature": "loyalty",
+      "file": "projects/storeberry-crm/cases/loyalty/SCRM-065-award-loyalty-points-once-for-an.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A completed eligible QA purchase awards the configured loyalty points exactly once.",
+      "preconditions": [
+        "A dedicated staging QA member has a visible points balance.",
+        "A documented sandbox checkout method and eligible product are available."
+      ],
+      "data": [
+        "QA member selected dynamically.",
+        "Eligible product and qualifying order amount selected from current loyalty rules."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Record the QA member points balance and current earn rule.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Complete one qualifying sandbox purchase for the QA member.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the member loyalty balance and order history.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Refresh the balance and confirm the same order did not award points twice.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The points increase by the amount defined in the current earn rule.",
+          "status": "pass"
+        },
+        {
+          "text": "The completed order is linked to the point entry.",
+          "status": "pass"
+        },
+        {
+          "text": "Reloading does not duplicate the points entry.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The points increase by the amount defined in the current earn rule.",
+          "pass": true
+        },
+        {
+          "label": "The completed order is linked to the point entry.",
+          "pass": true
+        },
+        {
+          "label": "Reloading does not duplicate the points entry.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Bank Transfer orders: +4 for HKD 49 (TXN0126102700004) and +39 for HKD 390 (2A), awarded once at payment acceptance; no extra entry at dispatch/complete or after reload."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.560Z"
+    },
+    {
+      "id": "SCRM-091",
+      "title": "Fulfil a paid online pickup order: pack, dispatch and complete",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-091-fulfil-a-paid-online-pickup-order-pack.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A paid eShop order can be packed and dispatched in the CRM and ends Complete, with stock deducted once.",
+      "preconditions": [
+        "A QA member eShop order paid by Bank Transfer and accepted (status Processing, payment Complete)"
+      ],
+      "data": [
+        "Order found at runtime in Orders > Processing, created by the QA member"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the order detail and click Delivery",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Pack All, then Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Dispatch and confirm OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the order and open Status History",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Inventory History for the product",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Save shows \"update successfully\"",
+          "status": "pass"
+        },
+        {
+          "text": "Order Status, Payment Status and Delivery Status are Complete; Delivered equals ordered qty; Completed Date set",
+          "status": "pass"
+        },
+        {
+          "text": "Status History lists processing then complete",
+          "status": "pass"
+        },
+        {
+          "text": "Inventory History shows one DELIVERED -1 Stock Qty entry for the order at the order warehouse",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Save shows \"update successfully\"",
+          "pass": true
+        },
+        {
+          "label": "Order Status, Payment Status and Delivery Status are Complete; Delivered equals ordered qty; Completed Date set",
+          "pass": true
+        },
+        {
+          "label": "Status History lists processing then complete",
+          "pass": true
+        },
+        {
+          "label": "Inventory History shows one DELIVERED -1 Stock Qty entry for the order at the order warehouse",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700004 (門市自取): Pack All, Save, Dispatch -> Complete 15:09, Delivered 1; Inventory History DELIVERED -1 TaiPo. Side findings filed as BUG-018."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.592Z"
+    },
+    {
+      "id": "SCRM-052",
+      "title": "Exchange a completed QA order and verify the linked exchange",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-052-exchange-a-completed-qa-order-and.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "An exchange creates a linked exchange record for a completed QA order.",
+      "preconditions": [
+        "A completed staging QA order is eligible for exchange and uses only QA product/contact data."
+      ],
+      "data": [
+        "QA order and eligible replacement item selected dynamically."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the completed QA order and choose the exchange flow.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select the eligible replacement item and confirm the exchange using the staging flow.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the resulting order and its history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The exchange record references the original QA order.",
+          "status": "pass"
+        },
+        {
+          "text": "The exchange shows the selected replacement item and resulting status.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The exchange record references the original QA order.",
+          "pass": true
+        },
+        {
+          "label": "The exchange shows the selected replacement item and resulting status.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700004 exchanged at Storeberry HK for 偈油x10 -> TXN1126102700004 (Complete, Exchange Order, refund 40.50 Cash); original shows Exchanged: 1 and is in the Exchanged tab; returned unit +1 at TEST12. Points -5 although the order earned +4 (BUG-017)."
+      ],
+      "evidence": [
+        "screenshots/SCRM-052-m01-points-minus5.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.626Z",
+      "failureType": "product-bug",
+      "bug": "BUG-017"
+    },
+    {
+      "id": "SCRM-027",
+      "title": "Receiving a purchase order updates warehouse stock",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-027-receiving-a-purchase-order-updates.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Receiving a purchase order increases the selected warehouse stock by the accepted quantity.",
+      "preconditions": [
+        "A staging warehouse, supplier, and product with sufficient stock capacity are available."
+      ],
+      "data": [
+        "PO/Lot number: QA-<unique>.",
+        "Product and quantity selected from staging data; use a small controlled quantity."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and record the available quantity of a suitable test product at a staging warehouse.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create a uniquely numbered purchase order for that product, an existing supplier, and a small controlled quantity.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Receive the full quantity on the purchase order.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen Inventory and Inventory History for the product.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The purchase order reaches Received status and displays a receive time.",
+          "status": "pass"
+        },
+        {
+          "text": "Available quantity at the selected warehouse increases by the received quantity.",
+          "status": "pass"
+        },
+        {
+          "text": "Inventory History contains the receipt linked to the PO/Lot number.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The purchase order reaches Received status and displays a receive time.",
+          "pass": true
+        },
+        {
+          "label": "Available quantity at the selected warehouse increases by the received quantity.",
+          "pass": true
+        },
+        {
+          "label": "Inventory History contains the receipt linked to the PO/Lot number.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Lot2610270903405b1b (TaiPo, product test 2 x2, Default Supplier): receive 1 -> Partial Received, receive 1 -> Received 17:04:39; receive qty capped at outstanding qty; Inventory History REPLENISHMENT +1/+1 linked to the lot."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.655Z"
+    },
+    {
+      "id": "SCRM-092",
+      "title": "Staff creates an online store order via Add Order (WebPOS) with store pickup",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-092-staff-creates-an-online-store-order-via.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff can create an online order for a member from Orders > Add Order > Add Online Store Order via WebPOS.",
+      "preconditions": [
+        "A QA member exists",
+        "An in-stock product at the online warehouse"
+      ],
+      "data": [
+        "Member and product found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Orders > Add Order > Add Online Store Order via WebPOS (opens a POS tab)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select the QA member and add one product",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Shipping: choose 門市自取, enter an address, pick a pickup store, Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Total and pay by Bank Transfer",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Shipping is accepted and shown on the cart",
+          "status": "fail"
+        },
+        {
+          "text": "A new online order is created in Pending payment with the chosen pickup store",
+          "status": "fail"
+        },
+        {
+          "text": "Total equals subtotal minus member discount plus shipping fee",
+          "status": null
+        }
+      ],
+      "checks": [
+        {
+          "label": "Shipping is accepted and shown on the cart",
+          "pass": false
+        },
+        {
+          "label": "A new online order is created in Pending payment with the chosen pickup store",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Shipping Submit -> \"Oops... error exist!\" (POST /webpos/check-shipping 500), 4/4; Total blocked. No order created."
+      ],
+      "evidence": [
+        "screenshots/SCRM-092-m01-check-shipping-500.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.685Z",
+      "failureType": "product-bug",
+      "bug": "BUG-016"
+    },
+    {
+      "id": "SCRM-093",
+      "title": "Order delivery panel tells staff why Dispatch or Save is refused",
+      "priority": "P2",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-093-order-delivery-panel-tells-staff-why.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Invalid packing actions give feedback instead of silently doing nothing.",
+      "preconditions": [
+        "A QA order in Processing with nothing packed"
+      ],
+      "data": [
+        "Order found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the order Delivery panel and click Dispatch with nothing packed",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pack All, change the parcel qty to more than ordered (e.g. 5 of 1) and click Save",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Dispatch with nothing packed shows a message (e.g. pack items first)",
+          "status": "fail"
+        },
+        {
+          "text": "Save with packed qty above ordered qty shows a message or caps the qty",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Dispatch with nothing packed shows a message (e.g. pack items first)",
+          "pass": false
+        },
+        {
+          "label": "Save with packed qty above ordered qty shows a message or caps the qty",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "TXN0126102700004: both actions silent, no request."
+      ],
+      "evidence": [
+        "screenshots/SCRM-093-m01-order-complete-context.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T09:06:15.724Z",
+      "failureType": "product-bug",
+      "bug": "BUG-018"
+    }
+  ],
+  "notes": "Exploratory session 2026-10-27 (fulfilment, exchange, add order, PO receive). Notes: explorations/2026-10-27-fulfilment-stock.md",
+  "finishedAt": "2026-10-27T09:06:15.857Z",
+  "summary": {
+    "total": 8,
+    "pass": 5,
+    "fail": 3,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

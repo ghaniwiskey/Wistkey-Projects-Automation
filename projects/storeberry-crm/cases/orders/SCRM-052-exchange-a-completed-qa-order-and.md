@@ -7,7 +7,7 @@ tags: [regression, writes, final]
 envs: [staging]
 automated: false
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 ---
 
 ## Goal
@@ -31,3 +31,4 @@ An exchange creates a linked exchange record for a completed QA order.
 
 ## Notes
 Data-changing final scenario. Staging only. Obtain explicit user approval before each run/retry. Use only QA data; never use real customer/payment details. Do not create shipment or fulfillment outside the staging workflow.
+Exchange opens the POS in an iframe side panel on the order page (no accessibility tree; drive it via iframe.webpos-iframe contentDocument). Run 2026-10-27: exchange works, but points deduction is wrong: BUG-017.

@@ -57,3 +57,13 @@ Staging only. Production is read-only.
 - POS tender for tests: Cash only (user, 2026-10-27). Storeberry HK sells from warehouse TEST12; 偈油x10 is untracked and quota (needs a customer).
 - Refund/Void are under order detail Actions. Both reset Delivery Status to Pending on POS sales (BUG-012). Refund is also offered on unpaid orders and does nothing (BUG-013). Unpaid orders are cancelled with Void.
 - Notes: `explorations/2026-10-27-pos-order-lifecycle.md`.
+
+## Fulfilment, exchange, Add Order, PO receive (explored 2026-10-27, afternoon)
+
+- BUG-009 verified: receipt Accept works (detail and bulk). Points are awarded at payment acceptance, not at completion.
+- Fulfilment: order detail > Delivery > Pack All > Save > Dispatch > OK completes a pickup order and deducts stock (DELIVERED). Dispatch with nothing packed and over-qty Save are silently ignored (BUG-018).
+- Exchange / Partial Return opens the POS inside `iframe.webpos-iframe` on the order page (`webpos?exchange_txn_key=<order>&store_id=<store>`); snapshot cannot see it. Drive it through `document.querySelector('iframe.webpos-iframe').contentDocument`. Points deduction on exchange is wrong (BUG-017).
+- Add Order > Add Online Store Order via WebPOS opens a new POS tab (store_id=1). Shipping is mandatory and currently always fails with check-shipping 500 (BUG-016). Aside's screenshot of a popup tab times out unless `page.bringToFront()` is called first.
+- Purchase order form: selecting the Supplier also filters the product picker to that supplier; reset the picker filter to All Suppliers before choosing products. Supplier/Warehouse are select2: click the combobox, then `.select2-results__option`. Receive qty is capped at the outstanding qty.
+- Another tester uses the same `ghani` staff account; identify our records by order/lot number, not staff name.
+- Notes: `explorations/2026-10-27-fulfilment-stock.md`.
