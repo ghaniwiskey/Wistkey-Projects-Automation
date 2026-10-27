@@ -1,0 +1,17 @@
+# Line endings: LF in the repo and in the working tree (Windows tools handle LF), so git stops printing
+# "LF will be replaced by CRLF" warnings. cmd.exe batch files keep CRLF.
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary files: never converted or diffed as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.zip binary
+*.xlsx binary
+*.docx binary
+*.pdf binary
