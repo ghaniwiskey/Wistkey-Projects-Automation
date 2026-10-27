@@ -770,7 +770,8 @@ export function resolveFile(urlPath) {
   if (!r || r.startsWith('..') || path.isAbsolute(r)) return null;
   const seg = r.split(path.sep);
   if (seg.some((s) => s.startsWith('.'))) return null;
-  const allowed = (seg[0] === 'projects' && ['runs', 'bugs'].includes(seg[2])) || seg[0] === 'reports';
+  // explorations/: bug reports link their screenshots there (qa-explore skill), so it must be served too.
+  const allowed = (seg[0] === 'projects' && ['runs', 'bugs', 'explorations'].includes(seg[2])) || seg[0] === 'reports';
   if (!allowed || !fs.existsSync(abs) || !fs.statSync(abs).isFile()) return null;
   return abs;
 }
