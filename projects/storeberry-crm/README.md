@@ -78,3 +78,4 @@ Staging only. Production is read-only.
 - Notes: `explorations/2026-10-27-stock-movement.md`.
 - Appointments (2026-10-27): CRM appointment pages call cmsapiv2.storeberry.ai and currently get 403 (BUG-022). Customer booking is on the eShop at `/appointment` (resource 3 "Course").
 - Loyalty cash dollar: 100 points = $100, max $100 per order; voiding the order returns the points.
+- Courses & Enrolment > Status List: the Details/Order links wrap over two lines; click the link text (not the centre of the box) or call element.click(). Details = /bookings/bookings-detail?id=<enrolment>.

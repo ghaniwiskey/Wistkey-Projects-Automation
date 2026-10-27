@@ -206,15 +206,15 @@
         }
       ],
       "notes": [
-        "Details and Order do nothing on any row."
+        "Details and Order do nothing on any row.",
+        "Re-checked 2026-10-27 ~19:50 HKT: not a product bug. The link wraps over two lines (icon, then text); automated clicks hit the empty centre of its box (the table cell). Clicking the word itself opens bookings-detail?id=388 and orders/detail?id=11005. BUG-023 withdrawn."
       ],
       "evidence": [
         "screenshots/SCRM-097-m01-status-list.jpg"
       ],
       "durationMs": 0,
       "executedAt": "2026-10-27T11:38:01.465Z",
-      "failureType": "product-bug",
-      "bug": "BUG-023"
+      "failureType": "test-issue"
     },
     {
       "id": "SCRM-031",

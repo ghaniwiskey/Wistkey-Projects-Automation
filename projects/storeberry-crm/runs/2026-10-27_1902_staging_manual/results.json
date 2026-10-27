@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "recheck-scrm-097",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1902_staging_manual",
+  "startedAt": "2026-10-27T12:02:21.551Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-097",
+      "title": "Status List Details and Order links open the enrolment and its order",
+      "priority": "P1",
+      "feature": "courses",
+      "file": "projects/storeberry-crm/cases/courses/SCRM-097-status-list-details-and-order-links.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can open an enrolment and its order from Courses & Enrolment > Status List.",
+      "preconditions": [
+        "At least one enrolment exists"
+      ],
+      "data": [
+        "Any enrolment row"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Courses & Enrolment > Status List",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Details on a row",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Go back and click Order on the same row",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Details opens the enrolment (session, learner, status)",
+          "status": "pass"
+        },
+        {
+          "text": "Order opens the linked order detail",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Details opens the enrolment (session, learner, status)",
+          "pass": true
+        },
+        {
+          "label": "Order opens the linked order detail",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Details (on the word) -> Member Details page for MEMy001164526 with enrolment 388 (QA Course Retest, 2026-10-31 15:00-16:00, Sat Horse Class, Complete, Attend button). Order -> orders/detail?id=11005. Note for automation: click the link text (getClientRects), not the centre of the <a> box."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T12:02:21.587Z"
+    }
+  ],
+  "notes": "Recheck of BUG-023 (withdrawn)",
+  "finishedAt": "2026-10-27T12:02:21.617Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

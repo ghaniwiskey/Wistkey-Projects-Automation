@@ -29,4 +29,4 @@ Staff can open an enrolment and its order from Courses & Enrolment > Status List
 - Order opens the linked order detail
 
 ## Notes
-Read-only. Currently fails: BUG-023 (2026-10-27).
+Read-only. Verified 2026-10-27: both links work. Details opens bookings-detail?id=<enrolment> (Member Details with the session and an Attend button); Order opens orders/detail. Automation: the link wraps over two lines, so click the link text, not the centre of its box (that lands on the table cell and does nothing).

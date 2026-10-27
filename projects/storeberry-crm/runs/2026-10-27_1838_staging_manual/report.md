@@ -21,7 +21,7 @@
 |---|---|---|---|---|---|---|
 | SCRM-096 | Member buys a course on the eShop and is enrolled after payment is accepted | pass | 3/3 | 0.0s | - | - |
 | SCRM-064 | Reject enrollment when a course session is full | pass | 2/2 | 0.0s | - | - |
-| SCRM-097 | Status List Details and Order links open the enrolment and its order | fail | 0/2 | 0.0s | product-bug; BUG-023 | [1](screenshots/SCRM-097-m01-status-list.jpg) |
+| SCRM-097 | Status List Details and Order links open the enrolment and its order | fail | 0/2 | 0.0s | test-issue | [1](screenshots/SCRM-097-m01-status-list.jpg) |
 | SCRM-031 | Sales report updates by channel and date period | pass | 2/2 | 0.0s | - | - |
 | SCRM-032 | Payment report separates payments, refunds, and net amounts | pass | 2/2 | 0.0s | - | - |
 | SCRM-033 | Top-products report ranks results for the selected period | pass | 2/2 | 0.0s | - | - |
@@ -32,11 +32,12 @@
 
 ### SCRM-097: Status List Details and Order links open the enrolment and its order (fail)
 
-- Failure type: product-bug (bug BUG-023)
+- Failure type: test-issue
 - Source: `projects/storeberry-crm/cases/courses/SCRM-097-status-list-details-and-order-links.md`
 - Failed: Details opens the enrolment (session, learner, status)
 - Failed: Order opens the linked order detail
 - Note: Details and Order do nothing on any row.
+- Note: Re-checked 2026-10-27 ~19:50 HKT: not a product bug. The link wraps over two lines (icon, then text); automated clicks hit the empty centre of its box (the table cell). Clicking the word itself opens bookings-detail?id=388 and orders/detail?id=11005. BUG-023 withdrawn.
 
 ![SCRM-097](screenshots/SCRM-097-m01-status-list.jpg)
 
