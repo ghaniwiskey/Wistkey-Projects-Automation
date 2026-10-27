@@ -5,7 +5,7 @@ severity: critical
 status: open
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/stock-take/create"
-updated: 2026-10-27T10:07:10.196Z
+updated: 2026-10-27T10:18:23.995Z
 found: 2026-10-27T10:07:10.196Z
 foundBy: "explorations/2026-10-27-stock-movement.md"
 tests: [SCRM-030]
@@ -35,3 +35,4 @@ Only "-- Select mapped stock take user --"; endpoint returns users []. Same for 
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-stock-movement.md in the Test Manager app.
+- 2026-10-27: Confirmed as a product bug by the user; stays open until a fix is deployed.
