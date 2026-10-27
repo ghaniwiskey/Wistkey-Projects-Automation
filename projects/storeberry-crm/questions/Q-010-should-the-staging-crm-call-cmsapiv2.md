@@ -7,7 +7,8 @@ env: staging
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
 tests: []
-bugs: [BUG-005]
+bugs: [BUG-005, BUG-022]
+updated: 2026-10-27T10:45:09.565Z
 answered: ""
 ---
 ## Question
@@ -21,3 +22,4 @@ Not answered yet.
 
 ## History
 - 2026-10-27: asked from explorations/2026-10-27-crm-eshop-critical.md.
+- 2026-10-27: Appointments also call cmsapiv2.storeberry.ai and get 403 code 2208 on staging (BUG-022).

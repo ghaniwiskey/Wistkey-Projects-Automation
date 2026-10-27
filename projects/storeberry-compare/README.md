@@ -47,3 +47,4 @@ Staging only. Production is read-only.
 - Plus-addressed emails (`name+tag@...`) are refused at guest checkout with only "Please fill all required info" (BUG-012); use dotted unique emails for test data.
 - 門市自取 requires an Address (Q-007). Receipt upload in automation: use `input[name=receipt_img]` ("Or Choose File") then Submit.
 - Notes: `explorations/2026-10-27-cart-payment-review.md`.
+- Promotions at checkout (2026-10-27): basket 全單買滿$1000減$300, VIP888 (605/606), free gift 631 at net $800, add-on 620 at $1000. After removing an item the add-on block can show the wrong product until reload (BUG-013).

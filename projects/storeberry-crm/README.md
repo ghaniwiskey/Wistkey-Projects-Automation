@@ -76,3 +76,5 @@ Staging only. Production is read-only.
 - Payment review reject: order detail > Receipt tab > comment > Deny > OK -> Payment Rejected; the comment reaches the customer's Order Tracking.
 - Another tester (jacky) moves the same products at the same time; reconcile stock by transfer number in Inventory History, not by totals alone.
 - Notes: `explorations/2026-10-27-stock-movement.md`.
+- Appointments (2026-10-27): CRM appointment pages call cmsapiv2.storeberry.ai and currently get 403 (BUG-022). Customer booking is on the eShop at `/appointment` (resource 3 "Course").
+- Loyalty cash dollar: 100 points = $100, max $100 per order; voiding the order returns the points.

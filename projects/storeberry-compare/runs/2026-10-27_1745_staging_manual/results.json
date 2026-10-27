@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-promotions",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1745_staging_manual",
+  "startedAt": "2026-10-27T10:45:09.892Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-020",
+      "title": "Checkout add-on offers refresh correctly after removing a cart item",
+      "priority": "P2",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-020-checkout-add-on-offers-refresh.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "After a cart item is removed, the promotion add-on section only offers products of promotions the cart still qualifies for, at their correct price.",
+      "preconditions": [
+        "Logged-in member; active add-on promotions 650 (reach $100) and 620 (reach $1000, 水晶手串1 at $0)"
+      ],
+      "data": [
+        "Product C (HKD 600) and product test 2 (HKD 1,000), found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add C and product test 2 to the cart and open /checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove product test 2 with the row remove icon",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the add-on section without reloading",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The \"promotion\" add-on lists its own Group B products (9吋公仔 A/B, 巨寶 A/B, Shoes C at HKD 100)",
+          "status": "fail"
+        },
+        {
+          "text": "No product from a promotion the cart no longer qualifies for is offered",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The \"promotion\" add-on lists its own Group B products (9吋公仔 A/B, 巨寶 A/B, Shoes C at HKD 100)",
+          "pass": false
+        },
+        {
+          "label": "No product from a promotion the cart no longer qualifies for is offered",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Stale 水晶手串1 HKD 0.00 shown under \"promotion\" after removing product test 2 (twice)."
+      ],
+      "evidence": [
+        "screenshots/SBF-020-m01-stale-addon.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:45:09.907Z",
+      "failureType": "product-bug",
+      "bug": "BUG-013"
+    }
+  ],
+  "notes": "Exploratory: promotions at checkout",
+  "finishedAt": "2026-10-27T10:45:09.937Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-appointments-loyalty-prom",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1745_staging_manual",
+  "startedAt": "2026-10-27T10:45:09.637Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-059",
+      "title": "Book an available appointment slot for a QA customer",
+      "priority": "P1",
+      "feature": "appointments",
+      "file": "projects/storeberry-crm/cases/appointments/SCRM-059-book-an-available-appointment-slot-for.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A QA customer can book an available resource/service slot and receive a recorded appointment.",
+      "preconditions": [
+        "A staging appointment resource and service have an available slot.",
+        "The staging notification route is confirmed safe for a non-routable QA contact."
+      ],
+      "data": [
+        "QA customer with example.invalid email and test-only phone.",
+        "Available resource, service, date, and time selected dynamically."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Appointments.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose an available resource, service, date, and time.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter QA-only contact details and submit the booking.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the new appointment record.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The appointment record shows the selected service, resource, date, and time.",
+          "status": "fail"
+        },
+        {
+          "text": "The appointment has a confirmed/booked state and is linked to the QA customer.",
+          "status": "fail"
+        },
+        {
+          "text": "No message reaches a real person.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The appointment record shows the selected service, resource, date, and time.",
+          "pass": false
+        },
+        {
+          "label": "The appointment has a confirmed/booked state and is linked to the QA customer.",
+          "pass": false
+        },
+        {
+          "label": "No message reaches a real person.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "CRM Appointments cannot show anything (403 on all appointment APIs). Booked instead from the eShop as guest Siu Ming Wong (example.com): resource Course, service Thai, 2026-10-29 14:00-14:30 -> \"Your appointment is scheduled\", record page token f99476b6...; validation OK (required fields, numeric mobile, email format). Overlapping slots 13:45/14:00/14:15 disappear afterwards. Not visible in the CRM."
+      ],
+      "evidence": [
+        "screenshots/SCRM-059-m01-appointments-empty-403.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:45:09.671Z",
+      "failureType": "product-bug",
+      "bug": "BUG-022"
+    },
+    {
+      "id": "SCRM-066",
+      "title": "Redeem loyalty points and reconcile balance and checkout discount",
+      "priority": "P1",
+      "feature": "loyalty",
+      "file": "projects/storeberry-crm/cases/loyalty/SCRM-066-redeem-loyalty-points-and-reconcile.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Redeeming available QA loyalty points applies the configured value and updates the member balance once.",
+      "preconditions": [
+        "A dedicated staging QA member has sufficient points and a sandbox checkout method is available."
+      ],
+      "data": [
+        "QA member selected dynamically.",
+        "Eligible product and point amount selected within the current redemption rules."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Record the QA member points balance and redemption conversion rule.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add an eligible product to an isolated cart and apply the selected points.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the checkout discount and complete only through the documented sandbox method.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the member balance and order history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The discount matches the configured point conversion.",
+          "status": "pass"
+        },
+        {
+          "text": "The member balance decreases by the redeemed points exactly once.",
+          "status": "pass"
+        },
+        {
+          "text": "The order history links the redemption to the QA order.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The discount matches the configured point conversion.",
+          "pass": true
+        },
+        {
+          "label": "The member balance decreases by the redeemed points exactly once.",
+          "pass": true
+        },
+        {
+          "label": "The order history links the redemption to the QA order.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "New member MEMy001164526 (500 register points). Rule: 100 points = $100, max $100 per order; entering 150 is clamped to 100. Applied $100 on product test 2 (HKD 1,000, basket -300) -> total 600; Bank Transfer order TXN0126102700019; CRM shows Cash dollar -$100 and total $600. Point History \"Cash Dollar, Order no. TXN0126102700019, -100\" -> 400. Voided in CRM -> \"Void - Cash Dollar +100\" -> 500 (no order no. on the void line)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:45:09.741Z"
+    },
+    {
+      "id": "SCRM-035",
+      "title": "Eligible cart items receive the promotion-code discount",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-035-eligible-cart-items-receive-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An eligible product receives the discount defined by an active promotion code in the storefront cart.",
+      "preconditions": [
+        "An active code-based promotion and an eligible product are available in staging."
+      ],
+      "data": [
+        "Active promotion code and eligible product selected from current storefront data."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the staging storefront in a clean, isolated test session.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose an active promotion that has a code and identify an eligible product.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add the eligible product to the isolated cart and enter the promotion code.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the cart discount and remove the test item.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The code is accepted for the eligible item and the displayed discount matches the promotion rule.",
+          "status": "pass"
+        },
+        {
+          "text": "The cart total is recalculated.",
+          "status": "pass"
+        },
+        {
+          "text": "Removing the test item leaves the isolated cart empty and no order is created.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The code is accepted for the eligible item and the displayed discount matches the promotion rule.",
+          "pass": true
+        },
+        {
+          "label": "The cart total is recalculated.",
+          "pass": true
+        },
+        {
+          "label": "Removing the test item leaves the isolated cart empty and no order is created.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "VIP888 on product C (HKD 600): line -> HKD 580 (606, -$20 each) plus order -$20 (605) -> HKD 560. 607 (20% off) not applied: asked as storeberry-compare question. Cart emptied afterwards, no order."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:45:09.775Z"
+    },
+    {
+      "id": "SCRM-036",
+      "title": "Free-gift promotion offers its gift when the threshold is met",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-036-free-gift-promotion-offers-its-gift.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An eligible cart displays the configured free gift when the promotion threshold is reached.",
+      "preconditions": [
+        "An active free-gift promotion with an attainable threshold and eligible products is available in staging."
+      ],
+      "data": [
+        "Promotion threshold and eligible product group selected from current staging data."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the staging storefront in a clean, isolated test session.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose an active free-gift promotion and its eligible product group.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add eligible products until the displayed promotion threshold is met.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the cart gift offer, then remove the test items.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The qualifying cart displays the gift selection or gift item specified by the promotion.",
+          "status": "pass"
+        },
+        {
+          "text": "The promotion is not offered before its threshold is met.",
+          "status": "pass"
+        },
+        {
+          "text": "Removing the test items leaves the isolated cart empty and no order is created.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The qualifying cart displays the gift selection or gift item specified by the promotion.",
+          "pass": true
+        },
+        {
+          "label": "The promotion is not offered before its threshold is met.",
+          "pass": true
+        },
+        {
+          "label": "Removing the test items leaves the isolated cart empty and no order is created.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Promotion 631 (net >= $800, pick 1 of Group A): not offered at net HKD 560, offered at net HKD 1,260 (C + product test 2); gift ewqe added at HKD 0.00 (1/1). 630 ($1,500 net) correctly not offered. Removing product test 2 removed the gift automatically. Cart emptied, no order. Stale add-on after removal: storeberry-compare BUG-013."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T10:45:09.808Z"
+    }
+  ],
+  "notes": "Exploratory: appointments, loyalty redemption, promotions",
+  "finishedAt": "2026-10-27T10:45:09.843Z",
+  "summary": {
+    "total": 4,
+    "pass": 3,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
