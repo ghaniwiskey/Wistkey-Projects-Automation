@@ -39,7 +39,7 @@ export function lintProject(p, prefixes) {
     if (/^(prod|production|live)$/i.test(name) && env.allowWrites) W.push(`project.yaml: env "${name}" allows writes; confirm this is intended`);
     if (u.pathname.length > 1 && !u.pathname.endsWith('/')) W.push(`project.yaml: env "${name}" baseUrl has a sub-path without a trailing slash; relative URLs will resolve outside it`);
   }
-  // Playwright specs (POM, see .agents/skills/playwright-e2e): selectors live in page objects, specs read like user journeys.
+  // Playwright specs (POM, see .agents/skills/qa-write-tests Part B): selectors live in page objects, specs read like user journeys.
   const specIds = new Map();
   for (const s of p.specs) {
     for (const id of s.ids) {

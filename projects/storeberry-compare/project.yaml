@@ -14,7 +14,7 @@ envs:
     baseUrl: https://storeberry-flower.mystoreberry.com/
     allowWrites: false
 
-# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
 # A test links to a test case when its title starts with the ID: test('SBF-001: ...').
 playwright:
   testDir: tests/e2e

@@ -4,11 +4,11 @@ import path from 'node:path';
 import YAML from 'yaml';
 
 // Multi-project config: every projects/<slug>/project.yaml becomes a Playwright project named <slug>.
-//   npx playwright test                              all projects, each on its defaultEnv
-//   npx playwright test --project=scg-store          one project
-//   npx playwright test --grep @smoke                the smoke suite everywhere
-//   QA_ENV=staging npx playwright test               another env (PowerShell: $env:QA_ENV='staging')
-//   SCG_BASE_URL=https://... npx playwright test     override one project's base URL (<PREFIX>_BASE_URL)
+//   .\qa test                                        all projects, each on its defaultEnv (elsewhere: npx playwright test)
+//   .\qa test --project=scg-store                    one project
+//   .\qa test --grep '@smoke'                        the smoke suite everywhere
+//   $env:QA_ENV='staging'; .\qa test                 another env
+//   $env:SCG_BASE_URL='https://...'; .\qa test       override one project's base URL (<PREFIX>_BASE_URL)
 
 // Credentials and overrides from .env (Node 20.12+ built-in, no dotenv needed)
 try {

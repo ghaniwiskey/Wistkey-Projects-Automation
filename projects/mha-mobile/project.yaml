@@ -26,7 +26,7 @@ envs:
     mobileAccount: MHM_HTA
     webAccount: HTA
 
-# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
 # A test links to a test case when its title starts with the ID: test('MHM-001: ...').
 # runner mobilewright: the tests drive the app on the emulator and run with projects/mha-mobile/playwright.config.ts
 # (npm run test:mhm); the root playwright.config.ts skips this project. See README.md.

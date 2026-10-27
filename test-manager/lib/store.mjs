@@ -873,6 +873,6 @@ export function playwrightTarget(slug, envName) {
   const { p, m } = project(slug);
   const env = envName || m.cfg.defaultEnv;
   const e = (m.cfg.envs || {})[env] || bad(`Unknown environment "${env}"`);
-  if (!p.specs.length) bad(`No Playwright specs found in ${rel(p.specDir)}. Write a POM spec there first (see .agents/skills/playwright-e2e).`);
+  if (!p.specs.length) bad(`No Playwright specs found in ${rel(p.specDir)}. Write a POM spec there first (see .agents/skills/qa-write-tests, Part B).`);
   return { pwProjects: playwrightProjectsOf(m.cfg, slug), env, baseUrl: e.baseUrl, allowWrites: !!e.allowWrites };
 }

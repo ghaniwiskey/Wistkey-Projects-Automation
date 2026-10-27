@@ -4,7 +4,7 @@ SCG online store at https://scg.next.mystoreberry.com (Storeberry, Astro). Test 
 
 - Smoke: open store -> log in -> search "RA-TECH WE M14 CNC steel Gas Cylinder Plug | NO.72" -> add to cart -> verify cart (`SCG-001`, `tests/e2e/cart/add-to-cart.spec.ts`).
 - Credentials: `SCG_EMAIL` / `SCG_PASSWORD` in the root `.env`.
-- Run: `npx playwright test --project=scg-store`
+- Run: `.\qa test --project=scg-store` (at most 2 runs per 10 minutes, see Firewall below)
 
 ## Site quirks handled
 

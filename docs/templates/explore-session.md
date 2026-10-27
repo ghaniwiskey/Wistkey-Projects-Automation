@@ -18,11 +18,12 @@ What was actually exercised, in the order explored. Mention the heuristics used 
 | # | Type | Summary | Severity | Link |
 |---|---|---|---|---|
 | 1 | bug | ... | major | bugs/BUG-004-... |
-| 2 | question | Is X intended? | - | - |
-| 3 | risk | Area Y has no validation on Z | - | - |
+| 2 | question | Is X intended? | - | questions/Q-003-... |
+| 3 | risk | Area Y has no validation on Z | - | cases/.../ID-031-... |
 
-## New test ideas
-- [ ] Idea, suggested priority and tags. Promote to cases/ with the qa-write-tests skill.
+## Test cases written
+- ID-031 title (P2, regression): every risk, gap and test idea of the session becomes a case right away (qa-write-tests).
 
-## Knowledge updates
-- Quirks and routes added to the project's README.md / context.md; selectors worth adding to page objects.
+## Knowledge and data
+- Facts merged into the project's README.md / context files (docs/conventions.md > Knowledge files).
+- QA data left on the env (IDs, why kept, how to clean up).

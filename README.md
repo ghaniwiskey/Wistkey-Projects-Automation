@@ -6,27 +6,16 @@ One Playwright setup for several apps under test. Each app is a self-contained f
 
 ## How Aside fits in
 
-Aside is the QA engineer at the keyboard; Playwright is the test runner. The tests themselves are standard `@playwright/test` code, so they run the same from Aside, a terminal or CI, with no Aside dependency.
+Aside is the QA engineer at the keyboard; Playwright is the test runner. The tests are standard `@playwright/test` code, so they run the same from Aside, a terminal or CI, with no Aside dependency.
 
-| Aside does | Using |
-|---|---|
-| Explores the live app in Aside's browser: maps pages, finds stable selectors, spots bugs and console/API errors | Aside browser (snapshots, screenshots, real user session) |
-| Designs test cases from tickets, user manuals or the live page, in the project's format | `.agents/skills/qa-write-tests` + `docs/conventions.md` |
-| Automates cases as POM Playwright tests: page objects, fixtures, specs linked by test ID | `qa-write-tests` (Part B) + `.agents/skills/playwright-e2e` |
-| Runs suites, reproduces failures by hand in its browser, decides product-bug / test-issue / environment, fixes stale page objects, files or links bugs, retests fixes | `.agents/skills/qa-run-tests` |
-| Runs time-boxed exploratory sessions and turns findings into bugs and new cases | `.agents/skills/qa-explore` + `docs/exploratory-heuristics.md` |
-| Keeps project knowledge current (site quirks, waits, routes) | project `README.md` / `context.md` |
+| You say | Skill (`.agents/skills/`) | What Aside does |
+|---|---|---|
+| "Write test cases for asset assignment in mha-spf" (+ ticket, manual section or page) | `qa-write-tests` Part A | Designs cases from the source, writes them through the Test Manager store, lints |
+| "Automate SPF-002" | `qa-write-tests` Part B | Page objects, fixture, spec titled `SPF-002: ...`, two green runs |
+| "Run the scg-store smoke tests" / "retest BUG-003" | `qa-run-tests` | Runs Playwright, triages failures (product-bug / test-issue / environment), fixes stale page objects, files or links bugs |
+| "Explore the cart for 20 minutes" | `qa-explore` | Charter-based bug hunt in Aside's browser; bugs, cases and session notes in `projects/<slug>/explorations/` |
 
-Just ask in Aside:
-
-| You say | Skill |
-|---|---|
-| "Write test cases for asset assignment in mha-spf" (+ ticket, manual section or page) | `qa-write-tests`: designs cases, writes them via the Test Manager store, lints |
-| "Automate SPF-002" | `qa-write-tests` Part B: page objects, fixture, spec titled `SPF-002: ...`, two green runs |
-| "Run the scg-store smoke tests" / "retest BUG-003" | `qa-run-tests`: runs Playwright, triages failures, fixes stale page objects, files or links bugs |
-| "Explore the cart for 20 minutes" | `qa-explore`: charter-based bug hunt in Aside's browser, session notes in `projects/<slug>/explorations/` |
-
-Without Aside, everything below still works by hand: `npm test`, the Test Manager app, and the docs.
+Rules for cases, results, triage, bugs, safety and notes: [docs/conventions.md](docs/conventions.md). Without Aside everything still works by hand: the commands below, the Test Manager app and the docs.
 
 ## Setup
 
@@ -38,22 +27,24 @@ cp .env.example .env   # then fill in the credentials (SCG_EMAIL / SCG_PASSWORD,
 
 ## Run
 
-```bash
-npm run test:auto                         # run, then ask for AI only if a test is really broken (below)
-npm test                                  # every project, each on its defaultEnv
-npx playwright test --project=scg-store   # one project
-npm run test:smoke                        # @smoke tests of every project
-npm run test:headed / test:ui / report    # headed, UI mode, last HTML report
-npm run tm                                # Test Manager at http://127.0.0.1:7358/ (or "Start Test Manager.cmd")
-npm run typecheck                         # TypeScript check of specs, page objects, fixtures, shared/ and the config
-npm run check                             # typecheck + tm:lint (run before every commit)
+PowerShell entry point `.\qa` (`qa.ps1`; calls node.exe directly, so arguments such as `--grep "A:|B:"` survive). `.\qa help` lists every command.
+
+```powershell
+.\qa auto                                   # run, then ask for AI only if a test is really broken (below); npm run test:auto
+.\qa test                                   # every project, each on its defaultEnv; npm test
+.\qa test --project=scg-store --grep '@smoke'   # one project, one suite (quote @smoke in PowerShell)
+.\qa test --headed / --ui                   # headed, UI mode
+npm run report                              # last Playwright HTML report
+npm run tm                                  # Test Manager at http://127.0.0.1:7358/ (or "Start Test Manager.cmd")
+.\qa check                                  # typecheck + lint (run before every commit)
+.\qa tests|bugs|questions|runs <slug>       # one line per item; .\qa failures <slug> for a run's failures
 ```
 
-PowerShell env switches: `$env:QA_ENV='staging'` (run every project on that env), `$env:SCG_BASE_URL='https://...'` (override one project's URL, `<PREFIX>_BASE_URL`), `$env:QA_WORKERS=2` (default 1, since projects may share test accounts), `$env:QA_AUTH_MAX_AGE_MIN=0` (always log in again, see below).
+Env switches: `$env:QA_ENV='staging'` (run every project on that env), `$env:SCG_BASE_URL='https://...'` (override one project's URL, `<PREFIX>_BASE_URL`), `$env:QA_WORKERS=2` (default 1, since projects may share test accounts), `$env:QA_AUTH_MAX_AGE_MIN=0` (always log in again, see below).
 
 ## Run tests, use AI only when something broke
 
-`npm run test:auto` (or double-click **Run Tests.cmd**; Playwright arguments pass through, e.g. `npm run test:auto -- --project=scg-store --grep @smoke`) runs plain Playwright on this PC with one retry. No AI is involved, and nothing starts Aside on its own. Afterwards it sorts the results:
+`.\qa auto` (or double-click **Run Tests.cmd**; Playwright arguments pass through, e.g. `.\qa auto --project=scg-store --grep '@smoke'`) runs plain Playwright on this PC with one retry. No AI is involved, and nothing starts Aside on its own. Afterwards it sorts the results:
 
 | Result | What happens | Exit code |
 |---|---|---|
@@ -61,68 +52,66 @@ PowerShell env switches: `$env:QA_ENV='staging'` (run every project on that env)
 | Only environment problems (site firewall 403, site down, 5xx, missing `.env` values) | Marked `environment` in the run automatically; rerun later | 2 |
 | Broken (failed twice, not the environment) | Saves a heal request `reports/heal/<stamp>.json` and copies a prompt to the clipboard: *Heal the broken tests in reports/heal/...* | 1 |
 
-Paste that prompt into an Aside task in this project when you want the tests fixed. Aside (skill `qa-run-tests`, Heal mode) works only on those tests: reproduces each failure in its browser, fixes outdated page objects or files a bug for a real product problem, reruns until green, then commits and pushes. When you ask Aside to "run the tests", it uses the same script and stops with a short summary if nothing is broken.
+Paste that prompt into an Aside task in this project when you want the tests fixed. Aside (`qa-run-tests`, Heal mode) works only on those tests: reproduces each failure in its browser, fixes outdated page objects or files a bug for a real product problem, reruns until green, then commits and pushes. When you ask Aside to "run the tests", it uses the same script and stops with a short summary if nothing is broken.
 
 ## Login sessions (log in once, reuse)
 
 Tests that need a logged-in user but are not testing the login itself start already logged in. They opt in through their project's fixture:
 
 ```ts
-test.use({ role: 'logs1' });   // mha-spf: logged in, LOGS1 active, on the dashboard
+test.use({ role: 'logs1' });   // mha-spf / mha-hta: logged in, LOGS1 active, on the dashboard
 test.use({ loggedIn: true });  // scg-store: logged in as the SCG test account
 ```
 
 - The first such test logs in once through the page objects and saves the session (cookies + localStorage) to `playwright/.auth/<project>/<env>/<account>.json` (gitignored). Later tests and later runs reuse it for up to 30 minutes (`QA_AUTH_MAX_AGE_MIN`), after checking it is still valid; otherwise they log in again. Fewer logins means faster runs and fewer requests to sites with a firewall (SCG).
 - Tests of the login itself (SCG-001, SPF-001) do not opt in and start logged out.
-- **mha-spf allows one session per account.** Any newer login of the same account (SPF-001, a person, Aside's browser) ends the saved session; the `role` fixture notices (role switch lands on the login page), logs in again and re-saves the session.
+- **MHA allows one session per account.** Any newer login of the same account (SPF-001, a person, Aside's browser) ends the saved session; the `role` fixture notices (role switch lands on the login page), logs in again and re-saves the session.
 - Shared code: `shared/auth/session.ts` (`savedSession`, `resaveSession`, `forgetSession`). New projects copy the pattern from `projects/scg-store/tests/fixtures/pages.fixture.ts`.
 
 ## Structure
 
 ```
 playwright.config.ts           one Playwright project per projects/<slug>/project.yaml (name = slug)
+qa.ps1                         PowerShell entry point: .\qa <command> (test-manager/cli.mjs)
 tsconfig.json                  "@shared/*" import alias
-shared/                        helpers for every project (import from '@shared/...')
+shared/                        code for several projects (import from '@shared/...')
   pages/app.page.ts            generic base page (navigate + HTTP error check)
   utils/env.ts                 requireEnv() for credentials from .env
   auth/session.ts              log in once and reuse the session (storageState) across tests and runs
 projects/
-  _template/                   copied for new projects (Test Manager "New project" or npm run tm:new)
+  _template/                   copied for new projects (Test Manager "New project" or .\qa new)
   scg-store/                   one app under test
     project.yaml               name, testIdPrefix (SCG), envs, Playwright options (browsers, viewport...), suites, accounts
-    README.md                  app notes and site quirks
-    tests/                     Playwright POM suite (.agents/skills/playwright-e2e)
+    README.md (+ context.md)   app notes: envs, accounts, how to run; behavior, quirks, test data (docs/conventions.md > Knowledge files)
+    tests/                     Playwright POM suite (.agents/skills/qa-write-tests Part B)
       e2e/<feature>/*.spec.ts  specs; titles start with the test case ID: 'SCG-001: ... @smoke'
       pages/*.page.ts          page objects: selectors and actions
       fixtures/                page objects as fixtures
       utils/                   test data
     cases/<feature>/           test cases  SCG-NNN-<slug>.md
-    plans/ bugs/ runs/         test plans, bug reports, run results (written by the Playwright reporter)
-test-manager/                  Test Manager web app (see test-manager/README.md); run-auto.mjs = npm run test:auto
-Run Tests.cmd                  double-click: npm run test:auto
+    plans/ bugs/ questions/    test plans, bug reports, open questions
+    runs/                      run results (results.json, report.md, screenshots; traces and report.html stay local)
+    explorations/              exploratory session notes and screenshots
+test-manager/                  Test Manager web app and CLI (see test-manager/README.md); run-auto.mjs = .\qa auto
+Run Tests.cmd                  double-click: test:auto (test-manager/run-auto.mjs), no AI
 docs/
-  conventions.md               priorities, severities, statuses, failure types, test case and bug rules
+  conventions.md               rules: cases, tags, priorities, severities, statuses, triage, bugs, questions, safety, notes, finishing
   exploratory-heuristics.md    test ideas by category (test design and exploratory sessions)
   templates/                   test-case.md, bug-report.md, explore-session.md
-.agents/skills/                Aside skills: playwright-e2e (POM code style), qa-write-tests, qa-run-tests, qa-explore
+.agents/skills/                Aside skills: qa-write-tests, qa-run-tests, qa-explore
 reports/                       generated, gitignored: index.html (overview across projects), playwright-html/ (npm run report),
-                               test-results/ (scratch attachments of the current run), playwright-results.json
+                               test-results/ (attachments of the current run), heal/ (heal requests)
 ```
 
 ## Add a project
 
-```bash
-npm run tm:new -- shop --url https://staging.shop.com/ --name "Shop" --prefix SHOP
-npx playwright test --project=shop      # the template's SHOP-001 home page smoke test
+```powershell
+.\qa new shop --url https://staging.shop.com/ --name "Shop" --prefix SHOP
+.\qa test --project=shop      # the template's SHOP-001 home page smoke test
 ```
 
-Or click **New project** in the Test Manager. You get `projects/shop/` with `project.yaml`, a POM skeleton (home page object, fixture, smoke spec) and its test case. Then add page objects and specs under `projects/shop/tests/`, keep shared code in `shared/`, and never import from another project (`npm run tm:lint` warns).
+Or click **New project** in the Test Manager. You get `projects/shop/` with `project.yaml`, a POM skeleton (home page object, fixture, smoke spec) and its test case. Then add page objects and specs under `projects/shop/tests/`, keep shared code in `shared/`, and never import from another project (`.\qa lint` warns).
 
-## Conventions
+## Code rules in short
 
-Full rules for test cases, results, triage and bugs: [docs/conventions.md](docs/conventions.md). The essentials:
-
-- **POM**: selectors and actions live in page objects; specs read like user journeys and get page objects from fixtures. No `page.waitForTimeout`, no raw `page.locator()` in specs (lint checks).
-- **Test IDs**: `<PREFIX>-NNN`, unique per project prefix. A Playwright test is linked to its test case by the ID at the start of its title.
-- **Tags**: `@smoke`, `@regression`, `@writes` (skipped on envs with `allowWrites: false`).
-- **Secrets**: only in `.env` (gitignored), named `<PREFIX>_...`. `project.yaml` lists usernames and variable names, never passwords.
+Selectors and actions live in page objects; specs read like user journeys and get page objects from fixtures (no `page.waitForTimeout`, no raw `page.locator()` in specs; lint checks). A Playwright test is linked to its test case by the `<PREFIX>-NNN` ID at the start of its title. Tags: `@smoke`, `@regression`, `@writes` (skipped on envs with `allowWrites: false`), `@final` (needs approval per run). Secrets only in `.env` (gitignored), named `<PREFIX>_...`.

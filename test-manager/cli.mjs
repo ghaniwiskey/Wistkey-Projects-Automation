@@ -12,6 +12,7 @@ Run (from the workspace root; the exit code passes through)
   auto [playwright args]        test:auto: one retry, then sorts the results. Exit 0 all good, 1 broken (heal request
                                 in reports/heal/), 2 environment problems only, 3 nothing ran
   mhm [playwright args]         MHA Mobile suite (projects/mha-mobile/playwright.config.ts, mobilewright)
+  trace <trace.zip>             open a Playwright trace in the trace viewer
   typecheck | lint | check      tsc --noEmit | Test Manager lint | both (run check before every commit)
 
 Read (one line per item)
@@ -109,6 +110,7 @@ const commands = {
   test: () => process.exit(run([PW, 'test', ...rest])),
   auto: () => process.exit(run([path.join(ROOT, 'test-manager', 'run-auto.mjs'), ...rest])),
   mhm: () => process.exit(run([PW, 'test', '-c', 'projects/mha-mobile/playwright.config.ts', ...rest])),
+  trace: () => process.exit(run([PW, 'show-trace', ...rest])),
   typecheck: () => process.exit(run([TSC, '--noEmit', '-p', 'tsconfig.json'])),
   lint: async () => process.exit((await lintAll()) ? 1 : 0),
   check: async () => {

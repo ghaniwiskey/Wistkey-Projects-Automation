@@ -12,7 +12,7 @@ envs:
     baseUrl: https://mhauatweb.southeastasia.cloudapp.azure.com/
     allowWrites: true
 
-# Playwright settings for this project (POM suite in tests/, see .agents/skills/playwright-e2e).
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
 # A test links to a test case when its title starts with the ID: test('SPF-001: ...').
 playwright:
   testDir: tests/e2e

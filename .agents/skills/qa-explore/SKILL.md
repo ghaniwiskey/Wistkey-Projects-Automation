@@ -5,13 +5,13 @@ description: "Run a time-boxed exploratory testing session on a project in this 
 
 # Exploratory session
 
-Rules: `docs/conventions.md`. Ideas: `docs/exploratory-heuristics.md`. Session notes: `docs/templates/explore-session.md`. Bugs: `docs/templates/bug-report.md`.
+Rules: `docs/conventions.md`. Ideas: `docs/exploratory-heuristics.md`. Templates: `docs/templates/explore-session.md`, `docs/templates/bug-report.md`. Commands: `.\qa help`.
 
-Exploration happens in Aside's browser (REPL `openTab` / `snapshot` / locator actions). It is not a Playwright run: nothing goes into `runs/`, and it never edits specs or page objects. Findings become bugs, test case ideas, and knowledge notes.
+Exploration happens in Aside's browser (REPL `openTab` / `snapshot` / locator actions). It is not a Playwright run and never edits specs or page objects. Findings become bugs, questions, test cases and knowledge.
 
-1. **Charter and preflight (one turn).** Charter: "Explore <area> with <techniques or data> to discover <risks>". Default timebox: 20 to 30 minutes of browsing. Read `projects/<slug>/project.yaml` (env, `allowWrites`, test accounts), the project's `README.md` / `context.md` (and the relevant part of any user manual in `docs/`), and open bugs (`bugs/`), so known issues are not re-reported.
-2. **Log in** with the project's test account (usernames in project.yaml, secrets in `.env` or Aside Vault; never print passwords). Respect `allowWrites` and the project's safety notes: no real payments, no emails to real people, no deleting shared data.
-3. **Explore** with the heuristics: tour the main journeys first, then vary inputs, states, roles, navigation and data. Keep a running list of findings as you go.
+1. **Charter and preflight (one turn).** Charter: "Explore <area> with <techniques or data> to discover <risks>". Default timebox: 20 to 30 minutes of browsing. Read `projects/<slug>/project.yaml` (env, `allowWrites`, accounts), the project's `README.md` and `context.md` (plus the `context/<area>.md` you explore), and the known issues so they are not re-reported: `.\qa bugs <slug>` (every status; wont-fix = accepted behavior) and `.\qa questions <slug> --open`.
+2. **Log in** with the project's test account (usernames in project.yaml, secrets in `.env` or Aside Vault; never print passwords). Respect `allowWrites` and the project's permissions and safety notes.
+3. **Explore** with the heuristics: tour the main journeys first, then vary inputs, states, roles, navigation and data. Keep a running list of findings.
    - Evidence the moment something looks wrong: `await page.screenshot({ path: '<projects/slug/explorations/YYYY-MM-DD-charter>/NN-short-name.png' })`.
    - JS errors and failed API calls (the UI often swallows them, like SCG's silent 400 on add-to-cart): install a collector after each full page load and read it before leaving the page:
      ```js
@@ -24,15 +24,22 @@ Exploration happens in Aside's browser (REPL `openTab` / `snapshot` / locator ac
      // ... interact ...
      console.log(await page.evaluate(() => window.__qaErrs));
      ```
-     It only sees errors after it is installed and only `fetch` calls (not XHR). For a full picture of a suspicious action, reproduce it in a throwaway Playwright spec with `page.on('console')` / `page.on('response')` then delete the spec and its run folder (`s.deleteRun('<slug>', '<runId>')`) so it does not count in reports.
-   - Accessibility signal: controls that `snapshot` shows without a name or role are the ones `getByRole` cannot target either; note them.
+     It only sees errors after it is installed and only `fetch` (not XHR). For a full picture of a suspicious action, reproduce it in a throwaway spec with `page.on('console')` / `page.on('response')`, then delete the spec and its run (`.\qa call deleteRun <slug> <runId>`).
+   - Accessibility: controls that `snapshot` shows without a name or role cannot be targeted by `getByRole` either; note them.
 4. **Classify each finding:**
-   - **bug**: reproduce it twice, check open bugs for duplicates, then file it with the store (`createBug`, see the qa-run-tests skill) with exact steps, expected vs actual, URL and the screenshot path (`../explorations/<folder>/<file>.png`), `foundBy: explorations/<file>.md`.
-   - **question**: unclear intended behavior; record it in the Test Manager (`createQuestion`, see docs/conventions.md > Questions) and ask the user.
-   - **risk**: fragile or unvalidated area worth covering.
-   - **test idea**: a behavior that deserves a case. Write it as a test case right away (qa-write-tests, `store.createTest`), not only as an unchecked idea in the notes (user rule, 2026-10-28). The same applies to gaps found in coverage reviews or follow-up suggestions.
-5. **Write the session notes** `projects/<slug>/explorations/YYYY-MM-DD-<charter-slug>.md` from the template: scope, coverage notes, findings table with bug links, new test ideas, knowledge updates.
-6. **Write back knowledge:** new quirks, routes and waits into the project's `README.md` / `context.md`; selectors that page objects will need can be listed in the notes for when the case is automated.
-7. **Record results in the Test Manager (always, user rule).** For every case executed during the session, record a manual run per project with `test-manager/lib/store.mjs`: `createManualRun(slug, { env, ids, name: 'exploratory-<date>', tester })` -> `updateManualTest(slug, runId, id, { status, expected: [per-bullet pass/fail], note, failureType, bug })` -> `addManualEvidence` (screenshot data URL) for fails -> `finishManualRun`. Include only cases actually executed; leave partially covered ones out and say so. Fails link their bug (`product-bug`) or stay `untriaged` when it is an open question (link the case in the question's `tests:`). If a bug has no case yet, create the case first (qa-write-tests) and link it via `updateBug(..., { tests })`. Run `test-manager/cli.mjs lint`.
-8. **Commit and push** the session notes, screenshots, bugs and knowledge updates: `git add -A`, `git commit -m "Explore <area>: <n> bugs, <n> test ideas"`, `git push`.
-9. **Report:** top findings with a screenshot, bugs filed, questions for the user. List the cases written this session and offer to automate them.
+   - **bug**: reproduce it twice, check the bug list for duplicates, then file it (`createBug`, see qa-run-tests 4.4) with exact steps, expected vs actual, URL, the screenshot (`../explorations/<folder>/<file>.png`) and `foundBy: explorations/<file>.md`.
+   - **question**: unclear intended behavior; `.\qa call createQuestion <slug> "@<tmp>\q.json"` (conventions > Questions) and ask the user.
+   - **risk / test idea / coverage gap**: write it as a test case right away (qa-write-tests, after a duplicate check, linking related bugs and questions in its Notes); never leave it as an unchecked idea or only in chat (user rule).
+5. **Session notes** `projects/<slug>/explorations/YYYY-MM-DD-<charter-slug>.md` from the template: scope, coverage, findings with links, cases written, knowledge updates, QA data left behind.
+6. **Knowledge:** conventions > Knowledge files (facts by topic into README/context; no dated sections).
+7. **Record the executed cases in the Test Manager (always, user rule):** one manual run per project with only the cases actually executed (leave partly covered ones out and say so):
+   ```powershell
+   .\qa call createManualRun <slug> env=<env> ids=ID-001,ID-002 name=exploratory-<date> tester=Aside     # -> runId
+   .\qa call updateManualTest <slug> <runId> ID-001 status=pass "note=..."                              # expected='["pass","fail"]' per bullet when useful
+   .\qa call updateManualTest <slug> <runId> ID-002 status=fail failureType=product-bug bug=BUG-0NN "note=..."
+   .\qa evidence <slug> <runId> ID-002 <screenshot.png>                                               # every fail
+   .\qa call finishManualRun <slug> <runId>
+   ```
+   Fails link their bug (`product-bug`) or stay `untriaged` when they wait on a question (add the case to the question's `tests:`). A bug without a case: create the case first and link it (`.\qa call updateBug <slug> BUG-0NN tests=ID-001,ID-003`; `tests=` replaces the list, so pass every linked ID). Then `.\qa lint`.
+8. **Finish:** conventions > Finish (`Explore <area>: <n> bugs, <n> cases`).
+9. **Report:** top findings with a screenshot, bugs filed, questions for the user, cases written (offer to automate them).
