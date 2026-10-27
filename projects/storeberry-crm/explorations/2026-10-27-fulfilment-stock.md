@@ -35,9 +35,9 @@ status: done
 - [x] SCRM-091 Fulfil a paid online pickup order: pack, dispatch and complete (P0)
 - [x] SCRM-092 Staff creates an online store order via Add Order (WebPOS) with store pickup (P0)
 - [x] SCRM-093 Order delivery panel tells staff why Dispatch or Save is refused (P2)
-- [ ] Partial exchange (1 of n items) and exchange to a more expensive item (customer pays the difference) (P1)
-- [ ] Home delivery fulfilment with a waybill / tracking code (ShipAny, SF) once BUG-016 is fixed (P1)
-- [ ] Transfer ship/receive and replenish approve with our own records (SCRM-028, SCRM-029), not reached today
+- [x] Partial exchange (1 of n items) and exchange to a more expensive item (customer pays the difference) (P1) -> case SCRM-128
+- [x] Home delivery fulfilment with a waybill / tracking code (ShipAny, SF) once BUG-016 is fixed (P1) -> case SCRM-130
+- [x] Transfer ship/receive and replenish approve with our own records (SCRM-028, SCRM-029), not reached today -> case SCRM-028, SCRM-029 (run 2026-10-27)
 
 ## Test data left on staging
 - TXN0126102700004 Complete + exchange TXN1126102700004 (refund 40.50 Cash); TXN0126102700002A Processing (paid, not dispatched).

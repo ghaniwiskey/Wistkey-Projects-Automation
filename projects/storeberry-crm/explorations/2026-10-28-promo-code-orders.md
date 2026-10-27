@@ -47,7 +47,7 @@ status: done
 - [x] SCRM-112 paid code order earns points on the net total; refund reverses points, spending, stock (P1) - pass (round 2)
 - [x] SCRM-114 Online Shop-only code refused in Web POS (P1) - pass (round 2)
 - [x] SCRM-113 exclusive code drops the member promotion (P1) - pass, Q-018 (round 2)
-- [ ] Assign one code per member on registration: new member gets exactly one code (P2, writes)
+- [x] Assign one code per member on registration: new member gets exactly one code (P2, writes) -> case SCRM-131
 
 ## Round 2 (06:20-06:35 HKT)
 - Paid path: QC39DgTk on TXN0126102700026 (459.00). First "Proceed to checkout" click did nothing visible; the second placed the order (only one order created; not reproduced, risk). Receipt uploaded from My Account > order > Upload Receipt (`input[name=receipt_img]`), CRM Receipt > Accept > OK -> Processing / Complete. Points +45 (rule: $100 = 10 points, by percentage, floor), level spending 717 -> 1176. Refund (Original Payment Method) -> Refunded; Point History "Refund - Transaction -45" (no order number, risk), spending back to 717, C Available back. Order Payment History shows no refund line (risk). Code stays Used (added to Q-017).

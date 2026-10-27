@@ -30,8 +30,8 @@ status: done
 
 ## New test ideas
 - [x] SCRM-094: Receive with no product toggled tells staff to select items (P2, regression, writes) - created, fails (BUG-019).
-- [ ] Cancel an In-transit transfer and check stock returns to the source (P1, regression, writes).
-- [ ] Transfer with two products, receive one row only -> Partial Received, stock moves for that row only (P1, regression, writes).
+- [x] Cancel an In-transit transfer and check stock returns to the source (P1, regression, writes). -> case SCRM-105
+- [x] Transfer with two products, receive one row only -> Partial Received, stock moves for that row only (P1, regression, writes). -> case SCRM-104
 
 ## Knowledge updates
 - README: transfer/replenish flow notes (row toggle before Receive, approve opens a prefilled transfer form, warehouse_id=12 is TaiPo).

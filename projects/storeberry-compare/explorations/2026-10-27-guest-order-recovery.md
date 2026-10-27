@@ -34,7 +34,7 @@ status: done
 - [x] SBF-016 Guest places a bank transfer order with home delivery (P0)
 - [x] SBF-017 Guest tracks an order by order number and email (P1)
 - [x] SBF-018 Forgot password gives the same answer for registered and unknown emails (P2)
-- [ ] Shipping fee by method/weight (SF, ShipAny) and free-shipping threshold: not explored
+- [x] Shipping fee by method/weight (SF, ShipAny) and free-shipping threshold: not explored -> case SBF-029, SBF-030
 
 ## Test Manager
 - Manual run `runs/2026-10-27_1125_staging_manual` (exploratory-2026-10-27-guest): SBF-016, SBF-017 pass; SBF-018 fail (BUG-011).

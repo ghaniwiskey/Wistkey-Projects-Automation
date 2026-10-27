@@ -47,9 +47,9 @@ status: done
 - [x] SCRM-104 partial receive (P1) - pass
 - [x] SCRM-105 cancel in-transit returns stock (P1) - stock pass, time fails BUG-025
 - [x] SBF-024 / SBF-025 eShop stock limits (storeberry-compare)
-- [ ] Place a Bank Transfer order with a minimum-spend code, then void it: discount and order total in CRM match the checkout (P0, writes)
-- [ ] Promotion with Applied Shop = Online Shop only is not applied in Web POS (P1, writes)
-- [ ] Member-only / level-restricted code refused for a guest (P1)
+- [x] Place a Bank Transfer order with a minimum-spend code, then void it: discount and order total in CRM match the checkout (P0, writes) -> case SCRM-106, SCRM-110
+- [x] Promotion with Applied Shop = Online Shop only is not applied in Web POS (P1, writes) -> case SCRM-114
+- [x] Member-only / level-restricted code refused for a guest (P1) -> case SBF-032
 
 ## Knowledge updates
 - README: promotions and transfer notes (see "Promotions, stock limits, transfers").

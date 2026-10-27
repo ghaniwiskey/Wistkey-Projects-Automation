@@ -42,8 +42,8 @@ status: done
 - [x] SCRM-087 Void a completed POS sale cancels it and keeps fulfilment closed (P1)
 - [x] SCRM-088 POS checkout tells the cashier when no cash drawer is selected (P2)
 - [x] SCRM-089 Refund is not offered on an unpaid order (P1)
-- [ ] CRM Add Order (admin-created online order) end to end: not explored yet
-- [ ] Exchange / Partial Return on a POS sale: not explored yet
+- [x] CRM Add Order (admin-created online order) end to end: not explored yet -> case SCRM-092
+- [x] Exchange / Partial Return on a POS sale: not explored yet -> case SCRM-129
 
 ## Test data left on staging
 - POS orders TXN1126102700001 (Refunded) + TXN1126102700001R, TXN1126102700002 (Canceled), guest order TXN0126102700006 (Canceled). Member MEMy001164525 now 600 points, Silver tier.

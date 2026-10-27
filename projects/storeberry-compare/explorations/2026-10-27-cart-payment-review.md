@@ -29,7 +29,7 @@ status: done
 
 ## New test ideas
 - [x] SBF-019: Guest checkout accepts a plus-addressed email (P1, regression, writes) - created, fails (BUG-012).
-- [ ] Re-upload a receipt after rejection moves the order back to Payment Review (P1, regression, writes).
+- [x] Re-upload a receipt after rejection moves the order back to Payment Review (P1, regression, writes). -> case SBF-031
 
 ## Knowledge updates
 - README: plus-addressed emails fail at guest checkout; use dotted unique emails for test data until BUG-012 is fixed. Use the "Or Choose File" input (`input[name=receipt_img]`) for receipt upload in automation.
