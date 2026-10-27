@@ -1,28 +1,28 @@
 # MHA SPF
 
-e-RFID Asset Tracking System (ATS) for MHA/SPF fixed assets. UAT: https://mhauatweb.southeastasia.cloudapp.azure.com/ (never production).
+e-RFID Asset Tracking System (ATS) for MHA/SPF fixed assets. UAT: https://mhauatweb.southeastasia.cloudapp.azure.com/ (never production). Same application as `mha-hta` (HTA database): page objects, knowledge and the user manual are shared in `shared/mha-ats/`.
 
 ## Run
 
 ```powershell
-C:\Users\USER\.aside\runtime\node\node.exe node_modules/playwright/cli.js test --project=mha-spf
+.\qa test --project=mha-spf                     # or the Test Manager (npm run tm) > MHA SPF > Playwright
+.\qa test --project=mha-spf --grep "SPF-001:"
 ```
 
-Or the Test Manager (`npm run tm`, http://127.0.0.1:7358) > MHA SPF > Playwright.
+SPF-027 (`@final`) approves a FAVE cost centre for good: ask the user before each run, otherwise exclude it (`--grep-invert '@final'`).
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `context.md` | Testing knowledge base: roles, asset statuses, business rules, page map, quirks, open questions |
-| `docs/user-manual.md`, `docs/images/` | User manual (CR12 onboarding, 21 Sep 2026), the source for context.md |
+| `context.md` | SPF specifics (env, account, SPF-only tests). App knowledge: `shared/mha-ats/context.md` + `context/<area>.md` |
+| `shared/mha-ats/pages` | Page objects, shared with mha-hta: `BasePage` (header: Role dropdown, officer, Logout, side menu, DataTables waits), `LoginPage`, `DashboardPage`, asset pages (listing, details, assignment, registration, rejection, new asset), stocktake pages (`FavePage`, `AdHocSetupPage`, `AdHocCreatePage`, `AdHocListingPage` on `StocktakeFormPage`, `FollowUpPage`, `FaveHqPage`), `AssetReportPage`, `ReportPage`, `PrintTagPage`, `RetirementPage`, `GroupPage`, Agency Admin pages (`UserListingPage`, `RoleListingPage`, `AnnouncementPage`, `CostCentrePage`, `EmailTemplatePage`) |
+| `shared/mha-ats/docs/user-manual/` | CR12 web user manual (21 Sep 2026), one file per module |
 | `cases/` | Test cases (`SPF-NNN`) |
-| `tests/pages` | `LoginPage`, `BasePage` (header: Role dropdown, officer, Logout, side menu), `DashboardPage`, asset pages (listing, details, assignment, registration, rejection, new asset), stocktake pages (`FavePage`, `AdHocSetupPage`, `AdHocCreatePage`, `AdHocListingPage` on `StocktakeFormPage`), `AssetReportPage`, `ReportPage` (other table reports), `PrintTagPage`, `RetirementPage`, `GroupPage` (Settings > Group), Agency Admin pages `UserListingPage`, `RoleListingPage` (user-admin.page.ts), `AnnouncementPage`, `CostCentrePage`, `EmailTemplatePage` (settings-admin.page.ts) |
-| `tests/fixtures/pages.fixture.ts` | Page-object fixtures, the `role` option (`test.use({ role: 'logs1' })`), `loginAs(role)`, runtime test data (`availableAsset`, `writableAsset`, `unitPostalCode`, `faveTarget`, `officer`, `qaUser`) and `otherSession` (a second, logged-out browser context) |
+| `tests/fixtures/pages.fixture.ts` | Page-object fixtures, the `role` option (`test.use({ role: 'logs1' })`), `loginAs(role)`, runtime test data (`availableAsset`, `writableAsset`, `unitPostalCode`, `faveTarget`, `faveRelocateTarget`, `officer`, `qaUser`) and `otherSession` (a second, logged-out browser context) |
 | `tests/utils/test-data.ts` | Role slug -> dropdown label map, `testAccount()` (login from .env) |
 | `tests/e2e` | Specs; titles start with the case ID |
-| `data/` | Upload files (asset photos < 3 MB, FAVE import template, user import template) |
-| `runs/` | Run history |
+| `data/` | Upload files (asset photo `qa-asset.png`) |
 
 ## Accounts
 
@@ -33,5 +33,4 @@ SPF_USER=<login ID>
 SPF_PASS=            # empty for a passwordless UAT account
 ```
 
-Nothing about the account is fixed in the code or in project.yaml. The tests read the officer name from the page header (fixture `officer`) and the roles from the header Role dropdown; a test that needs a role the account does not have is skipped with a message. To use another account or agency (e.g. HTA), change `.env`. On UAT `/Account/LoginBk` accepts the passwordless account with an empty password. Switch roles with `test.use({ role: 'logs1' })` or `basePage.switchRole('Logistics Officer 1')`.
-
+Nothing about the account is fixed in the code or in project.yaml. The tests read the officer name from the page header (fixture `officer`) and the roles from the header Role dropdown; a test that needs a role the account does not have is skipped with a message. On UAT `/Account/LoginBk` accepts the passwordless account with an empty password. Switch roles with `test.use({ role: 'logs1' })` or `basePage.switchRole('Logistics Officer 1')`.

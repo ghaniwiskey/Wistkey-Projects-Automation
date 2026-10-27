@@ -2,9 +2,8 @@ import { Page, Locator, expect } from '@playwright/test';
 import { AppPage } from '@shared/pages/app.page';
 
 /**
- * MHA web (ATS), used by the mobile tests to set up and check data. A slim version of mha-spf's BasePage
- * (projects/mha-spf/tests/pages/base.page.ts): projects do not import from each other, so only what the
- * cross-checks need lives here. Quirks are documented in projects/mha-spf/context.md.
+ * MHA web (ATS), used by the mobile tests to set up and check data. A slim version of the shared MHA web BasePage
+ * (shared/mha-ats/pages/base.page.ts) with only what the cross-checks need. Quirks: shared/mha-ats/context.md.
  */
 
 /** ATS allows one session per account; a newer login of the account ends this one. */

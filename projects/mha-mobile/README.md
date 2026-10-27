@@ -28,8 +28,8 @@ its device pool and mobilecli, which web runs must not pay for, so the root conf
 run the web projects only. Runs are still recorded in `runs/`, and `npm run report` opens the latest HTML report.
 
 A test can also check its result in MHA web: mobilewright's `test` is Playwright Test's, so the browser `page` is
-available next to the phone's `screen` (the web URL is in projects/mha-spf/project.yaml, the MHA web page objects in
-projects/mha-spf/tests/pages). Assert the phone with `expect` from `@mobilewright/test` and the browser with
+available next to the phone's `screen` (the web URL is in projects/mha-spf/project.yaml; MHA web page objects and knowledge
+are in shared/mha-ats/). Assert the phone with `expect` from `@mobilewright/test` and the browser with
 Playwright's (`import { expect as webExpect } from '@playwright/test'`): mobilewright's `expect` only knows phone
 locators.
 
