@@ -1,0 +1,243 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-course-egift-delivery",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1838_staging_manual",
+  "startedAt": "2026-10-27T11:38:01.754Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-021",
+      "title": "Course page only lets customers book upcoming sessions and books the chosen one",
+      "priority": "P1",
+      "feature": "courses",
+      "file": "projects/storeberry-compare/cases/courses/SBF-021-course-page-only-lets-customers-book.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Past session dates cannot be chosen, and the enrolment is on the date the customer picked.",
+      "preconditions": [
+        "A visible QA course with a weekly Fixed timetable",
+        "Logged-in QA member"
+      ],
+      "data": [
+        "QA course 3200 or another found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the course page on the eShop",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click a past session date in the calendar (shown with is_passed)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick the timeslot and click Apply",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check out (Bank Transfer) and open the enrolment in the CRM Status List",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Past dates are disabled, or Apply is refused with a message",
+          "status": "fail"
+        },
+        {
+          "text": "If a date is accepted, the enrolment and cart show that same date",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Past dates are disabled, or Apply is refused with a message",
+          "pass": false
+        },
+        {
+          "label": "If a date is accepted, the enrolment and cart show that same date",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Picked 21 Oct and 14 Oct; both enrolled on 4 Nov."
+      ],
+      "evidence": [
+        "screenshots/SBF-021-m01-enrolment-4-nov.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.770Z",
+      "failureType": "product-bug",
+      "bug": "BUG-014"
+    },
+    {
+      "id": "SBF-022",
+      "title": "Expired eGift cannot be reserved and the customer is told why",
+      "priority": "P2",
+      "feature": "loyalty",
+      "file": "projects/storeberry-compare/cases/loyalty/SBF-022-expired-egift-cannot-be-reserved-and.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "An eGift outside its reserve period is refused with a visible message and no points are taken; error responses do not expose server internals.",
+      "preconditions": [
+        "Logged-in QA member with points",
+        "An eGift whose reserve period has ended (e.g. /egift/detail/8 Nice meat, /egift/detail/9 testA)"
+      ],
+      "data": [
+        "Expired eGift found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the expired eGift detail page by URL",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Reserve, then OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the page, the member points and E-Gift Redemption Record",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A message says the gift is out of its reserve period (or Reserve is disabled)",
+          "status": "fail"
+        },
+        {
+          "text": "No points are deducted and no reservation is created",
+          "status": "pass"
+        },
+        {
+          "text": "The API response contains no stack trace or server paths",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "A message says the gift is out of its reserve period (or Reserve is disabled)",
+          "pass": false
+        },
+        {
+          "label": "No points are deducted and no reservation is created",
+          "pass": true
+        },
+        {
+          "label": "The API response contains no stack trace or server paths",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "No message; points untouched; response has a stack trace (BUG-016)."
+      ],
+      "evidence": [
+        "screenshots/SBF-022-m01-expired-egift.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:40.708Z",
+      "failureType": "product-bug",
+      "bug": "BUG-015"
+    },
+    {
+      "id": "SBF-023",
+      "title": "Member places a home-delivery order and staff deliver it",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-023-member-places-a-home-delivery-order-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Home delivery checkout applies the shipping method rules and the order can be packed and dispatched to Complete.",
+      "preconditions": [
+        "Logged-in QA member",
+        "An in-stock product (e.g. product test 2)"
+      ],
+      "data": [
+        "Delivery method 香港本地送貨; region/district/area chosen at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add the product and open /checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select JD while the total is below HKD 1,000 and read the message",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select 香港本地送貨, fill Region, District, Area and Address, Bank Transfer, tick 結帳前同意, Proceed",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload a receipt; in the CRM accept it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delivery > Pack All > Save > Dispatch > OK",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "JD shows \"available for orders between $1000.00 ~ $3000.00 ... does not meet the requirement\"",
+          "status": "pass"
+        },
+        {
+          "text": "The CRM order shows the delivery method, region, district, area and address",
+          "status": "pass"
+        },
+        {
+          "text": "After dispatch the order, payment and delivery status are Complete and Inventory History shows DELIVERED -1",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "JD shows \"available for orders between $1000.00 ~ $3000.00 ... does not meet the requirement\"",
+          "pass": true
+        },
+        {
+          "label": "The CRM order shows the delivery method, region, district, area and address",
+          "pass": true
+        },
+        {
+          "label": "After dispatch the order, payment and delivery status are Complete and Inventory History shows DELIVERED -1",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "JD refused at HKD 700 with the 1000-3000 message; fee HKD 0 for 到付 and 香港本地送貨. TXN0126102700024: CRM shows 香港本地送貨, Kowloon / Kwun Tong District / Kwun Tong and the address; accept -> Processing; Pack All > Save > Dispatch -> Complete 19:35; Inventory History DELIVERED -1 at TaiPo."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:40.747Z"
+    }
+  ],
+  "notes": "Course, eGift, home delivery",
+  "finishedAt": "2026-10-27T11:38:40.766Z",
+  "summary": {
+    "total": 3,
+    "pass": 1,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

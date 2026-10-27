@@ -1,0 +1,539 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-course-reports-egift",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-27_1838_staging_manual",
+  "startedAt": "2026-10-27T11:38:01.364Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-096",
+      "title": "Member buys a course on the eShop and is enrolled after payment is accepted",
+      "priority": "P0",
+      "feature": "courses",
+      "file": "projects/storeberry-crm/cases/courses/SCRM-096-member-buys-a-course-on-the-eshop-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A visible course bought on the eShop with Bank Transfer creates an enrolment on the chosen upcoming session, uses a seat, and gives the seat back on refund or void.",
+      "preconditions": [
+        "A visible (Regular) QA course with a timetable that has an upcoming session with a free seat",
+        "A logged-in QA member"
+      ],
+      "data": [
+        "QA course and session found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the course page on the eShop, pick an upcoming date and timeslot, click Apply",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check out with Bank Transfer and upload a receipt",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the CRM accept the receipt",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Courses & Enrolment > Status List (search the order) and the Enrolment Status day view",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Refund the order (Original Payment Method) and recheck the enrolment and the day view",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The enrolment shows the chosen session, Pending Payment before acceptance and Complete after",
+          "status": "pass"
+        },
+        {
+          "text": "The day view shows the seat taken (e.g. 1 / 1) and the member sees the course under My Courses & Enrolment",
+          "status": "pass"
+        },
+        {
+          "text": "After refund or void the enrolment is Refunded/Canceled and the seat is free again (0 / 1)",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The enrolment shows the chosen session, Pending Payment before acceptance and Complete after",
+          "pass": true
+        },
+        {
+          "label": "The day view shows the seat taken (e.g. 1 / 1) and the member sees the course under My Courses & Enrolment",
+          "pass": true
+        },
+        {
+          "label": "After refund or void the enrolment is Refunded/Canceled and the seat is free again (0 / 1)",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Course 3200 (HKD 20, timetable 70 cap 1). TXN0126102700021 (Silver -3 -> HKD 17): enrolment 389 Pending Payment, receipt accepted -> order Complete immediately, enrolment Complete, 4 Nov day view 1 / 1, member sees it. Refund (Original Payment Method) -> Refunded, enrolment Refunded, 0 / 1, course bookable again. Void of TXN0126102700022 -> enrolment Canceled. Session date issue filed as storeberry-compare BUG-014."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.396Z"
+    },
+    {
+      "id": "SCRM-064",
+      "title": "Reject enrollment when a course session is full",
+      "priority": "P1",
+      "feature": "courses",
+      "file": "projects/storeberry-crm/cases/courses/SCRM-064-reject-enrollment-when-a-course-session.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A full course session does not accept an additional QA learner.",
+      "preconditions": [
+        "A staging course session is displayed as Full and notification routing is confirmed safe."
+      ],
+      "data": [
+        "Full session selected dynamically.",
+        "QA learner contact details only."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open course enrolment.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select a session displayed as Full.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Attempt to enroll a QA learner.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the session availability and enrollment list.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The form prevents enrollment or displays a full-capacity message.",
+          "status": "pass"
+        },
+        {
+          "text": "No enrollment is created and the session remains Full.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The form prevents enrollment or displays a full-capacity message.",
+          "pass": true
+        },
+        {
+          "label": "No enrollment is created and the session remains Full.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "With the only seat of 4 Nov taken, the eShop course page button turned into \"Service is full\" (no Apply). POS sale of a course on a 0-capacity timetable was refused: \"該課程沒有足夠的容量。\" (Chinese only on the English POS)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.429Z"
+    },
+    {
+      "id": "SCRM-097",
+      "title": "Status List Details and Order links open the enrolment and its order",
+      "priority": "P1",
+      "feature": "courses",
+      "file": "projects/storeberry-crm/cases/courses/SCRM-097-status-list-details-and-order-links.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff can open an enrolment and its order from Courses & Enrolment > Status List.",
+      "preconditions": [
+        "At least one enrolment exists"
+      ],
+      "data": [
+        "Any enrolment row"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Courses & Enrolment > Status List",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Details on a row",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Go back and click Order on the same row",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Details opens the enrolment (session, learner, status)",
+          "status": "fail"
+        },
+        {
+          "text": "Order opens the linked order detail",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Details opens the enrolment (session, learner, status)",
+          "pass": false
+        },
+        {
+          "label": "Order opens the linked order detail",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Details and Order do nothing on any row."
+      ],
+      "evidence": [
+        "screenshots/SCRM-097-m01-status-list.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.465Z",
+      "failureType": "product-bug",
+      "bug": "BUG-023"
+    },
+    {
+      "id": "SCRM-031",
+      "title": "Sales report updates by channel and date period",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/storeberry-crm/cases/reports/SCRM-031-sales-report-updates-by-channel-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The sales report refreshes its metrics when the channel or date period changes.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Reports > Sales.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the default report and note its displayed date period and total.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select Online, a retail channel, and a different date preset or custom range.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The selected channel and date period are visible.",
+          "status": "pass"
+        },
+        {
+          "text": "Sales totals/chart data refresh for each selection and remain within the selected period.",
+          "status": "pass"
+        },
+        {
+          "text": "No report totals are hard-coded.",
+          "status": null
+        }
+      ],
+      "checks": [
+        {
+          "label": "The selected channel and date period are visible.",
+          "pass": true
+        },
+        {
+          "label": "Sales totals/chart data refresh for each selection and remain within the selected period.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TODAY: overall 4,113.80 = online 3,378.30 + ALL RETAIL (all stores ticked + Confirm) 735.50; HK only 637.50. ALL RETAIL is a store dropdown: confirming with no store ticked shows 0.00."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.535Z"
+    },
+    {
+      "id": "SCRM-032",
+      "title": "Payment report separates payments, refunds, and net amounts",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/storeberry-crm/cases/reports/SCRM-032-payment-report-separates-payments.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The payment report displays payment, refund, and net figures by payment method.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Reports > Payments.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select a date period and channel.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review payment and refund views and the payment-method summary.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Payment and refund views are selectable.",
+          "status": "pass"
+        },
+        {
+          "text": "The report shows payment frequency/amount, refund frequency/amount, net amount, and percentage by payment method.",
+          "status": "pass"
+        },
+        {
+          "text": "Displayed net amounts reconcile to payment amounts less refunds for the selected period.",
+          "status": null
+        }
+      ],
+      "checks": [
+        {
+          "label": "Payment and refund views are selectable.",
+          "pass": true
+        },
+        {
+          "label": "The report shows payment frequency/amount, refund frequency/amount, net amount, and percentage by payment method.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TODAY: Cash 1,318.50 - 761.00 = 557.50; Gift Voucher 178.00; Bank Transfer 1,147.50 - 34.00 = 1,113.50 (includes our refund of 17.00); total 2,644.00 - 795.00 = 1,849.00. Percentage is of gross (question)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.567Z"
+    },
+    {
+      "id": "SCRM-033",
+      "title": "Top-products report ranks results for the selected period",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/storeberry-crm/cases/reports/SCRM-033-top-products-report-ranks-results-for.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The Top 10 products report ranks products using the selected reporting period.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Reports > Top 10 products.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select a date period and channel if available.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the ranked products and sales metric.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The report heading and selected period are visible.",
+          "status": "pass"
+        },
+        {
+          "text": "The results contain no more than ten ranked products and are ordered by the displayed sales metric.",
+          "status": "pass"
+        },
+        {
+          "text": "Product names and totals are taken from current data, not hard-coded.",
+          "status": null
+        }
+      ],
+      "checks": [
+        {
+          "label": "The report heading and selected period are visible.",
+          "pass": true
+        },
+        {
+          "label": "The results contain no more than ten ranked products and are ordered by the displayed sales metric.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Ranked by net price for TODAY; refunded/voided QA Flow Course shows 0.00. Payment-rejected NAKAJIMA 0.10 still counted; CN product name shown (question)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.601Z"
+    },
+    {
+      "id": "SCRM-067",
+      "title": "Reserve and redeem an eligible QA eGift",
+      "priority": "P1",
+      "feature": "loyalty",
+      "file": "projects/storeberry-crm/cases/loyalty/SCRM-067-reserve-and-redeem-an-eligible-qa-egift.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A QA member can reserve and redeem an active eGift within its configured periods.",
+      "preconditions": [
+        "An active staging eGift is reservable and redeemable, and a dedicated QA member is available.",
+        "Notification routing is confirmed safe."
+      ],
+      "data": [
+        "Active eGift and periods selected dynamically.",
+        "QA member only."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open the active eGift.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reserve it for the QA member within the reserve period.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Redeem the reservation within the redeem period.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the eGift and member history.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The eGift reservation is linked to the QA member.",
+          "status": "pass"
+        },
+        {
+          "text": "The redemption state and time are recorded within the configured period.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The eGift reservation is linked to the QA member.",
+          "pass": true
+        },
+        {
+          "label": "The redemption state and time are recorded within the configured period.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "eShop E-Gift (member 600 points): Test gift (10 points) Reserve -> \"Egift Reserve -10\" -> 590; Redeem to Cart adds gift item ewqe HKD 0; checkout (Payment Not Required) TXN0126102700023 Complete; record shows REDEEMED 19:30:47 within the redeem period."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.634Z"
+    },
+    {
+      "id": "SCRM-068",
+      "title": "Reject redemption of an expired or unavailable eGift",
+      "priority": "P2",
+      "feature": "loyalty",
+      "file": "projects/storeberry-crm/cases/loyalty/SCRM-068-reject-redemption-of-an-expired-or.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An expired or unavailable eGift cannot be reserved or redeemed.",
+      "preconditions": [
+        "An expired or unavailable staging eGift is visible and a QA member can be used without sending messages."
+      ],
+      "data": [
+        "Expired/unavailable eGift selected dynamically.",
+        "QA member only."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open the expired or unavailable eGift.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Attempt the supported reserve or redeem action for the QA member.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the eGift and member histories.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The action is blocked with an expired/unavailable validation state.",
+          "status": "pass"
+        },
+        {
+          "text": "No reservation, redemption, or points change is recorded.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The action is blocked with an expired/unavailable validation state.",
+          "pass": true
+        },
+        {
+          "label": "No reservation, redemption, or points change is recorded.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Expired gifts are not listed; by URL, Reserve is refused by the server and no points are taken. No message is shown and the error leaks a stack trace (storeberry-compare bugs)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T11:38:01.665Z"
+    }
+  ],
+  "notes": "Course eShop flow, reports, eGift",
+  "finishedAt": "2026-10-27T11:38:01.699Z",
+  "summary": {
+    "total": 8,
+    "pass": 7,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
