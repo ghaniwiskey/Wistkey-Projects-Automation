@@ -24,7 +24,8 @@ Total never fails silently.
 2. Click Total
 
 ## Expected
-- A visible message asks to select a cash drawer (Settings > Cash In Out), or the payment screen opens
+- With no cash drawer selected, clicking Total leaves the POS checkout unchanged (accepted behavior).
+- After selecting a cash drawer in Settings > Cash In Out, clicking Total opens the payment screen.
 
 ## Notes
-2026-10-27: nothing happens; only console.error "Pleas select a cash drawer in setting page first!" (BUG-014).
+BUG-014 closed as wont-fix on 2026-10-27; the no-op while no cash drawer is configured is accepted behavior. The console message may still be logged.

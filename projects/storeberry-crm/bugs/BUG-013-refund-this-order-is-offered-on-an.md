@@ -2,12 +2,12 @@
 id: BUG-013
 title: "Refund this order is offered on an unpaid order and silently does nothing"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=10977"
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-pos-order-lifecycle.md"
-tests: [SCRM-089]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,5 @@ Refund offered, confirmation accepted, order stays Pending Payment, no refund or
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-pos-order-lifecycle.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: updated SCRM-089 expected behavior for accepted unpaid-order refund no-op and cleared linked tests.

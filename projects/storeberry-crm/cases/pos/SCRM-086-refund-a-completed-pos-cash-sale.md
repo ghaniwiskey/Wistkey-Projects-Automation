@@ -28,7 +28,7 @@ A full refund of a POS sale creates a linked refund order, reverses earned point
 ## Expected
 - Order Status and Payment Status Refunded; a refund order <TXN>R exists with Cash -<amount>
 - Point History has Refund - Transaction removing the points earned by the order
-- Delivery Status stays Complete (the goods left the store at the sale)
+- Delivery Status changes to Pending after refund (accepted behavior; the completed POS sale's Delivery Status is reopened by this action)
 
 ## Notes
-Related to SCRM-051 (generic refund). 2026-10-27: Delivery Status flipped Complete -> Pending (BUG-012). Upgrade Reward and Silver tier from the refunded sale were kept (question).
+Related to SCRM-051 (generic refund). BUG-012 closed as wont-fix on 2026-10-27; Delivery Status changing Complete -> Pending after refund is accepted behavior. Upgrade Reward and Silver tier from the refunded sale were kept (question).

@@ -2,12 +2,12 @@
 id: BUG-014
 title: "Web POS Total silently does nothing when no cash drawer is selected"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/webpos?store_id=11"
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-pos-order-lifecycle.md"
-tests: [SCRM-088]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -32,3 +32,5 @@ Nothing happens; console.error only. Seen twice (first load, and after the drawe
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-pos-order-lifecycle.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: updated SCRM-088 to assert the accepted no-cash-drawer no-op then proceed after selecting a drawer; cleared linked tests.

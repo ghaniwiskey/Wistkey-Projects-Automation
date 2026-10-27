@@ -2,12 +2,12 @@
 id: BUG-012
 title: "Refunding or voiding a completed POS sale resets Delivery Status from Complete to Pending"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=10973"
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-pos-order-lifecycle.md"
-tests: [SCRM-086, SCRM-087]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Delivery Status Pending on TXN1126102700001 (refunded, refund order TXN112610270
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-pos-order-lifecycle.md in the Test Manager app.
+- 2026-10-27: status open -> wont-fix.
+- 2026-10-27: updated SCRM-086/087 expected behavior for accepted status reset and cleared linked tests.

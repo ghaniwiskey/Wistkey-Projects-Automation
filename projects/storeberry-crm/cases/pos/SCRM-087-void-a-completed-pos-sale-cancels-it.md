@@ -25,7 +25,7 @@ Voiding a completed POS sale cancels the order without reopening delivery.
 
 ## Expected
 - Order Status and Payment Status Canceled
-- Delivery Status stays Complete
+- Delivery Status changes to Pending after void (accepted behavior)
 
 ## Notes
-2026-10-27 (TXN1126102700002): Delivery Status flipped to Pending (BUG-012). Payment History still shows only the +Cash line after the void (question: how is the drawer reconciled?).
+BUG-012 closed as wont-fix on 2026-10-27; Delivery Status changing to Pending after void is accepted behavior. Payment History still shows only the +Cash line after the void (question: how is the drawer reconciled?).

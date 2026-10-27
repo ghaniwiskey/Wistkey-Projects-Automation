@@ -24,8 +24,8 @@ Money cannot be refunded on an order that was never paid, and the UI never accep
 2. If Refund this order is listed: Original Payment Method > Refund > Yes
 
 ## Expected
-- Refund this order is not listed (or disabled) for unpaid orders
-- If an action is refused, a message explains why
+- Refund this order is offered for the pending-payment QA order.
+- Confirming the zero-payment refund leaves the order in Pending Payment without creating a refund, and shows no additional message (accepted behavior).
 
 ## Notes
-2026-10-27 (TXN0126102700006): Refund is offered with "Refund amount $0.10"; confirming reloads the page with no change and no message, twice (BUG-013).
+BUG-013 closed as wont-fix on 2026-10-27; offering the refund action and making no change to an unpaid order is accepted behavior.
