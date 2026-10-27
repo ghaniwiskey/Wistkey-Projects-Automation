@@ -6,7 +6,7 @@ askedTo: "Product owner"
 env: staging
 found: 2026-10-27T22:15:45.883Z
 foundBy: "explorations/2026-10-28-promo-code-orders.md"
-tests: [SCRM-110, SCRM-106]
+tests: [SCRM-110, SCRM-106, SCRM-112]
 bugs: []
 updated: 2026-10-27T22:15:45.883Z
 answered: ""
@@ -25,3 +25,4 @@ Not answered yet.
 
 ## History
 - 2026-10-28: asked from explorations/2026-10-28-promo-code-orders.md.
+- 2026-10-28: same after a full refund of a paid order (QC39DgTk, TXN0126102700026 Refunded): the code stays Used.

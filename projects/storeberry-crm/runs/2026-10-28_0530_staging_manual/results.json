@@ -1,0 +1,231 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-28-promo-codes-paid-pos",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_0530_staging_manual",
+  "startedAt": "2026-10-27T22:30:00.135Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-112",
+      "title": "Paid eShop order with a promo code earns points on the net total, and a full refund reverses points, level spending and stock",
+      "priority": "P1",
+      "feature": "loyalty",
+      "file": "projects/storeberry-crm/cases/loyalty/SCRM-112-paid-eshop-order-with-a-promo-code.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Loyalty points and member level spending follow the money actually paid, and a refund takes them back.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code with a code assigned to the QA member (e.g. 662)",
+        "Earn rule read from Loyalty Setting > Point Policy (2026-10-28: $100 earns 10 points, calculated by percentage)"
+      ],
+      "data": [
+        "Bank Transfer only; a receipt image"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "eShop My Account: note Membership Points and Member level spending; CRM Inventory: note the product's Available Qty",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Place a Bank Transfer order with the code (pickup) and upload a receipt from the order's Upload Receipt tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "CRM order > Receipt > comment > Accept > OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reread points, level spending and Point History",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "CRM order > Actions > Refund this order > Original Payment Method > Refund > Yes",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reread points, level spending, inventory and the code row",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 3: Order Status Processing, Payment Status Complete, outstanding $0.00",
+          "status": "pass"
+        },
+        {
+          "text": "Step 4: points + floor(net total x 10%) with \"Point Earned / Order no.\"; level spending + net total (after code and member discounts)",
+          "status": "pass"
+        },
+        {
+          "text": "Step 6: Order and Payment Status Refunded; \"Refund - Transaction\" takes the same points back; level spending back to step 1",
+          "status": "pass"
+        },
+        {
+          "text": "Step 6: Available Qty back to step 1",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 3: Order Status Processing, Payment Status Complete, outstanding $0.00",
+          "pass": true
+        },
+        {
+          "label": "Step 4: points + floor(net total x 10%) with \"Point Earned / Order no.\"; level spending + net total (after code and member discounts)",
+          "pass": true
+        },
+        {
+          "label": "Step 6: Order and Payment Status Refunded; \"Refund - Transaction\" takes the same points back; level spending back to step 1",
+          "pass": true
+        },
+        {
+          "label": "Step 6: Available Qty back to step 1",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "TXN0126102700026: accept -> Processing/Complete; +45 pts, spending 717 -> 1176; refund -> Refunded, -45 pts, spending 717, stock back."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:30:00.175Z"
+    },
+    {
+      "id": "SCRM-113",
+      "title": "A code marked \"Cannot apply with other promotions\" removes the other promotions from the basket",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-113-a-code-marked-cannot-apply-with-other.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Exclusive codes do not stack with member-level or basket promotions.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code with a code assigned to the QA member (e.g. 662), \"Cannot apply with other promotions\" ticked and saved",
+        "A member whose level gives a basket promotion (e.g. Silver 15%)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "eShop: add a product, open /checkout and note the discounts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply the code",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: the member promotion is applied",
+          "status": "pass"
+        },
+        {
+          "text": "Step 2: only the code promotion is listed; Total = sub-total minus the code discount",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 1: the member promotion is applied",
+          "pass": true
+        },
+        {
+          "label": "Step 2: only the code promotion is listed; Total = sub-total minus the code discount",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "QCDupVR9: Silver removed, Total 540.00 (was 510.00 without the code). Q-018."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:30:00.220Z"
+    },
+    {
+      "id": "SCRM-114",
+      "title": "A promo code limited to Online Shop is refused in Web POS",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-114-a-promo-code-limited-to-online-shop-is.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Applied Shop limits where a code can be used.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code with a code assigned to the QA member (e.g. 662) (Applied Shop = Online Shop only)",
+        "A code valid for the store (e.g. VIP888 for Storeberry HK) as a control"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Web POS Storeberry HK: add a product and select the QA member",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the Online-only code and Apply",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the control code and Apply",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear the POS cart (no sale)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: \"Invalid promotion code.\" and no discount",
+          "status": "pass"
+        },
+        {
+          "text": "Step 3: the control promotion is listed with its discount",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 2: \"Invalid promotion code.\" and no discount",
+          "pass": true
+        },
+        {
+          "label": "Step 3: the control promotion is listed with its discount",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Storeberry HK, member MEMy001164526, product test 2: QDvjYpU2 -> \"Invalid promotion code.\"; VIP888 -> -20.00. Cart cleared, no sale."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:30:00.260Z"
+    }
+  ],
+  "notes": "Exploration 2026-10-28 (round 2): paid code order + refund, exclusive code, Online-only code in Web POS.",
+  "finishedAt": "2026-10-27T22:30:00.298Z",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

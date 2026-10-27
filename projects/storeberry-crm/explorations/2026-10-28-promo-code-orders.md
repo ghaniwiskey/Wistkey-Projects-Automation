@@ -44,11 +44,22 @@ status: done
 - [x] SCRM-110 void releases reserved stock (P1) - pass
 - [x] SCRM-111 code list times consistent (P2) - fails, BUG-026
 - [x] SBF-026 / SBF-027 (storeberry-compare) - fail, BUG-018 / BUG-019
-- [ ] Code order paid (receipt accepted) then refunded: points earned on the net amount and reversed (P1, writes)
-- [ ] Promotion with Applied Shop = Online Shop only is not accepted in Web POS (P1, writes)
-- [ ] "Cannot apply with other promotions" code: Silver discount is dropped while the code is applied (P1)
+- [x] SCRM-112 paid code order earns points on the net total; refund reverses points, spending, stock (P1) - pass (round 2)
+- [x] SCRM-114 Online Shop-only code refused in Web POS (P1) - pass (round 2)
+- [x] SCRM-113 exclusive code drops the member promotion (P1) - pass, Q-018 (round 2)
 - [ ] Assign one code per member on registration: new member gets exactly one code (P2, writes)
+
+## Round 2 (06:20-06:35 HKT)
+- Paid path: QC39DgTk on TXN0126102700026 (459.00). First "Proceed to checkout" click did nothing visible; the second placed the order (only one order created; not reproduced, risk). Receipt uploaded from My Account > order > Upload Receipt (`input[name=receipt_img]`), CRM Receipt > Accept > OK -> Processing / Complete. Points +45 (rule: $100 = 10 points, by percentage, floor), level spending 717 -> 1176. Refund (Original Payment Method) -> Refunded; Point History "Refund - Transaction -45" (no order number, risk), spending back to 717, C Available back. Order Payment History shows no refund line (risk). Code stays Used (added to Q-017).
+- Exclusive code ("Cannot apply with other promotions" ticked on 662): QCDupVR9 -> Silver removed, Total 540.00 vs 510.00 without the code (Q-018, reproduced twice).
+- Web POS Storeberry HK (member selected): QDvjYpU2 (Online Shop only) -> "Invalid promotion code."; VIP888 -> -20.00 (control). Cart cleared, no sale. The message does not say why (risk). POS needs CSS-pixel coordinates (devicePixelRatio 1.25) or DOM clicks.
+
+| # | Type | Summary | Severity | Link |
+|---|---|---|---|---|
+| 9 | question | Exclusive code raises the total with no notice | - | questions/Q-018-should-an-exclusive-promo-code-be-allowed.md |
+| 10 | risk | Refund point row has no order number; order Payment History has no refund line | - | - |
+| 11 | risk | POS "Invalid promotion code." does not say the code is for another shop | - | - |
 
 ## Knowledge updates
 - README: promo code section (edit vs view page, Generate/Assign/Revoke, eShop member, stock columns).
-- QA data left: promotion 662 (active until 2026-12-31, member assignment required): QA1pr6iu Used, QAka7BxS and QBgH2nw9 Revoked, QC39DgTk and QCDupVR9 assigned to MEMy001164526. Order TXN0126102700025 Canceled. eShop cart of MEMy001164526 emptied.
+- QA data left: promotion 662 (active until 2026-12-31, member assignment required): QA1pr6iu Used, QAka7BxS and QBgH2nw9 Revoked, QC39DgTk Used (TXN0126102700026, Refunded), QCDupVR9 and QDvjYpU2 assigned to MEMy001164526; 662 is now exclusive ("Cannot apply with other promotions"), quota 6. Orders TXN0126102700025 Canceled, TXN0126102700026 Refunded. eShop cart of MEMy001164526 emptied.

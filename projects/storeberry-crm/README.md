@@ -96,4 +96,6 @@ Staging only. Production is read-only.
 - Generate: prefix + count (`input[name=gen_code_prefix]`, `gen_code_qty`); over quota -> "Not enough code quota to generate code". Assign takes a Member ID ("Target Member Not found" if unknown). Revoke is immediate, no confirmation, no undo.
 - Used codes record Txn No. and member; voiding the order keeps the code Used (Q-017). Staff Reserved At is in UTC (BUG-026).
 - Inventory list: warehouse columns show available qty; an unpaid online order lowers Available and the order warehouse (TaiPo), not Stock Qty; Void restores them.
-- QA data: promotion 662 (member assignment required, until 2026-12-31); order TXN0126102700025 Canceled. Notes: `explorations/2026-10-28-promo-code-orders.md`.
+- Paid path: receipt upload is the eShop order's Upload Receipt tab (`input[name=receipt_img]`); CRM Receipt > Accept > OK. Points: $100 = 10 points (percentage, floored) on the net total; refund reverses points and level spending.
+- Web POS has a Promotion code box (`input[placeholder="Promotion code"]` + Apply); codes for other shops get "Invalid promotion code.".
+- QA data: promotion 662 (member assignment required, exclusive, quota 6, until 2026-12-31); orders TXN0126102700025 Canceled, TXN0126102700026 Refunded. Notes: `explorations/2026-10-28-promo-code-orders.md`.
