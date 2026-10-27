@@ -42,6 +42,7 @@ Staging only. Production is read-only.
 - Payment: **Bank Transfer only** (`fn-bank-transfer`). Never card, wallet or other gateways.
 - Test data can use normal, realistic names; no QA prefix or special email format is required.
 - Also allowed: refunds, voids and cancellations of orders; stock-changing steps (PO Receive, transfer ship/receive, replenish approve, stock-take completion); in-store POS sales; actions that send messages or notifications to customers (WhatsApp/SMS/Messenger/email).
+- User, 2026-10-27 (evening): deleting test data we created (e.g. our QA promotions) and submitting (forms, transfer orders) are allowed without asking each time.
 - Ask first: changes to other people's records, bulk/Select All actions on data we did not create, and settings or staff mapping changes.
 
 ## Course flow (explored 2026-10-27)
@@ -79,3 +80,12 @@ Staging only. Production is read-only.
 - Appointments (2026-10-27): CRM appointment pages call cmsapiv2.storeberry.ai and currently get 403 (BUG-022). Customer booking is on the eShop at `/appointment` (resource 3 "Course").
 - Loyalty cash dollar: 100 points = $100, max $100 per order; voiding the order returns the points.
 - Courses & Enrolment > Status List: the Details/Order links wrap over two lines; click the link text (not the centre of the box) or call element.click(). Details = /bookings/bookings-detail?id=<enrolment>.
+
+## Promotions, stock limits, transfers (explored 2026-10-27, 20:30-20:50 HKT)
+
+- Promotions: Add Promotion opens a type picker; rows are divs (not `<tr>`), actions are icon links (`.fa-pencil` edit -> `/promotions/edit?pid=<id>`, `.fa-trash` delete with a DELETE/CANCEL confirm). Validation errors appear only as a short-lived toast. Start/End picker is hourly (typed minutes dropped, Q-015); end before start is accepted (BUG-024); Y > X is accepted and the eShop caps the discount at the sub-total (Q-014).
+- eShop promo box: `#promotion_code` + APPLY at checkout; discount is re-checked when items are removed.
+- Online Shop stock comes from Office, TaiPo, IFC Warehouse and 半島倉 (labels in the transfer warehouse list). Add To Cart checks that total; checkout checks TaiPo only (storeberry-compare BUG-017).
+- Transfers: Submit is a link (`a.button-save`, not the Cancel one) and opens an inline CONFIRM TRANSFER ORDER panel (Confirm button). "Cancel Transfer" on In-transit returns it to Pending; "Cancel Transfer Orders" then cancels. After a partial receive only Receive is offered (Q-016). Times are overwritten by later actions (BUG-025).
+- QA data: transfers 311 (Received) and 312 (Canceled). Promotion 661 deleted.
+- Notes: `explorations/2026-10-27-promotions-transfers.md`.

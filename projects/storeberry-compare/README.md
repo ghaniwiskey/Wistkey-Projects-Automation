@@ -49,3 +49,10 @@ Staging only. Production is read-only.
 - Notes: `explorations/2026-10-27-cart-payment-review.md`.
 - Promotions at checkout (2026-10-27): basket 全單買滿$1000減$300, VIP888 (605/606), free gift 631 at net $800, add-on 620 at $1000. After removing an item the add-on block can show the wrong product until reload (BUG-013).
 - BUG-016 (stack trace in eShop API error responses) closed as won't fix by the user (2026-10-27): accepted behavior, do not re-report.
+
+## Promotions and stock limits (explored 2026-10-27, evening)
+
+- Open: `BUG-017` Add To Cart accepts the Online Shop stock total, checkout flags "Not enough stock" above the TaiPo stock.
+- Promo code at checkout: `#promotion_code` + APPLY; below-minimum message "Current shopping cart does not meet the promotion code conditions".
+- Cart trash icon: `i.fa-trash-o` (no accessible name). Product pages often never fire `load`; wait for the Add To Cart button instead.
+- Session log: `explorations/2026-10-27-promotions-stock.md`.

@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-promotions-stock",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_0514_staging_manual",
+  "startedAt": "2026-10-27T22:14:47.042Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-024",
+      "title": "Add To Cart refuses a quantity above online stock, including what is already in the cart",
+      "priority": "P1",
+      "feature": "cart",
+      "file": "projects/storeberry-compare/cases/cart/SBF-024-add-to-cart-refuses-a-quantity-above.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The eShop never lets a customer put more units in the cart than are available online.",
+      "preconditions": [
+        "product test 2 has a small known online stock N (sum of the Online Shop warehouses in CRM Inventory; 52 on 2026-10-27)"
+      ],
+      "data": [
+        "N read from CRM Inventory > View by Variants (Office + TaiPo + IFC Warehouse + 半島倉)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As a guest with an empty cart open product test 2",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Set quantity N+1 and click Add To Cart",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Set quantity 9 and click Add To Cart",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Set quantity N-8 and click Add To Cart",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: \"Not enough quantity for this product\"; cart badge unchanged (0)",
+          "status": "pass"
+        },
+        {
+          "text": "Step 3: \"Item added successfully\"; badge 9",
+          "status": "pass"
+        },
+        {
+          "text": "Step 4: \"Not enough quantity for this product\"; badge stays 9",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: empty the cart",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 2: \"Not enough quantity for this product\"; cart badge unchanged (0)",
+          "pass": true
+        },
+        {
+          "label": "Step 3: \"Item added successfully\"; badge 9",
+          "pass": true
+        },
+        {
+          "label": "Step 4: \"Not enough quantity for this product\"; badge stays 9",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: empty the cart",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "product test 2: 52 accepted, 53 refused (\"Not enough quantity for this product\"); 9 in cart + 60 refused."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:47.060Z"
+    },
+    {
+      "id": "SBF-025",
+      "title": "Checkout accepts the quantity that Add To Cart accepted",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-025-checkout-accepts-the-quantity-that-add-to.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Product page and checkout agree on how many units can be bought.",
+      "preconditions": [
+        "product test 2 has more online stock in total than in TaiPo Warehouse alone (e.g. Office 44, TaiPo 8)"
+      ],
+      "data": [
+        "Quantity Q = TaiPo available + 1 (9 on 2026-10-27)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As a guest with an empty cart open product test 2, set quantity Q, click Add To Cart -> Expect: \"Item added successfully\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /checkout and look at the product test 2 line",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No \"Not enough stock\" on the line; Sub. Total = unit price x Q",
+          "status": "fail"
+        },
+        {
+          "text": "If the stock cannot fulfil Q, step 1 must already refuse it with the available quantity",
+          "status": "fail"
+        },
+        {
+          "text": "Cleanup: empty the cart",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "No \"Not enough stock\" on the line; Sub. Total = unit price x Q",
+          "pass": false
+        },
+        {
+          "label": "If the stock cannot fulfil Q, step 1 must already refuse it with the available quantity",
+          "pass": false
+        },
+        {
+          "label": "Cleanup: empty the cart",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "2026-10-27: 9 and 52 show \"Not enough stock\" (TaiPo 8). Evidence re-taken 2026-10-28 with TaiPo 9: qty 10 accepted by Add To Cart, checkout line \"Not enough stock\"; cart emptied."
+      ],
+      "evidence": [
+        "screenshots/SBF-025-m01-not-enough-stock-qty-10.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:47.076Z",
+      "failureType": "product-bug",
+      "bug": "BUG-017"
+    }
+  ],
+  "notes": "Recorded 2026-10-28 for the 2026-10-27 evening exploration (promotions, stock limits).",
+  "finishedAt": "2026-10-27T22:14:47.114Z",
+  "summary": {
+    "total": 2,
+    "pass": 1,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

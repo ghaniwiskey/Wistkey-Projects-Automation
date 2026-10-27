@@ -1,0 +1,571 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-27-promotions-transfers",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_0514_staging_manual",
+  "startedAt": "2026-10-27T22:14:46.565Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-098",
+      "title": "Minimum-spend promo code created in the CRM discounts an eShop basket that reaches the minimum",
+      "priority": "P0",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-098-minimum-spend-promo-code-created-in-crm.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A new \"Get $Y off upon spending over $X with discount code\" promotion works on the eShop as soon as it is saved.",
+      "preconditions": [
+        "Product C is sold on the eShop at HKD 700.00 (or another product whose price is used as X)"
+      ],
+      "data": [
+        "Promotion name and code: `<unique>` (e.g. QA1027<unique>)",
+        "X = 700, Y = 50, Applied Shop = Online Shop, start = today 00:00, end = a date next month"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to the staging CRM and open Promotions > Add Promotion > \"Promo Code: Get $Y off upon spending over $X with discount code\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill the data above and Save -> Expect: the list shows the promotion as active with \"above 700 can enjoy $50 discount\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the eShop as a guest, add product C (HKD 700.00) to the cart and open checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the code and click APPLY",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Applied: <code>\" with REMOVE is shown",
+          "status": "pass"
+        },
+        {
+          "text": "Summary: Sub-total HKD $700.00, Basket Discount \"- <promotion name> - HKD $50.00\", Total HKD $650.00",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: remove the cart item; delete the promotion (confirm DELETE) and the list count drops by 1",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Applied: <code>\" with REMOVE is shown",
+          "pass": true
+        },
+        {
+          "label": "Summary: Sub-total HKD $700.00, Basket Discount \"- <promotion name> - HKD $50.00\", Total HKD $650.00",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: remove the cart item; delete the promotion (confirm DELETE) and the list count drops by 1",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Promotion 661 QA1027NQ3T8 (X 700 / Y 750): product C HKD 700.00 -> Applied, discount capped at the sub-total, Total HKD 0.00. Y > X allowed is Q-014."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.609Z"
+    },
+    {
+      "id": "SCRM-099",
+      "title": "Promo discount is removed when the basket drops below the minimum spend",
+      "priority": "P0",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-099-promo-discount-is-removed-when-the-basket.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A minimum-spend code cannot keep its discount after items are removed at checkout.",
+      "preconditions": [
+        "Product C (HKD 700.00) and NAKAJIMA cake (HKD 0.10) are sold on the eShop"
+      ],
+      "data": [
+        "A minimum-spend promotion created at runtime as in SCRM-098 (X = 700, code `<unique>`)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As a guest, add product C and the NAKAJIMA cake to the cart and open checkout (Sub-total HKD $700.10)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply the code -> Expect: Basket Discount line shown",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove product C from the cart with its trash icon",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Item remove successfully\"; Sub-total HKD $0.10",
+          "status": "pass"
+        },
+        {
+          "text": "No Basket Discount line; Total HKD $0.10; the promotion box is empty with APPLY",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: empty the cart; delete the promotion",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "\"Item remove successfully\"; Sub-total HKD $0.10",
+          "pass": true
+        },
+        {
+          "label": "No Basket Discount line; Total HKD $0.10; the promotion box is empty with APPLY",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: empty the cart; delete the promotion",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "C + cake 700.10 with the code, then C removed -> discount gone, Total 0.10."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.654Z"
+    },
+    {
+      "id": "SCRM-100",
+      "title": "Promo code is refused when the basket is below the minimum spend",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-100-promo-code-is-refused-below-the-minimum.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers get a clear message when their basket does not qualify for a minimum-spend code.",
+      "preconditions": [
+        "NAKAJIMA cake (HKD 0.10) is sold on the eShop"
+      ],
+      "data": [
+        "A minimum-spend promotion created at runtime as in SCRM-098 (X = 700, code `<unique>`)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As a guest, add only the NAKAJIMA cake to the cart and open checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the code and click APPLY",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Message \"Current shopping cart does not meet the promotion code conditions\"",
+          "status": "pass"
+        },
+        {
+          "text": "No Basket Discount line; Total stays HKD $0.10",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: empty the cart; delete the promotion",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Message \"Current shopping cart does not meet the promotion code conditions\"",
+          "pass": true
+        },
+        {
+          "label": "No Basket Discount line; Total stays HKD $0.10",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: empty the cart; delete the promotion",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Cake only -> \"Current shopping cart does not meet the promotion code conditions\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.694Z"
+    },
+    {
+      "id": "SCRM-101",
+      "title": "Expired promo code is refused on the eShop",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-101-expired-promo-code-is-refused-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Ending a promotion in the CRM stops its code from working on the eShop.",
+      "preconditions": [
+        "Product C (HKD 700.00) is sold on the eShop"
+      ],
+      "data": [
+        "A minimum-spend promotion created at runtime as in SCRM-098 (X = 700, code `<unique>`)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "In the CRM edit the promotion: start yesterday 00:00, end yesterday 23:00; Save -> Expect: list status \"expired\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "As a guest add product C to the cart, open checkout, enter the code and click APPLY",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Message \"Promotion code is invalid, expired or exceed the usage limit\"",
+          "status": "pass"
+        },
+        {
+          "text": "No Basket Discount line; Total equals Sub-total",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: empty the cart; delete the promotion",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Message \"Promotion code is invalid, expired or exceed the usage limit\"",
+          "pass": true
+        },
+        {
+          "label": "No Basket Discount line; Total equals Sub-total",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: empty the cart; delete the promotion",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "After making 661 expired -> \"Promotion code is invalid, expired or exceed the usage limit\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.730Z"
+    },
+    {
+      "id": "SCRM-102",
+      "title": "Promotion save rejects an End Datetime earlier than the Start Datetime",
+      "priority": "P2",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-102-promotion-save-rejects-an-end-datetime.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff cannot save a promotion whose date window is impossible.",
+      "preconditions": [
+        "None"
+      ],
+      "data": [
+        "Promotion name and code `<unique>`, X = 700, Y = 50, Applied Shop = Online Shop"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to the staging CRM and open Promotions > Add Promotion > \"Promo Code: Get $Y off upon spending over $X with discount code\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill the data, type Start Datetime **today 00:00:00** and End Datetime **yesterday 09:00:00**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Save",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A message says the end datetime must be after the start datetime",
+          "status": "fail"
+        },
+        {
+          "text": "The page stays on the form and no promotion is added (list count unchanged)",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "A message says the end datetime must be after the start datetime",
+          "pass": false
+        },
+        {
+          "label": "The page stays on the form and no promotion is added (list count unchanged)",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "End datetime before start saved silently; listed as expired (BUG-024)."
+      ],
+      "evidence": [
+        "screenshots/SCRM-102-m01-end-before-start-saved.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.839Z",
+      "failureType": "product-bug",
+      "bug": "BUG-024"
+    },
+    {
+      "id": "SCRM-103",
+      "title": "Edit a QA promotion, then delete it with confirmation",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-103-edit-a-promotion-and-delete-it-with.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Promotion edits persist and delete removes only after confirmation.",
+      "preconditions": [
+        "None"
+      ],
+      "data": [
+        "A minimum-spend promotion created at runtime as in SCRM-098 (X = 100, Y = 10, code `<unique>`)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the promotion's edit (pencil) icon, change X to 700 and Y to 50, Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen the edit page -> Expect: X 700, Y 50; list details \"above 700 can enjoy $50 discount\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the trash icon -> Expect: \"Are you sure to delete this promotion rule?\" with DELETE / CANCEL",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click CANCEL -> Expect: the promotion is still listed",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the trash icon again and DELETE",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The promotion is no longer listed and \"All Promotions (n)\" drops by 1",
+          "status": "pass"
+        },
+        {
+          "text": "Its code is refused on the eShop (\"Promotion code is invalid, expired or exceed the usage limit\")",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The promotion is no longer listed and \"All Promotions (n)\" drops by 1",
+          "pass": true
+        },
+        {
+          "label": "Its code is refused on the eShop (\"Promotion code is invalid, expired or exceed the usage limit\")",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Edit X 700 / Y 750 persisted; delete asks DELETE/CANCEL; Cancel keeps it; DELETE -> 44 -> 43. Deleted edit URL shows a bare 500 (risk)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.769Z"
+    },
+    {
+      "id": "SCRM-104",
+      "title": "Partial receive moves stock only for the received transfer row",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-104-partial-receive-moves-stock-only-for-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Receiving one row of a multi-product transfer moves only that product and marks the transfer Partial Received.",
+      "preconditions": [
+        "Office has available stock of product test 2 and C"
+      ],
+      "data": [
+        "Transfer number `<unique>` (QA-TO-<unique>), Office -> TaiPo Warehouse, product test 2 x1 and C x1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Inventory > Transfer Orders > Add Transfer Order with the data; Submit > Confirm -> Expect: Pending, Office product test 2 available -1",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the transfer, click Transfer > OK -> Expect: In-transit, Office product test 2 stock -1",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Turn on only the product test 2 row toggle, click Receive > OK",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Status Partial Received; product test 2 Receive Qty 1, TaiPo stock and available +1",
+          "status": "pass"
+        },
+        {
+          "text": "C Receive Qty 0; TaiPo C unchanged",
+          "status": "pass"
+        },
+        {
+          "text": "Receive is still offered for the remaining row",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: receive the C row (status Received)",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Status Partial Received; product test 2 Receive Qty 1, TaiPo stock and available +1",
+          "pass": true
+        },
+        {
+          "label": "C Receive Qty 0; TaiPo C unchanged",
+          "pass": true
+        },
+        {
+          "label": "Receive is still offered for the remaining row",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: receive the C row (status Received)",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Transfer 311 QA-TO-mvqodhe9: only product test 2 received -> Partial Received, TaiPo 9/8 -> 10/9, C unchanged. Q-016 for closing the rest."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.804Z"
+    },
+    {
+      "id": "SCRM-105",
+      "title": "Cancelling an In-transit transfer returns the stock to the source warehouse",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-105-cancelling-an-in-transit-transfer-returns.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A shipped transfer can be cancelled and the source warehouse gets all its stock back.",
+      "preconditions": [
+        "Office has available stock of product test 2"
+      ],
+      "data": [
+        "Transfer number `<unique>` (QA-TO-<unique>), Office -> TaiPo Warehouse, product test 2 x1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add Transfer Order with the data; Submit > Confirm (Pending); note Office stock / available (S / A)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Transfer > OK -> Expect: In-transit, Office S-1 / A-1",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel Transfer > OK -> Expect: status Pending, Office S / A-1",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel Transfer Orders > OK",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Status Canceled; Office back to S / A; TaiPo unchanged",
+          "status": "pass"
+        },
+        {
+          "text": "Inventory History lists IN_TRANSIT, CANCEL_TRANSFER and CANCEL_TRANSFER_ORDER for the transfer number",
+          "status": "pass"
+        },
+        {
+          "text": "Transfer time is empty or shows the real shipping time (not the cancel time)",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Status Canceled; Office back to S / A; TaiPo unchanged",
+          "pass": true
+        },
+        {
+          "label": "Inventory History lists IN_TRANSIT, CANCEL_TRANSFER and CANCEL_TRANSFER_ORDER for the transfer number",
+          "pass": true
+        },
+        {
+          "label": "Transfer time is empty or shows the real shipping time (not the cancel time)",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Transfer 312 QA-TO-mvqoiwwt: Canceled, Office 43/43 restored, history complete. Transfer time 20:46:38 = the cancel time (BUG-025). Screenshot taken 2026-10-28 from the same transfer."
+      ],
+      "evidence": [
+        "screenshots/SCRM-105-m01-transfer-time-is-cancel-time.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:14:46.911Z",
+      "failureType": "product-bug",
+      "bug": "BUG-025"
+    }
+  ],
+  "notes": "Recorded 2026-10-28 for the 2026-10-27 evening exploration (promotions, transfers).",
+  "finishedAt": "2026-10-27T22:14:46.980Z",
+  "summary": {
+    "total": 8,
+    "pass": 6,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
