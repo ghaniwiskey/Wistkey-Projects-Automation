@@ -1,5 +1,5 @@
 import { test, expect, isoDate, listDate, unique } from '../../fixtures/pages.fixture';
-import type { Announcement } from '../../pages/settings-admin.page';
+import type { Announcement } from '@shared/mha-ats/pages/settings-admin.page';
 
 // Agency Admin settings. Each write test edits an existing record found at runtime and puts the original
 // values back (announcements cannot be deleted; cost centres and templates are shared by every user).

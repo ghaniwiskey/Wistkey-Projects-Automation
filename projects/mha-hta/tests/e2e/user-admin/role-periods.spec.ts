@@ -1,5 +1,5 @@
 import { test, expect, ROLES, listDate } from '../../fixtures/pages.fixture';
-import type { RoleListingPage } from '../../pages/user-admin.page';
+import type { RoleListingPage } from '@shared/mha-ats/pages/user-admin.page';
 
 // User > Role Listing > Periods (role validity) as Agency Admin, on Stocktaker: HTA has no End User, and
 // Stocktaker has the fewest rights (FAVE only). The test deletes its period again. The dates are in next month (13th to 20th):

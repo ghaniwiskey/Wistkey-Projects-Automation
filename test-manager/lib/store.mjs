@@ -121,7 +121,7 @@ function projectSummary(slug) {
     neverRun: m.never.length, openBugs: m.openBugs.length, openQuestions: p.questions.filter((x) => x.fm && x.fm.id && (x.fm.status || 'open') === 'open').length, runs: p.runs.length, lastRun: m.lastRun ? runSummary(m.lastRun) : null,
     activePlans: m.plans.filter((pl) => pl.status === 'active').map((pl) => ({ id: pl.id, name: pl.name, counts: pl.progress.counts, ready: pl.progress.ready })),
     inProgressRuns: p.runs.filter((r) => r.inProgress).map((r) => r.runId),
-    folder: rel(p.dir), specDir: rel(p.specDir), pagesDir: rel(path.join(p.testsDir, 'pages')), specFiles: p.specs.length,
+    folder: rel(p.dir), specDir: rel(p.specDir), pagesDir: rel(path.resolve(p.dir, m.cfg.playwright?.pagesDir || 'tests/pages')), specFiles: p.specs.length,
     playwrightProjects: playwrightProjectsOf(m.cfg, slug),
   };
 }

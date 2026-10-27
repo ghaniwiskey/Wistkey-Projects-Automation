@@ -32,6 +32,7 @@ type ProjectYaml = {
   playwright?: {
     testDir?: string; browsers?: string[]; fullyParallel?: boolean; timeout?: number; retries?: number; use?: Project['use'];
     runner?: 'mobilewright'; // native app: runs with its own projects/<slug>/playwright.config.ts
+    pagesDir?: string; // where the page objects live, relative to the project (Test Manager display; default tests/pages)
   };
 };
 

@@ -1,5 +1,5 @@
 import { test, expect, ROLES, listDate } from '../../fixtures/pages.fixture';
-import type { RoleListingPage } from '../../pages/user-admin.page';
+import type { RoleListingPage } from '@shared/mha-ats/pages/user-admin.page';
 
 // User > Role Listing > Periods (role validity) as Agency Admin, on End User: it has the fewest rights and
 // no real users on UAT, so a wrong period there blocks nobody. The dates are in next month (13th to 20th):

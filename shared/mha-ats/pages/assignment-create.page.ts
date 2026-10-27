@@ -13,11 +13,11 @@ const TYPE_IDS: Record<AssignmentType, string> = {
 export type NewAssignment = {
   type: AssignmentType;
   assetId: string;
-  /** Assign step, e.g. "Fixed Asset Liaison Officer (FALO)" (option text in the Role dropdown). */
+  /** Assign step, e.g. "Fixed Asset Liaison Officer (FALO)" (option text in the Role dropdown; HTA has no FALO, only LOGS1). */
   role?: string;
   /**
    * Assign step: officer name (e.g. the `officer` fixture), or `{ except: name }` for the first officer in
-   * the Assignee list who is not that person (e.g. another FALO). The chosen name is returned by create().
+   * the Assignee list who is not that person (e.g. another FALO or LOGS1). The chosen name is returned by create().
    */
   assignee?: string | { except: string };
   /** Location step: new Remarks (other location fields keep the asset's current values). */
@@ -29,6 +29,12 @@ export type NewAssignment = {
  * Start (type) > Asset > Review > Assign (#pnlAssign) and/or Location (#pnlMove) > End.
  */
 export class AssignmentCreatePage extends WizardPage {
+  /**
+   * HTA (projects/mha-hta/tests/pages/assignment-create.page.ts): on the location step, wait for the prefill and
+   * fill an empty Group / NPC / Base (ensureLocationGroup) even when no remarks are typed. SPF only waits when
+   * it types remarks, and its assets always arrive with their group.
+   */
+  protected fillsEmptyLocationGroup = false;
   readonly reviewRows: Locator;
   readonly assignPanel: Locator;
   readonly locationPanel: Locator;
@@ -79,6 +85,26 @@ export class AssignmentCreatePage extends WizardPage {
   async waitForLocationPrefill(): Promise<void> {
     await expect(this.locationPanel).toBeVisible();
     await expect(this.locationPanel.locator('input[name="Building"]')).toHaveValue(/\S/);
+  }
+
+  /** Group / NPC / Base options of the location step (only the groups of the asset's cost centre). */
+  async locationGroupOptions(): Promise<string[]> {
+    const texts = await this.locationPanel.locator('select#subLocList option:not([value=""]):not([value="0"])').allTextContents();
+    return texts.map((t) => t.trim()).filter(Boolean);
+  }
+
+  /**
+   * HTA UAT has assets whose group belongs to another cost centre (e.g. a 338000 asset in "CCS - EMSB"). The
+   * location step offers only the groups of the asset's cost centre, so the group stays empty and Submit says
+   * "Group/NPC/Base selection cannot be empty.". Then pick the first offered group. Returns the group set, if any.
+   */
+  async ensureLocationGroup(): Promise<string | undefined> {
+    if ((await this.locationGroup.innerText()).trim()) return undefined;
+    const first = (await this.locationGroupOptions())[0];
+    if (!first) throw new Error('The location step offers no Group / NPC / Base');
+    await this.pickSelect2(this.locationPanel, 'subLocList', first);
+    await expect(this.locationGroup).toHaveText(first);
+    return first;
   }
 
   /**
@@ -145,9 +171,10 @@ export class AssignmentCreatePage extends WizardPage {
       assignee = await this.chooseAssignee(a.role, a.assignee);
       if (a.type === 'Assign & Relocate') await this.next();
     }
-    if (a.type !== 'Assign' && a.remarks !== undefined) {
+    if (a.type !== 'Assign' && (a.remarks !== undefined || this.fillsEmptyLocationGroup)) {
       await this.waitForLocationPrefill();
-      await this.locationRemarks.fill(a.remarks);
+      if (this.fillsEmptyLocationGroup) await this.ensureLocationGroup();
+      if (a.remarks !== undefined) await this.locationRemarks.fill(a.remarks);
     }
     const message = await this.submit();
     const transactionNo = message.match(/ASG\d+/)?.[0];

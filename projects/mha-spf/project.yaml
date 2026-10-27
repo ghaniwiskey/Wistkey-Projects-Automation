@@ -16,6 +16,7 @@ envs:
 # A test links to a test case when its title starts with the ID: test('SPF-001: ...').
 playwright:
   testDir: tests/e2e
+  pagesDir: ../../shared/mha-ats/pages # MHA web page objects shared with mha-hta
   browsers: [chromium] # chromium | firefox | webkit | mobile; first one is the "mha-spf" Playwright project
   fullyParallel: false # tests share one account; its active role is server-side state
   use:

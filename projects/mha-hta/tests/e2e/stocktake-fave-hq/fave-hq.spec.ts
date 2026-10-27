@@ -1,5 +1,5 @@
 import { test, expect, readXlsxDownload, ROLES } from '../../fixtures/pages.fixture';
-import type { FaveHqPage } from '../../pages/fave-hq.page';
+import type { FaveHqPage } from '@shared/mha-ats/pages/fave-hq.page';
 
 /** Overview counts per FSSC outcome must add up to the non-PENDING rows of the Summary. */
 async function expectOverviewMatchesSummary(faveHq: FaveHqPage): Promise<void> {

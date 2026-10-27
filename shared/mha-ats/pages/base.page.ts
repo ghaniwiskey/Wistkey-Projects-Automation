@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
-import { AppPage } from '@shared/pages/app.page';
+import { AppPage } from '../../pages/app.page';
 
 /**
  * ATS allows one session per account: a newer login of the same account (another test, a person,

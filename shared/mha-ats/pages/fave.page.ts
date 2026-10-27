@@ -12,7 +12,7 @@ import { AssetCondition, SightedResult, StocktakeFormPage } from './stocktake-fo
  * asks "Please confirm ..." first. Ok after either keeps the page and redraws the table.
  *
  * Approval (Summary tab, per cost centre): VET IC Submit > URO Submit/Reject > UAO Approve/Reject.
- * There is no HQ AO on SPF, so UAO approval is final (APPROVED, read-only for everyone). A reject
+ * There is no HQ AO on SPF or HTA, so UAO approval is final (APPROVED, read-only for everyone). A reject
  * returns the FAVE one level down. Each stage card in #pnlStatus shows the role, a
  * status badge, officer, time and "Remarks: ..."; a card keeps its last status until that level acts
  * again. The cost centre row shows the last action (Status, Role).
@@ -25,6 +25,11 @@ export type FaveNewLocation = { block?: string; level?: string; roomNo?: string;
 export class FavePage extends StocktakeFormPage {
   static readonly path = 'Stocktake/Fave';
   protected readonly stocktakerKey = 'userStocktakerDropdown';
+  /**
+   * HTA (projects/mha-hta/tests/pages/fave.page.ts) reads a row's asset ID from its own "Asset ID: <id>" label
+   * (StocktakeFormPage.assetIdOf), which also works while the Details tab is hidden. SPF reads the row text.
+   */
+  protected readonly assetIdByLabel: boolean = false;
 
   readonly listHeading: Locator;
   readonly faveRows: Locator;
@@ -155,7 +160,12 @@ export class FavePage extends StocktakeFormPage {
   async firstPendingAssetOf(logs1: string): Promise<string | undefined> {
     if (!(await this.filterDetails({ logs1, result: 'PENDING' }))) return undefined;
     if ((await this.tableTotal(this.page.locator('#tbdetail_info'))) === 0) return undefined;
-    return (await this.detailRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+    return this.rowAssetId(this.detailRows.first());
+  }
+
+  /** Asset ID of a Details row (see assetIdByLabel). */
+  private async rowAssetId(row: Locator): Promise<string | undefined> {
+    return this.assetIdByLabel ? this.assetIdOf(row) : (await row.innerText()).match(/Asset ID: (\d+)/)?.[1];
   }
 
   /** Clear Details filters and return the current cost centre's full asset count. */
@@ -360,7 +370,7 @@ export class FavePage extends StocktakeFormPage {
   /** Asset ID of the first row in the Details table of the selected cost centre. */
   async firstAssetId(): Promise<string> {
     await expect(this.page.locator('#tbdetail_info')).toHaveText(/Showing \d/, { timeout: 30_000 });
-    const id = (await this.detailRows.first().innerText()).match(/Asset ID: (\d+)/)?.[1];
+    const id = await this.rowAssetId(this.detailRows.first()); // HTA: the Details tab may be hidden (Summary active)
     if (!id) throw new Error('No asset in the FAVE details of the selected cost centre');
     return id;
   }

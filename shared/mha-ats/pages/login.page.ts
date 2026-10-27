@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
-import { AppPage } from '@shared/pages/app.page';
+import { AppPage } from '../../pages/app.page';
 
 /** "Asset Tracking System (ATS)" login card. The base URL redirects here (/Account/LoginBk?ReturnUrl=%2F). */
 export class LoginPage extends AppPage {

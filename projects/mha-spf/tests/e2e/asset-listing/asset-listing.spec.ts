@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures/pages.fixture';
-import { AssetDetailsPage } from '../../pages/asset-details.page';
+import { AssetDetailsPage } from '@shared/mha-ats/pages/asset-details.page';
 
 // The asset is the first AVAILABLE one in the listing (availableAsset fixture), not a fixed ID.
 
