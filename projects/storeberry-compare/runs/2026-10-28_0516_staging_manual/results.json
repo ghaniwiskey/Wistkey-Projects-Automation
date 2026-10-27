@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-28-promo-code-orders",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_0516_staging_manual",
+  "startedAt": "2026-10-27T22:16:41.886Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-026",
+      "title": "Checkout drops a promotion code that became invalid after it was applied",
+      "priority": "P2",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-026-checkout-drops-a-promotion-code-that.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The checkout never shows a discount the order cannot get.",
+      "preconditions": [
+        "Member logged in; a CRM single-use code (storeberry-crm SCRM-108) applied at /checkout"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Revoke the code in the CRM",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change the shipping method (re-pricing)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill the rest and Proceed to checkout, then close the warning",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2 or 3 removes the code and shows the total without it",
+          "status": "fail"
+        },
+        {
+          "text": "The message names the code that was removed",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 2 or 3 removes the code and shows the total without it",
+          "pass": false
+        },
+        {
+          "label": "The message names the code that was removed",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "QBgH2nw9: after revoke and shipping change still Applied, HKD 459.00; Proceed -> \"Invalid promotion code.\"; after OK unchanged until reload."
+      ],
+      "evidence": [
+        "screenshots/SBF-026-m01-summary-keeps-revoked-code.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.904Z",
+      "failureType": "product-bug",
+      "bug": "BUG-018"
+    },
+    {
+      "id": "SBF-027",
+      "title": "My Account > My Promotion Codes lists the codes assigned to the member",
+      "priority": "P1",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-027-my-account-my-promotion-codes-lists-the.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Members can find the promotion codes the shop gave them.",
+      "preconditions": [
+        "A member with at least one code assigned in the CRM (storeberry-crm SCRM-109)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in, open My Account, click My Promotion Codes",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page loads (no 404) and lists each assigned code with its promotion and validity",
+          "status": "fail"
+        },
+        {
+          "text": "Used codes are marked as used",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The page loads (no 404) and lists each assigned code with its promotion and validity",
+          "pass": false
+        },
+        {
+          "label": "Used codes are marked as used",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Member MEMy001164526 with 2 assigned codes: /my-account/promotion-codes -> 404 Page Not Found (menu link and direct URL)."
+      ],
+      "evidence": [
+        "screenshots/SBF-027-m01-my-promotion-codes-404.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.937Z",
+      "failureType": "product-bug",
+      "bug": "BUG-019"
+    }
+  ],
+  "notes": "Exploration 2026-10-28: promo codes at checkout, member promotion codes page.",
+  "finishedAt": "2026-10-27T22:16:41.972Z",
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

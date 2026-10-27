@@ -56,3 +56,9 @@ Staging only. Production is read-only.
 - Promo code at checkout: `#promotion_code` + APPLY; below-minimum message "Current shopping cart does not meet the promotion code conditions".
 - Cart trash icon: `i.fa-trash-o` (no accessible name). Product pages often never fire `load`; wait for the Add To Cart button instead.
 - Session log: `explorations/2026-10-27-promotions-stock.md`.
+
+## Member promo codes (explored 2026-10-28)
+
+- Open: `BUG-018` revoked code stays applied in checkout until reload (server refuses the order), `BUG-019` My Account > My Promotion Codes is 404.
+- Member checkout: code discount is applied before the member level discount (Silver 15%). 門市自取 needs Address and the store radio (荔枝角). `/cart` redirects to `/checkout`.
+- Session log: `explorations/2026-10-28-promo-code-orders.md`.

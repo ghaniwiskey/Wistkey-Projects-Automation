@@ -1,0 +1,466 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-28-promo-code-orders",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_0516_staging_manual",
+  "startedAt": "2026-10-27T22:16:41.562Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-106",
+      "title": "Single-use generated promo code discounts an eShop order once and is marked Used with the order",
+      "priority": "P0",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-106-single-use-generated-promo-code.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A generated single-use code gives the right discount on a real Bank Transfer order, the CRM order totals match the checkout, and the code cannot be used twice.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code (created during the test, e.g. 662), Y = 10, quota 2, codes generated",
+        "A QA member is logged in on the eShop with an empty cart; a non-quota product found at runtime (e.g. C)"
+      ],
+      "data": [
+        "Bank Transfer (fn-bank-transfer) only; shipping 門市自取 with a pickup store"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the eShop add the product, open /checkout and note the totals without a code",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply code 1 -> Expect: \"Applied: <code>\", Basket Discount line named after the promotion = 10% of the sub-total; member-level promotions (e.g. Silver 15%) are applied on the remaining amount",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Place the order with Bank Transfer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the CRM open the order and the promotion's Multiple Promotion Code tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Back on the eShop add a product again and apply code 1",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Thank-you page with the order number",
+          "status": "pass"
+        },
+        {
+          "text": "CRM order: Pending Payment, Basket Discount lists the code promotion and the member promotion with the same amounts as the checkout; Total and Bank Transfer payment equal the checkout total",
+          "status": "pass"
+        },
+        {
+          "text": "Code 1: Status Used, Txn No. = the order, Txn Member ID = the member; Stock count drops by one",
+          "status": "pass"
+        },
+        {
+          "text": "Re-applying code 1 -> \"Promotion code is invalid, expired or exceed the usage limit\" and no discount",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: void the order (SCRM-110) and empty the cart",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Thank-you page with the order number",
+          "pass": true
+        },
+        {
+          "label": "CRM order: Pending Payment, Basket Discount lists the code promotion and the member promotion with the same amounts as the checkout; Total and Bank Transfer payment equal the checkout total",
+          "pass": true
+        },
+        {
+          "label": "Code 1: Status Used, Txn No. = the order, Txn Member ID = the member; Stock count drops by one",
+          "pass": true
+        },
+        {
+          "label": "Re-applying code 1 -> \"Promotion code is invalid, expired or exceed the usage limit\" and no discount",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: void the order (SCRM-110) and empty the cart",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "QA1pr6iu on TXN0126102700025: code -60.00 + Silver -81.00 = Total 459.00 in checkout and CRM; code Used with txn and member; re-apply refused. Voided afterwards."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.598Z"
+    },
+    {
+      "id": "SCRM-107",
+      "title": "Generating promotion codes is limited by the promotion code quota",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-107-generating-promotion-codes-is-limited.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff cannot create more single-use codes than the quota set on the promotion.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code (created during the test, e.g. 662), quota Q (e.g. 2), no codes yet"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the promotion with the pencil icon (edit, not the view icon) > Multiple Promotion Code > Generate",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Prefix QA, No. of Promotion Code = Q + 1, Generate",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Generate again with No. = Q",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Raise the quota by 1 in Promotion Setting, Save, and reopen",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: \"Not enough code quota to generate code\"; no code is created (Total 0 | Stock Q)",
+          "status": "pass"
+        },
+        {
+          "text": "Step 3: \"Success\"; Q codes with the prefix, status Generated; Total Q | Stock 0",
+          "status": "pass"
+        },
+        {
+          "text": "Step 4: \"Edited rule successfully.\" and Current Stock: 1",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 2: \"Not enough code quota to generate code\"; no code is created (Total 0 | Stock Q)",
+          "pass": true
+        },
+        {
+          "label": "Step 3: \"Success\"; Q codes with the prefix, status Generated; Total Q | Stock 0",
+          "pass": true
+        },
+        {
+          "label": "Step 4: \"Edited rule successfully.\" and Current Stock: 1",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "3 against quota 2 -> \"Not enough code quota to generate code\"; 2 -> Success; quota 3 -> Current Stock: 1."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.634Z"
+    },
+    {
+      "id": "SCRM-108",
+      "title": "A revoked promotion code is refused on the eShop, also when it was applied before it was revoked",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-108-a-revoked-promotion-code-is-refused-on.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Revoking a leaked code stops it immediately, including in carts where it is already applied.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code (created during the test, e.g. 662), one Generated code",
+        "QA member logged in on the eShop with a product in the cart"
+      ],
+      "data": [
+        "Bank Transfer only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Apply the code at /checkout -> Expect: Applied",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the CRM click Revoke on that code",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the eShop fill pickup info and Proceed to checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload /checkout and apply the same code again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: status Revoked, Revoke/Assign buttons gone",
+          "status": "pass"
+        },
+        {
+          "text": "Step 3: no order is created (order list unchanged); a warning says the code is invalid",
+          "status": "pass"
+        },
+        {
+          "text": "Step 4: \"Promotion code is invalid, expired or exceed the usage limit\" and no discount",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 2: status Revoked, Revoke/Assign buttons gone",
+          "pass": true
+        },
+        {
+          "label": "Step 3: no order is created (order list unchanged); a warning says the code is invalid",
+          "pass": true
+        },
+        {
+          "label": "Step 4: \"Promotion code is invalid, expired or exceed the usage limit\" and no discount",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "QAka7BxS and QBgH2nw9 revoked while applied: Proceed refused with \"Invalid promotion code.\", no order created (latest order still TXN0126102700025); fresh apply refused. Stale checkout display: storeberry-compare BUG-018."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.669Z"
+    },
+    {
+      "id": "SCRM-109",
+      "title": "Codes that require member assignment work only after they are assigned to the member",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-109-codes-that-require-member-assignment.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "\"Require Member assignment before use\" stops unassigned codes, and Assign validates the member.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code (created during the test, e.g. 662), \"Require Member assignment before use\" ticked, two Generated codes",
+        "QA member logged in on the eShop with a product in the cart"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the eShop apply unassigned code 1",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the CRM click Assign on code 1 and enter a Member ID that does not exist",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Assign code 1 to the QA member",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the eShop apply code 1 again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: refused, no discount",
+          "status": "pass"
+        },
+        {
+          "text": "Step 2: \"Target Member Not found\"; the code stays unassigned",
+          "status": "pass"
+        },
+        {
+          "text": "Step 3: \"Assigned\"; Member ID and Member Reserved At filled, status still Generated",
+          "status": "pass"
+        },
+        {
+          "text": "Step 4: \"Applied: <code>\" with the promotion discount",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 1: refused, no discount",
+          "pass": true
+        },
+        {
+          "label": "Step 2: \"Target Member Not found\"; the code stays unassigned",
+          "pass": true
+        },
+        {
+          "label": "Step 3: \"Assigned\"; Member ID and Member Reserved At filled, status still Generated",
+          "pass": true
+        },
+        {
+          "label": "Step 4: \"Applied: <code>\" with the promotion discount",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "QC39DgTk refused unassigned; MEMy999999999 -> \"Target Member Not found\"; assigned to MEMy001164526 -> Applied."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.704Z"
+    },
+    {
+      "id": "SCRM-110",
+      "title": "Voiding an unpaid eShop order releases its reserved stock",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-110-voiding-an-unpaid-eshop-order-releases.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Stock reserved by an online order comes back when staff void it.",
+      "preconditions": [
+        "An unpaid eShop Bank Transfer order placed by a QA member during the test (e.g. from SCRM-106)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Before the order: Inventory, search the product SKU, note Available Qty, Stock Qty and the order warehouse column (TaiPo)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "After the order: read the same row",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Order detail > Actions > Void this order > Yes",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the order and read the inventory row again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: Available and the warehouse column drop by the ordered quantity; Stock Qty unchanged",
+          "status": "pass"
+        },
+        {
+          "text": "Step 4: Order Status and Payment Status Canceled",
+          "status": "pass"
+        },
+        {
+          "text": "Step 4: Available and the warehouse column are back to the step 1 values",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 2: Available and the warehouse column drop by the ordered quantity; Stock Qty unchanged",
+          "pass": true
+        },
+        {
+          "label": "Step 4: Order Status and Payment Status Canceled",
+          "pass": true
+        },
+        {
+          "label": "Step 4: Available and the warehouse column are back to the step 1 values",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "C: Available 14999915 -> 14999914 -> 14999915; TaiPo 999970 -> 999969 -> 999970. Code stays Used (Q-017)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.738Z"
+    },
+    {
+      "id": "SCRM-111",
+      "title": "Promotion code list shows all times in the same local time zone",
+      "priority": "P2",
+      "feature": "promotions",
+      "file": "projects/storeberry-crm/cases/promotions/SCRM-111-promotion-code-list-shows-all-times-in.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff can read when a code was created, assigned and used.",
+      "preconditions": [
+        "Staging CRM login; a QA promotion \"Promo Code: Get Y% off with discount code X\", Applied Shop Online Shop, Multiple Promotion Code (created during the test, e.g. 662), one Generated code"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Assign the code to a QA member and note the local time",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read Staff Reserved At, Member Reserved At, Created At and Updated At",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Staff Reserved At and Member Reserved At equal the local time of the assignment",
+          "status": "fail"
+        },
+        {
+          "text": "Created At / Updated At are local time in the same readable format (no UTC \"Z\" marker on local times)",
+          "status": "fail"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Staff Reserved At and Member Reserved At equal the local time of the assignment",
+          "pass": false
+        },
+        {
+          "label": "Created At / Updated At are local time in the same readable format (no UTC \"Z\" marker on local times)",
+          "pass": false
+        }
+      ],
+      "notes": [
+        "Staff Reserved At 2026-10-27 22:12:43 vs Member Reserved At 2026-10-28 06:12:43 (QCDupVR9); Updated At 2026-10-28T06:12:43.000000Z."
+      ],
+      "evidence": [
+        "screenshots/SCRM-111-m01-staff-reserved-at-8h-behind.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-27T22:16:41.771Z",
+      "failureType": "product-bug",
+      "bug": "BUG-026"
+    }
+  ],
+  "notes": "Exploration 2026-10-28: single-use promo codes on real eShop orders, revoke, assignment, void and stock.",
+  "finishedAt": "2026-10-27T22:16:41.847Z",
+  "summary": {
+    "total": 6,
+    "pass": 5,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

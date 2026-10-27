@@ -89,3 +89,11 @@ Staging only. Production is read-only.
 - Transfers: Submit is a link (`a.button-save`, not the Cancel one) and opens an inline CONFIRM TRANSFER ORDER panel (Confirm button). "Cancel Transfer" on In-transit returns it to Pending; "Cancel Transfer Orders" then cancels. After a partial receive only Receive is offered (Q-016). Times are overwritten by later actions (BUG-025).
 - QA data: transfers 311 (Received) and 312 (Canceled). Promotion 661 deleted.
 - Notes: `explorations/2026-10-27-promotions-transfers.md`.
+
+## Single-use promo codes (explored 2026-10-28)
+
+- Promotion types "Promo Code: Get $Y / Y% off with discount code X" offer Multiple Promotion Code with a quota. Generate/Assign/Revoke work only on the edit page (pencil, `/promotions/edit?pid=`); on the view page (file icon) the Generate dialog is read-only.
+- Generate: prefix + count (`input[name=gen_code_prefix]`, `gen_code_qty`); over quota -> "Not enough code quota to generate code". Assign takes a Member ID ("Target Member Not found" if unknown). Revoke is immediate, no confirmation, no undo.
+- Used codes record Txn No. and member; voiding the order keeps the code Used (Q-017). Staff Reserved At is in UTC (BUG-026).
+- Inventory list: warehouse columns show available qty; an unpaid online order lowers Available and the order warehouse (TaiPo), not Stock Qty; Void restores them.
+- QA data: promotion 662 (member assignment required, until 2026-12-31); order TXN0126102700025 Canceled. Notes: `explorations/2026-10-28-promo-code-orders.md`.
