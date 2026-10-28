@@ -27,8 +27,9 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 ## Sending and replies
 - 變數映射配置: click an Excel column, + 插入, 儲存映射 (PATCH variable-mapping). Send POSTs `/api/send {templateId}` and sends to every PENDING contact.
 - An unmapped variable is not blocked: Twilio uses the template sample value (attendance_confirmation sends "Hi David").
-- Delivery/read status and replies arrive through the Twilio webhook `/api/webhook/whatsapp` (signature-checked: unsigned requests get 403 "驗證失敗"). Locally this needs the ngrok tunnel (README).
-- 回覆統計 filters: 全部 / 其它 / 未回覆.
+- Replies arrive through the Twilio webhook POST `/api/webhook/whatsapp` (tunnel: README). No Twilio signature check (BUG-012); GET with a wrong verify token returns 403 "驗證失敗" (Meta verification). The reply goes to the most recently sent contact with that phone (any template) and is stored for all contacts with that phone in the template; only the first reply counts (Q-007). Button title match (case-insensitive) or the button number -> that button, else 其它.
+- 回覆統計: a count card per answer, filters 全部 / <one per received answer> / 其它 / 未回覆. A reply sets the contact to READ.
+- No delivery/read receipts: sends set no status callback (BUG-013); deliveredAt/readAt stay empty.
 
 ## Report
 `/api/templates/<id>/export` -> `reply_report_<id>.xlsx`: sheet 回覆紀錄 (rows 1-3: 東華三院屯門綜合服務中心, 服務使用者回覆電子訊息紀錄表, 問題：<question title or template name>; then member columns + 回覆內容, 回覆日期) and sheet 數據統計 (count per button, 其他, 未有回覆人數, sign-off block).

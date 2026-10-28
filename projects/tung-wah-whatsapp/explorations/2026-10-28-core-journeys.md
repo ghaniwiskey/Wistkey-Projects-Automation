@@ -54,3 +54,8 @@ TWW-002 to TWW-045 (44 cases): users (002-009), security (010-014), templates (0
 - QA data left on the env: contact "QA Tester" (85265248661, status SENT, mapping first_name -> 姓名) on attendance_confirmation; 2 outbound + 3 inbound WhatsApp messages in Twilio. QA users, the QA draft template (also deleted in Twilio) and test contacts on "testing" were removed.
 - Evidence in this folder: screenshots 02-17 (11, 15, 16, 17 are text cards of API responses / native dialogs) and 11-editor-api-probe.txt.
 - Manual run: runs/2026-10-28_1340_local_manual (41 cases: 22 pass, 16 fail, 3 blocked). Not executed: TWW-008 (risk of locking out admin), TWW-011 UI part, TWW-042 (no replies reached the app).
+
+## Follow-up: ngrok tunnel
+- Installed ngrok (winget), user allowed the Defender detection, added the user's authtoken, started the static domain murmuring-amused-diaper.ngrok-free.dev -> 127.0.0.1:3000 and pointed the Twilio sender webhook to it via the Senders API (the console form demanded a public 'Profile about'). Restarted the stopped dev server (no code changes). Details: README > Testing permissions.
+- Retest run 2026-10-28_1358_local_manual: TWW-040 and TWW-042 pass; TWW-039 fail (BUG-013, no receipts); new TWW-046 fail (BUG-012, unsigned webhook). New cases TWW-047/048 and Q-007 from reading the webhook handler. Q-006 closed by observation.
+- Evidence: 18-reply-recorded-via-ngrok.webp, 19-unsigned-webhook-accepted.png.

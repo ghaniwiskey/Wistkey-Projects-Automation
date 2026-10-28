@@ -30,4 +30,4 @@ A typed reply that is not a button counts as 其它.
 - 未回覆 no longer lists the contact
 
 ## Notes
-Blocked on 2026-10-28: ngrok endpoint offline (ERR_NGROK_3200).
+Not yet run with the tunnel up (the earlier "maybe later?" reply was lost while ngrok was offline). Reply from a phone that has not answered this template yet: only the first reply counts (Q-007).

@@ -20,8 +20,9 @@ For a template with buttons, 回覆統計 can filter by each answer.
 1. Log in as admin and open attendance_confirmation > 回覆統計
 
 ## Expected
-- Filter chips show 全部, Yes, No, 其它, 未回覆 (matching the report's 回覆內容1/2)
+- Filter chips show 全部, 其它, 未回覆 plus one chip for each answer that has at least one reply (after a Yes reply: 全部, Yes, 其它, 未回覆)
+- Clicking Yes lists only the contacts that answered Yes
 
 ## Notes
-On 2026-10-28 only 全部 / 其它 / 未回覆 were shown with 0 replies; may appear once replies exist (see question).
+Chips are built from received replies (Q-006, closed).
 Related: Q-006.

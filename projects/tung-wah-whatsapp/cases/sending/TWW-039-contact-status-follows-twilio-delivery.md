@@ -31,4 +31,4 @@ The app shows Delivered / Read / Undelivered like Twilio does.
 - A message to a non-HK number that Twilio marks Undelivered shows as failed, not 已發送
 
 ## Notes
-Blocked on 2026-10-28: the ngrok endpoint for the Twilio webhook was offline (ERR_NGROK_3200), see project README.
+Related: BUG-013 (open). With the tunnel up the status only changes to READ when the member replies; deliveredAt/readAt stay empty and undelivered messages stay 已發送.

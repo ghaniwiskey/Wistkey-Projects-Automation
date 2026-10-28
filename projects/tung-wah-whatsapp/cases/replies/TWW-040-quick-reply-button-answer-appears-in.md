@@ -33,4 +33,4 @@ A Yes/No button reply is recorded against the contact.
 - The report's 數據統計 counts 1 under "回覆內容1：Yes"
 
 ## Notes
-Blocked on 2026-10-28: ngrok endpoint offline (ERR_NGROK_3200); Twilio received the replies but the app got 404 from ngrok.
+Passed on 2026-10-28 once the tunnel was up (murmuring-amused-diaper.ngrok-free.dev). Only the first reply per phone and template is recorded (Q-007).

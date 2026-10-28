@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "ngrok-retest-2026-10-28",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-28_1358_local_manual",
+  "startedAt": "2026-10-28T06:58:16.016Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-039",
+      "title": "Contact status follows Twilio delivery and read receipts",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-039-contact-status-follows-twilio-delivery.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The app shows Delivered / Read / Undelivered like Twilio does.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel for the Twilio webhook running"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Make sure the Twilio status webhook reaches the app (ngrok tunnel up)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the QA contact (mapped)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the message on the phone",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人 and click 刷新",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After delivery the contact shows a delivered state and time; after opening it shows read",
+          "status": null
+        },
+        {
+          "text": "A message to a non-HK number that Twilio marks Undelivered shows as failed, not 已發送",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Twilio Delivered/Read but app SENT with no times until the reply, then READ; Ghani Undelivered still 已發送."
+      ],
+      "evidence": [
+        "screenshots/TWW-039-m01-07-twilio-mapped-message.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:58:16.535Z",
+      "failureType": "product-bug",
+      "bug": "BUG-013"
+    },
+    {
+      "id": "TWW-040",
+      "title": "Quick-reply button answer appears in reply stats",
+      "priority": "P0",
+      "feature": "replies",
+      "file": "projects/tung-wah-whatsapp/cases/replies/TWW-040-quick-reply-button-answer-appears-in.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A Yes/No button reply is recorded against the contact.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel running",
+        "Someone with the +852 6524 8661 phone to reply"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Make sure the Twilio incoming-message webhook reaches the app (ngrok tunnel up)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send attendance_confirmation to the QA contact (mapped)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the phone, tap **Yes**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the template's 回覆統計 tab",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The header shows 1 回覆",
+          "status": null
+        },
+        {
+          "text": "The QA Tester row shows 回覆內容 Yes and the 回覆日期",
+          "status": null
+        },
+        {
+          "text": "The report's 數據統計 counts 1 under \"回覆內容1：Yes\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Tunnel up: tapped Yes on 'Hi QA Tester' -> 1 回覆, row shows Yes 2026/10/28 13:54:45, count card 1 Yes."
+      ],
+      "evidence": [
+        "screenshots/TWW-040-m01-18-reply-recorded-via-ngrok.webp"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:58:16.150Z"
+    },
+    {
+      "id": "TWW-042",
+      "title": "Reply filters include each quick-reply button",
+      "priority": "P2",
+      "feature": "replies",
+      "file": "projects/tung-wah-whatsapp/cases/replies/TWW-042-reply-filters-include-each-quick-reply.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "For a template with buttons, 回覆統計 can filter by each answer.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open attendance_confirmation > 回覆統計",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Filter chips show 全部, 其它, 未回覆 plus one chip for each answer that has at least one reply (after a Yes reply: 全部, Yes, 其它, 未回覆)",
+          "status": null
+        },
+        {
+          "text": "Clicking Yes lists only the contacts that answered Yes",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Chips after one Yes reply: 全部, Yes, 其它, 未回覆."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:58:16.406Z"
+    },
+    {
+      "id": "TWW-046",
+      "title": "Webhook rejects requests without a valid Twilio signature",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-046-webhook-rejects-requests-without-a.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Only Twilio can record replies.",
+      "preconditions": [
+        "App running with the ngrok tunnel up"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "POST a form-encoded message to the public /api/webhook/whatsapp URL without an X-Twilio-Signature header, From a phone that matches no contact (e.g. whatsapp:+85200000000)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "POST the same with a wrong signature",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both return 403 and nothing is logged or recorded",
+          "status": null
+        },
+        {
+          "text": "A real reply from WhatsApp (valid signature) is still accepted",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Unsigned POST -> 200 and processed (no matching contact)."
+      ],
+      "evidence": [
+        "screenshots/TWW-046-m01-19-unsigned-webhook-accepted.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:58:16.788Z",
+      "failureType": "product-bug",
+      "bug": "BUG-012"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T06:58:17.044Z",
+  "summary": {
+    "total": 4,
+    "pass": 2,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
