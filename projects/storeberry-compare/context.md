@@ -26,6 +26,7 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes an
 - Course calendar: past dates (`.circle.active.is_passed`) have CSS `pointer-events: none`, so a real click does nothing ("Please select a date"). Click dates with real pointer clicks: a DOM `element.click()` bypasses the CSS and books the next session instead, which a customer cannot do (BUG-014 was withdrawn for this, 2026-10-28). The calendar shows one month (year arrows only); the cart and checkout did not show the session date (seen 2026-10-27).
 
 ## Accounts and order tracking
+- Receipt: after a staff Deny, Order Detail says Rejected but Upload Receipt still says 'waiting for approval' (BUG-022). Re-upload with Replace (input[name="change-logo"]) or Or Choose File + Submit returns the order to Payment Review; it can take about 45 s.
 - Guest Order Tracking: `/guest-order-tracking` with order number + order email (case-insensitive).
 - Forgot password: `/forgot-password`; it reveals whether an email is registered (BUG-011, accepted).
 - My Account > My Promotion Codes is a 404 (BUG-019).

@@ -5,7 +5,7 @@ severity: critical
 status: verified
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/webpos?store_id=1&version=beta"
-updated: 2026-10-28T04:28:21.051Z
+updated: 2026-10-28T04:55:09.259Z
 found: 2026-10-27T09:05:39.119Z
 foundBy: "explorations/2026-10-27-fulfilment-stock.md"
 tests: [SCRM-092]
@@ -38,3 +38,4 @@ Shipping is saved and the order can be checked out.
 - 2026-10-27: filed from explorations/2026-10-27-fulfilment-stock.md in the Test Manager app.
 - 2026-10-28: status open -> verified.
 - 2026-10-28: Case SCRM-092 notes updated: expected to pass (bug set to verified by the user)..
+- 2026-10-28: Retest passed: SCRM-092 in runs/2026-10-28_1155_staging_manual.

@@ -1,0 +1,305 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-28-fix-retests",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_1155_staging_manual",
+  "startedAt": "2026-10-28T04:55:07.034Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-030",
+      "title": "Completed stock take records variances and updates inventory",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-030-completed-stock-take-records-variances.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Completing a stock take records counted variances and updates the affected inventory.",
+      "preconditions": [
+        "A staging warehouse and product variant with a known current quantity are available."
+      ],
+      "data": [
+        "Job name: QA-<unique>.",
+        "A controlled staff count for one selected product variant."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and record the current quantity of a suitable test product at a staging warehouse.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create a uniquely named stock take job for that warehouse and product variant.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a controlled staff count, submit the job, review its variance, and complete the job.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reopen Inventory and Inventory History for the product.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The job progresses through the applicable In Progress, Submitted, Reviewed, and Completed states.",
+          "status": null
+        },
+        {
+          "text": "The initial variance equals staff count minus the snapshot quantity.",
+          "status": null
+        },
+        {
+          "text": "The completed count is reflected in inventory and a corresponding movement appears in Inventory History.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "BUG-021 retest: Assignee list now lists mapped users. Job #18 QA-ST-mvrmy4dr, Causeway Bay, product test 2: snapshot 1, count 2, variance +1, approved 2, Reconcile -> Completed; Inventory Causeway Bay 2; History REPLENISHMENT +1 'Stock Take #18 reconciliation'."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:55:07.796Z"
+    },
+    {
+      "id": "SCRM-092",
+      "title": "Staff creates an online store order via Add Order (WebPOS) with store pickup",
+      "priority": "P0",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-092-staff-creates-an-online-store-order-via.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can create an online order for a member from Orders > Add Order > Add Online Store Order via WebPOS.",
+      "preconditions": [
+        "A QA member exists",
+        "An in-stock product at the online warehouse"
+      ],
+      "data": [
+        "Member and product found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Orders > Add Order > Add Online Store Order via WebPOS (opens a POS tab)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select the QA member and add one product",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Shipping: choose 門市自取, enter an address, pick a pickup store, Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Total and pay by Bank Transfer",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Shipping is accepted and shown on the cart",
+          "status": null
+        },
+        {
+          "text": "A new online order is created in Pending payment with the chosen pickup store",
+          "status": null
+        },
+        {
+          "text": "Total equals subtotal minus member discount plus shipping fee",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "BUG-016 retest: check-shipping 200, shipping 門市自取 + 荔枝角 accepted. TXN0126102800014 Pending Payment, Online Shop/TaiPo, 1000 - basket 300 = 700, Bank Transfer 700 outstanding. The first Submit right after picking the store said 'All Delivery info selection should be choose.'; the second Submit worked. Voided."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:55:07.972Z"
+    },
+    {
+      "id": "SCRM-095",
+      "title": "Warehouse Users panel shows the users already mapped to the warehouse",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-095-warehouse-users-panel-shows-the-users.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can see and keep existing warehouse user mappings before saving changes.",
+      "preconditions": [
+        "A warehouse with at least one mapped user (check POST /inventory/get-warehouse-detail -> mapped_user_ids)"
+      ],
+      "data": [
+        "Warehouse found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Inventory > Warehouses, search the warehouse and click Edit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the Warehouse Users field",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The mapped users are shown as selected chips",
+          "status": null
+        },
+        {
+          "text": "No \"error exist!\" toast appears",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "BUG-020 retest: TaiPo Edit shows chip 'ghani', get-warehouse-detail 200, no error toast. Did not Save."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:55:08.147Z"
+    },
+    {
+      "id": "SCRM-135",
+      "title": "Stock take job keeps the quantity visibility chosen at creation (Open count)",
+      "priority": "P2",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-135-stock-take-job-keeps-the-quantity.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Counters see expected quantities when the job was created as Open count, and not when Blind count.",
+      "preconditions": [
+        "A warehouse the QA staff is mapped to as a stock take user; a product variant found at runtime"
+      ],
+      "data": [
+        "Job name QA-ST-<unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Stock Take > Create Job: name, warehouse, assignee, Quantity visibility = Open count, Continue",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose specific variants: one variant, Review Job -> note Quantity visibility",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create Job > OK, Start Counting > OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the Count inventory panel",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cleanup: Cancel Job > OK",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: Review shows Open count",
+          "status": null
+        },
+        {
+          "text": "Step 4: the job is in Open count: current/snapshot quantities are visible; no 'Blind count is on' banner",
+          "status": null
+        },
+        {
+          "text": "Repeat with Blind count: quantities hidden",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Open count chosen and shown on Review; job #19 counts in Blind count. Job cancelled."
+      ],
+      "evidence": [
+        "screenshots/SCRM-135-m01-01-open-count-job-runs-blind.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:55:08.318Z",
+      "failureType": "product-bug",
+      "bug": "BUG-030"
+    },
+    {
+      "id": "SCRM-136",
+      "title": "Stock take job times are shown in local (HKT) time everywhere",
+      "priority": "P3",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-136-stock-take-job-times-are-shown-in-local.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff can compare job creation, snapshot and count times without converting time zones.",
+      "preconditions": [
+        "A stock take job created during the session (note the local time)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Stock Take list: read Created At of the job",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Job detail: read Created at in Job information",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Job detail after Start Counting / Submit: read the Snapshot and Current Instock times",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "All three show the same local time base (HKT, UTC+8) as the rest of the CRM",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Job #18 Created At 04:50 (list and detail) vs snapshot 12:51 and history 12:52:05."
+      ],
+      "evidence": [
+        "screenshots/SCRM-136-m01-02-stock-take-created-at-utc.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:55:08.491Z",
+      "failureType": "product-bug",
+      "bug": "BUG-031"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T04:55:09.023Z",
+  "summary": {
+    "total": 5,
+    "pass": 3,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

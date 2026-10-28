@@ -32,4 +32,4 @@ Completing a stock take records counted variances and updates the affected inven
 - The completed count is reflected in inventory and a corresponding movement appears in Inventory History.
 
 ## Notes
-Data-changing. Staging only, on own QA jobs; stock-take completion is allowed without asking each time (user, 2026-10-27). Setup: ghani has Stock Take Staff + Admin roles (added by the user 2026-10-27) and is mapped to TaiPo and other warehouses. BUG-021 (failed on 2026-10-27) was set to verified by the user on 2026-10-28: the case is expected to pass; rerun it as the retest.
+Data-changing. Staging only, on own QA jobs; stock-take completion is allowed without asking each time (user, 2026-10-27). Setup: ghani has Stock Take Staff + Admin roles (added by the user 2026-10-27) and is mapped to TaiPo and other warehouses. BUG-021 (failed on 2026-10-27) was set to verified by the user on 2026-10-28: retest passed on 2026-10-28 (runs/2026-10-28_1155_staging_manual).

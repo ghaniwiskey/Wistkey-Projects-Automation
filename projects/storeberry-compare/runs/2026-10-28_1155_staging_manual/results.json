@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-28-payment-recovery",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_1155_staging_manual",
+  "startedAt": "2026-10-28T04:55:06.854Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-031",
+      "title": "Customer can re-upload a receipt after it is denied and the order returns to Payment Review",
+      "priority": "P1",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-031-customer-can-re-upload-a-receipt-after.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A denied payment proof does not leave the order stuck.",
+      "preconditions": [
+        "A QA member Bank Transfer order with an uploaded receipt that staff denied (SCRM-076)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "eShop My Orders > the order > Upload Receipt: upload a new image and Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "CRM: open the order Receipt tab",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: success message; the new image is shown",
+          "status": null
+        },
+        {
+          "text": "Step 2: order back in Payment Review with the new receipt and Accept/Deny available",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "TXN0126102800013 receipt denied twice in CRM (Payment Rejected); re-upload via Replace and via Or Choose File + Submit both returned the order to Payment Review with the new image and Accept/Deny available. Each re-upload sat on 'Please wait...' for about 45 s (POST /my-account/upload-receipt 200). Voided."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:55:07.174Z"
+    },
+    {
+      "id": "SBF-035",
+      "title": "After a receipt is denied, Upload Receipt tells the customer it was rejected and asks for a new one",
+      "priority": "P2",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-035-after-a-receipt-is-denied-upload.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A customer whose payment proof was denied sees that state where they upload, not an old 'waiting for approval' message.",
+      "preconditions": [
+        "A QA member Bank Transfer order with an uploaded receipt that staff denied with a comment (SCRM-076)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "eShop My Orders > the order > Upload Receipt tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the message under the receipt and the Remark history",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Order Detail tab: read STATUS",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: the message says the receipt was rejected (with the staff comment) and asks for a new receipt; it does not say 'waiting for approval'",
+          "status": null
+        },
+        {
+          "text": "Step 3: STATUS Rejected",
+          "status": null
+        },
+        {
+          "text": "Cleanup: void the order",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "After each deny the Upload Receipt tab still said 'successfully uploaded, and waiting for approval'; Order Detail STATUS Rejected."
+      ],
+      "evidence": [
+        "screenshots/SBF-035-m01-01-rejected-still-says-waiting-for-approval.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:55:07.311Z",
+      "failureType": "product-bug",
+      "bug": "BUG-022"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T04:55:07.588Z",
+  "summary": {
+    "total": 2,
+    "pass": 1,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

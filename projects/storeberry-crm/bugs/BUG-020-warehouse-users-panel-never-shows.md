@@ -5,7 +5,7 @@ severity: major
 status: verified
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/inventory/warehouses"
-updated: 2026-10-28T04:28:21.301Z
+updated: 2026-10-28T04:55:09.490Z
 found: 2026-10-27T10:00:33.219Z
 foundBy: "explorations/2026-10-27-stock-movement.md"
 tests: [SCRM-095]
@@ -36,3 +36,4 @@ Field empty, "error exist!" toast. Reproduced on TaiPo (twice) and Causeway Bay.
 - 2026-10-27: filed from explorations/2026-10-27-stock-movement.md in the Test Manager app.
 - 2026-10-28: status open -> verified.
 - 2026-10-28: Case SCRM-095 notes updated: expected to pass (bug set to verified by the user)..
+- 2026-10-28: Retest passed: SCRM-095 in runs/2026-10-28_1155_staging_manual.

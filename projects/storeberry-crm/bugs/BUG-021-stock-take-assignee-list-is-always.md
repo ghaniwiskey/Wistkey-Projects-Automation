@@ -5,7 +5,7 @@ severity: critical
 status: verified
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/stock-take/create"
-updated: 2026-10-28T04:28:21.552Z
+updated: 2026-10-28T04:55:09.714Z
 found: 2026-10-27T10:07:10.196Z
 foundBy: "explorations/2026-10-27-stock-movement.md"
 tests: [SCRM-030]
@@ -38,3 +38,4 @@ Only "-- Select mapped stock take user --"; endpoint returns users []. Same for 
 - 2026-10-27: Confirmed as a product bug by the user; stays open until a fix is deployed.
 - 2026-10-28: status open -> verified.
 - 2026-10-28: Case SCRM-030 notes updated: expected to pass (bug set to verified by the user)..
+- 2026-10-28: Retest passed: SCRM-030 in runs/2026-10-28_1155_staging_manual.
