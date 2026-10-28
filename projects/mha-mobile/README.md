@@ -3,13 +3,16 @@
 Native Android app under test: **com.iconsult.mhasgtwo** ("Asset Tracking System (ATS)", 2.0-dev) on the Android
 emulator, against UAT.
 
-- **Exploring** (finding bugs, learning the screens): Claude Code drives the emulator through **mobile-mcp**, on the
-  Claude subscription. The login is typed with adb straight from `.env`, so the NRIC never passes through the chat.
+- **Exploring** (finding bugs, learning the screens): Claude Code drives the emulator through **mobile-mcp**. The
+  login is typed with adb straight from `.env`, so the NRIC never passes through the chat.
 - **Automation**: fixed-step **mobilewright** tests (Playwright Test with `device` and `screen` fixtures, no AI in the
   tests) in `tests/e2e`, page objects in `tests/pages`. A test links to its case by the title prefix (`MHM-002: ...`).
 
-This project also holds the test management data: cases (`cases/`, `MHM-NNN`), bugs (`bugs/`), plans (`plans/`) and
-run records (`runs/`).
+## Testing permissions
+
+UAT only. Sighting and Submit are safe to repeat; approvals stay with the web roles (never go beyond
+Submit from the app). UAT settings or accounts (Role Listing MOBILE functions, new users) change only with the
+user's go-ahead. One session per account across web and phone: never use a test account in a browser during a run.
 
 ## Running the tests
 
@@ -22,12 +25,10 @@ $env:QA_ENV='staging-hta'; .\qa mhm                   # HTA (agency HTA, HTA web
 .\qa auto -c projects/mha-mobile/playwright.config.ts # with Test Manager's heal flow
 ```
 
-npm equivalents: `npm run test:mhm [-- args]`, `npm run test:auto -- -c <that config>`.
-
 The tests run with their own config, [playwright.config.ts](playwright.config.ts): mobilewright's global setup starts
 its device pool and mobilecli, which web runs must not pay for, so the root config skips this project
-(`playwright.runner: mobilewright` in project.yaml). `npm test`, `Run Tests.cmd` and `npm run test:auto` without `-c`
-run the web projects only. Runs are still recorded in `runs/`, and `npm run report` opens the latest HTML report.
+(`playwright.runner: mobilewright` in project.yaml); `.\qa test` and `.\qa auto` without `-c` run the web projects only.
+Runs are still recorded in `runs/`, and `npm run report` opens the latest HTML report.
 
 A test can also check its result in MHA web: mobilewright's `test` is Playwright Test's, so the browser `page` is
 available next to the phone's `screen` (the web URL is in projects/mha-spf/project.yaml; MHA web page objects and knowledge
@@ -56,10 +57,10 @@ to check what the phone sent; MHM-001 checks that MHA web is up.
 | Path | What |
 |---|---|
 | `tests/pages/mobile/` | Screen objects on mobilewright's `screen`: `LoginScreen`, `HomeScreen` (bottom bar, Switch Role panel, tiles), `StocktakeListScreen` / `FaveScreen` / `StocktakeDetailScreen` (stocktake.screen.ts, online and offline; not sighted, wrong location with the new-location fields), `SearchAssetScreen`, `AssignScreen` (Relocate; Assign to a role/user, Select Asset by Assignee (LOGS1)), `NewAssetScreen` (address dialog, photo picker), `RegistrationScreen` (Register Asset list and form, photo with the camera-permission prompt); base `AppScreen` (resource-id locators, dialogs, dropdown picks) |
-| `tests/pages/web/` | Slim MHA web page objects (`WebLoginPage`, `WebFavePage`, `WebAssetPage`, `WebAssignmentPage` (list, newest of an asset, approve, reject, new location), `WebNewAssetPage`, `WebAdHocPage` (one-off lookup, stocktaker, PENDING) on `WebBasePage` (`useRole` for a second web role)), adapted from mha-spf because projects do not import from each other |
+| `tests/pages/web/` | Slim MHA web page objects (`WebLoginPage`, `WebFavePage`, `WebAssetPage`, `WebAssignmentPage` (list, newest of an asset, approve, reject, new location), `WebNewAssetPage`, `WebAdHocPage` (one-off lookup, stocktaker, PENDING) on `WebBasePage` (`useRole` for a second web role)): a slim copy of `shared/mha-ats/pages` with the session checks the phone tests need |
 | `tests/fixtures/pages.fixture.ts` | Extends `@mobilewright/test`: screen and page objects, `mobileHome` (fresh mobile login), `mobileOfficer`, `webRole` option (`test.use({ webRole: 'vet-ic' })`, saved web session; vet-ic, logs1, uro), `faveTarget` (FAVE asset for the officer, reset to PENDING afterwards), `phoneAsset(role)` (web asset in a cost centre the phone offers), `network` (adb Wi-Fi/data, always back on), `galleryPhoto` (pushes `data/qa-photo.png`). Exports `expect` (phone) and `webExpect` (Playwright, browser locators) |
 | `tests/utils/device.ts` | adb helpers mobilewright lacks: `setNetwork`, `pushGalleryPhoto` |
-| `tests/e2e/` | auth (MHM-002/003), role (MHM-004/012/024), stocktake (MHM-005/011/017/018/019), asset (MHM-006), assignment (MHM-008/009/014/015/016/022), registration (MHM-013/023), new-asset (MHM-010), smoke (MHM-001). MHM-007 is manual |
+| `tests/e2e/` | Specs by feature (auth, role, stocktake, asset, assignment, registration, new-asset, smoke): `.\qa tests mha-mobile`. MHM-007 is manual |
 
 Phone locators: `screen.getByTestId('<resource-id>')` (the app has no accessibility labels). Never `fill()` the login:
 mobilewright puts the typed text in the step title, so `LoginScreen` types it through the driver.

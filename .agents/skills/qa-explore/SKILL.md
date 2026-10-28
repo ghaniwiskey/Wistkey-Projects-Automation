@@ -10,7 +10,7 @@ Rules: `docs/conventions.md`. Ideas: `docs/exploratory-heuristics.md`. Templates
 Exploration happens in Aside's browser (REPL `openTab` / `snapshot` / locator actions). It is not a Playwright run and never edits specs or page objects. Findings become bugs, questions, test cases and knowledge.
 
 1. **Charter and preflight (one turn).** Charter: "Explore <area> with <techniques or data> to discover <risks>". Default timebox: 20 to 30 minutes of browsing. Read `projects/<slug>/project.yaml` (env, `allowWrites`, accounts), the project's `README.md` and `context.md` (plus the `context/<area>.md` you explore), and the known issues so they are not re-reported: `.\qa bugs <slug>` (every status; wont-fix = accepted behavior) and `.\qa questions <slug> --open`.
-2. **Log in** with the project's test account (usernames in project.yaml, secrets in `.env` or Aside Vault; never print passwords). Respect `allowWrites` and the project's permissions and safety notes.
+2. **Log in** with the project's test account (usernames in project.yaml, secrets in `.env` or Aside Vault; never print passwords). Respect `allowWrites` and README > Testing permissions.
 3. **Explore** with the heuristics: tour the main journeys first, then vary inputs, states, roles, navigation and data. Keep a running list of findings.
    - Evidence the moment something looks wrong: `await page.screenshot({ path: '<projects/slug/explorations/YYYY-MM-DD-charter>/NN-short-name.png' })`.
    - JS errors and failed API calls (the UI often swallows them, like SCG's silent 400 on add-to-cart): install a collector after each full page load and read it before leaving the page:

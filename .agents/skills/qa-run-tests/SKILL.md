@@ -19,7 +19,7 @@ Rules: `docs/conventions.md` (statuses, failure types, bugs, Safety). Every run 
   | a bug retest | the bug's `tests:` (`.\qa bugs <slug>` lists them) |
 - Name the run's suite with `$env:QA_SUITE='smoke'` (default `playwright`).
 - Envs with `allowWrites: false` skip `@writes` tests automatically; do not override that.
-- Safety preflight (conventions > Safety): exclude `@final` and other irreversible scenarios unless approved for this run (`--grep-invert '@final'`), and read the project's README/context run warnings (SCG WAF: at most 2 runs per 10 minutes; MHA: one session per account, UAT writes can send emails).
+- Safety preflight (conventions > Safety): exclude `@final` and other irreversible scenarios unless approved for this run (`--grep-invert '@final'`), and read the project's README > Testing permissions (what may be written, rate and session limits).
 - Manual-only cases (`automated: false`) cannot run here: list them as not run; offer to automate them (qa-write-tests Part B) or to step through them in the Test Manager's Manual run.
 
 ## 2. Run (no AI work unless something is broken)

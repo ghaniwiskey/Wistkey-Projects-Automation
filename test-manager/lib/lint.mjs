@@ -188,5 +188,8 @@ export function lintProject(p, prefixes) {
     for (const id of (pl.scope && pl.scope.tests) || []) if (!ids.has(id)) W.push(`${f}: scope test ${id} does not exist`);
   }
   for (const [f, budget] of knowledgeFiles(p.dir)) W.push(...lintKnowledge(f, budget));
+  // Each project's cautions live in its README (not in workspace-wide memory), under one heading agents look for.
+  const readme = path.join(p.dir, 'README.md');
+  if (fs.existsSync(readme) && !/^##\s+Testing permissions\b/m.test(fs.readFileSync(readme, 'utf8'))) W.push(`${at(readme)}: no "## Testing permissions" section (what may be written, rate and session limits; docs/conventions.md > Knowledge files)`);
   return { E, W };
 }

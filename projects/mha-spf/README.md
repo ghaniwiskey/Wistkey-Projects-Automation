@@ -9,7 +9,12 @@ e-RFID Asset Tracking System (ATS) for MHA/SPF fixed assets. UAT: https://mhauat
 .\qa test --project=mha-spf --grep "SPF-001:"
 ```
 
-SPF-027 (`@final`) approves a FAVE cost centre for good: ask the user before each run, otherwise exclude it (`--grep-invert '@final'`).
+## Testing permissions
+
+UAT only, never production; UAT writes can send real emails (`shared/mha-ats/context.md` > Email triggers).
+- FAVE submit and approve on UAT are allowed (user rule). SPF-027 (`@final`) approves a cost centre for good: ask the user before each run, otherwise exclude it (`--grep-invert '@final'`).
+- When non-approved cost centres run out, the test account may get another unit (keep 332600 APD: asset tests use its data); other User Listing accounts may be used (`shared/mha-ats/context/stocktake.md` > Test data).
+- One session per account: never log in with the test account (Aside's browser included) while a run is going.
 
 ## Layout
 

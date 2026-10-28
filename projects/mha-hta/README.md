@@ -9,7 +9,11 @@ e-RFID Asset Tracking System (ATS) for MHA/HTA fixed assets. UAT: https://mhauat
 .\qa test --project=mha-hta --grep "HTA-001:"
 ```
 
-HTA-027 (`@final`) approves a FAVE cost centre for good: ask the user before each run, otherwise exclude it (`--grep-invert '@final'`).
+## Testing permissions
+
+UAT only, never production; UAT writes can send real emails (`shared/mha-ats/context.md` > Email triggers).
+- HTA-027 (`@final`) approves a FAVE cost centre for good: ask the user before each run, otherwise exclude it (`--grep-invert '@final'`).
+- One session per account: never log in with the test account (Aside's browser included) while a run is going.
 
 ## Layout
 
