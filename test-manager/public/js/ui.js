@@ -55,6 +55,7 @@ export function verdictText(run) {
   if (s.blocked) return { cls: 'blocked', text: `Blocked (${s.blocked})` };
   if (s.flaky) return { cls: 'flaky', text: 'Pass (flaky)' };
   if (s.pass) return { cls: 'pass', text: 'Pass' };
+  if (s.total && s.untested === s.total) return { cls: 'never', text: 'Reset to Not run' };
   return { cls: 'skipped', text: s.total ? 'Skipped' : 'Empty' };
 }
 export const Verdict = ({ run }) => {

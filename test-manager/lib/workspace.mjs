@@ -120,12 +120,15 @@ export const automatedIdsOf = specIdsOf;
 // Neither counts toward pass rates, flakiness, or "last result".
 export const isPseudoRun = (r) => /^(explore|baseline)/.test(String(r.suite || ''));
 export const isStatsRun = (r) => !isPseudoRun(r) && !r.inProgress;
+// "Not run" reset (store.resetResults): from here on the case has no latest result until it runs again.
+export const isReset = (t) => !!(t && t.reset);
 
 export function testStats(p) {
   const last = new Map();
   const history = new Map();
   for (const r of p.runs.filter(isStatsRun)) {
     for (const t of r.tests || []) {
+      if (isReset(t)) { last.delete(t.id); continue; }
       if (t.status === 'untested') continue;
       last.set(t.id, { status: t.status, at: r.startedAt, run: r.runId, runner: r.runner });
       if (!history.has(t.id)) history.set(t.id, []);
@@ -148,8 +151,10 @@ export function planProgress(plan, p) {
   const ids = planScope(plan, p.tests);
   const runs = p.runs.filter((r) => r.plan === plan.id);
   const latest = new Map();
-  for (const r of runs) {
+  // Resets (any run, finished) clear a case's plan result too, in run order.
+  for (const r of p.runs.filter((x) => x.plan === plan.id || (!x.inProgress && (x.tests || []).some(isReset)))) {
     for (const t of r.tests || []) {
+      if (isReset(t)) { latest.delete(t.id); continue; }
       if (!ids.includes(t.id) || t.status === 'untested') continue;
       latest.set(t.id, { status: t.status, runId: r.runId, runner: r.runner, at: r.startedAt, bug: t.bug });
     }

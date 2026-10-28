@@ -2,7 +2,7 @@ import { html, useState, useEffect, useMemo } from '../../vendor/preact-htm.mjs'
 import { useResource, post, put, del, toast } from '../api.js';
 import { Page, Badge, Prio, Tags, Kind, Dots, Empty, Loading, ErrorBox, Field, ListEditor, TagPicker, Checks, Inline, Html, RUNNER_LABEL, ago, dur, fmtDate, StepTree } from '../ui.js';
 import { RunDialog } from '../run-dialog.js';
-import { QuickResultDialog } from '../quick-result.js';
+import { QuickResultDialog, resetToNotRun } from '../quick-result.js';
 
 const PAGE = 300; // rows rendered at a time, so very large projects stay responsive
 const STATUS_FILTERS = [['all', 'Any result'], ['pass', 'Pass'], ['fail', 'Fail'], ['flaky', 'Flaky'], ['blocked', 'Blocked'], ['skipped', 'Skipped'], ['never', 'Not run']];
@@ -59,6 +59,7 @@ export function TestList({ slug, query, sandboxed }) {
           <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'pass' })}>Mark pass</button>
           <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'fail' })}>Mark fail</button>
           <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'blocked' })}>Mark blocked</button>
+          <button class="btn sm" onClick=${async () => { if (await resetToNotRun(slug, selected)) setSel(new Set()); }}>Mark not run</button>
           <button class="btn sm" onClick=${() => setSel(new Set())}>Clear</button></div>` : null}
         ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr>
           <th><input type="checkbox" checked=${allSel} onChange=${() => setSel(allSel ? new Set() : new Set(rows.map((t) => t.id)))} aria-label="Select all" /></th>
@@ -71,7 +72,7 @@ export function TestList({ slug, query, sandboxed }) {
             <td><${Tags} tags=${t.tags} /></td>
             <td><${Kind} automated=${t.automated} /></td>
             <td class="nowrap"><${Badge} status=${t.lastStatus} />${t.last ? html`<div class="muted small">${ago(t.last.at)}</div>` : null}
-              <div class="seg quick" style="margin-top:4px"><button type="button" title=${`Mark ${t.id} pass`} onClick=${() => setMark({ tests: [t], status: 'pass' })}>Pass</button><button type="button" title=${`Mark ${t.id} fail`} onClick=${() => setMark({ tests: [t], status: 'fail' })}>Fail</button></div></td>
+              <div class="seg quick" style="margin-top:4px"><button type="button" title=${`Mark ${t.id} pass`} onClick=${() => setMark({ tests: [t], status: 'pass' })}>Pass</button><button type="button" title=${`Mark ${t.id} fail`} onClick=${() => setMark({ tests: [t], status: 'fail' })}>Fail</button>${t.lastStatus !== 'never' ? html`<button type="button" title=${`Set ${t.id} back to Not run`} onClick=${() => resetToNotRun(slug, [t])}>Not run</button>` : null}</div></td>
             <td><${Dots} slug=${slug} history=${t.history} /></td>
             <td>${t.bugs.length ? t.bugs.map((b) => html`<a href=${`#/p/${slug}/bugs/${b}`}>${b}</a> `) : html`<span class="muted">-</span>`}</td>
           </tr>`)}
@@ -123,6 +124,7 @@ export function TestDetail({ slug, id, sandboxed }) {
             <button class="btn sm primary" onClick=${() => setMark('pass')}>Pass</button>
             <button class="btn sm danger" onClick=${() => setMark('fail')}>Fail</button>
             <button class="btn sm" onClick=${() => setMark('blocked')}>Blocked</button>
+            <button class="btn sm" disabled=${t.lastStatus === 'never'} title=${t.lastStatus === 'never' ? 'Already Not run' : 'Set back to Not run; earlier results stay in history'} onClick=${() => resetToNotRun(slug, [t])}>Not run</button>
           </span></div>
           <div class="muted small" style="margin-top:6px">Marks this case without stepping through it. Use Run... > Manual to check each step.</div></div>
         <div class="card pad section small"><div class="kv">

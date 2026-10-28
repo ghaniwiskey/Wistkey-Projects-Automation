@@ -21,6 +21,21 @@ async function record(slug, body) {
   }
 }
 
+// Reset cases to "Not run". Earlier results stay in history; the next result counts as the latest again.
+export async function resetToNotRun(slug, tests) {
+  const n = tests.length;
+  const label = n === 1 ? tests[0].id : `${n} test cases`;
+  if (!confirm(`Set ${label} back to Not run?\n\nEarlier results stay in history and in their runs, but ${n === 1 ? 'it counts' : 'they count'} as not run (last result, filters, plans, reports) until the next result.`)) return false;
+  try {
+    await post(`/api/projects/${slug}/results/reset`, { ids: tests.map((t) => t.id), tester: localStorage.getItem('qa.tester') || '' });
+    toast(`${label} set to Not run`, 'info');
+    return true;
+  } catch (e) {
+    toast(/No route/i.test(e.message || '') ? 'Restart the Test Manager to use Not run (close it, then open "Start Test Manager.cmd").' : e.message, 'error');
+    return false;
+  }
+}
+
 export function QuickResultDialog({ project, tests, initial, onClose, onDone }) {
   const [status, setStatus] = useState(initial || 'pass');
   const [env, setEnv] = useState(project.defaultEnv);

@@ -610,7 +610,7 @@ export function finishManualRun(slug, runId, d = {}) {
   const { dir, file, results } = loadRunFile(slug, runId);
   if (!results.inProgress) bad('This run is already finished');
   for (const t of results.tests) {
-    if (t.status === 'untested') { t.status = 'skipped'; t.notes = [...(t.notes || []), 'Not executed in this manual run.']; }
+    if (t.status === 'untested' && !t.reset) { t.status = 'skipped'; t.notes = [...(t.notes || []), 'Not executed in this manual run.']; }
   }
   results.inProgress = false;
   results.finishedAt = nowIso();
@@ -636,6 +636,22 @@ export function recordResults(slug, d = {}) {
   for (const id of ids) {
     updateManualTest(slug, runId, id, { status, note: d.note, ...(status === 'fail' && clean(d.bug) ? { bug: clean(d.bug) } : {}) });
   }
+  return { ...finishManualRun(slug, runId), runId };
+}
+
+// Reset cases to "Not run": saves a finished manual run (suite "reset") whose results are untested with reset: true.
+// Older results stay in history, but last result, filters, plans and reports count the case as not run
+// until its next result. d: { ids, note? }
+export function resetResults(slug, d = {}) {
+  const ids = cleanTags(d.ids);
+  if (!ids.length) bad('Select at least one test case.');
+  const { runId } = createManualRun(slug, { ids, env: d.env, tester: d.tester, name: 'reset' });
+  const { file, results } = loadRunFile(slug, runId);
+  for (const t of results.tests) {
+    t.reset = true;
+    t.notes = [clean(d.note) || 'Reset to Not run: earlier results no longer count as the latest result.'];
+  }
+  writeJson(file, results);
   return { ...finishManualRun(slug, runId), runId };
 }
 

@@ -143,8 +143,10 @@ export function buildModel(p) {
   const specIndex = new Map();
   for (const s of p.specs) for (const id of s.ids) specIndex.set(id, rel(s.file));
   const hist = new Map();
+  const resetFrom = new Map(); // test id -> history length at its latest "Not run" reset
   for (const r of testRuns) {
     for (const t of r.tests || []) {
+      if (t.reset) { resetFrom.set(t.id, (hist.get(t.id) || []).length); continue; }
       if (t.status === 'untested') continue;
       if (!hist.has(t.id)) hist.set(t.id, []);
       hist.get(t.id).push({ run: r, t });
@@ -165,8 +167,9 @@ export function buildModel(p) {
   // counts (added below), and only while that bug is open: an old run's link must not stick to a test.
   const tests = p.tests.filter((t) => t.fm && t.fm.id).map((t) => {
     const h = hist.get(t.fm.id) || [];
-    const last = h[h.length - 1] || null;
-    const recent = h.slice(-10).map((x) => x.t.status);
+    const from = resetFrom.get(t.fm.id) || 0;
+    const last = h.length > from ? h[h.length - 1] : null;
+    const recent = h.slice(from).slice(-10).map((x) => x.t.status);
     return {
       ...t.fm, file: rel(t.file), sec: sections(t.body), spec: specIndex.get(t.fm.id) || null, history: h, last,
       lastStatus: last ? last.t.status : 'never',
