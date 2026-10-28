@@ -1,6 +1,6 @@
 ---
 id: TWW-068
-title: "Draft templates can be submitted for review later"
+title: "Draft templates can only be deleted (no later submission)"
 feature: templates
 priority: P3
 tags: [regression, writes]
@@ -21,8 +21,7 @@ A template saved as draft can be sent to Meta without recreating it.
 2. Open its detail page
 
 ## Expected
-- A "提交審核" action is available
+- Accepted behavior (BUG-025, wont-fix): a draft has no 提交審核 action; 刪除 is available
 
 ## Notes
-Currently there is none; drafts can only be deleted.
-Related: BUG-025 (open).
+BUG-025, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

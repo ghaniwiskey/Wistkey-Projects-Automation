@@ -2,13 +2,13 @@
 id: BUG-020
 title: "New template dialog cannot be closed with Escape and does not keep keyboard focus"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-28T10:39:29.918Z
 found: 2026-10-28T07:16:23.546Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-062]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Focus stays outside the pop-up, Tab moves to elements behind it, and Escape is i
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-28: status open -> wont-fix.
+- 2026-10-28: Wont-fix follow-up: TWW-062 now expect the accepted behavior; tests list emptied..

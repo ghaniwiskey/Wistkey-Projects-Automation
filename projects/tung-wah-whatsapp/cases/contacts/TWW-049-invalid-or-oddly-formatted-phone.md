@@ -1,6 +1,6 @@
 ---
 id: TWW-049
-title: "Invalid or oddly formatted phone numbers are rejected or normalized correctly"
+title: "Common phone formats are normalized on upload"
 feature: contacts
 priority: P1
 tags: [regression, writes]
@@ -26,10 +26,8 @@ Only valid mobile numbers are imported, in the 852XXXXXXXX format.
 
 ## Expected
 - "852-6524-8661" and "(852) 65248661" become 85265248661
-- "0085265248661" becomes 85265248661
-- "85265248661.0" becomes 85265248661
-- "652486612" (9 digits), "00000000" and "12345" are rejected and reported in the summary
 - Leading/trailing spaces are trimmed
+- Accepted behavior (BUG-014, wont-fix), not checked as failures: "0085265248661" becomes 852085265248661, "85265248661.0" becomes 852652486610, "652486612" stays as is, "00000000" becomes 8520000000
 
 ## Notes
-Related: BUG-014 (open).
+BUG-014, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

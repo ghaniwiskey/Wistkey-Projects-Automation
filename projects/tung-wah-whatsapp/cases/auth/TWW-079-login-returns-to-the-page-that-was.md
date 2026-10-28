@@ -1,6 +1,6 @@
 ---
 id: TWW-079
-title: "Login returns to the page that was requested"
+title: "Login lands on 消息模版"
 feature: auth
 priority: P2
 tags: [regression]
@@ -22,8 +22,8 @@ Deep links work after logging in.
 3. While logged in open /login
 
 ## Expected
-- After login the user lands on /users
-- A logged-in user opening /login is sent to /templates
+- Accepted behavior (BUG-030, wont-fix): after login the user lands on /templates, also when callbackUrl points to another page
+- A logged-in user opening /login sees the login form (accepted, BUG-030)
 
 ## Notes
-Related: BUG-030 (open).
+BUG-030, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

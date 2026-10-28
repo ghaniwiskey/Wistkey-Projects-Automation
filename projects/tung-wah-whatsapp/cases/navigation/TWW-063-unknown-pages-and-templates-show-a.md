@@ -1,6 +1,6 @@
 ---
 id: TWW-063
-title: "Unknown pages and templates show a friendly Chinese error"
+title: "Unknown templates show 模板不存在"
 feature: navigation
 priority: P3
 tags: [regression]
@@ -22,9 +22,8 @@ Bad links lead to a clear message and a way back.
 3. Open /nope
 
 ## Expected
-- Each shows a Traditional Chinese "not found" message with a link back to 消息模版
-- No contacts tools (全部重置, 刷新) are shown for a missing template
+- /templates/<unknown id> shows 模板不存在
+- Accepted behavior (BUG-021, wont-fix): /nope shows the English Next.js 404, and /templates/<unknown id>/contacts shows the empty 聯繫人管理 page with 全部重置 and 刷新
 
 ## Notes
-Currently: detail shows "模板不存在" (OK); contacts page renders empty tools; /nope shows the English Next.js 404.
-Related: BUG-021 (open).
+BUG-021, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

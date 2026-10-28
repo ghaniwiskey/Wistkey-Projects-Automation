@@ -1,6 +1,6 @@
 ---
 id: TWW-023
-title: "Blank question title falls back to 未設定問題標題"
+title: "Spaces-only question title is saved (accepted: empty 問題：)"
 feature: templates
 priority: P3
 tags: [regression, writes]
@@ -21,7 +21,8 @@ Saving an empty or spaces-only question title clears it.
 2. Click 編輯, replace the title with **"   "**, click 儲存
 
 ## Expected
-- The header shows 未設定問題標題, not an empty "問題："
+- The template saves without an error
+- Accepted behavior (BUG-008, wont-fix): the header shows "問題：" with nothing after it; an empty title still shows 未設定問題標題
 
 ## Notes
-Related: BUG-008 (open).
+BUG-008, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

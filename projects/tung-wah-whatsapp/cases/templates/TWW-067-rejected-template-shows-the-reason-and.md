@@ -1,6 +1,6 @@
 ---
 id: TWW-067
-title: "Rejected template shows the reason and can be fixed"
+title: "Rejected template shows 已拒絕"
 feature: templates
 priority: P2
 tags: [regression, writes]
@@ -22,9 +22,8 @@ Staff can see why Meta rejected a template and act on it.
 
 ## Expected
 - Card shows 已拒絕
-- The rejection reason is shown (Meta: "Variables can't be at the start or end of the template.")
-- There is a way to edit and resubmit, or a clear hint to create a new one
+- Accepted behavior (BUG-025, wont-fix): no rejection reason and no edit/resubmit action in the app; the reason is only in Twilio
 
 ## Notes
 Submits to Meta (irreversible record): needs the user's approval per run. Delete the template afterwards.
-Related: BUG-025 (open).
+BUG-025, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

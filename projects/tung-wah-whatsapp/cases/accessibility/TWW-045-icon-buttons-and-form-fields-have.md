@@ -1,6 +1,6 @@
 ---
 id: TWW-045
-title: "Icon buttons and form fields have accessible names"
+title: "Icon buttons and add-user form work by mouse and keyboard"
 feature: accessibility
 priority: P3
 tags: [regression]
@@ -21,8 +21,9 @@ Screen readers (and getByRole/getByLabel) can find every control.
 2. Inspect the templates list, user management, add-user dialog, new-template dialog and contacts page with a screen reader or accessibility tree
 
 ## Expected
-- Trash icons, the dialog close (X) and button-row remove (x) buttons have names (e.g. 刪除模板 <name>)
-- The add-user inputs are labelled 姓名, 郵箱, 密碼
+- Trash icons, the dialog close (X) and button-row remove (x) buttons can be reached with Tab and work with Enter and a click
+- The add-user inputs accept typing and the user is created
+- Accessible names and linked labels are not checked (BUG-010, wont-fix)
 
 ## Notes
-Related: BUG-010 (open).
+BUG-010, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

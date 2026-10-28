@@ -1,6 +1,6 @@
 ---
 id: TWW-062
-title: "New template dialog works with the keyboard"
+title: "New template dialog opens, can be filled and closed with its buttons"
 feature: accessibility
 priority: P3
 tags: [regression]
@@ -22,10 +22,10 @@ Keyboard users can use and leave the create dialog.
 3. Press Escape
 
 ## Expected
-- Focus starts in the dialog and stays inside while tabbing
-- Escape closes it
-- It is exposed as a dialog to screen readers
+- The dialog opens from 新建模板 and its fields can be filled
+- X and 取消 close it
+- Escape, focus trapping and role=dialog are not checked (BUG-020, wont-fix)
 
 ## Notes
 The 添加用户 dialog already behaves correctly.
-Related: BUG-020 (open).
+BUG-020, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

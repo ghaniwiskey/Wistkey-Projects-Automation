@@ -2,13 +2,13 @@
 id: BUG-021
 title: "Missing pages: 404 page is in English, and a non-existent template still shows contact tools"
 severity: trivial
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/templates/doesnotexist123/contacts"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-28T10:39:30.106Z
 found: 2026-10-28T07:16:23.673Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-063]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -36,3 +36,5 @@ A not-found message in Traditional Chinese with a link back (e.g. "模板不存�
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-28: status open -> wont-fix.
+- 2026-10-28: Wont-fix follow-up: TWW-063 now expect the accepted behavior; tests list emptied..

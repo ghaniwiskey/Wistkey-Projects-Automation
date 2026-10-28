@@ -20,7 +20,7 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 ## Contacts and upload
 - Excel .xlsx/.xls with 姓名 and 手提電話 (English Name/Phone also work). Every column is kept in customVars and offered for variable mapping; Tung Wah member columns (會員類別, 會員編號, ...) appear in reply stats and the report.
 - Only the first sheet is read and headers must be in row 1 (Q-008). Blank rows are skipped. 1000 rows upload in under 1 s; the contacts page lists all rows (no paging).
-- Phones are normalized to 852XXXXXXXX ("+852 6524 8661", "852-6524-8661", "(852) 65248661", "65248661" -> 85265248661). Very short or empty phones are dropped silently; "00852…", "….0", 9/10-digit and all-zero numbers are mangled or kept (BUG-014).
+- Phones are normalized to 852XXXXXXXX ("+852 6524 8661", "852-6524-8661", "(852) 65248661", "65248661" -> 85265248661). Very short or empty phones are dropped silently; "00852…", "….0", 9/10-digit and all-zero numbers are mangled or kept (accepted, BUG-014 wont-fix).
 - 追加 skips a number only when the raw cell value equals an existing contact's; 覆蓋 replaces all contacts and replies without asking.
 - Contact statuses: 待發送 PENDING, 已發送 SENT, 已讀 READ (set by a reply). 重置 sets one contact back to pending and deletes its reply (no confirmation); only sent contacts can receive replies; 全部重置 resets all. 刷新 only re-reads the database.
 - Test files live in `data/` (copy to the session folder before uploading from Aside's browser).
@@ -46,10 +46,10 @@ NextAuth credentials (JWT), 30-day session token, not re-checked against the dat
 Free-text replies appear as 其它 in the report's 回覆內容 (BUG-015); same-phone contacts are separate rows.
 
 ## Template rules learned
-- Content is always twilio/quick-reply, language zh_HK, no header/footer/media; AUTHENTICATION can never be approved (BUG-023).
-- Statuses from Twilio approval: approved -> 已通過, pending -> 審核中, rejected -> 已拒絕; received/unsubmitted/paused/disabled -> 草稿 (BUG-022). Rejection reason only in Twilio (BUG-025). Utility review took > 40 min on 2026-10-28.
+- Content is always twilio/quick-reply, language zh_HK, no header/footer/media; AUTHENTICATION can never be approved (accepted, BUG-023 wont-fix).
+- Statuses from Twilio approval: approved -> 已通過, pending -> 審核中, rejected -> 已拒絕; received/unsubmitted/paused/disabled -> 草稿 (BUG-022). Rejection reason only in Twilio; no resubmit or later submit (accepted, BUG-025 wont-fix). Utility review took > 40 min on 2026-10-28.
 - Variable names like {{1}}, {{ first name }}, {{姓名}} are accepted; {{}} is rejected by Twilio; Meta rejects a variable at the start or end of the body.
 - Delete (card trash or detail 刪除) shows an in-app alertdialog 確認刪除, removes contacts/replies and the Twilio content (Twilio 404 ignored). Sync never removes local templates (BUG-026).
 - Server refuses /api/send for non-APPROVED templates (403).
-- Login: /login (郵箱, 密碼, 登錄; labels unlinked, no autocomplete, placeholder admin@tungwah.org: accepted, BUG-031 wont-fix); wrong credentials -> 郵箱或密碼錯誤. After login always /templates (callbackUrl ignored, BUG-030); external callbackUrl not followed. 退出 has no confirmation.
+- Login: /login (郵箱, 密碼, 登錄; labels unlinked, no autocomplete, placeholder admin@tungwah.org: accepted, BUG-031 wont-fix); wrong credentials -> 郵箱或密碼錯誤. After login always /templates (callbackUrl ignored; accepted, BUG-030 wont-fix); external callbackUrl not followed. 退出 has no confirmation.
 - Roles in the UI: editors and viewers get the same UI (BUG-002); the nav hides 用戶管理 for them but /users still renders (BUG-032). Ownership is checked on template detail/edit/delete (500 with internal error detail instead of 403; accepted, BUG-033 wont-fix) but not on contacts, export, send, reset or the Twilio delete in the delete route (BUG-001, BUG-029).

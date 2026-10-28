@@ -1,6 +1,6 @@
 ---
 id: TWW-076
-title: "Updating a missing contact returns not found"
+title: "Updating a missing contact fails without changing data"
 feature: contacts
 priority: P3
 tags: [regression]
@@ -21,8 +21,8 @@ API errors are accurate.
 2. PATCH one of its old contact IDs
 
 ## Expected
-- 404, not 500
+- The request fails and no contact is created or changed
+- Accepted behavior (BUG-028, wont-fix): 500 {"error":"更新失敗"} instead of 404
 
 ## Notes
-Currently 500 "更新失敗".
-Related: BUG-028 (open).
+BUG-028, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.

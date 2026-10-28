@@ -2,13 +2,13 @@
 id: BUG-010
 title: "Icon-only buttons and add-user fields have no accessible name"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-28T10:39:31.063Z
 found: 2026-10-28T06:37:46.786Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-045]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Each control has a name.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-28: status open -> wont-fix.
+- 2026-10-28: Wont-fix follow-up: TWW-045 now expect the accepted behavior; tests list emptied..

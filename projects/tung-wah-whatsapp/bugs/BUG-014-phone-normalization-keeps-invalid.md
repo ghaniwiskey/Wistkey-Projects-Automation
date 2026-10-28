@@ -2,13 +2,13 @@
 id: BUG-014
 title: "Phone normalization keeps invalid numbers and mangles 00-prefix and \".0\" values"
 severity: major
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/templates/<template id>"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-28T10:39:30.868Z
 found: 2026-10-28T07:16:22.784Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-049]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -43,3 +43,5 @@ Our run (data/contacts-phone-formats-2.xlsx, data/contacts-send-merge-invalid.xl
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-28: status open -> wont-fix.
+- 2026-10-28: Wont-fix follow-up: TWW-049 now expect the accepted behavior; tests list emptied..

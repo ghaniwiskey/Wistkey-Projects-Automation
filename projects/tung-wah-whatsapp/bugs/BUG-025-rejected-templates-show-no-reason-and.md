@@ -2,13 +2,13 @@
 id: BUG-025
 title: "Rejected templates show no reason and cannot be fixed or resubmitted; drafts cannot be submitted later"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-28T10:39:30.297Z
 found: 2026-10-28T08:06:32.831Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-067, TWW-068]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -38,3 +38,5 @@ Only the 已拒絕 (Rejected) badge, with no actions. Twilio does return Meta's 
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-28: status open -> wont-fix.
+- 2026-10-28: Wont-fix follow-up: TWW-067, TWW-068 now expect the accepted behavior; tests list emptied..

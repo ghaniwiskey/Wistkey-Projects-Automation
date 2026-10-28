@@ -1,6 +1,6 @@
 ---
 id: TWW-065
-title: "AUTHENTICATION category is usable or not offered"
+title: "AUTHENTICATION category: create shows the submission warning"
 feature: templates
 priority: P2
 tags: [regression, writes]
@@ -21,9 +21,9 @@ Every category in the dropdown can be submitted.
 2. Submit
 
 ## Expected
-- Either the template is submitted successfully, or AUTHENTICATION is not offered
-- No orphan draft is left in Twilio
+- Accepted behavior (BUG-023, wont-fix): the alert "模板已創建！ 警告：模板已創建但審核提交失敗: Only whatsapp/authentication is valid for category AUTHENTICATION ..." appears and the template stays a draft in Twilio
+- The draft is deleted afterwards with 刪除
 
 ## Notes
 Submits to Meta (irreversible record): needs the user's approval per run. Delete the template afterwards.
-Related: BUG-023 (open).
+BUG-023, closed as wont-fix (2026-10-28): the expected result above checks the accepted behavior.
