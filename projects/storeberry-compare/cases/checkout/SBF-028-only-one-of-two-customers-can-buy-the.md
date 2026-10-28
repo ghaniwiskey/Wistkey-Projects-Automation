@@ -35,3 +35,4 @@ The eShop never sells more units than are available, even when two carts hold th
 
 ## Notes
 Gap from the 2026-10-28 coverage review. The CRM order list already showed rows with negative available stock "(-1 / 0)" on 2026-10-27 (risk). Related: BUG-017 (Add To Cart and checkout use different stock totals).
+2026-10-28 partial check (one member session, not two customers, so not recorded as a run): product test 2 TaiPo Available 8 in the cart; a Pending transfer of 1 from TaiPo dropped it to 7 -> Proceed refused ("The following item(s) are out of stock/not enough stock now: - product test 2", cart line "Not enough stock"); qty 7 -> order placed, Available 0 (not negative); 1 more -> refused. Void + transfer cancel restored 8. Still open: two sessions proceeding at the same moment.

@@ -1,0 +1,276 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "exploratory-2026-10-28-shipping",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_1127_staging_manual",
+  "startedAt": "2026-10-28T04:27:28.309Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-029",
+      "title": "Home delivery shipping fee matches the shipping method rule and is charged in the order total",
+      "priority": "P0",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-029-home-delivery-shipping-fee-matches-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers pay the configured delivery fee, and the CRM order shows the same fee.",
+      "preconditions": [
+        "The fee rule of a paid home-delivery method (e.g. 住宅送貨 or SF 住宅) read from CRM Online Store / shipping settings at runtime: flat or by weight",
+        "A QA member; a product with a weight > 0 (e.g. C, 1.000 kg) and a 0 kg product"
+      ],
+      "data": [
+        "Bank Transfer only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add 1 x the weighted product, open /checkout, choose the home-delivery method and fill every Delivery Info field",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change quantity so the weight crosses the next weight band (if the rule is by weight)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Place the order",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the order in the CRM",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: Shipping Fee = the rule for that weight/region; Total = discounted total + shipping fee (+ rounding)",
+          "status": null
+        },
+        {
+          "text": "Step 2: Shipping Fee changes to the next band",
+          "status": null
+        },
+        {
+          "text": "Step 4: CRM Delivery Cost and Total equal the checkout values; Bank Transfer amount = Total",
+          "status": null
+        },
+        {
+          "text": "Cleanup: void the order",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Rules read in CRM Shipping: Testing flat 30 free from 1600 (discounted total), ShipAnySF350free flat 30 free from 350. C x1 + Testing: fee 30, Total 540 (510+30); TXN0126102800009 CRM Delivery Cost 30, Total 540, Bank Transfer 540. No weight-band method is configured (all weight rules off), so step 2 is n/a. Voided."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:27:28.437Z"
+    },
+    {
+      "id": "SBF-030",
+      "title": "Free-shipping threshold removes the fee at the threshold and adds it back when the basket drops below",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-030-free-shipping-threshold-removes-the-fee.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The free-shipping rule uses the right amount (before or after discounts) and re-checks when the cart changes.",
+      "preconditions": [
+        "A shipping method with a free-shipping threshold T, read from the shipping settings at runtime (the name ShipAnySF350free suggests T = 350; confirm)",
+        "A QA member; products to build baskets just below, at and above T"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Build a basket just below T, choose the method -> note the fee",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add items so the basket is exactly T, then above T",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply a promo code that takes the discounted total below T",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove items to go below T again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Below T: the method's normal fee is charged",
+          "status": null
+        },
+        {
+          "text": "At T and above: Shipping Fee HKD 0.00",
+          "status": null
+        },
+        {
+          "text": "Step 3: the fee follows the documented basis (sub-total or discounted total); record which one the shop uses",
+          "status": null
+        },
+        {
+          "text": "Step 4: the fee is charged again without reloading",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Testing (T=1600): 510 -> 30; 894 -> 30; sub-total 1794 / discounted 1494 -> 30 (basis = discounted total after basket promo); 2088 -> 0; back to 1494 with - -> 30 again without reload. ShipAnySF350free: 510 and above -> 0. Not covered: exactly T (catalog prices cannot hit it) and a promo code as the discount."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:27:28.558Z"
+    },
+    {
+      "id": "SBF-033",
+      "title": "Changing the cart at checkout never leaves a shipping fee without a shipping method",
+      "priority": "P2",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-033-changing-the-cart-at-checkout-never.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The summary always matches the selected shipping method after the cart changes.",
+      "preconditions": [
+        "A QA member; a weighted product (e.g. C, 1.000 kg) in the cart",
+        "A paid flat-fee method read from CRM Online Store > Shipping at runtime (e.g. Testing: flat HKD 30, free from HKD 1600)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /checkout, choose the paid method -> note Shipping Fee and Total",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change the cart: + / - a quantity, or remove a line with the trash icon",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read Shipping Method and the Summary without reloading",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: Shipping Fee = the method fee, Total = Discounted Total + fee",
+          "status": null
+        },
+        {
+          "text": "Step 3: either the method stays selected and the fee is recomputed for the new basket, or the method is cleared and Shipping Fee shows '-' / 0 with Total = Discounted Total; never a fee with no method selected",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Trash and - both reset Shipping Method to -- Select -- but Summary kept Shipping Fee 30 in Total (924 / 540)."
+      ],
+      "evidence": [
+        "screenshots/SBF-033-m01-01-fee-kept-after-method-reset.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:27:28.678Z",
+      "failureType": "product-bug",
+      "bug": "BUG-021"
+    },
+    {
+      "id": "SBF-034",
+      "title": "Checkout refuses a delivery date outside the shipping method's allowed dates",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-034-checkout-refuses-a-delivery-date.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Customers cannot book a delivery date the shop has blocked (date window, minimum preparation days) by typing it instead of using the picker.",
+      "preconditions": [
+        "A shipping method whose Delivery Info has a date field with a date range and/or 'minimum preparation days', read from CRM Online Store > Shipping > edit method at runtime (e.g. Testing: field 'test', range and 5 prep days)",
+        "A QA member with a weighted product in the cart"
+      ],
+      "data": [
+        "Bank Transfer only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /checkout, choose the method and click the date field -> note which dates the picker allows",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Type a blocked date with the keyboard (today, or a date after the range), Tab out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Type text that is not a date, Tab out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick the agreement and Proceed to checkout with a blocked date",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "CRM: open the order (if one was created) and read Delivery Info",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2-3: a blocked or invalid value is cleared or flagged; it never becomes a different date silently",
+          "status": null
+        },
+        {
+          "text": "Step 4: refused with a message about the delivery date; no order",
+          "status": null
+        },
+        {
+          "text": "Step 5: no order exists; if one does, its date is within the allowed dates",
+          "status": null
+        },
+        {
+          "text": "Cleanup: void any order created",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Picker blocks every date; typed text became today 2026-10-28 and TXN0126102800010 was placed with it (5 prep days required). Voided."
+      ],
+      "evidence": [
+        "screenshots/SBF-034-m01-04-crm-order-same-day-delivery-date.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T04:27:28.805Z",
+      "failureType": "product-bug",
+      "bug": "BUG-020"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T04:27:29.187Z",
+  "summary": {
+    "total": 4,
+    "pass": 2,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
