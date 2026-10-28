@@ -12,7 +12,10 @@ tests: [TWW-062]
 frequency: always
 ---
 ## Summary
-The 新建模板 modal has no role=dialog, focus stays on the page, Tab moves to elements behind it, and Escape does nothing (the 添加用户 dialog does all of this correctly).
+The new-template modal has no dialog role. Keyboard focus remains on the page and Tab can reach controls behind the modal; Escape does not close it. The add-user dialog handles these correctly.
+
+## UI labels in English
+- 新建模板: New template
 
 ## Steps to reproduce
 1. Open 新建模板
@@ -32,4 +35,5 @@ Focus outside the modal, Escape ignored.
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

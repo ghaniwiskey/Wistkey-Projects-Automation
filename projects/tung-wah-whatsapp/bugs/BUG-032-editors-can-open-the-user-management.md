@@ -12,7 +12,11 @@ tests: [TWW-083]
 frequency: always
 ---
 ## Summary
-The nav hides 用戶管理 for editors, but /users renders the page and the add-user dialog; the list is empty because the API returns 403.
+The navigation hides user management from editors, but an editor can open /users directly and use the add-user dialog. The user list is empty because its API correctly returns 403.
+
+## UI labels in English
+- 用户管理: User management
+- 添加用户: Add user
 
 ## Steps to reproduce
 1. Log in as a QA editor
@@ -32,4 +36,5 @@ No-permission message or redirect.
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

@@ -1,6 +1,6 @@
 ---
 id: BUG-016
-title: "重置 and 全部重置 delete recorded replies without warning"
+title: "Reset and Reset all delete recorded replies without warning"
 severity: major
 status: open
 env: local
@@ -12,7 +12,13 @@ tests: [TWW-055]
 frequency: always
 ---
 ## Summary
-Resetting contacts to 待發送 also deletes their replies. Single 重置 has no confirmation; 全部重置 asks only "確定要將所有聯繫人重置為待發送狀態嗎？" without mentioning replies. One click can wipe a whole campaign's answers.
+Resetting contacts to pending also deletes their recorded replies. Resetting one contact has no confirmation; Reset all asks for confirmation but does not say replies will be deleted. This can erase a campaign's answers.
+
+## UI labels in English
+- 聯繫人: Contacts
+- 全部重置: Reset all
+- 重置: Reset
+- 重置成功！: Reset successful!
 
 ## Steps to reproduce
 1. Have a contact with a recorded reply (1 回覆)
@@ -32,4 +38,5 @@ alert "重置成功！"; all contacts PENDING; responses count 0.
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

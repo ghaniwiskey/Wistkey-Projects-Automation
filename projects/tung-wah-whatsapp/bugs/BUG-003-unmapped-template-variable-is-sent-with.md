@@ -12,11 +12,14 @@ tests: [TWW-037]
 frequency: always
 ---
 ## Summary
-Sending is allowed while {{first_name}} has no mapping; Twilio fills in the template's sample value, so the member gets someone else's name.
+The app lets a message be sent without mapping {{first_name}} to a contact field. Twilio then uses the sample value, so the recipient sees the wrong name.
+
+## UI labels in English
+- 發送到 WhatsApp: Send to WhatsApp
 
 ## Steps to reproduce
 1. Open approved template attendance_confirmation with no saved variable mapping
-2. Upload contacts-valid-hk.xlsx (QA Tester, 85265248661)
+2. Upload contacts-valid-hk.xlsx (QA Tester, <QA phone>)
 3. Click 發送到 WhatsApp and confirm
 4. Open the message in Twilio > Monitor > Logs > Messaging
 
@@ -24,7 +27,7 @@ Sending is allowed while {{first_name}} has no mapping; Twilio fills in the temp
 The send is blocked with a message that {{first_name}} has no mapping (or the user must confirm a fallback).
 
 ## Actual
-Alert "發送任務已啟動！"; Twilio delivered "Hi David, do you confirm your attendance?" to +85265248661 (contact name is QA Tester).
+Alert "發送任務已啟動！"; Twilio delivered "Hi David, do you confirm your attendance?" to <QA phone> (contact name is QA Tester).
 
 ## Evidence
 - Screenshot: ![06-twilio-unmapped-variable-sent-as-David.jpg](../explorations/2026-10-28-core-journeys/06-twilio-unmapped-variable-sent-as-David.jpg)
@@ -34,4 +37,5 @@ Alert "發送任務已啟動！"; Twilio delivered "Hi David, do you confirm you
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

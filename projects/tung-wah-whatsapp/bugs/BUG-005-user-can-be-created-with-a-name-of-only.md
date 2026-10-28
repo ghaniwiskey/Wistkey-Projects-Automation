@@ -12,7 +12,13 @@ tests: [TWW-005]
 frequency: always
 ---
 ## Summary
-The 姓名 field is required in the browser but spaces pass; the server saves "   " and the user card has an empty heading.
+The name field is required, but a name containing only spaces passes validation. The server saves the spaces and the user card displays a blank heading.
+
+## UI labels in English
+- 用戶管理: User management
+- 添加用户: Add user
+- 編輯者: Editor
+- 編輯: Edit
 
 ## Steps to reproduce
 1. Open 用戶管理 > 添加用户
@@ -33,4 +39,5 @@ POST /api/users 201 with "name":"   "; the card shows only the 編輯者 badge a
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

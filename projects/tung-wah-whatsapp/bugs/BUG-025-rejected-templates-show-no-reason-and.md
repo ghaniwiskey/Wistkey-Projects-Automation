@@ -12,7 +12,10 @@ tests: [TWW-067, TWW-068]
 frequency: always
 ---
 ## Summary
-Twilio returns Meta's rejection_reason but the app only shows 已拒絕. There is no edit, resubmit or "submit draft" action, so the only way forward is delete and recreate.
+The app shows a rejected badge but not Meta's rejection_reason returned by Twilio. It also has no edit, resubmit or submit-draft action, leaving deletion and recreation as the only way forward.
+
+## UI labels in English
+- 已拒絕: Rejected
 
 ## Steps to reproduce
 1. Submit {{first_name}} 你好，你的會員編號是 {{member_no}}
@@ -33,4 +36,5 @@ Only the 已拒絕 badge; no actions.
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

@@ -12,7 +12,10 @@ tests: [TWW-063]
 frequency: always
 ---
 ## Summary
-/nope shows Next.js "404 This page could not be found." in English; /templates/<bad id>/contacts renders 聯繫人管理 with 全部重置 and 刷新 instead of "模板不存在".
+A missing page shows an English Next.js 404. A contacts URL for a nonexistent template instead shows the contacts-management page and its Reset all and Refresh controls, rather than "模板不存在" (Template does not exist).
+
+## UI labels in English
+- 模板不存在: Template does not exist
 
 ## Steps to reproduce
 1. Open /nope
@@ -32,4 +35,5 @@ As described.
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

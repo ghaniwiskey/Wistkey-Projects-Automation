@@ -12,7 +12,12 @@ tests: [TWW-057]
 frequency: always
 ---
 ## Summary
-For a typed reply the 回覆紀錄 sheet writes the category 其它 in 回覆內容, so staff cannot read the answer from the report (the page shows it).
+For a typed reply, the downloaded report puts the category "其它" (Other) in the reply-content column instead of the member's actual answer. The reply statistics page does show the answer.
+
+## UI labels in English
+- 下載報表: Download report
+- 回覆統計: Reply statistics
+- 回覆內容: Reply content
 
 ## Steps to reproduce
 1. Send attendance_confirmation to the QA contact and reply by typing "maybe later"
@@ -33,4 +38,5 @@ For a typed reply the 回覆紀錄 sheet writes the category 其它 in 回覆內
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

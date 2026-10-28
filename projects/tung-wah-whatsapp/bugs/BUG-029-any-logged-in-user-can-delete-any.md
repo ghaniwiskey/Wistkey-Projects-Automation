@@ -12,7 +12,7 @@ tests: [TWW-085]
 frequency: always
 ---
 ## Summary
-DELETE /api/templates/<id> loads the template without checking the owner, deletes its Twilio content, and only then fails the ownership check inside the database transaction (500 "刪除失敗"). The Twilio template is gone for good, including approved production templates, and every user gets all template IDs from 從 Twilio 同步. Works for editors and viewers.
+Any logged-in editor or viewer can delete another user's Twilio template. The delete endpoint removes the Twilio content before the ownership check fails inside the database transaction. The app returns 500 and retains its record, but the Twilio content is permanently gone, including if it is an approved production template. Sync exposes all template IDs.
 
 ## Steps to reproduce
 1. As QA admin create a disposable draft (qa_owner_test_<n>)
@@ -34,4 +34,5 @@ DELETE /api/templates/<id> loads the template without checking the owner, delete
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

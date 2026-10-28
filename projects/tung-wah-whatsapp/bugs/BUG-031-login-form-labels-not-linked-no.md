@@ -12,7 +12,7 @@ tests: [TWW-082]
 frequency: always
 ---
 ## Summary
-郵箱/密碼 labels are not associated with the inputs, the inputs have no autocomplete hints for password managers, and the email placeholder is the real admin account "admin@tungwah.org".
+The login labels are not associated with their inputs, the inputs lack password-manager autocomplete hints, and the email placeholder exposes the real admin account rather than a generic example.
 
 ## Steps to reproduce
 1. Open /login and inspect the form
@@ -31,4 +31,5 @@ As described.
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

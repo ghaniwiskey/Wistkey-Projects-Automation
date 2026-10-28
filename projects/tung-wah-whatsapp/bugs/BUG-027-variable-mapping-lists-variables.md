@@ -12,7 +12,7 @@ tests: [TWW-072]
 frequency: always
 ---
 ## Summary
-For "您好 {{first_name}}，提醒您 {{event_date}} …" the mapping shows {{event_date}} first.
+Variable mapping lists variables alphabetically instead of the order they appear in the message. For the example message, {{event_date}} appears before {{first_name}}.
 
 ## Steps to reproduce
 1. Open qa_event_reminder_<n>
@@ -31,4 +31,5 @@ For "您好 {{first_name}}，提醒您 {{event_date}} …" the mapping shows {{e
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

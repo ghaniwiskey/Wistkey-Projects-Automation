@@ -12,7 +12,11 @@ tests: [TWW-065]
 frequency: always
 ---
 ## Summary
-The form always builds twilio/quick-reply content; Meta requires whatsapp/authentication for that category, so submission always fails. The content is still created in Twilio and the warning is in English.
+The form always creates twilio/quick-reply content, but Meta requires whatsapp/authentication for the AUTHENTICATION category. Submission fails, an English warning appears, and the created content remains in Twilio as an orphan draft.
+
+## UI labels in English
+- 新建模板: New template
+- 模板已創建！: Template created!
 
 ## Steps to reproduce
 1. 新建模板, category AUTHENTICATION, Meta ticked, any body and button
@@ -32,4 +36,5 @@ Alert "模板已創建！ 警告：模板已創建但審核提交失敗: Only wh
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

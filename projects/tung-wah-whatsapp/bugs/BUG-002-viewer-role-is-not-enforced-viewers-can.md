@@ -12,7 +12,20 @@ tests: [TWW-014, TWW-087, TWW-088]
 frequency: always
 ---
 ## Summary
-A user with role VIEWER (查看者) passes authorization on the write endpoints and can list every user's templates through GET /api/twilio/templates.
+The viewer role is meant to be read-only, but a viewer can create and delete a draft, upload contacts, and sync all users' templates. The write endpoints also allow viewer requests through authorization, and GET /api/twilio/templates lists every user's templates.
+
+## UI labels in English
+- 用戶管理: User management
+- 添加用户: Add user
+- 新建模板: New template
+- 從 Twilio 同步: Sync from Twilio
+- 創建模板: Create template
+- 聯繫人: Contacts
+- 待發送: Pending
+- 查看者: Viewer
+- 上傳成功！: Upload successful!
+- 模板已創建！: Template created!
+- 無權限: No permission
 
 ## Steps to reproduce
 UI only (no API calls needed):
@@ -39,6 +52,7 @@ create -> 400 "模板名稱和內容為必填" (validation, so authorized); uplo
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: UI check: the viewer gets the same UI as an editor (新建模板 form, sync); an editor's 從 Twilio 同步 lists all admin templates (41-editor-after-sync.png). Linked TWW-087, TWW-088.
 - 2026-10-28: steps rewritten as UI-only and reproduced in the browser (viewer: sync shows admin templates, create template, upload contacts, delete own template).

@@ -12,7 +12,10 @@ tests: [TWW-086]
 frequency: always
 ---
 ## Summary
-Editing or deleting another user's template returns 500 instead of 403/404; PATCH includes a "detail" with the PrismaClientKnownRequestError text and module paths.
+Editing or deleting another user's template returns HTTP 500 rather than 403 or 404. The PATCH response also exposes internal Prisma error details and module paths.
+
+## UI labels in English
+- 更新失敗: Update failed
 
 ## Steps to reproduce
 1. As a QA editor PATCH /api/templates/<admin template id> {"questionTitle":"x"}
@@ -31,4 +34,5 @@ Editing or deleting another user's template returns 500 instead of 403/404; PATC
 - Env: local
 
 ## History
+- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
