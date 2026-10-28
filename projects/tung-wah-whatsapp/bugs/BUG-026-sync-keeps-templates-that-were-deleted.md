@@ -12,10 +12,7 @@ tests: [TWW-069]
 frequency: always
 ---
 ## Summary
-Sync only creates or updates records; it does not remove or flag a template deleted in Twilio. The stale template remains as a draft, making the visible card count disagree with the sync count.
-
-## UI labels in English
-- 從 Twilio 同步: Sync from Twilio
+Sync only upserts; content removed in Twilio stays in the app as 草稿, so the list and the sync count disagree.
 
 ## Steps to reproduce
 1. Create a QA draft
@@ -36,5 +33,4 @@ Template removed or flagged.
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

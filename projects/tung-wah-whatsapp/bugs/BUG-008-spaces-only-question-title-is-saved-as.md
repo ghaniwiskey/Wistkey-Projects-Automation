@@ -12,12 +12,7 @@ tests: [TWW-023]
 frequency: always
 ---
 ## Summary
-A question title containing only spaces is saved. The header displays "問題：" (Question:) with nothing after it, instead of the unset-title message; the report question row would also be blank.
-
-## UI labels in English
-- 儲存: Save
-- 編輯: Edit
-- 問題: Question
+Saving "   " as question title stores it; the header shows "問題：" instead of 未設定問題標題 and the report question row would be blank.
 
 ## Steps to reproduce
 1. Open a template with a question title
@@ -37,5 +32,4 @@ Header shows "問題：" with nothing after it.
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

@@ -1,6 +1,6 @@
 ---
 id: BUG-022
-title: "Newly submitted template shows Draft until the next sync; several Twilio statuses map to DRAFT"
+title: "Newly submitted template shows 草稿 until the next sync; several Twilio statuses map to DRAFT"
 severity: minor
 status: open
 env: local
@@ -12,12 +12,7 @@ tests: [TWW-064]
 frequency: always
 ---
 ## Summary
-A newly submitted template initially appears as "草稿" (Draft) instead of under review. Sync only maps APPROVED, PENDING and REJECTED; Twilio statuses received, paused and disabled all map to DRAFT, so paused or disabled templates would also look like drafts.
-
-## UI labels in English
-- 從 Twilio 同步: Sync from Twilio
-- 審核中: Under review
-- 草稿: Draft
+Sync maps only APPROVED/PENDING/REJECTED; Twilio "received" (just submitted), "paused" and "disabled" all become DRAFT, so a template under review first shows 草稿 and a paused/disabled template would look like a draft.
 
 ## Steps to reproduce
 1. Create a template with Meta submission
@@ -39,5 +34,4 @@ A newly submitted template initially appears as "草稿" (Draft) instead of unde
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

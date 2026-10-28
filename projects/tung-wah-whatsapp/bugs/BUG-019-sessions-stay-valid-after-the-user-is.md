@@ -12,10 +12,7 @@ tests: [TWW-059, TWW-060, TWW-081]
 frequency: always
 ---
 ## Summary
-Session tokens last 30 days and are not checked against the database. An editor's existing session keeps the EDITOR role after demotion; after deletion, the old cookie can still read templates and, because of BUG-001, another user's contacts.
-
-## UI labels in English
-- 查看者: Viewer
+Sessions are 30-day tokens that are not checked against the database. After demotion the session still says EDITOR; after deletion the old cookie still reads templates and (through BUG-001) other users' contacts.
 
 ## Steps to reproduce
 1. Log in as a QA editor in a separate session
@@ -36,6 +33,5 @@ Session role EDITOR after demotion; after deletion /api/auth/session returns the
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: logout does not revoke the token either: a session cookie copied before signout still returns the user and /api/users 200 afterwards. Linked TWW-081.

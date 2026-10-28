@@ -12,7 +12,7 @@ tests: [TWW-066]
 frequency: always
 ---
 ## Summary
-The form does not check several rules enforced by Meta or Twilio. Staff can receive raw English Twilio errors or a later Meta rejection instead of clear validation. See BUG-006 for the separate template-name rule.
+Rules that Meta/Twilio enforce are not checked in the form, so staff get raw English Twilio errors or a Meta rejection later. Related: BUG-006 (name rule).
 
 ## Steps to reproduce
 1. Try the inputs listed in TWW-066
@@ -31,5 +31,4 @@ See evidence: 25-char button, 1100-char body, duplicate name and empty example p
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

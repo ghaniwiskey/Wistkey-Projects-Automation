@@ -12,10 +12,7 @@ tests: [TWW-076]
 frequency: always
 ---
 ## Summary
-Updating a contact ID that no longer exists returns HTTP 500 and "更新失敗" (Update failed), rather than HTTP 404.
-
-## UI labels in English
-- 更新失敗: Update failed
+PATCH /api/contacts/<deleted id> returns 500 "更新失敗" instead of 404.
 
 ## Steps to reproduce
 1. Delete a template with contacts
@@ -35,5 +32,4 @@ Updating a contact ID that no longer exists returns HTTP 500 and "更新失敗" 
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

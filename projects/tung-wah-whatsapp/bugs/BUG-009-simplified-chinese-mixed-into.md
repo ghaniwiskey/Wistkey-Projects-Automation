@@ -12,12 +12,7 @@ tests: [TWW-009]
 frequency: always
 ---
 ## Summary
-The interface mixes Simplified and Traditional Chinese. The navigation uses Traditional Chinese, but the user-management page and new-template form contain the Simplified forms listed in the steps and actual result.
-
-## UI labels in English
-- 用戶管理: User management
-- 添加用户: Add user
-- 新建模板: New template
+Nav says 用戶管理 but the page uses Simplified forms: 用户管理, 用户列表, 添加用户, 添加新用户, 創建用户, 系统管理员, 確定要刪除此用户嗎？. The new-template form shows 变数示例值, Meta 审核必填, 陈大文.
 
 ## Steps to reproduce
 1. Open 用戶管理 and 添加用户
@@ -37,5 +32,4 @@ Simplified characters as listed.
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

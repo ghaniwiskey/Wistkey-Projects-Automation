@@ -12,7 +12,7 @@ tests: [TWW-058]
 frequency: always
 ---
 ## Summary
-There is no apparent protection against repeated incorrect passwords: 21 attempts in about two seconds were answered immediately, and the correct password still worked afterwards. The app was reachable from the internet through the ngrok tunnel.
+21 wrong passwords in about 2 seconds were all answered immediately, and the correct password still worked afterwards. The app is reachable from the internet through the ngrok tunnel.
 
 ## Steps to reproduce
 1. Create a QA user
@@ -33,5 +33,4 @@ All 401 with no delay; correct login 200 right after.
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

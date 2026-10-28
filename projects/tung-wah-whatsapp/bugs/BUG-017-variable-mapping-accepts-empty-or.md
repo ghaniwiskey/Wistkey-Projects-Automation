@@ -12,11 +12,7 @@ tests: [TWW-056]
 frequency: always
 ---
 ## Summary
-The mapping can be saved empty, with spaces, with a nonexistent column, or with free text. Every word is treated as a column name, so literal text such as "先生" is dropped. An empty or unknown mapping sends no variable, allowing Twilio to use its sample value (BUG-003). The input says users can click a column name or type manually.
-
-## UI labels in English
-- 儲存: Save
-- 姓名: Name
+儲存映射 saves "", "   ", a column that does not exist, or free text. Every word is looked up as a column, so text such as "先生" is dropped silently, and an empty/unknown mapping sends no variable, so Twilio uses the sample value ("Hi David", see BUG-003). The input placeholder says "點擊上方列名插入，或手動輸入".
 
 ## Steps to reproduce
 1. Open attendance_confirmation
@@ -36,5 +32,4 @@ All four saved with "變數映射已儲存".
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

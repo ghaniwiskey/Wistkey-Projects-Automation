@@ -12,7 +12,7 @@ tests: [TWW-079]
 frequency: always
 ---
 ## Summary
-After login, the app always opens /templates instead of the originally requested page, such as /users. It also continues to show the login form to a user who is already logged in.
+After login the user always lands on /templates, so a requested page (e.g. /users) is lost; /login stays reachable while logged in.
 
 ## Steps to reproduce
 1. Log out, open /users (redirects to /login?callbackUrl=/users)
@@ -33,5 +33,4 @@ Land on /users; /login redirects when logged in.
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

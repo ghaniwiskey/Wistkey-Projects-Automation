@@ -12,11 +12,7 @@ tests: [TWW-030]
 frequency: always
 ---
 ## Summary
-Rows with an invalid or blank phone number are silently left out. For an 8-row file, the upload result reports 6 total and 0 skipped, so staff cannot tell that two rows were rejected.
-
-## UI labels in English
-- 聯繫人: Contacts
-- 上傳成功！: Upload successful!
+Rows with an invalid ("abcdefg") or empty phone are dropped silently: the result says total 6, skipped 0 for a file with 8 rows.
 
 ## Steps to reproduce
 1. Open a draft template with no contacts
@@ -35,5 +31,4 @@ The summary reports 2 rejected rows and why.
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

@@ -12,11 +12,7 @@ tests: [TWW-045]
 frequency: always
 ---
 ## Summary
-Several icon-only buttons do not have accessible names, including trash buttons, the dialog close X and the button-row remove X. The add-user field labels are also not associated with their inputs.
-
-## UI labels in English
-- 用戶管理: User management
-- 添加用户: Add user
+Trash icons (template cards, users, contacts), the dialog close X and the button-row remove x are unnamed buttons; the add-user labels are not linked to their inputs.
 
 ## Steps to reproduce
 1. Open the templates list, 用戶管理 (and 添加用户), a contacts page
@@ -35,5 +31,4 @@ Snapshot shows "button" with no name; add-user textboxes have no label.
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.

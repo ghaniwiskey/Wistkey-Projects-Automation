@@ -12,7 +12,7 @@ tests: [TWW-049]
 frequency: always
 ---
 ## Summary
-The upload accepts invalid Hong Kong mobile numbers and changes some common formats into the wrong number. Messages may go to a wrong or nonexistent number, potentially even a stranger abroad.
+Upload accepts numbers that are not valid HK mobiles and builds wrong numbers from common formats, so messages go to wrong or non-existent numbers (and could reach a stranger abroad).
 
 ## Steps to reproduce
 1. Open the draft template "testing" with no contacts
@@ -20,10 +20,10 @@ The upload accepts invalid Hong Kong mobile numbers and changes some common form
 3. Upload data/contacts-send-merge-invalid.xlsx to attendance_confirmation and send
 
 ## Expected
-00852… and …".0" normalize to <QA phone>; 9-digit, 10-digit and all-zero numbers are rejected and reported.
+00852… and …".0" normalize to 85265248661; 9-digit, 10-digit and all-zero numbers are rejected and reported.
 
 ## Actual
-"<QA phone with 00852 prefix>" -> <QA phone with an extra 8520 prefix>; "<QA phone with .0 suffix>" -> <QA phone with an extra trailing zero>; "<QA phone with an extra digit>" kept as <QA phone with an extra digit>; "<eight-zero test number>" -> <incorrectly prefixed zero number>, sent: Twilio Undelivered while the app shows SENT.
+"0085265248661" -> 852085265248661; "85265248661.0" -> 852652486610; "652486612" kept as 652486612; "00000000" -> 8520000000, sent: Twilio Undelivered while the app shows SENT.
 
 ## Evidence
 - Screenshot: ![24-phone-normalization.png](../explorations/2026-10-28-core-journeys/24-phone-normalization.png)
@@ -34,5 +34,4 @@ The upload accepts invalid Hong Kong mobile numbers and changes some common form
 - Env: local
 
 ## History
-- 2026-10-28: Clarified the report in English and replaced personal details in the report text with placeholders; no retest or status change.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
