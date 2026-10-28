@@ -33,3 +33,17 @@ status: done
 ## Knowledge and data
 - context.md: Stock (stock take flow), Orders (WebPOS online order now works).
 - QA data: TXN0126102800014 voided; stock take #18 completed (+1 product test 2 at Causeway Bay, now 2); #19 cancelled.
+
+## Continuation (same day): refunds, loyalty, shared stock, level-only codes
+- SCRM-118: after a partial return Refund this order is gone; the next Exchange / Partial Return has a Refund pencil (Adjust balance due) that accepts any amount. 900 on 812.50 remaining (TXN0126102800015) and 2100 on a 2088 order (TXN0126102800017) both completed (BUG-032). Points went -90 and -210 and the member dropped to Level 1.
+- SCRM-119: Level 1 -> Level 3 with one accepted 2,088.00 order (TXN0126102800016), +208 points, spending 88 / 3000, Gold 20% at checkout. Pass. No Upgrade Reward entry.
+- SCRM-116: no mapping change needed (KN sells from Office, an Online Shop warehouse); Tee testing S-B Add To Cart cap 4 -> 3 after a KN cash sale; refunded.
+- SBF-032 (eShop, partial): Level-5-only code refused for Level 1, applied after ticking Level 1; promotion 663 deleted.
+- Risk: the eShop checkout's first Proceed click sometimes does nothing (second click places the order); seen again on TXN0126102800016.
+
+| # | Type | Summary | Severity | Link |
+|---|---|---|---|---|
+| 4 | bug | Partial return refund can be edited above the amount paid | major | bugs/BUG-032-exchange-partial-return-lets-staff.md |
+
+- Manual run `runs/2026-10-28_1219_staging_manual`: SCRM-116 pass, SCRM-118 fail (BUG-032), SCRM-119 pass.
+- QA data: TXN0126102800001 now has 1,387.50 refunded of 1,300.00 (015); TXN0126102800016 Processing with 1 C returned via 017 (2,100.00 refunded of 2,088.00); member MEMy001164526 Level 1, 648 points. POS TXN1226102800001 refunded. Promotion 663 deleted.

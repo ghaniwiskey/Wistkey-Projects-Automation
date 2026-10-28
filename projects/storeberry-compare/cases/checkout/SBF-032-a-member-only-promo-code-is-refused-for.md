@@ -26,5 +26,5 @@ Level-restricted codes reach only the intended members.
 - Step 3: applied with the promotion discount
 - Cleanup: delete the QA promotion
 
-## Notes
+$12026-10-28 partial run (not recorded: guest step not run because logging out would lose the QA member session): Level-5-only code QALVL1028 (promotion 663, deleted after) refused for the Level 1 member with "Current shopping cart does not meet the promotion code conditions"; after ticking Level 1 it applied (-HKD 15). The refusal message does not say the code is for other member levels.
 Idea from explorations/2026-10-27-promotions-transfers.md.

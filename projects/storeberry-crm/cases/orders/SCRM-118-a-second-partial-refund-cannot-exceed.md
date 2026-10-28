@@ -27,4 +27,5 @@ Staff cannot refund more money than the customer paid.
 - Step 3: Refund is no longer offered, or offers HKD 0.00 and cannot be confirmed
 
 ## Notes
+Actual UI (2026-10-28): after a partial return, Actions no longer offers Refund this order; the second refund is another Exchange / Partial Return, and its amount is set with the Refund pencil (Adjust balance due > Adjust final price, enter a negative final price). Fails: BUG-032.
 Boundary companion of the partial refund case.

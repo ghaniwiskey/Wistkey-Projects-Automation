@@ -32,4 +32,5 @@ In-store and online sales share one stock count, so the last unit cannot be sold
 - Cleanup: refund the POS sale (SCRM-086) so the unit comes back
 
 ## Notes
+No store/warehouse mapping change is needed (2026-10-28): Online Shop = TaiPo (main) + 半島倉, IFC Warehouse, Office; Storeberry KN sells from Office. eShop Add To Cart counts all four, checkout only TaiPo (storeberry-compare BUG-017, accepted), so the eShop cannot actually sell Office stock. Use a variant with stock only in Office (e.g. Tee testing S-B, Office 4): Add To Cart cap drops by the POS sale.
 Gap from the 2026-10-28 coverage review. On 2026-10-27 Storeberry HK sold from TEST12 and Online Shop from TaiPo/Office/IFC/半島倉, so the shared-warehouse precondition may need a store mapping; ask before changing store or warehouse settings (project rule).

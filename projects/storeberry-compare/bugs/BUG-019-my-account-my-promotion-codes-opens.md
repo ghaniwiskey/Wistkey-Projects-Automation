@@ -2,10 +2,10 @@
 id: BUG-019
 title: "My Account > My Promotion Codes opens \"Page Not Found\" (404)"
 severity: major
-status: open
+status: verified
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/my-account/promotion-codes"
-updated: 2026-10-27T22:16:41.484Z
+updated: 2026-10-28T05:01:52.639Z
 found: 2026-10-27T22:15:45.802Z
 foundBy: "explorations/2026-10-28-promo-code-orders.md"
 tests: [SBF-027]
@@ -33,3 +33,4 @@ URL /my-account/promotion-codes, HTTP 404, "SORRY!!! Page Not Found / Back to Ho
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-promo-code-orders.md in the Test Manager app.
+- 2026-10-28: status open -> verified.

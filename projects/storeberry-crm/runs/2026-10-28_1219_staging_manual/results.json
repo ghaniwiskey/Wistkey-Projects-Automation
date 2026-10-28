@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "exploratory-2026-10-28-refund-loyalty-stock",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_1219_staging_manual",
+  "startedAt": "2026-10-28T05:19:35.651Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-116",
+      "title": "A unit sold in Web POS is no longer available to the eShop when both sell from the same warehouse",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-116-a-unit-sold-in-web-pos-is-no-longer.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "In-store and online sales share one stock count, so the last unit cannot be sold twice.",
+      "preconditions": [
+        "A store whose POS warehouse also serves Online Shop, found at runtime (Physical Stores POS > View, Add Transfer Order warehouse labels); skip with a clear note if no warehouse is shared",
+        "A product with available = 1 in that warehouse"
+      ],
+      "data": [
+        "Tender: Cash only (POS); Bank Transfer only (eShop)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Web POS: sell 1 unit to a QA member (Cash)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "eShop: open the product page and try to add 1 unit, then open /checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "CRM: read the product row in Inventory and Inventory History",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: completed POS order",
+          "status": null
+        },
+        {
+          "text": "Step 2: the product is shown as sold out / Add To Cart is refused, or checkout flags it and will not place the order",
+          "status": null
+        },
+        {
+          "text": "Step 3: Available 0 for the warehouse and a history row for the POS sale",
+          "status": null
+        },
+        {
+          "text": "Cleanup: refund the POS sale (SCRM-086) so the unit comes back",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Variant without mapping change: Tee testing S-B (Office 4, TaiPo 0). eShop Add To Cart 5 refused / 4 accepted; POS Storeberry KN (Office) cash sale TXN1226102800001 of 1; then 4 refused ('Not enough quantity for this product') / 3 accepted. Checkout shows SOLD OUT (TaiPo only, BUG-017 accepted). Sale refunded (Cash), Office back to 4."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T05:19:35.813Z"
+    },
+    {
+      "id": "SCRM-118",
+      "title": "A second partial refund cannot exceed the amount still paid on the order",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-118-a-second-partial-refund-cannot-exceed.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff cannot refund more money than the customer paid.",
+      "preconditions": [
+        "The order from the partial refund case after product 1 was refunded"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Start another refund and enter an amount larger than the remaining paid amount (remaining + 0.10)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter exactly the remaining amount and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Refund again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: refused with a message; nothing is refunded",
+          "status": null
+        },
+        {
+          "text": "Step 2: accepted; order fully Refunded; total refunded = amount paid",
+          "status": null
+        },
+        {
+          "text": "Step 3: Refund is no longer offered, or offers HKD 0.00 and cannot be confirmed",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Refund edited to 900 on 812.50 remaining (TXN0126102800015) and 2100 on a 2088 order (TXN0126102800017) both completed."
+      ],
+      "evidence": [
+        "screenshots/SCRM-118-m01-03-refund-900-of-812-remaining.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T05:19:35.972Z",
+      "failureType": "product-bug",
+      "bug": "BUG-032"
+    },
+    {
+      "id": "SCRM-119",
+      "title": "Reaching the level spending threshold upgrades the member, gives the upgrade reward and the new level discount",
+      "priority": "P1",
+      "feature": "loyalty",
+      "file": "projects/storeberry-crm/cases/loyalty/SCRM-119-reaching-the-level-spending-threshold.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Member levels and their rewards follow the configured spending thresholds.",
+      "preconditions": [
+        "A QA member close to the next level (e.g. MEMy001164526: Level 2, $1176 or $717 / $2000 as of 2026-10-28)",
+        "Thresholds and Upgrade Reward points read from Loyalty Setting at runtime"
+      ],
+      "data": [
+        "Bank Transfer only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Place an eShop order whose net total takes level spending just over the next threshold, upload a receipt and accept it in the CRM",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read My Account (Member Level, level spending, Point History) and the CRM customer profile",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add a product to the cart and open /checkout",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: Member Level = next level; \"Upgrade Reward\" points = configured amount; spending = old + net total",
+          "status": null
+        },
+        {
+          "text": "Step 2: the CRM customer profile shows the same level",
+          "status": null
+        },
+        {
+          "text": "Step 3: the new level's basket promotion is applied instead of the old one",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Member Level 1 (spending 0, 650 pts) -> TXN0126102800016 C x4 net 2088 accepted -> Level 3, spending 88 / 3000, +208 points (10%); CRM list Level 3; checkout then applies Gold 20% (600 -> 480). No Upgrade Reward entry (config unknown, see case notes)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T05:19:36.294Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T05:19:36.448Z",
+  "summary": {
+    "total": 3,
+    "pass": 2,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
