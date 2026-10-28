@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "manual-tww-098-2026-10-28",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-28_1738_local_manual",
+  "startedAt": "2026-10-28T10:38:20.947Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-098",
+      "title": "Editing message text or buttons keeps the app and Twilio the same",
+      "priority": "P1",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-098-editing-message-text-or-buttons-keeps.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "What the app shows as the message is what members receive.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "The draft template testing"
+      ],
+      "data": [
+        "New body text: QA edited body <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open http://localhost:3000/templates/<testing id>/edit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change the body text and one button title, then save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare the template detail page with the same content in the Twilio console",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The edit page is not offered for Twilio templates, or",
+          "status": null
+        },
+        {
+          "text": "the change also reaches Twilio, so the app and Twilio show the same text and buttons",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Throwaway Twilio draft qa_edit_723337 (no Meta, approved by user, deleted afterwards). Edit page saved body 'QA edited body 723337' and button 'Yes edited'; app showed them, Twilio kept 'QA original body 723337' Yes/No (Date updated unchanged). 從 Twilio 同步 then silently reverted the app to Twilio's content."
+      ],
+      "evidence": [
+        "screenshots/TWW-098-m01-tww098-1-edit-form.png",
+        "screenshots/TWW-098-m02-tww098-2-app-after-edit.png",
+        "screenshots/TWW-098-m03-tww098-3-twilio-unchanged.png",
+        "screenshots/TWW-098-m04-tww098-4-app-after-sync.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T10:38:21.115Z",
+      "failureType": "product-bug",
+      "bug": "BUG-034"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T10:38:21.877Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

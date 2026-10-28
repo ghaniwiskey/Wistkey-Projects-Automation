@@ -14,20 +14,25 @@ updated: 2026-10-28
 What the app shows as the message is what members receive.
 
 ## Preconditions
-- An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)
-- The draft template testing
+- An admin account (logged in session, or TWW_QA_ADMIN_USER / TWW_QA_ADMIN_PASS in .env)
+- A Twilio draft template owned by that admin: only the owner can save the edit page (PATCH checks createdBy), so "testing" (admin@tungwah.org) works only when logged in as admin@tungwah.org. Otherwise create a throwaway draft qa_edit_<unique> with 創建後立即提交 Meta 審核 unticked (it is ticked by default). Creating and deleting a Twilio draft needs the user's approval per run (README > Testing permissions).
 
 ## Data
 - New body text: QA edited body <unique>
 
 ## Steps
-1. Open http://localhost:3000/templates/<testing id>/edit
-2. Change the body text and one button title, then save
-3. Compare the template detail page with the same content in the Twilio console
+1. Open http://localhost:3000/templates/<template id>/edit (no link in the app; type the URL)
+2. Change the body text and one button title, then click 保存修改
+3. Compare the template detail page with the same content in the Twilio console (Messaging > Templates > the template)
+4. Click 從 Twilio 同步 and open the template again
+5. Restore or clean up: delete the throwaway draft with 刪除 (also deletes it in Twilio), or put the original text of testing back
 
 ## Expected
 - The edit page is not offered for Twilio templates, or
 - the change also reaches Twilio, so the app and Twilio show the same text and buttons
+- a sync does not silently undo an edit
 
 ## Notes
-From the code: the edit page PATCHes /api/templates/<id> with name, body and buttons, changing only the database. For an approved template the app would then show text that differs from what WhatsApp sends, and replies would be matched against the edited button titles. Use only the draft template testing and restore the original text afterwards.
+From the code: the edit page PATCHes /api/templates/<id> with name, body and buttons, changing only the database. For an approved template the app would then show text that differs from what WhatsApp sends, and replies would be matched against the edited button titles. Never edit approved templates for this test.
+
+Fails on BUG-034 (2026-10-28, runs/2026-10-28_1738_local_manual): the app showed the edited text and button, Twilio kept the original (Date updated unchanged), and 從 Twilio 同步 then reverted the app to Twilio's content without a warning.
