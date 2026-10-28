@@ -1,0 +1,19 @@
+Editor session (qa-editor-1793168068414@example.test, role EDITOR), 2026-10-28, http://localhost:3000
+GET /api/users -> 403 {"error":"無權限"}
+POST /api/users -> 403 {"error":"無權限"}
+GET /api/templates -> 200 []
+GET /api/templates/cmvongu2u0007kjy3ot9anfon -> 404 {"error":"未找到"}
+GET /api/templates/cmvongu2u0007kjy3ot9anfon/contacts -> 200 [{"name":"Ghani","phone":"6287721956119",...}]
+GET /api/templates/cmvongu2t0005kjy3stn25txd -> 404 {"error":"未找到"}
+GET /api/templates/cmvongu2t0005kjy3stn25txd/contacts -> 200 [{"name":"QA Tester","phone":"85265248661","customVars":{"會員編號":"M0001","會員類別":"普通會員"},...}]
+GET /api/templates/cmvongu2t0005kjy3stn25txd/export -> 200 xlsx (8916 bytes)
+POST /api/send {"templateId":"cmvongu2t0005kjy3stn25txd"} -> 400 {"error":"沒有待發送的聯繫人"}
+
+Same user as VIEWER:
+GET /api/templates -> 200 []
+POST /api/twilio/templates/create {} -> 400 {"error":"模板名稱和內容為必填"}
+POST /api/send {"templateId":"cmvongu2t0005kjy3stn25txd"} -> 400 {"error":"沒有待發送的聯繫人"}
+POST /api/upload {} -> 500 {"error":"處理Excel失敗"}
+GET /api/twilio/templates -> 200 [all admin templates]
+
+Anonymous: /api/users, /api/templates, /users, /templates -> 307 to /login?callbackUrl=...

@@ -1,0 +1,2121 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "exploratory-2026-10-28",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-28_1340_local_manual",
+  "startedAt": "2026-10-28T06:40:02.609Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-002",
+      "title": "Admin creates an editor user",
+      "priority": "P1",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-002-admin-creates-an-editor-user.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An admin can add a new user with the editor role.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and open 用戶管理",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 添加用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter name **QA Editor <unique>**, email **qa-editor-<unique>@example.test**, a password of at least 6 characters, role **編輯者**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the user afterwards (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The dialog closes and the new user appears in 用户列表 with the 編輯者 badge, the email and \"0 個模板\"",
+          "status": null
+        },
+        {
+          "text": "The user can log in with the given email and password",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QA editor created via 添加用户 (blank-name variant), appeared with 編輯者 badge; login worked via API session. Deleted afterwards."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:25.067Z"
+    },
+    {
+      "id": "TWW-003",
+      "title": "Add user form rejects empty, invalid email and short password",
+      "priority": "P2",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-003-add-user-form-rejects-empty-invalid.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The add-user form blocks invalid input before saving.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin, open 用戶管理 and click 添加用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建用户 with all fields empty",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter name **QA**, email **notanemail**, password **1** and click 創建用户",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Empty submit: the 姓名 field shows \"please fill out this field\" and nothing is saved",
+          "status": null
+        },
+        {
+          "text": "Invalid email: the email field reports the missing @",
+          "status": null
+        },
+        {
+          "text": "Password: the field asks for at least 6 characters",
+          "status": null
+        },
+        {
+          "text": "No user is added to the list",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Empty: required messages; notanemail: missing @; password 1 char: min 6. Nothing saved."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:25.204Z"
+    },
+    {
+      "id": "TWW-004",
+      "title": "Duplicate email is rejected when adding a user",
+      "priority": "P2",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-004-duplicate-email-is-rejected-when-adding.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A user cannot be created with an email that already exists.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and open 添加用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter any name, the admin's own email, password **Qa123456!**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建用户",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "An alert shows \"郵箱已存在\"",
+          "status": null
+        },
+        {
+          "text": "No second user with that email appears in the list",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Alert 郵箱已存在 (POST /api/users 400)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:25.338Z"
+    },
+    {
+      "id": "TWW-005",
+      "title": "User name of only spaces is rejected",
+      "priority": "P2",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-005-user-name-of-only-spaces-is-rejected.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A user must have a visible name.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and open 添加用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter name **\"   \"** (spaces only), email **qa-<unique>@example.test**, password **Qa123456!**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "If the user was created, delete it (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The form shows a required-name error and no user is created",
+          "status": null
+        },
+        {
+          "text": "No user card with an empty heading appears in 用户列表",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Name \"   \" accepted (201)."
+      ],
+      "evidence": [
+        "screenshots/TWW-005-m01-02-blank-name-user.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:28.067Z",
+      "failureType": "product-bug",
+      "bug": "BUG-005"
+    },
+    {
+      "id": "TWW-006",
+      "title": "Admin changes a user role",
+      "priority": "P1",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-006-admin-changes-a-user-role.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An admin can switch a user between 管理員, 編輯者 and 查看者.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and create a QA user with role 編輯者",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change the role dropdown on the QA user to **查看者**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the QA user (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The dropdown offers 管理員, 編輯者, 查看者",
+          "status": null
+        },
+        {
+          "text": "After reload the QA user shows the 查看者 badge and role",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Role dropdown offers 管理員/編輯者/查看者; changed QA user to 查看者, API shows VIEWER."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:25.474Z"
+    },
+    {
+      "id": "TWW-007",
+      "title": "Admin deletes a user after confirmation",
+      "priority": "P1",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-007-admin-deletes-a-user-after-confirmation.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Deleting a user asks for confirmation and removes the user.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and create a QA user",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the delete (trash) icon on the QA user and cancel the confirmation",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click it again and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The confirmation text is \"確定要刪除此用户嗎？\"",
+          "status": null
+        },
+        {
+          "text": "Cancel keeps the user",
+          "status": null
+        },
+        {
+          "text": "Confirm removes the user from 用户列表; other users and their templates are unchanged",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Confirm 確定要刪除此用户嗎？; user removed, admin templates unchanged."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:25.621Z"
+    },
+    {
+      "id": "TWW-009",
+      "title": "User management page uses Traditional Chinese consistently",
+      "priority": "P3",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-009-user-management-page-uses-traditional.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "All user-management labels are in Traditional Chinese like the rest of the app.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and open 用戶管理",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 添加用户",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Labels read 用戶管理, 用戶列表, 添加用戶, 添加新用戶, 創建用戶, 系統管理員, and confirm text 確定要刪除此用戶嗎？",
+          "status": null
+        },
+        {
+          "text": "No Simplified characters (户, 统, 员) appear",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "用户管理, 添加用户, 系统管理员 etc. in Simplified."
+      ],
+      "evidence": [
+        "screenshots/TWW-009-m01-02-blank-name-user.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:28.357Z",
+      "failureType": "product-bug",
+      "bug": "BUG-009"
+    },
+    {
+      "id": "TWW-010",
+      "title": "Anonymous visitor is redirected to login",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-010-anonymous-visitor-is-redirected-to-login.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Pages and APIs are not available without a session.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Without logging in, open /templates and /users",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Without a session, request /api/templates and /api/users",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each request redirects (307) to /login with a callbackUrl",
+          "status": null
+        },
+        {
+          "text": "No template, user or contact data is returned",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "/templates, /users, /api/templates, /api/users all 307 to /login."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:25.759Z"
+    },
+    {
+      "id": "TWW-012",
+      "title": "Editor cannot read another user's contacts or report",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-012-editor-cannot-read-another-user-s.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Contacts and reports of a template are visible only to its owner (and admins).",
+      "preconditions": [
+        "An editor account",
+        "A template owned by another user with contacts"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin, make sure a template owned by the admin has at least one contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as a QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Request that template, its contacts and its export (report) by template ID",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "All three return 404 or 403",
+          "status": null
+        },
+        {
+          "text": "No names or phone numbers of the admin's contacts are returned",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor: template 404 but contacts 200 with data and export 200 xlsx."
+      ],
+      "evidence": [
+        "screenshots/TWW-012-m01-11-editor-api-probe.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:28.627Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "TWW-013",
+      "title": "Editor cannot send messages from another user's template",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-013-editor-cannot-send-messages-from.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Only the owner (or an admin) can trigger a WhatsApp send for a template.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin, have a template with contacts that are all already sent (so nothing can go out)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as a QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call the send endpoint with the admin template's ID",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The request is refused with 403/404 before any contact check",
+          "status": null
+        },
+        {
+          "text": "No message is queued",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor send on admin template -> 400 沒有待發送的聯繫人 (authorized)."
+      ],
+      "evidence": [
+        "screenshots/TWW-013-m01-11-editor-api-probe.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:28.898Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "TWW-014",
+      "title": "Viewer cannot create templates, upload contacts or send",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-014-viewer-cannot-create-templates-upload.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The 查看者 role is read-only.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin, set a QA user to 查看者",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as that viewer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call template create, contact upload and send with empty or harmless bodies",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the templates list",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Create, upload and send return 403 \"無權限\"",
+          "status": null
+        },
+        {
+          "text": "The viewer sees only templates it may read; other users' templates are not listed",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Viewer create 400 validation, upload 500, send 400; GET /api/twilio/templates lists all."
+      ],
+      "evidence": [
+        "screenshots/TWW-014-m01-11-editor-api-probe.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:29.152Z",
+      "failureType": "product-bug",
+      "bug": "BUG-002"
+    },
+    {
+      "id": "TWW-015",
+      "title": "New template form requires name and content",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-015-new-template-form-requires-name-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The create form stops when name or body is missing.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open 消息模版 and click 新建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Untick 創建後立即提交 Meta 審核",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建模板 with every field empty",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "An alert shows \"請填寫模板名稱和內容\"",
+          "status": null
+        },
+        {
+          "text": "No request is sent and no template is added",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Alert 請填寫模板名稱和內容; no request sent."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:25.897Z"
+    },
+    {
+      "id": "TWW-016",
+      "title": "Template name accepts only English letters, digits and underscore",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-016-template-name-accepts-only-english.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Invalid WhatsApp template names are caught before reaching Twilio/Meta.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open 新建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Untick Meta submission",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter name **My Template 測試!**, body **hello**, one button **OK**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建模板",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A validation message explains the allowed characters (as in the field hint \"英文、數字、底線\")",
+          "status": null
+        },
+        {
+          "text": "No template is created in the app or in Twilio",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QA Draft 測試 <n> created in Twilio."
+      ],
+      "evidence": [
+        "screenshots/TWW-016-m01-04-template-form-filled.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:29.403Z",
+      "failureType": "product-bug",
+      "bug": "BUG-006"
+    },
+    {
+      "id": "TWW-017",
+      "title": "Quick-reply buttons are limited to three",
+      "priority": "P3",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-017-quick-reply-buttons-are-limited-to-three.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The form never allows more than 3 quick-reply buttons.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open 新建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click + 添加按鈕 until it disappears",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Exactly 3 button rows are shown",
+          "status": null
+        },
+        {
+          "text": "+ 添加按鈕 is hidden at 3 rows",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Add button hidden at 3 rows."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.030Z"
+    },
+    {
+      "id": "TWW-018",
+      "title": "Template without quick-reply buttons can be created",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-018-template-without-quick-reply-buttons.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Buttons are optional (\"最多 3 個\"), as with the existing welcome_greetings template.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open 新建模板, untick Meta submission",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a valid name **qa_no_buttons_<unique>** and body **hello**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove both empty button rows (or leave them empty)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建模板, then delete the template (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The template is created without buttons",
+          "status": null
+        },
+        {
+          "text": "No \"請至少添加一個按鈕\" alert",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Alert 請至少添加一個按鈕; waiting on Q-001."
+      ],
+      "evidence": [
+        "screenshots/TWW-018-m01-17-alerts-buttons-overwrite.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:31.257Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "TWW-019",
+      "title": "Create a draft template without Meta submission",
+      "priority": "P1",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-019-create-a-draft-template-without-meta.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A template can be created in Twilio as a draft and keeps its question title.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open 新建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Untick 創建後立即提交 Meta 審核",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter question title **QA question <unique>**, name **qa_draft_<unique>**, body **QA draft, please ignore.**, one button **OK**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the template afterwards (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Alert \"模板已創建！\"; the card shows status 草稿 and an HX… Twilio SID",
+          "status": null
+        },
+        {
+          "text": "The detail page shows 問題：QA question <unique>",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Draft created in Twilio (HX4fdb...), question title saved by follow-up PATCH. Deleted afterwards. User-approved."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.167Z"
+    },
+    {
+      "id": "TWW-020",
+      "title": "Deleting a template removes it from Twilio",
+      "priority": "P1",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-020-deleting-a-template-removes-it-from.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Delete removes the template in the app and in Twilio, so a sync does not bring it back.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Create a QA draft template (no Meta submission)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open it and click 刪除, confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 從 Twilio 同步 on the templates list",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The app returns to the list without the template",
+          "status": null
+        },
+        {
+          "text": "After sync the template is still absent",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Delete then 從 Twilio 同步: 同步成功！共 4 個模板, QA draft not re-imported."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.301Z"
+    },
+    {
+      "id": "TWW-021",
+      "title": "Sync from Twilio lists Twilio templates",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-021-sync-from-twilio-lists-twilio-templates.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "從 Twilio 同步 refreshes the templates from Twilio.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open 消息模版",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 從 Twilio 同步",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Alert \"同步成功！共 N 個模板\" where N is the number of cards",
+          "status": null
+        },
+        {
+          "text": "Statuses (已通過 / 草稿) match Twilio",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Alert 同步成功！共 4 個模板; statuses match."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.435Z"
+    },
+    {
+      "id": "TWW-022",
+      "title": "Edit the question title of a template",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-022-edit-the-question-title-of-a-template.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The question title (report row 3) can be edited and persists.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a QA draft template",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 編輯 next to the question title, enter **Edited QA title**, click 儲存",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload the page",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The header shows 問題：Edited QA title after reload",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Edited title persisted after reload."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.569Z"
+    },
+    {
+      "id": "TWW-023",
+      "title": "Blank question title falls back to 未設定問題標題",
+      "priority": "P3",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-023-blank-question-title-falls-back-to.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Saving an empty or spaces-only question title clears it.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a QA draft template with a question title",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 編輯, replace the title with **\"   \"**, click 儲存",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The header shows 未設定問題標題, not an empty \"問題：\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Header shows 問題： (blank)."
+      ],
+      "evidence": [
+        "screenshots/TWW-023-m01-10-blank-question-title.webp"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:29.664Z",
+      "failureType": "product-bug",
+      "bug": "BUG-008"
+    },
+    {
+      "id": "TWW-024",
+      "title": "New template form is reset after cancel",
+      "priority": "P3",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-024-new-template-form-is-reset-after-cancel.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Cancelling the create form does not keep half-typed data.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open 新建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Type a question title and a name, click 取消",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 新建模板 again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The fields are empty (or the behavior agreed in the question)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Values kept after 取消; waiting on Q-003."
+      ],
+      "evidence": [
+        "screenshots/TWW-024-m01-13-form-kept-after-cancel.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:31.525Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "TWW-025",
+      "title": "Sending is disabled for templates that are not approved",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-025-sending-is-disabled-for-templates-that.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Only 已通過 templates can be sent.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open a 草稿 template",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "發送到 WhatsApp is disabled",
+          "status": null
+        },
+        {
+          "text": "The text \"只有審核通過的模板才能發送消息\" is shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Draft \"testing\": send disabled with 只有審核通過的模板才能發送消息."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.703Z"
+    },
+    {
+      "id": "TWW-026",
+      "title": "Upload an Excel file of contacts",
+      "priority": "P0",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-026-upload-an-excel-file-of-contacts.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Contacts with 姓名 and 手提電話 columns are imported into a template.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open a template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose the contacts file, keep 追加, click 上傳並解析",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the uploaded contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Alert \"上傳成功！\"; the header shows 1 聯繫人",
+          "status": null
+        },
+        {
+          "text": "The contact shows name, phone 85265248661, status 待發送 and every Excel column (會員編號, 會員類別) as a tag",
+          "status": null
+        },
+        {
+          "text": "The Excel column names appear as buttons under 變數映射配置",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "contacts-valid-hk.xlsx on attendance_confirmation: 上傳成功！, 1 contact with 會員編號/會員類別 tags and column buttons for mapping."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.840Z"
+    },
+    {
+      "id": "TWW-027",
+      "title": "Upload with no contacts shows a clear error",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-027-upload-with-no-contacts-shows-a-clear.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Empty or non-Excel files are rejected with a message.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-header-only.xlsx",
+        "projects/tung-wah-whatsapp/data/not-excel.txt"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open a draft template",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the header-only Excel file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload a .txt file",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both show the alert \"Excel中沒有找到聯繫人\"",
+          "status": null
+        },
+        {
+          "text": "The contact count does not change",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Header-only xlsx and .txt: alert Excel中沒有找到聯繫人."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:26.973Z"
+    },
+    {
+      "id": "TWW-028",
+      "title": "Phone numbers are normalized to the 852 format",
+      "priority": "P1",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-028-phone-numbers-are-normalized-to-the-852.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Local and formatted HK numbers become 852XXXXXXXX.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-phone-formats.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open a draft template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the phone-formats file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the uploaded contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"+852 6524 8661\" and \"65248661\" are stored as 85265248661",
+          "status": null
+        },
+        {
+          "text": "\"85291234567\" stays as is",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "+852 6524 8661 and 65248661 stored as 85265248661."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:27.105Z"
+    },
+    {
+      "id": "TWW-029",
+      "title": "Append mode skips numbers already in the list",
+      "priority": "P1",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-029-append-mode-skips-numbers-already-in.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "追加 never creates two contacts with the same (normalized) phone number.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx",
+        "Excel file projects/tung-wah-whatsapp/data/contacts-phone-formats.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a draft template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the valid HK file with 追加",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the phone-formats file with 追加 (contains the same number 4 times in different formats)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the valid HK file again with 追加",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人, then delete all contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Only one contact with 85265248661 exists",
+          "status": null
+        },
+        {
+          "text": "The upload summary counts the duplicates as skipped (\"跳過 N 個已存在號碼\")",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "5 contacts with 85265248661 after append uploads."
+      ],
+      "evidence": [
+        "screenshots/TWW-029-m01-05-append-duplicates-not-skipped.webp"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:29.928Z",
+      "failureType": "product-bug",
+      "bug": "BUG-004"
+    },
+    {
+      "id": "TWW-030",
+      "title": "Upload summary reports rows that were not imported",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-030-upload-summary-reports-rows-that-were.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Rows with an invalid or empty phone are reported, not silently dropped.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-phone-formats.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a draft template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the phone-formats file (8 rows: one with letters, one with an empty phone)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The summary says how many rows were rejected and why (invalid phone / empty phone)",
+          "status": null
+        },
+        {
+          "text": "total equals the number of data rows in the file",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "total 6 added 6 skipped 0 for 8 rows."
+      ],
+      "evidence": [
+        "screenshots/TWW-030-m01-15-upload-summary.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:30.194Z",
+      "failureType": "product-bug",
+      "bug": "BUG-007"
+    },
+    {
+      "id": "TWW-031",
+      "title": "Overwrite mode replaces contacts after confirmation",
+      "priority": "P1",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-031-overwrite-mode-replaces-contacts-after.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "覆蓋 clears old contacts and replies only after the user confirms.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx",
+        "Excel file projects/tung-wah-whatsapp/data/contacts-missing-columns.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a draft template and upload the valid HK file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select 覆蓋 and upload the missing-columns file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A confirmation warns that old contacts and replies will be deleted",
+          "status": null
+        },
+        {
+          "text": "After confirming, only the new file's contacts remain",
+          "status": null
+        },
+        {
+          "text": "The mode returns to 追加 after the upload",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Overwrite replaced data but no confirm and radio stays 覆蓋; waiting on Q-002."
+      ],
+      "evidence": [
+        "screenshots/TWW-031-m01-17-alerts-buttons-overwrite.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:31.811Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "TWW-032",
+      "title": "Search contacts by name or phone",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-032-search-contacts-by-name-or-phone.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The contacts search filters by name (case-insensitive) and phone digits.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "A template with contacts (upload the phone-formats file)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open 聯繫人 of a template with several contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search **dup**, then **Dup**, then **91234567**",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Name search is case-insensitive and lists only matching contacts",
+          "status": null
+        },
+        {
+          "text": "Phone digits find the contact",
+          "status": null
+        },
+        {
+          "text": "聯繫人列表 (N) shows the filtered count",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "dup/Dup case-insensitive (2 results), 91234567 finds 1. Phone with spaces finds nothing (minor, not filed)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:27.233Z"
+    },
+    {
+      "id": "TWW-033",
+      "title": "Delete a contact after confirmation",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-033-delete-a-contact-after-confirmation.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A single contact can be removed.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open 聯繫人 of a template with QA contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the trash icon of one contact and cancel",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click it again and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The confirmation reads \"確定要刪除此聯繫人嗎？\"",
+          "status": null
+        },
+        {
+          "text": "Cancel keeps the contact; confirm removes it and the count drops by 1",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Confirm 確定要刪除此聯繫人嗎？; cancel keeps, confirm removes (7 -> 6)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:27.367Z"
+    },
+    {
+      "id": "TWW-034",
+      "title": "Reset a sent contact to pending",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-034-reset-a-sent-contact-to-pending.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "重置 lets a sent contact be sent again.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open 聯繫人 of a template with a 已發送 contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 重置 on that contact",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The status changes to 待發送 and the 重置 button disappears",
+          "status": null
+        },
+        {
+          "text": "The old 發送時間 is cleared (or labelled as the previous send)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Status 待發送 but old 發送時間 still shown."
+      ],
+      "evidence": [
+        "screenshots/TWW-034-m01-17-alerts-buttons-overwrite.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:30.463Z",
+      "failureType": "product-bug",
+      "bug": "BUG-011"
+    },
+    {
+      "id": "TWW-035",
+      "title": "HTML in contact names is shown as plain text",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-035-html-in-contact-names-is-shown-as-plain.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Uploaded values are escaped.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-phone-formats.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, upload the phone-formats file to a draft template",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The contact named <b>bold</b> shows the literal text \"<b>bold</b>\", not bold text",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "<b>bold</b> rendered literally."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:27.499Z"
+    },
+    {
+      "id": "TWW-036",
+      "title": "Send a WhatsApp message with a mapped variable",
+      "priority": "P0",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-036-send-a-whatsapp-message-with-a-mapped.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The template is sent with the contact's own data in the variables.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx",
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open an approved template with {{first_name}} (attendance_confirmation)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the valid HK file (or reset the QA contact to 待發送)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Under 變數映射配置 click 姓名, then + 插入, then 儲存映射",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 發送到 WhatsApp and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the message in the Twilio console (Monitor > Logs > Messaging)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Alert \"變數映射已儲存\", then \"發送任務已啟動！\"",
+          "status": null
+        },
+        {
+          "text": "The contact turns 已發送 with a 發送時間",
+          "status": null
+        },
+        {
+          "text": "Twilio shows the outbound message \"Hi QA Tester, do you confirm your attendance?\" to +85265248661 as Delivered",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "After mapping 姓名: Twilio shows \"Hi QA Tester, do you confirm your attendance?\" Delivered then Read to +85265248661."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:27.634Z"
+    },
+    {
+      "id": "TWW-037",
+      "title": "Sending is blocked while a template variable has no mapping",
+      "priority": "P0",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-037-sending-is-blocked-while-a-template.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Nobody receives a message with a wrong or placeholder value.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx",
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open an approved template with {{first_name}} and no saved mapping",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the valid HK file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 發送到 WhatsApp",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The send is refused with a message naming the unmapped variable ({{first_name}})",
+          "status": null
+        },
+        {
+          "text": "Nothing is sent; Twilio shows no new outbound message",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Sent \"Hi David, ...\" to +85265248661."
+      ],
+      "evidence": [
+        "screenshots/TWW-037-m01-06-twilio-unmapped-variable-sent-as-david.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:30.720Z",
+      "failureType": "product-bug",
+      "bug": "BUG-003"
+    },
+    {
+      "id": "TWW-038",
+      "title": "Send with no pending contacts shows a message",
+      "priority": "P2",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-038-send-with-no-pending-contacts-shows-a.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Clicking send when everyone was already sent does nothing harmful.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open an approved template whose contacts are all 已發送",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 發送到 WhatsApp and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The confirmation reads \"確定要發送消息給所有待發送的聯繫人嗎？\"",
+          "status": null
+        },
+        {
+          "text": "Alert \"沒有待發送的聯繫人\"; no message is sent",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Confirm text OK, alert 沒有待發送的聯繫人 (400)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:27.772Z"
+    },
+    {
+      "id": "TWW-039",
+      "title": "Contact status follows Twilio delivery and read receipts",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-039-contact-status-follows-twilio-delivery.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "The app shows Delivered / Read / Undelivered like Twilio does.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel for the Twilio webhook running"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Make sure the Twilio status webhook reaches the app (ngrok tunnel up)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the QA contact (mapped)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the message on the phone",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人 and click 刷新",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After delivery the contact shows a delivered state and time; after opening it shows read",
+          "status": null
+        },
+        {
+          "text": "A message to a non-HK number that Twilio marks Undelivered shows as failed, not 已發送",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Environment: Twilio webhook got 404 from ngrok (ERR_NGROK_3200, authentic-tactless-pregame.ngrok-free.dev offline). Twilio received Yes/No/maybe later? and shows Delivered/Read, app shows 0 replies and SENT."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:32.316Z"
+    },
+    {
+      "id": "TWW-040",
+      "title": "Quick-reply button answer appears in reply stats",
+      "priority": "P0",
+      "feature": "replies",
+      "file": "projects/tung-wah-whatsapp/cases/replies/TWW-040-quick-reply-button-answer-appears-in.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "A Yes/No button reply is recorded against the contact.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel running",
+        "Someone with the +852 6524 8661 phone to reply"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Make sure the Twilio incoming-message webhook reaches the app (ngrok tunnel up)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send attendance_confirmation to the QA contact (mapped)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the phone, tap **Yes**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the template's 回覆統計 tab",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The header shows 1 回覆",
+          "status": null
+        },
+        {
+          "text": "The QA Tester row shows 回覆內容 Yes and the 回覆日期",
+          "status": null
+        },
+        {
+          "text": "The report's 數據統計 counts 1 under \"回覆內容1：Yes\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Environment: Twilio webhook got 404 from ngrok (ERR_NGROK_3200, authentic-tactless-pregame.ngrok-free.dev offline). Twilio received Yes/No/maybe later? and shows Delivered/Read, app shows 0 replies and SENT."
+      ],
+      "evidence": [
+        "screenshots/TWW-040-m01-09-twilio-11200-webhook-error.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:32.440Z"
+    },
+    {
+      "id": "TWW-041",
+      "title": "Free-text reply is recorded under 其它",
+      "priority": "P1",
+      "feature": "replies",
+      "file": "projects/tung-wah-whatsapp/cases/replies/TWW-041-free-text-reply-is-recorded-under.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "A typed reply that is not a button counts as 其它.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel running"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "With the tunnel up, send the template to the QA contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the phone, type **maybe later?**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 回覆統計 and click 其它",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The QA Tester row shows 回覆內容 \"maybe later?\" under 其它",
+          "status": null
+        },
+        {
+          "text": "未回覆 no longer lists the contact",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Environment: Twilio webhook got 404 from ngrok (ERR_NGROK_3200, authentic-tactless-pregame.ngrok-free.dev offline). Twilio received Yes/No/maybe later? and shows Delivered/Read, app shows 0 replies and SENT."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:32.569Z"
+    },
+    {
+      "id": "TWW-043",
+      "title": "Download the reply report",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/tung-wah-whatsapp/cases/reports/TWW-043-download-the-reply-report.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "下載報表 produces the Excel reply report.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a template with at least one contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 下載報表",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A file reply_report_<templateId>.xlsx downloads",
+          "status": null
+        },
+        {
+          "text": "Sheet 回覆紀錄 has the header rows and columns 會員類別 … 回覆內容 回覆日期 with one row per contact, including Excel columns such as 會員編號",
+          "status": null
+        },
+        {
+          "text": "Sheet 數據統計 shows counts per button, 其他, 未有回覆人數 and the 製表人/核對人/審批人 block",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "reply_report_<id>.xlsx with 回覆紀錄 and 數據統計 sheets as expected."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:27.915Z"
+    },
+    {
+      "id": "TWW-044",
+      "title": "Report header shows the right centre and question",
+      "priority": "P2",
+      "feature": "reports",
+      "file": "projects/tung-wah-whatsapp/cases/reports/TWW-044-report-header-shows-the-right-centre.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Rows 1 and 3 of the report identify the centre and the question asked.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, set a question title on a template",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Download the report",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Row 1 shows the centre that sends the messages",
+          "status": null
+        },
+        {
+          "text": "Row 3 shows 問題：<question title>; without a title it shows the agreed fallback",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Row 1 屯門 centre vs Tin Shui Wai sender; row 3 falls back to template name; waiting on Q-004."
+      ],
+      "evidence": [
+        "screenshots/TWW-044-m01-16-report-header.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:32.061Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "TWW-045",
+      "title": "Icon buttons and form fields have accessible names",
+      "priority": "P3",
+      "feature": "accessibility",
+      "file": "projects/tung-wah-whatsapp/cases/accessibility/TWW-045-icon-buttons-and-form-fields-have.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Screen readers (and getByRole/getByLabel) can find every control.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Inspect the templates list, user management, add-user dialog, new-template dialog and contacts page with a screen reader or accessibility tree",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Trash icons, the dialog close (X) and button-row remove (x) buttons have names (e.g. 刪除模板 <name>)",
+          "status": null
+        },
+        {
+          "text": "The add-user inputs are labelled 姓名, 郵箱, 密碼",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Trash/close icons unnamed; add-user inputs unlabelled."
+      ],
+      "evidence": [
+        "screenshots/TWW-045-m01-14-unnamed-icon-buttons.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T06:40:30.992Z",
+      "failureType": "product-bug",
+      "bug": "BUG-010"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T06:40:32.831Z",
+  "summary": {
+    "total": 41,
+    "pass": 22,
+    "fail": 16,
+    "flaky": 0,
+    "blocked": 3,
+    "skipped": 0
+  }
+}

@@ -1,7 +1,7 @@
 name: Tung Wah Whatsapp
 slug: tung-wah-whatsapp
 testIdPrefix: TWW
-description: ""
+description: "Tung Wah (東華三院) WhatsApp Message Manager: Twilio WhatsApp templates, Excel contact upload, bulk send, reply stats and reports"
 
 # Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with TWW_BASE_URL.
 # allowWrites: false skips tests tagged @writes on that env.
@@ -20,7 +20,11 @@ playwright:
 
 # Test accounts: usernames only. Passwords go in .env as TWW_<ROLE>_USER / TWW_<ROLE>_PASS.
 auth:
-  accounts: []
+  accounts:
+    - roles: [admin]
+      notes: admin@tungwah.org (Next.js credentials login). Password in .env; editor/viewer accounts are created per test by the admin and deleted afterwards.
+      envUser: TWW_ADMIN_USER
+      envPass: TWW_ADMIN_PASS
 
 suites:
   smoke: { tags: [smoke], description: Fast checks of the main journeys }
