@@ -1,6 +1,6 @@
 ---
 id: TWW-082
-title: "Login form supports password managers and screen readers"
+title: "Login form works with the keyboard"
 feature: accessibility
 priority: P3
 tags: [regression]
@@ -11,15 +11,15 @@ updated: 2026-10-28
 ---
 
 ## Goal
-Login fields are labelled and autofill-friendly without exposing real accounts.
+The login form can be filled and submitted with the keyboard only. Label links, autocomplete hints and the placeholder are not checked (BUG-031 accepted as wont-fix).
 
 ## Steps
-1. Open /login and inspect the fields
+1. Open /login
+2. Tab to 郵箱, type the email, Tab to 密碼, type the password, press Enter
 
 ## Expected
-- 郵箱 and 密碼 labels are linked to their inputs
-- Inputs have autocomplete="username" / "current-password"
-- The email placeholder is a generic example, not the real admin address
+- Focus moves 郵箱 -> 密碼 -> 登錄 in that order
+- Enter submits the form and opens /templates
 
 ## Notes
-Related: BUG-031 (open).
+Unlinked labels, no autocomplete and the admin@tungwah.org placeholder are accepted behavior: BUG-031, closed as wont-fix (2026-10-28). Do not re-report.

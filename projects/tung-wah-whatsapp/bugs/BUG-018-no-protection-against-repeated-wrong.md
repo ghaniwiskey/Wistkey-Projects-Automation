@@ -2,13 +2,13 @@
 id: BUG-018
 title: "No protection against repeated wrong passwords"
 severity: major
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/api/auth/callback/credentials"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-28T09:22:58.963Z
 found: 2026-10-28T07:16:23.295Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-058]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -38,3 +38,5 @@ Our run: a script sent 21 wrong passwords to /api/auth/callback/credentials in a
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-28: status open -> wont-fix.
+- 2026-10-28: wont-fix applied: TWW-058 now expects the accepted behavior (notes updated), context.md updated, tests list emptied.

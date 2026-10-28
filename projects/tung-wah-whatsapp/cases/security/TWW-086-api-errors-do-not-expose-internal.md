@@ -1,6 +1,6 @@
 ---
 id: TWW-086
-title: "API errors do not expose internal details"
+title: "Editing another user's template through the API is refused"
 feature: security
 priority: P2
 tags: [regression]
@@ -11,7 +11,7 @@ updated: 2026-10-28
 ---
 
 ## Goal
-Error responses are generic.
+A user cannot change a template they do not own. The status code and error body are not checked (BUG-033 accepted as wont-fix).
 
 ## Preconditions
 - A QA editor created by the admin (delete afterwards)
@@ -20,7 +20,8 @@ Error responses are generic.
 1. As the QA editor PATCH a template owned by someone else
 
 ## Expected
-- 403/404 with a short message; no stack trace or Prisma error text
+- The request fails (not 2xx)
+- The template's question title is unchanged for its owner
 
 ## Notes
-Related: BUG-033 (open).
+A 500 with Prisma detail instead of 403/404 is accepted behavior: BUG-033, closed as wont-fix (2026-10-28). Do not re-report.

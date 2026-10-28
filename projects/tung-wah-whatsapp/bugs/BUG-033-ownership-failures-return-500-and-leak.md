@@ -2,13 +2,13 @@
 id: BUG-033
 title: "Ownership failures return 500 and leak internal Prisma errors"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/api/templates/<id>"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-28T09:24:31.282Z
 found: 2026-10-28T08:18:32.071Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-086]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Editing or deleting another user's template returns a server error (500) instead
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-28: status open -> wont-fix.
+- 2026-10-28: wont-fix applied: TWW-086 now expects the accepted behavior (notes updated), context.md updated, tests list emptied.

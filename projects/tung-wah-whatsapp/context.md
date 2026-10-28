@@ -40,7 +40,7 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 Templates welcome_greetings and attendance_confirmation (APPROVED, admin), testing and templateName (DRAFT). Use "testing" for upload tests (send is disabled there) and attendance_confirmation (Yes/No buttons, {{first_name}}) for send/reply tests.
 
 ## Auth and sessions
-NextAuth credentials (JWT), 30-day session token, not re-checked against the database and not revoked by 退出: role changes and user deletion do not affect existing sessions (BUG-019). No login throttling (BUG-018). Wrong password and unknown email both return 401. Server-side user validation: password >= 6, email format, role enum.
+NextAuth credentials (JWT), 30-day session token, not re-checked against the database and not revoked by 退出: role changes and user deletion do not affect existing sessions (BUG-019). No login throttling (accepted, BUG-018 wont-fix). Wrong password and unknown email both return 401. Server-side user validation: password >= 6, email format, role enum.
 
 ## Report notes
 Free-text replies appear as 其它 in the report's 回覆內容 (BUG-015); same-phone contacts are separate rows.
@@ -51,5 +51,5 @@ Free-text replies appear as 其它 in the report's 回覆內容 (BUG-015); same-
 - Variable names like {{1}}, {{ first name }}, {{姓名}} are accepted; {{}} is rejected by Twilio; Meta rejects a variable at the start or end of the body.
 - Delete (card trash or detail 刪除) shows an in-app alertdialog 確認刪除, removes contacts/replies and the Twilio content (Twilio 404 ignored). Sync never removes local templates (BUG-026).
 - Server refuses /api/send for non-APPROVED templates (403).
-- Login: /login (郵箱, 密碼, 登錄); wrong credentials -> 郵箱或密碼錯誤. After login always /templates (callbackUrl ignored, BUG-030); external callbackUrl not followed. 退出 has no confirmation.
-- Roles in the UI: editors and viewers get the same UI (BUG-002); the nav hides 用戶管理 for them but /users still renders (BUG-032). Ownership is checked on template detail/edit/delete (500 instead of 403, BUG-033) but not on contacts, export, send, reset or the Twilio delete in the delete route (BUG-001, BUG-029).
+- Login: /login (郵箱, 密碼, 登錄; labels unlinked, no autocomplete, placeholder admin@tungwah.org: accepted, BUG-031 wont-fix); wrong credentials -> 郵箱或密碼錯誤. After login always /templates (callbackUrl ignored, BUG-030); external callbackUrl not followed. 退出 has no confirmation.
+- Roles in the UI: editors and viewers get the same UI (BUG-002); the nav hides 用戶管理 for them but /users still renders (BUG-032). Ownership is checked on template detail/edit/delete (500 with internal error detail instead of 403; accepted, BUG-033 wont-fix) but not on contacts, export, send, reset or the Twilio delete in the delete route (BUG-001, BUG-029).
