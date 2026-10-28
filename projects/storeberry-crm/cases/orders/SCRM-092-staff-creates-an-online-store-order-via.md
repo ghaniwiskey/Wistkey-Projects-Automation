@@ -33,4 +33,4 @@ Staff can create an online order for a member from Orders > Add Order > Add Onli
 
 ## Notes
 Payment: Bank Transfer only. Shipping is mandatory: Total says "Please input and confirm Shipping information first."
-Currently fails: BUG-016 (check-shipping returns 500, 2026-10-27).
+BUG-016 (failed on 2026-10-27) was set to verified by the user on 2026-10-28: the case is expected to pass; rerun it as the retest.

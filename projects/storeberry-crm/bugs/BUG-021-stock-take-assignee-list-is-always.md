@@ -2,10 +2,10 @@
 id: BUG-021
 title: "Stock take Assignee list is always empty, so no stock take job can be created"
 severity: critical
-status: open
+status: verified
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/stock-take/create"
-updated: 2026-10-27T10:18:23.995Z
+updated: 2026-10-28T04:28:21.552Z
 found: 2026-10-27T10:07:10.196Z
 foundBy: "explorations/2026-10-27-stock-movement.md"
 tests: [SCRM-030]
@@ -36,3 +36,5 @@ Only "-- Select mapped stock take user --"; endpoint returns users []. Same for 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-stock-movement.md in the Test Manager app.
 - 2026-10-27: Confirmed as a product bug by the user; stays open until a fix is deployed.
+- 2026-10-28: status open -> verified.
+- 2026-10-28: Case SCRM-030 notes updated: expected to pass (bug set to verified by the user)..
