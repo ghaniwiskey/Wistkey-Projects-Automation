@@ -21,7 +21,7 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 - Excel .xlsx/.xls with 姓名 and 手提電話 (English Name/Phone also work). Every column is kept in customVars and offered for variable mapping; Tung Wah member columns (會員類別, 會員編號, ...) appear in reply stats and the report.
 - Phones are normalized to 852XXXXXXXX ("+852 6524 8661", "65248661" -> 85265248661). Rows with invalid/empty phone are dropped.
 - 追加 skips a number only when the raw cell value equals an existing contact's; 覆蓋 replaces all contacts and replies without asking.
-- Contact statuses: 待發送 PENDING, 已發送 SENT. 重置 sets one contact back to pending; 全部重置 resets all. 刷新 only re-reads the database.
+- Contact statuses: 待發送 PENDING, 已發送 SENT, 已讀 READ (set by a reply). 重置 sets one contact back to pending and deletes its reply (no confirmation); only sent contacts can receive replies; 全部重置 resets all. 刷新 only re-reads the database.
 - Test files live in `data/` (copy to the session folder before uploading from Aside's browser).
 
 ## Sending and replies

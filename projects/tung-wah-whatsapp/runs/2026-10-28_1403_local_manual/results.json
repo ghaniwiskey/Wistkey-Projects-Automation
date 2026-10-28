@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "free-text-reply-2026-10-28",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-28_1403_local_manual",
+  "startedAt": "2026-10-28T07:03:52.151Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-041",
+      "title": "Free-text reply is recorded under 其它",
+      "priority": "P1",
+      "feature": "replies",
+      "file": "projects/tung-wah-whatsapp/cases/replies/TWW-041-free-text-reply-is-recorded-under.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A typed reply that is not a button counts as 其它.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel running"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "With the tunnel up, send the template to the QA contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the phone, type **maybe later?**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 回覆統計 and click 其它",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The QA Tester row shows 回覆內容 \"maybe later?\" under 其它",
+          "status": null
+        },
+        {
+          "text": "未回覆 no longer lists the contact",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Reset QA Tester (reset also cleared the earlier Yes), resent 14:02, user typed 'maybe later' -> 1 其它, row shows maybe later 2026/10/28 14:03:06; 未回覆 shows 暫無數據."
+      ],
+      "evidence": [
+        "screenshots/TWW-041-m01-20-free-text-reply-other.webp"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:03:52.280Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T07:03:52.547Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
