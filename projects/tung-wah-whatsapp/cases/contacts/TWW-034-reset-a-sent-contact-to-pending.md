@@ -27,3 +27,4 @@ updated: 2026-10-28
 ## Notes
 On 2026-10-28 the old 發送時間 stayed visible after the reset (cosmetic).
 Related: BUG-011 (open).
+Reset also deletes the recorded reply without warning: BUG-016 (open).

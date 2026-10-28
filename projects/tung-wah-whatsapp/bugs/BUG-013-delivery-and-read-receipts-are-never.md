@@ -35,3 +35,4 @@ Status SENT with deliveredAt/readAt null until a reply arrives; then status READ
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: reproduced with the tunnel up: +8520000000 Undelivered in Twilio, contact stays SENT (22-twilio-merged-and-invalid.jpg).

@@ -33,3 +33,4 @@ updated: 2026-10-28
 
 ## Notes
 Related: BUG-004 (open).
+Send merges same-phone contacts into one message (see TWW-054).

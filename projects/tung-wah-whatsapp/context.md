@@ -19,13 +19,15 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 
 ## Contacts and upload
 - Excel .xlsx/.xls with 姓名 and 手提電話 (English Name/Phone also work). Every column is kept in customVars and offered for variable mapping; Tung Wah member columns (會員類別, 會員編號, ...) appear in reply stats and the report.
-- Phones are normalized to 852XXXXXXXX ("+852 6524 8661", "65248661" -> 85265248661). Rows with invalid/empty phone are dropped.
+- Only the first sheet is read and headers must be in row 1 (Q-008). Blank rows are skipped. 1000 rows upload in under 1 s; the contacts page lists all rows (no paging).
+- Phones are normalized to 852XXXXXXXX ("+852 6524 8661", "852-6524-8661", "(852) 65248661", "65248661" -> 85265248661). Very short or empty phones are dropped silently; "00852…", "….0", 9/10-digit and all-zero numbers are mangled or kept (BUG-014).
 - 追加 skips a number only when the raw cell value equals an existing contact's; 覆蓋 replaces all contacts and replies without asking.
 - Contact statuses: 待發送 PENDING, 已發送 SENT, 已讀 READ (set by a reply). 重置 sets one contact back to pending and deletes its reply (no confirmation); only sent contacts can receive replies; 全部重置 resets all. 刷新 only re-reads the database.
 - Test files live in `data/` (copy to the session folder before uploading from Aside's browser).
 
 ## Sending and replies
-- 變數映射配置: click an Excel column, + 插入, 儲存映射 (PATCH variable-mapping). Send POSTs `/api/send {templateId}` and sends to every PENDING contact.
+- 變數映射配置: click an Excel column, + 插入, 儲存映射 (PATCH variable-mapping). The value is split on spaces and every word is looked up as a column (typed text is dropped); empty/unknown values are saved (BUG-017).
+- Send POSTs `/api/send {templateId}` (returns totalContacts / totalMessages) and sends to every PENDING contact in the background, 1 message per second. Contacts with the same phone are merged into one message, values joined with "，" (BUG-004). A Twilio API error sets FAILED; a later Undelivered stays SENT (BUG-013). Double-click sends once.
 - An unmapped variable is not blocked: Twilio uses the template sample value (attendance_confirmation sends "Hi David").
 - Replies arrive through the Twilio webhook POST `/api/webhook/whatsapp` (tunnel: README). No Twilio signature check (BUG-012); GET with a wrong verify token returns 403 "驗證失敗" (Meta verification). The reply goes to the most recently sent contact with that phone (any template) and is stored for all contacts with that phone in the template; only the first reply counts (Q-007). Button title match (case-insensitive) or the button number -> that button, else 其它.
 - 回覆統計: a count card per answer, filters 全部 / <one per received answer> / 其它 / 未回覆. A reply sets the contact to READ.
@@ -36,3 +38,9 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 
 ## Fixed data on localhost
 Templates welcome_greetings and attendance_confirmation (APPROVED, admin), testing and templateName (DRAFT). Use "testing" for upload tests (send is disabled there) and attendance_confirmation (Yes/No buttons, {{first_name}}) for send/reply tests.
+
+## Auth and sessions
+NextAuth credentials, 30-day session token, not re-checked against the database: role changes and user deletion do not affect existing sessions (BUG-019). No login throttling (BUG-018). Wrong password and unknown email both return 401. Server-side user validation: password >= 6, email format, role enum.
+
+## Report notes
+Free-text replies appear as 其它 in the report's 回覆內容 (BUG-015); same-phone contacts are separate rows.

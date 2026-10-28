@@ -60,3 +60,9 @@ TWW-002 to TWW-045 (44 cases): users (002-009), security (010-014), templates (0
 - Retest run 2026-10-28_1358_local_manual: TWW-040 and TWW-042 pass; TWW-039 fail (BUG-013, no receipts); new TWW-046 fail (BUG-012, unsigned webhook). New cases TWW-047/048 and Q-007 from reading the webhook handler. Q-006 closed by observation.
 - Evidence: 18-reply-recorded-via-ngrok.webp, 19-unsigned-webhook-accepted.png.
 - Free-text retest 2026-10-28_1403_local_manual: QA Tester reset and resent (14:02), 'maybe later' recorded under 其它; TWW-041 pass (20-free-text-reply-other.webp). QA Tester now holds that reply.
+
+## Round 3: areas not covered before
+- Covered: more phone formats, blank rows, title row, two sheets, 1000 rows; mapping edge cases (+ send/mapping code read-only); send merge, invalid number, double-click; 全部重置; report with replies; 404s; keyboard in dialogs; login throttling, server validation, sessions after role change/deletion.
+- New bugs: BUG-014 (phone normalization), BUG-015 (report shows 其它), BUG-016 (reset deletes replies), BUG-017 (mapping validation), BUG-018 (no login throttling), BUG-019 (sessions survive deletion/role change), BUG-020 (template modal keyboard), BUG-021 (404s). BUG-004 impact corrected (one merged message). Q-008 (export format).
+- Cases TWW-049..063; run 2026-10-28_1416_local_manual.
+- QA data left: contact QA Tester on attendance_confirmation is PENDING after 全部重置 (its reply was deleted); next send there messages +852 6524 8661. QA users deleted; draft 'testing' has no contacts. Messages sent this round: 'Hi QA Twin A，QA Twin B' (+85265248661) and 'Hi QA Invalid' (+8520000000, undelivered).

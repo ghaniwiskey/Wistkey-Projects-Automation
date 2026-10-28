@@ -1,0 +1,828 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "exploratory-round3-2026-10-28",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-28_1416_local_manual",
+  "startedAt": "2026-10-28T07:16:52.305Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-039",
+      "title": "Contact status follows Twilio delivery and read receipts",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-039-contact-status-follows-twilio-delivery.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The app shows Delivered / Read / Undelivered like Twilio does.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel for the Twilio webhook running"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Make sure the Twilio status webhook reaches the app (ngrok tunnel up)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the QA contact (mapped)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the message on the phone",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人 and click 刷新",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After delivery the contact shows a delivered state and time; after opening it shows read",
+          "status": null
+        },
+        {
+          "text": "A message to a non-HK number that Twilio marks Undelivered shows as failed, not 已發送",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "+8520000000 Undelivered in Twilio, app SENT."
+      ],
+      "evidence": [
+        "screenshots/TWW-039-m01-22-twilio-merged-and-invalid.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:52.950Z",
+      "failureType": "product-bug",
+      "bug": "BUG-013"
+    },
+    {
+      "id": "TWW-049",
+      "title": "Invalid or oddly formatted phone numbers are rejected or normalized correctly",
+      "priority": "P1",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-049-invalid-or-oddly-formatted-phone.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Only valid mobile numbers are imported, in the 852XXXXXXXX format.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-phone-formats-2.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the draft template \"testing\" with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the phone-formats-2 file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人, then delete the contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"852-6524-8661\" and \"(852) 65248661\" become 85265248661",
+          "status": null
+        },
+        {
+          "text": "\"0085265248661\" becomes 85265248661",
+          "status": null
+        },
+        {
+          "text": "\"85265248661.0\" becomes 85265248661",
+          "status": null
+        },
+        {
+          "text": "\"652486612\" (9 digits), \"00000000\" and \"12345\" are rejected and reported in the summary",
+          "status": null
+        },
+        {
+          "text": "Leading/trailing spaces are trimmed",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "00852.. -> 852085265248661, \".0\" -> 852652486610, 9-digit kept, 00000000 -> 8520000000."
+      ],
+      "evidence": [
+        "screenshots/TWW-049-m01-24-phone-normalization.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:53.209Z",
+      "failureType": "product-bug",
+      "bug": "BUG-014"
+    },
+    {
+      "id": "TWW-050",
+      "title": "Blank rows in the Excel file are skipped",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-050-blank-rows-in-the-excel-file-are-skipped.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Empty rows do not create contacts.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-blank-rows.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Upload the blank-rows file to a draft template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Exactly 2 contacts (Row A, Row B) are imported; summary total 2",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Row A and Row B only, total 2."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:52.435Z"
+    },
+    {
+      "id": "TWW-051",
+      "title": "Excel files with a title row or several sheets",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-051-excel-files-with-a-title-row-or-several.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Real Tung Wah exports (title rows, extra sheets) import as agreed.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-header-row-2.xlsx",
+        "Excel file projects/tung-wah-whatsapp/data/contacts-two-sheets.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Upload the header-row-2 file (title in row 1, headers in row 2)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the two-sheets file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The title-row file imports 1 contact, or the error says the headers must be in row 1",
+          "status": null
+        },
+        {
+          "text": "The two-sheets file imports what was agreed (first sheet only, or all sheets) and says so",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Title row -> Excel中沒有找到聯繫人; only first sheet read. Waiting on Q-008."
+      ],
+      "evidence": [
+        "screenshots/TWW-051-m01-24-phone-normalization.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:55.753Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "TWW-052",
+      "title": "Upload and list 1000 contacts",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-052-upload-and-list-1000-contacts.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A realistic member list uploads and stays usable.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-1000-rows.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Upload the 1000-row file to a draft template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人 and search **Bulk 0999**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove the contacts (覆蓋 with a small file, then delete)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Upload finishes within 5 s with \"成功導入 1000 個聯繫人\"",
+          "status": null
+        },
+        {
+          "text": "聯繫人列表 (1000) renders within 3 s",
+          "status": null
+        },
+        {
+          "text": "Search finds exactly Bulk 0999",
+          "status": null
+        },
+        {
+          "text": "The template card shows 1000 聯絡人",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "1000 rows in 854 ms; contacts page 1000 cards in ~0.5 s; search Bulk 0999 -> 1; card 1000 聯絡人."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:52.812Z"
+    },
+    {
+      "id": "TWW-053",
+      "title": "Double-clicking send sends each message once",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-053-double-clicking-send-sends-each-message.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An impatient double click does not message members twice.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx",
+        "Recipient: WhatsApp +852 6524 8661 only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Have one pending QA contact on attendance_confirmation (mapping 姓名 saved)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Double-click 發送到 WhatsApp and accept the confirmation",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the Twilio messaging log",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Only one /api/send request and one outbound message per contact",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "dblclick -> one confirm, one /api/send, one message per phone."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:52.689Z"
+    },
+    {
+      "id": "TWW-054",
+      "title": "Contacts sharing a phone get one message with their own name",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-054-contacts-sharing-a-phone-get-one.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A family sharing a phone is messaged correctly.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-send-merge-invalid.xlsx",
+        "Recipient: WhatsApp +852 6524 8661 only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Upload the merge file to attendance_confirmation (QA Twin A 85265248661, QA Twin B 65248661)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send and check the message in Twilio",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The agreed behavior: one message per person, or one message whose wording handles several names (not \"Hi QA Twin A，QA Twin B\")",
+          "status": null
+        },
+        {
+          "text": "Report counts one person per phone",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "One message \"Hi QA Twin A，QA Twin B, ...\"."
+      ],
+      "evidence": [
+        "screenshots/TWW-054-m01-22-twilio-merged-and-invalid.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:53.465Z",
+      "failureType": "product-bug",
+      "bug": "BUG-004"
+    },
+    {
+      "id": "TWW-055",
+      "title": "Reset warns before deleting recorded replies",
+      "priority": "P1",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-055-reset-warns-before-deleting-recorded.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff cannot wipe member answers by accident.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)",
+        "A contact with a recorded reply"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open 聯繫人 of a template with a replied contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 重置 on that contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 全部重置 and read the confirmation",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both actions warn that the reply will be deleted (or keep the reply)",
+          "status": null
+        },
+        {
+          "text": "Cancel keeps contacts and replies unchanged",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "全部重置 confirm does not mention replies; reply deleted."
+      ],
+      "evidence": [
+        "screenshots/TWW-055-m01-26-reset-all-deletes-replies.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:53.718Z",
+      "failureType": "product-bug",
+      "bug": "BUG-016"
+    },
+    {
+      "id": "TWW-056",
+      "title": "Variable mapping must point to an existing Excel column",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-056-variable-mapping-must-point-to-an.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A mapping that would send blank or sample values cannot be saved.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open attendance_confirmation with contacts uploaded",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In 變數映射配置 save an empty value, then \"   \", then \"不存在的欄\", then \"姓名 先生\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Restore 姓名 and save",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Empty / unknown column is rejected with a message",
+          "status": null
+        },
+        {
+          "text": "Free text is either sent literally (as the placeholder \"或手動輸入\" suggests) or rejected, never silently dropped",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "\"\", \"   \", unknown column, \"姓名 先生\" all saved."
+      ],
+      "evidence": [
+        "screenshots/TWW-056-m01-27-mapping-no-validation.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:53.966Z",
+      "failureType": "product-bug",
+      "bug": "BUG-017"
+    },
+    {
+      "id": "TWW-057",
+      "title": "Report shows the text of free-text replies",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/tung-wah-whatsapp/cases/reports/TWW-057-report-shows-the-text-of-free-text.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Staff can read what members typed.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)",
+        "A contact with a free-text reply (TWW-041)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Download the report of the template",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "回覆內容 shows the typed text (e.g. \"maybe later\"), optionally with the 其它 category",
+          "status": null
+        },
+        {
+          "text": "數據統計 counts it under 其他",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "回覆內容 = 其它 instead of \"maybe later\"."
+      ],
+      "evidence": [
+        "screenshots/TWW-057-m01-25-report-other-not-text.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:54.220Z",
+      "failureType": "product-bug",
+      "bug": "BUG-015"
+    },
+    {
+      "id": "TWW-058",
+      "title": "Repeated wrong passwords are throttled",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-058-repeated-wrong-passwords-are-throttled.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Login cannot be brute-forced (the app is public through ngrok).",
+      "preconditions": [
+        "A QA user created by the admin (delete afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in with a wrong password 20 times in a row",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in with the correct password",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After a few failures logins are delayed, locked or need extra verification",
+          "status": null
+        },
+        {
+          "text": "Wrong password and unknown email give the same message",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "21 wrong passwords, no delay; correct login works."
+      ],
+      "evidence": [
+        "screenshots/TWW-058-m01-28-login-session.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:54.481Z",
+      "failureType": "product-bug",
+      "bug": "BUG-018"
+    },
+    {
+      "id": "TWW-059",
+      "title": "Deleting a user ends their sessions",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-059-deleting-a-user-ends-their-sessions.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A removed staff member loses access immediately.",
+      "preconditions": [
+        "A QA user logged in in a separate session"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin delete the QA user",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "With the QA user's existing session, open /templates and call the templates API",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The old session is rejected (401/redirect to /login)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Deleted user cookie still reads templates and contacts."
+      ],
+      "evidence": [
+        "screenshots/TWW-059-m01-28-login-session.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:54.733Z",
+      "failureType": "product-bug",
+      "bug": "BUG-019"
+    },
+    {
+      "id": "TWW-060",
+      "title": "Role change applies to existing sessions",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-060-role-change-applies-to-existing-sessions.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Demoting a user takes effect without waiting for re-login.",
+      "preconditions": [
+        "A QA editor logged in in a separate session"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin change the QA user to 查看者",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the QA user's session / try an editor action",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The session shows VIEWER (or the user must log in again)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Session still EDITOR after demotion to VIEWER."
+      ],
+      "evidence": [
+        "screenshots/TWW-060-m01-28-login-session.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:54.988Z",
+      "failureType": "product-bug",
+      "bug": "BUG-019"
+    },
+    {
+      "id": "TWW-061",
+      "title": "Server rejects invalid user data sent directly to the API",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-061-server-rejects-invalid-user-data-sent.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Validation does not rely on the browser form.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "POST to the users API with password \"1\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "POST with email \"not-an-email\" and role \"SUPERUSER\"",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both return 400 \"數據驗證失敗\" with field details; no user is created",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "password \"1\" -> 400 數據驗證失敗; bad email + role SUPERUSER -> 400."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:52.563Z"
+    },
+    {
+      "id": "TWW-062",
+      "title": "New template dialog works with the keyboard",
+      "priority": "P3",
+      "feature": "accessibility",
+      "file": "projects/tung-wah-whatsapp/cases/accessibility/TWW-062-new-template-dialog-works-with-the.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Keyboard users can use and leave the create dialog.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open 新建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Press Tab repeatedly",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Press Escape",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Focus starts in the dialog and stays inside while tabbing",
+          "status": null
+        },
+        {
+          "text": "Escape closes it",
+          "status": null
+        },
+        {
+          "text": "It is exposed as a dialog to screen readers",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Escape ignored, focus not in modal."
+      ],
+      "evidence": [
+        "screenshots/TWW-062-m01-29-template-modal-keyboard.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:55.241Z",
+      "failureType": "product-bug",
+      "bug": "BUG-020"
+    },
+    {
+      "id": "TWW-063",
+      "title": "Unknown pages and templates show a friendly Chinese error",
+      "priority": "P3",
+      "feature": "navigation",
+      "file": "projects/tung-wah-whatsapp/cases/navigation/TWW-063-unknown-pages-and-templates-show-a.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Bad links lead to a clear message and a way back.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /templates/doesnotexist123",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /templates/doesnotexist123/contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /nope",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each shows a Traditional Chinese \"not found\" message with a link back to 消息模版",
+          "status": null
+        },
+        {
+          "text": "No contacts tools (全部重置, 刷新) are shown for a missing template",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "/nope English 404; contacts page renders for bad template id."
+      ],
+      "evidence": [
+        "screenshots/TWW-063-m01-23-nonexistent-template.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T07:16:55.495Z",
+      "failureType": "product-bug",
+      "bug": "BUG-021"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T07:16:56.002Z",
+  "summary": {
+    "total": 16,
+    "pass": 4,
+    "fail": 12,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
