@@ -119,6 +119,8 @@ What was learned goes where the next task will look, once:
 | Bug status and history | the bug files (`.\qa bugs <slug>`), never copied into notes |
 | What happened in a session, QA data left behind | `explorations/<date>-<charter>.md` |
 
+Skills (`.agents/skills/`) hold only this workspace's workflows: short steps that link to this page instead of copying it. No generic or third-party skills (e.g. a Playwright tutorial: the model already knows Playwright, and their examples contradict the rules here); add a new skill only for a workflow no existing skill covers, and put a new rule into the skill or page that owns it.
+
 Write current facts by topic: update the existing section and replace what is outdated; no dated "Exploration YYYY-MM-DD" sections. Record IDs, counts and dates only when a test depends on them, with the reason. `.\qa lint` warns about oversized files, dated headings and bug-status lists in notes.
 
 ## Finish
