@@ -4,34 +4,37 @@ title: "Reply report shows \"其它\" (Other) instead of the member's typed answ
 severity: major
 status: open
 env: local
-url: "http://localhost:3000/api/templates/cmvongu2t0005kjy3stn25txd/export"
-updated: 2026-10-28T08:47:00.399Z
+url: "http://localhost:3000/api/templates/<template id>/export"
+updated: 2026-10-28T09:08:46.326Z
 found: 2026-10-28T07:16:22.917Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-057]
 frequency: always
 ---
 ## Summary
-When a member types a reply (instead of tapping a quick-reply button), the 回覆紀錄 (Reply records) sheet of the downloaded report puts the category 其它 (Other) in the 回覆內容 (Reply content) column, not the text the member typed. Staff cannot read the answer from the report, although the page shows it.
+In the downloaded reply report, a typed (free-text) reply shows as 其它 (Other) instead of the text the member wrote.
 
 ## Steps to reproduce
-1. Send attendance_confirmation to the QA contact and reply by typing "maybe later".
-2. Click 下載報表 (Download report).
+1. Set up replies (see Before you start). Send an APPROVED template with quick-reply buttons to your number 852<P>.
+2. On your phone, type a reply such as "maybe later" instead of tapping a button.
+3. Open the template's 回覆統計 (Reply statistics) tab.
+4. Click 下載報表 (Download report) and open the 回覆紀錄 (Reply records) sheet.
 
 ## Expected
-回覆內容 (Reply content) contains "maybe later".
+The 回覆內容 (Reply content) column contains "maybe later".
 
 ## Actual
-回覆內容 (Reply content) is "其它" (Other). The 回覆統計 (Reply statistics) page shows "maybe later".
+回覆內容 (Reply content) is "其它" (Other). The 回覆統計 (Reply statistics) page shows "maybe later", so staff can only read the answer on the page.
 
 ## Evidence
 - Screenshot: ![25-report-other-not-text.png](../explorations/2026-10-28-core-journeys/25-report-other-not-text.png)
 - Screenshot: ![20-free-text-reply-other.webp](../explorations/2026-10-28-core-journeys/20-free-text-reply-other.webp)
 
 ## Environment
-- Base URL: http://localhost:3000/api/templates/cmvongu2t0005kjy3stn25txd/export
+- Base URL: http://localhost:3000/api/templates/<template id>/export
 - Env: local
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
+- 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").

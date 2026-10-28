@@ -4,42 +4,41 @@ title: "Delivery and read receipts are never tracked; undelivered messages stay 
 severity: major
 status: open
 env: local
-url: "http://localhost:3000/templates/cmvongu2u0007kjy3stn25txd/contacts"
-updated: 2026-10-28T08:47:00.399Z
+url: "http://localhost:3000/templates/<template id>/contacts"
+updated: 2026-10-28T09:08:46.326Z
 found: 2026-10-28T06:57:21.409Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-039]
 frequency: always
 ---
 ## Summary
-The app never learns from Twilio whether a message was delivered, read or failed:
-- When sending, the app gives Twilio no status callback (the URL where Twilio reports status changes).
-- The webhook has no code for MessageStatus updates.
-
-So deliveredAt and readAt (delivery and read times) always stay empty (null). A message that Twilio marks Undelivered (contact Ghani, +6287721956119) still shows 已發送 (Sent). A message that was delivered and read only changes to READ when the member replies.
+The app never tracks delivery, read or failure from Twilio, so a message that was never delivered still shows 已發送 (Sent) and delivery/read times stay empty.
 
 ## Steps to reproduce
-1. With the tunnel up, send attendance_confirmation to the QA contact.
-2. Let it be delivered and read (Twilio log: Delivered, then Read).
-3. Before any reply, open 聯繫人 (Contacts) or the contacts API.
-4. Check the contact Ghani on the template welcome_greetings (Twilio: Undelivered).
+1. Send an APPROVED template to your number 852<P>. Open the message on your phone, but do not reply.
+2. In Twilio Console > Monitor > Logs > Messaging, the message shows Delivered, then Read.
+3. Open 聯繫人 (Contacts), and in the browser console run `await fetch('/api/templates/<template id>/contacts').then(r => r.json())`
+4. Send to a number that cannot receive WhatsApp (e.g. a contact with phone 00000000) and check Twilio again.
 
 ## Expected
 Contact status and times follow Twilio (delivered, read, failed/undelivered).
 
 ## Actual
-- Status stays SENT and deliveredAt/readAt stay null until a reply arrives; then the status becomes READ, still without times.
-- Ghani stays 已發送 (Sent) although Twilio says Undelivered.
-- In Twilio, the sender's status_callback_url is empty.
+- Step 3: status SENT (已發送), deliveredAt and readAt null. They stay that way until the member replies; then the status becomes READ, still without times.
+- Step 4: Twilio says Undelivered; the contact stays 已發送 (Sent).
+- Cause: sends set no status callback (Twilio's status_callback_url for the sender is empty) and the webhook has no MessageStatus handling.
+
+Our run: contact Ghani (+6287721956119) on welcome_greetings: Undelivered in Twilio, 已發送 in the app. Also +8520000000: Undelivered in Twilio, SENT in the app.
 
 ## Evidence
 - Screenshot: ![twilio log](../explorations/2026-10-28-core-journeys/07-twilio-mapped-message.jpg)
 
 ## Environment
-- Base URL: http://localhost:3000/templates/cmvongu2u0007kjy3stn25txd/contacts
+- Base URL: http://localhost:3000/templates/<template id>/contacts
 - Env: local
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: reproduced with the tunnel up: +8520000000 Undelivered in Twilio, contact stays SENT (22-twilio-merged-and-invalid.jpg).
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
+- 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").

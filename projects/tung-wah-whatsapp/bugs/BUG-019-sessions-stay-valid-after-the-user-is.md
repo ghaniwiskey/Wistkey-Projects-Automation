@@ -5,28 +5,27 @@ severity: major
 status: open
 env: local
 url: "http://localhost:3000/api/auth/session"
-updated: 2026-10-28T08:47:00.399Z
+updated: 2026-10-28T09:08:46.326Z
 found: 2026-10-28T07:16:23.419Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-059, TWW-060, TWW-081]
 frequency: always
 ---
 ## Summary
-Login sessions are tokens that last 30 days, and the app does not check them against the database. So:
-- After an admin lowers a user's role, that user's session still says EDITOR.
-- After an admin deletes a user, the old session cookie can still read templates and (through BUG-001) other users' contacts.
+Login sessions are not checked against the database, so a deleted user or a user whose role was lowered keeps their old access for up to 30 days.
 
 ## Steps to reproduce
-1. Log in as a QA editor in a separate session.
-2. As admin, change that user's role to 查看者 (Viewer). Then read /api/auth/session in the editor's session.
-3. As admin, delete the user. With the old cookie, call /api/templates and /api/templates/<admin template>/contacts.
+1. As admin, create a user with role 編輯者 (Editor). In a second browser (or a private window), log in as that editor.
+2. As admin, change that user's role to 查看者 (Viewer). In the editor's window, open http://localhost:3000/api/auth/session
+3. As admin, delete the user. In the editor's window, open http://localhost:3000/api/auth/session , http://localhost:3000/api/templates and http://localhost:3000/api/templates/<admin template id>/contacts
 
 ## Expected
-Deleted users are rejected; role changes apply immediately.
+Role changes apply at once; a deleted user is logged out and gets no data.
 
 ## Actual
-- After the role change, the session role is still EDITOR.
-- After deletion, /api/auth/session still returns the user, /api/templates returns 200 (OK), and the contacts call returns 200 with data.
+- Step 2: the session still says role EDITOR.
+- Step 3: the session still returns the user, /api/templates returns 200 (OK), and the contacts call returns 200 with data (through BUG-001).
+- Sessions are 30-day tokens that are never re-checked against the database.
 
 ## Evidence
 - Screenshot: ![28-login-session.png](../explorations/2026-10-28-core-journeys/28-login-session.png)
@@ -39,3 +38,4 @@ Deleted users are rejected; role changes apply immediately.
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: logout does not revoke the token either: a session cookie copied before signout still returns the user and /api/users 200 afterwards. Linked TWW-081.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
+- 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
