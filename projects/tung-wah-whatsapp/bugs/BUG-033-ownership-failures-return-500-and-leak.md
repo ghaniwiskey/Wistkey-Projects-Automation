@@ -5,23 +5,23 @@ severity: minor
 status: open
 env: local
 url: "http://localhost:3000/api/templates/<id>"
-updated: 2026-10-28T08:18:32.071Z
+updated: 2026-10-28T08:47:00.399Z
 found: 2026-10-28T08:18:32.071Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-086]
 frequency: always
 ---
 ## Summary
-Editing or deleting another user's template returns 500 instead of 403/404; PATCH includes a "detail" with the PrismaClientKnownRequestError text and module paths.
+When a user edits or deletes another user's template, the server returns 500 (server error) instead of 403 (forbidden) or 404 (not found). For edits (PATCH), the response also includes a "detail" field with the internal database error (PrismaClientKnownRequestError) and internal module paths.
 
 ## Steps to reproduce
-1. As a QA editor PATCH /api/templates/<admin template id> {"questionTitle":"x"}
+1. As a QA editor, send PATCH /api/templates/<admin template id> with {"questionTitle":"x"}.
 
 ## Expected
-403/404 with a short message.
+403 or 404 with a short message.
 
 ## Actual
-500 {"error":"更新失敗","detail":"PrismaClientKnownRequestError: ... __TURBOPACK__imported__module__ ..."}
+500 {"error":"更新失敗","detail":"PrismaClientKnownRequestError: ... __TURBOPACK__imported__module__ ..."} (更新失敗 = "Update failed").
 
 ## Evidence
 - Screenshot: ![44-role-findings.png](../explorations/2026-10-28-core-journeys/44-role-findings.png)
@@ -32,3 +32,4 @@ Editing or deleting another user's template returns 500 instead of 403/404; PATC
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.

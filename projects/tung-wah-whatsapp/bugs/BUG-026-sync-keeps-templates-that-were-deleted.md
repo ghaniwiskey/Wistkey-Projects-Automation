@@ -5,25 +5,25 @@ severity: minor
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-28T08:06:32.983Z
+updated: 2026-10-28T08:47:00.399Z
 found: 2026-10-28T08:06:32.983Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-069]
 frequency: always
 ---
 ## Summary
-Sync only upserts; content removed in Twilio stays in the app as 草稿, so the list and the sync count disagree.
+Sync only adds or updates templates; it never removes them. A template deleted in Twilio stays in the app as 草稿 (Draft), so the number of cards in the list does not match the count in the sync message.
 
 ## Steps to reproduce
-1. Create a QA draft
-2. Delete it in Twilio
-3. 從 Twilio 同步
+1. Create a QA draft.
+2. Delete it in Twilio.
+3. Click 從 Twilio 同步 (Sync from Twilio).
 
 ## Expected
-Template removed or flagged.
+The template is removed from the app, or marked as deleted.
 
 ## Actual
-"同步成功！共 10 個模板" while 11 cards are listed.
+"同步成功！共 10 個模板" ("Sync successful! 10 templates in total"), while 11 cards are listed.
 
 ## Evidence
 - Screenshot: ![35-template-status-sync.png](../explorations/2026-10-28-core-journeys/35-template-status-sync.png)
@@ -34,3 +34,4 @@ Template removed or flagged.
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.

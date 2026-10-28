@@ -5,24 +5,24 @@ severity: trivial
 status: open
 env: local
 url: "http://localhost:3000/api/contacts/<id>"
-updated: 2026-10-28T08:06:33.292Z
+updated: 2026-10-28T08:47:00.399Z
 found: 2026-10-28T08:06:33.292Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-076]
 frequency: always
 ---
 ## Summary
-PATCH /api/contacts/<deleted id> returns 500 "更新失敗" instead of 404.
+Updating a contact that was deleted (PATCH /api/contacts/<deleted id>) returns a server error, 500 "更新失敗" ("Update failed"), instead of 404 (not found).
 
 ## Steps to reproduce
-1. Delete a template with contacts
-2. PATCH one of its contact IDs
+1. Delete a template that has contacts.
+2. Send PATCH /api/contacts/<id> for one of its contact IDs.
 
 ## Expected
-404.
+404 (not found).
 
 ## Actual
-500 {"error":"更新失敗"}.
+500 {"error":"更新失敗"} ("Update failed").
 
 ## Evidence
 - Screenshot: ![35-template-status-sync.png](../explorations/2026-10-28-core-journeys/35-template-status-sync.png)
@@ -33,3 +33,4 @@ PATCH /api/contacts/<deleted id> returns 500 "更新失敗" instead of 404.
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.

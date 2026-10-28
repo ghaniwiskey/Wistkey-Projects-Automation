@@ -1,29 +1,29 @@
 ---
 id: BUG-022
-title: "Newly submitted template shows 草稿 until the next sync; several Twilio statuses map to DRAFT"
+title: "Newly submitted template shows 草稿 (Draft) until the next sync; several Twilio statuses become DRAFT"
 severity: minor
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-28T08:06:32.376Z
+updated: 2026-10-28T08:47:00.399Z
 found: 2026-10-28T08:06:32.376Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-064]
 frequency: always
 ---
 ## Summary
-Sync maps only APPROVED/PENDING/REJECTED; Twilio "received" (just submitted), "paused" and "disabled" all become DRAFT, so a template under review first shows 草稿 and a paused/disabled template would look like a draft.
+Sync only understands three Twilio statuses: APPROVED, PENDING and REJECTED. The Twilio statuses "received" (just submitted), "paused" and "disabled" all become DRAFT. So a template that is under review first shows 草稿 (Draft), and a paused or disabled template would look like a draft.
 
 ## Steps to reproduce
-1. Create a template with Meta submission
-2. Look at the card right after the success alert
-3. Click 從 Twilio 同步
+1. Create a template with Meta submission ticked.
+2. Look at its card right after the success alert.
+3. Click 從 Twilio 同步 (Sync from Twilio).
 
 ## Expected
-審核中 immediately; paused/disabled shown as such.
+The card shows 審核中 (Under review) right away; paused and disabled templates are shown as paused or disabled.
 
 ## Actual
-草稿 first, 審核中 after a later sync.
+The card shows 草稿 (Draft) first, and 審核中 (Under review) only after a later sync.
 
 ## Evidence
 - Screenshot: ![35-template-status-sync.png](../explorations/2026-10-28-core-journeys/35-template-status-sync.png)
@@ -35,3 +35,4 @@ Sync maps only APPROVED/PENDING/REJECTED; Twilio "received" (just submitted), "p
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.

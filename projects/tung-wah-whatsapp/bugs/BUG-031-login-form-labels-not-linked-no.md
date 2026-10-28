@@ -5,23 +5,26 @@ severity: minor
 status: open
 env: local
 url: "http://localhost:3000/login"
-updated: 2026-10-28T08:18:31.753Z
+updated: 2026-10-28T08:47:00.399Z
 found: 2026-10-28T08:18:31.753Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-082]
 frequency: always
 ---
 ## Summary
-郵箱/密碼 labels are not associated with the inputs, the inputs have no autocomplete hints for password managers, and the email placeholder is the real admin account "admin@tungwah.org".
+Three problems on the login form:
+- The 郵箱 (Email) and 密碼 (Password) labels are not linked to their inputs.
+- The inputs have no autocomplete hints for password managers.
+- The email placeholder is the real admin account "admin@tungwah.org".
 
 ## Steps to reproduce
-1. Open /login and inspect the form
+1. Open /login and inspect the form.
 
 ## Expected
-Linked labels, autocomplete="username"/"current-password", generic placeholder.
+Labels linked to their inputs, autocomplete="username" and autocomplete="current-password", and a generic placeholder.
 
 ## Actual
-As described.
+Labels not linked, no autocomplete hints, and the placeholder "admin@tungwah.org".
 
 ## Evidence
 - Screenshot: ![36-login-page.png](../explorations/2026-10-28-core-journeys/36-login-page.png)
@@ -32,3 +35,4 @@ As described.
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
