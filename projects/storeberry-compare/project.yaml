@@ -1,4 +1,4 @@
-name: Storeberry Flower Comparison
+name: Storeberry Flower Eshop
 slug: storeberry-compare
 testIdPrefix: SBF
 description: Storeberry Flower customer-facing storefront smoke and cart checks. CRM coverage is in storeberry-crm.
