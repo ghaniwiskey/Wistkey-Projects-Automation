@@ -2,6 +2,7 @@ import { html, useState, useEffect, useMemo } from '../../vendor/preact-htm.mjs'
 import { useResource, post, put, del, toast } from '../api.js';
 import { Page, Badge, Prio, Tags, Kind, Dots, Empty, Loading, ErrorBox, Field, ListEditor, TagPicker, Checks, Inline, Html, RUNNER_LABEL, ago, dur, fmtDate, StepTree } from '../ui.js';
 import { RunDialog } from '../run-dialog.js';
+import { QuickResultDialog } from '../quick-result.js';
 
 const PAGE = 300; // rows rendered at a time, so very large projects stay responsive
 const STATUS_FILTERS = [['all', 'Any result'], ['pass', 'Pass'], ['fail', 'Fail'], ['flaky', 'Flaky'], ['blocked', 'Blocked'], ['skipped', 'Skipped'], ['never', 'Not run']];
@@ -16,6 +17,7 @@ export function TestList({ slug, query, sandboxed }) {
   const [tag, setTag] = useState('');
   const [sel, setSel] = useState(new Set());
   const [dialog, setDialog] = useState(null);
+  const [mark, setMark] = useState(null);
   const [limit, setLimit] = useState(PAGE);
   const feature = query.feature || '';
   useEffect(() => setLimit(PAGE), [feature, status, prio, kind, tag, q]);
@@ -54,6 +56,9 @@ export function TestList({ slug, query, sandboxed }) {
         </div>
         ${selected.length ? html`<div class="selbar"><strong>${selected.length} selected</strong>
           <button class="btn sm blue" onClick=${() => setDialog({ tests: selected })}>Run selected...</button>
+          <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'pass' })}>Mark pass</button>
+          <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'fail' })}>Mark fail</button>
+          <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'blocked' })}>Mark blocked</button>
           <button class="btn sm" onClick=${() => setSel(new Set())}>Clear</button></div>` : null}
         ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr>
           <th><input type="checkbox" checked=${allSel} onChange=${() => setSel(allSel ? new Set() : new Set(rows.map((t) => t.id)))} aria-label="Select all" /></th>
@@ -65,7 +70,8 @@ export function TestList({ slug, query, sandboxed }) {
             <td><${Prio} p=${t.priority} /></td>
             <td><${Tags} tags=${t.tags} /></td>
             <td><${Kind} automated=${t.automated} /></td>
-            <td class="nowrap"><${Badge} status=${t.lastStatus} />${t.last ? html`<div class="muted small">${ago(t.last.at)}</div>` : null}</td>
+            <td class="nowrap"><${Badge} status=${t.lastStatus} />${t.last ? html`<div class="muted small">${ago(t.last.at)}</div>` : null}
+              <div class="seg quick" style="margin-top:4px"><button type="button" title=${`Mark ${t.id} pass`} onClick=${() => setMark({ tests: [t], status: 'pass' })}>Pass</button><button type="button" title=${`Mark ${t.id} fail`} onClick=${() => setMark({ tests: [t], status: 'fail' })}>Fail</button></div></td>
             <td><${Dots} slug=${slug} history=${t.history} /></td>
             <td>${t.bugs.length ? t.bugs.map((b) => html`<a href=${`#/p/${slug}/bugs/${b}`}>${b}</a> `) : html`<span class="muted">-</span>`}</td>
           </tr>`)}
@@ -78,6 +84,7 @@ export function TestList({ slug, query, sandboxed }) {
       </div>
     </div>
     ${dialog ? html`<${RunDialog} project=${p} tests=${dialog.tests} onClose=${() => setDialog(null)} sandboxed=${sandboxed} />` : null}
+    ${mark ? html`<${QuickResultDialog} project=${p} tests=${mark.tests} initial=${mark.status} onClose=${() => setMark(null)} onDone=${() => setSel(new Set())} />` : null}
   </${Page}>`;
 }
 
@@ -85,6 +92,7 @@ export function TestDetail({ slug, id, sandboxed }) {
   const { data: t, error } = useResource(`/api/projects/${slug}/tests/${id}`, { project: slug });
   const { data: p } = useResource(`/api/projects/${slug}`, { project: slug });
   const [dialog, setDialog] = useState(null);
+  const [mark, setMark] = useState(null);
   if (error) return html`<${ErrorBox} error=${error} />`;
   if (!t || !p) return html`<${Loading} />`;
   const archive = async () => {
@@ -110,6 +118,13 @@ export function TestDetail({ slug, id, sandboxed }) {
         ${t.specCode ? html`<h3>Playwright test</h3><div class="muted small" style="margin-bottom:6px"><code>${t.specCode.file}</code> line ${t.specCode.line}. Selectors and actions live in the page objects under <code>${p.pagesDir}</code>.</div><pre>${t.specCode.code}</pre>` : html`<h3>Automation</h3><p class="muted small">Not automated yet. Add a Playwright test titled <code>${t.id}: ...</code> in <code>${p.specDir}</code> that uses the page objects in <code>${p.pagesDir}</code>; it links here automatically.</p>`}
       </div>
       <div>
+        <div class="card pad section"><div class="row"><strong>Record result</strong>
+          <span class="right row" style="gap:6px">
+            <button class="btn sm primary" onClick=${() => setMark('pass')}>Pass</button>
+            <button class="btn sm danger" onClick=${() => setMark('fail')}>Fail</button>
+            <button class="btn sm" onClick=${() => setMark('blocked')}>Blocked</button>
+          </span></div>
+          <div class="muted small" style="margin-top:6px">Marks this case without stepping through it. Use Run... > Manual to check each step.</div></div>
         <div class="card pad section small"><div class="kv">
           <span class="k">Feature</span><a href=${`#/p/${slug}/tests?feature=${encodeURIComponent(t.feature)}`}>${t.feature}</a>
           <span class="k">Environments</span><span>${t.envs.join(', ')}</span>
@@ -128,6 +143,7 @@ export function TestDetail({ slug, id, sandboxed }) {
       </div>
     </div>
     ${dialog ? html`<${RunDialog} project=${p} tests=${dialog.tests} onClose=${() => setDialog(null)} sandboxed=${sandboxed} />` : null}
+    ${mark ? html`<${QuickResultDialog} project=${p} tests=${[t]} initial=${mark} onClose=${() => setMark(null)} />` : null}
   </${Page}>`;
 }
 

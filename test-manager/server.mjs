@@ -145,6 +145,7 @@ route('PUT', '/api/projects/:slug/runs/:runId/tests/:id', ({ params, body }) => 
 route('POST', '/api/projects/:slug/manual-runs', ({ params, body }) => S.createManualRun(params.slug, body));
 route('PUT', '/api/projects/:slug/manual-runs/:runId/tests/:id', ({ params, body }) => S.updateManualTest(params.slug, params.runId, params.id, body));
 route('POST', '/api/projects/:slug/manual-runs/:runId/tests/:id/evidence', ({ params, body }) => S.addManualEvidence(params.slug, params.runId, params.id, body));
+route('POST', '/api/projects/:slug/results', ({ params, body }) => S.recordResults(params.slug, body));
 route('POST', '/api/projects/:slug/manual-runs/:runId/finish', ({ params, body }) => S.finishManualRun(params.slug, params.runId, body));
 
 route('GET', '/api/projects/:slug/plans', ({ params }) => S.listPlans(params.slug));

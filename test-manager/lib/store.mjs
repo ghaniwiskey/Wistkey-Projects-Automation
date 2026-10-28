@@ -623,6 +623,22 @@ export function finishManualRun(slug, runId, d = {}) {
   return runSummary(results);
 }
 
+// Quick result: mark one or more cases pass/fail/blocked/skipped without stepping through them.
+// Saved as a finished manual run (suite "quick"), so history, last result, plans and reports count it.
+// d: { ids, status, env?, note?, bug?, tester?, plan? }. Fail needs a note (what happened).
+export function recordResults(slug, d = {}) {
+  const status = d.status;
+  if (!['pass', 'fail', 'blocked', 'skipped'].includes(status)) bad('Status must be pass, fail, blocked or skipped');
+  const ids = cleanTags(d.ids);
+  if (!ids.length) bad('Select at least one test case.');
+  if (status === 'fail' && !clean(d.note)) bad('Add a note for a failure: what happened instead of the expected result.');
+  const { runId } = createManualRun(slug, { ids, env: d.env, plan: d.plan, tester: d.tester, name: 'quick' });
+  for (const id of ids) {
+    updateManualTest(slug, runId, id, { status, note: d.note, ...(status === 'fail' && clean(d.bug) ? { bug: clean(d.bug) } : {}) });
+  }
+  return { ...finishManualRun(slug, runId), runId };
+}
+
 // ---------------------------------------------------------------- plans
 function planSummary(pl) {
   return {
