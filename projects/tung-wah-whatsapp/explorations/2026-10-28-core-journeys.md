@@ -66,3 +66,8 @@ TWW-002 to TWW-045 (44 cases): users (002-009), security (010-014), templates (0
 - New bugs: BUG-014 (phone normalization), BUG-015 (report shows 其它), BUG-016 (reset deletes replies), BUG-017 (mapping validation), BUG-018 (no login throttling), BUG-019 (sessions survive deletion/role change), BUG-020 (template modal keyboard), BUG-021 (404s). BUG-004 impact corrected (one merged message). Q-008 (export format).
 - Cases TWW-049..063; run 2026-10-28_1416_local_manual.
 - QA data left: contact QA Tester on attendance_confirmation is PENDING after 全部重置 (its reply was deleted); next send there messages +852 6524 8661. QA users deleted; draft 'testing' has no contacts. Messages sent this round: 'Hi QA Twin A，QA Twin B' (+85265248661) and 'Hi QA Invalid' (+8520000000, undelivered).
+
+## Round 4: templates (user approved Meta submission)
+- Submitted to Meta: qa_event_reminder_357859 (2 variables, 3 buttons, UTILITY, still 審核中), qa_var_edges_357859 (rejected: variables at start/end, deleted), qa_auth_357859 (AUTHENTICATION, submission failed, deleted). Drafts for limits/formats created and deleted; the draft duplicate 'attendance_confirmation' (HX94e1...) deleted, approved original untouched. qa_format and qa_body_long deleted (the latter first in Twilio to test sync).
+- Bugs BUG-022, BUG-023, BUG-024, BUG-025, BUG-026, BUG-027, BUG-028; cases TWW-064..076; run 2026-10-28_1506_local_manual. TWW-075 (send approved 2-variable template) waits for Meta.
+- QA data left: qa_event_reminder_357859 (pending, contact QA Tester PENDING, mapping set). Delete it after TWW-075.

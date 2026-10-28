@@ -44,3 +44,10 @@ NextAuth credentials, 30-day session token, not re-checked against the database:
 
 ## Report notes
 Free-text replies appear as 其它 in the report's 回覆內容 (BUG-015); same-phone contacts are separate rows.
+
+## Template rules learned
+- Content is always twilio/quick-reply, language zh_HK, no header/footer/media; AUTHENTICATION can never be approved (BUG-023).
+- Statuses from Twilio approval: approved -> 已通過, pending -> 審核中, rejected -> 已拒絕; received/unsubmitted/paused/disabled -> 草稿 (BUG-022). Rejection reason only in Twilio (BUG-025). Utility review took > 40 min on 2026-10-28.
+- Variable names like {{1}}, {{ first name }}, {{姓名}} are accepted; {{}} is rejected by Twilio; Meta rejects a variable at the start or end of the body.
+- Delete (card trash or detail 刪除) shows an in-app alertdialog 確認刪除, removes contacts/replies and the Twilio content (Twilio 404 ignored). Sync never removes local templates (BUG-026).
+- Server refuses /api/send for non-APPROVED templates (403).
