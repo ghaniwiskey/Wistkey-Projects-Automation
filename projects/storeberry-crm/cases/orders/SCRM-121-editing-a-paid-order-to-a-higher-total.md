@@ -31,4 +31,6 @@ Adding items to a paid order cannot mark the extra amount as paid by itself.
 - Step 3: the replacement keeps the original warehouse, shipping store, remark and product names (BUG-010)
 
 ## Notes
-Never tested (2026-10-28 review). Q-011 asks whether Bank Transfer entered in the POS should count as paid.
+2026-10-28 manual: fail, BUG-027. Balance due $ -894.00 (full total, not 384); 007A Pending Payment, Outstanding 894.00; the customer's eShop order asks for the full 894.00 (TXN0126102800007 -> 007A). Warehouse, store and product name kept (both TaiPo).
+
+Never tested before (2026-10-28 review). Q-011 asks whether Bank Transfer entered in the POS should count as paid.

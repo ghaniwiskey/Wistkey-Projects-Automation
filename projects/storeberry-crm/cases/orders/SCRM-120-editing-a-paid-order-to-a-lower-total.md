@@ -34,4 +34,6 @@ When staff remove something from a paid order, the customer is not overcharged a
 - Step 4: points and level spending reflect only the replacement total
 
 ## Notes
-Never tested (2026-10-28 review). On 2026-10-27 an unpaid edit showed "Balance due $ -390.00" (BUG-010 evidence) and the paid/unpaid outcome is Q-011.
+2026-10-28 manual: fail, BUG-027. POS asked for the full 510.00 (Total Paid 0), tender "Bank Transfer (已付Paid: 894) $510.00"; 006A Pending Payment with 510.00 outstanding, 006 Canceled with no refund, points voided (TXN0126102800006 -> 006A).
+
+Never tested before (2026-10-28 review). On 2026-10-27 an unpaid edit showed "Balance due $ -390.00" (BUG-010 evidence) and the paid/unpaid outcome is Q-011.

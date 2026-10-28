@@ -21,14 +21,16 @@ Refunding part of an order gives back the right money and takes back the right p
 - Refund to Original Payment Method (Bank Transfer); no card/wallet
 
 ## Steps
-1. Note the order lines, discounts, total, member points and each product's Available in Inventory
-2. Order detail > Actions > Refund (or Partial Return) and refund only product 1
-3. Reread the order, the member Point History and Inventory
+1. Note the order lines, discounts, total, member points, level spending and each product's Available in Inventory
+2. Order detail > Exchange / Partial Return > Online Shop (POS in `iframe.webpos-iframe`): raise product 1's return qty, Next, cancel the Shipping popup, Exchange & refund, Bank Transfer (Actions > Refund this order is full-refund only)
+3. Reread the original order, the linked refund order, the member Point History, level spending and Inventory
 
 ## Expected
-- Step 2: the suggested refund amount = product 1's share of the paid total after basket discounts (state the formula seen) and can be confirmed
-- Step 3: order shows Partially Refunded (or equivalent) with the refunded line; Payment History lists the refund amount
-- Step 3: points taken back = points earned on the refunded amount only; product 1 Available +1, product 2 unchanged
+- Step 2: the item share = line price x paid total / subtotal (e.g. 600 of 1,600 on a 1,300 total = 487.50) and the refund equals it
+- Step 3: the original order line shows "Exchanged: 1" and a Status History "Exchange" row; a linked refund order ("This is an exchange order. Original order: ...") holds the returned line and the negative Bank Transfer payment
+- Step 3: points: the member keeps floor(10% x kept amount); level spending goes down by the refund once; product 1 Available +1, product 2 unchanged
 
 ## Notes
+2026-10-28 manual: fail, BUG-028 (level spending deducted twice). Share, refund amount, points (-49 on 487.50) and stock were right (TXN0126102800001 -> refund TXN0126102800002). See also SCRM-132 (rounding), SCRM-134 (level downgrade).
+
 Gap: only full refunds were tested (SCRM-051, SCRM-112). Exchange / Partial Return opens the POS in an iframe (README); BUG-017 (exchange takes back more points) was closed as wont-fix, so do not re-report that exact point rule.

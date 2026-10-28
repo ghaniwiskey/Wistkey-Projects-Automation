@@ -8,6 +8,7 @@ found: 2026-10-27
 foundBy: "explorations/2026-10-27-pos-order-lifecycle.md"
 tests: [SCRM-086]
 bugs: []
+updated: 2026-10-28T02:42:45.046Z
 answered: ""
 ---
 ## Question
