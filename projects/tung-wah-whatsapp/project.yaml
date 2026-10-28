@@ -25,6 +25,10 @@ auth:
       notes: admin@tungwah.org (Next.js credentials login). Password in .env; editor/viewer accounts are created per test by the admin and deleted afterwards.
       envUser: TWW_ADMIN_USER
       envPass: TWW_ADMIN_PASS
+    - roles: [admin]
+      notes: QA admin for logout/login and role tests (sees only its own templates).
+      envUser: TWW_QA_ADMIN_USER
+      envPass: TWW_QA_ADMIN_PASS
 
 suites:
   smoke: { tags: [smoke], description: Fast checks of the main journeys }

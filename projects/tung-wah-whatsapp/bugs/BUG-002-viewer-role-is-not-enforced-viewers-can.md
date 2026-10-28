@@ -8,7 +8,7 @@ url: "http://localhost:3000/api/twilio/templates/create"
 updated: 2026-10-28T06:37:45.754Z
 found: 2026-10-28T06:37:45.754Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-014]
+tests: [TWW-014, TWW-087, TWW-088]
 frequency: always
 ---
 ## Summary
@@ -38,3 +38,4 @@ create -> 400 "模板名稱和內容為必填" (validation, so authorized); uplo
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: UI check: the viewer gets the same UI as an editor (新建模板 form, sync); an editor's 從 Twilio 同步 lists all admin templates (41-editor-after-sync.png). Linked TWW-087, TWW-088.

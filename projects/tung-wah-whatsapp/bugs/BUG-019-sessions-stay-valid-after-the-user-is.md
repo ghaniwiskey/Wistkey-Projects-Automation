@@ -8,7 +8,7 @@ url: "http://localhost:3000/api/auth/session"
 updated: 2026-10-28T07:16:23.419Z
 found: 2026-10-28T07:16:23.419Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-059, TWW-060]
+tests: [TWW-059, TWW-060, TWW-081]
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,4 @@ Session role EDITOR after demotion; after deletion /api/auth/session returns the
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: logout does not revoke the token either: a session cookie copied before signout still returns the user and /api/users 200 afterwards. Linked TWW-081.

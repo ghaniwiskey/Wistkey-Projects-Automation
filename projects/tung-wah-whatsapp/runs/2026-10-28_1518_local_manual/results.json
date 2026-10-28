@@ -1,0 +1,634 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "login-roles-2026-10-28",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-28_1518_local_manual",
+  "startedAt": "2026-10-28T08:18:56.962Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-077",
+      "title": "Logout ends the session and protects pages",
+      "priority": "P0",
+      "feature": "auth",
+      "file": "projects/tung-wah-whatsapp/cases/auth/TWW-077-logout-ends-the-session-and-protects.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "After 退出 the app cannot be used without logging in again.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_* or TWW_QA_ADMIN_* in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open 用戶管理",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 退出",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Press the browser Back button",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /templates directly",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After 退出 the login page opens",
+          "status": null
+        },
+        {
+          "text": "Back and direct URLs show the login page, not app data",
+          "status": null
+        },
+        {
+          "text": "The session API returns {}",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "退出 -> /login?callbackUrl=..., session {}, Back -> login page."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:57.131Z"
+    },
+    {
+      "id": "TWW-078",
+      "title": "Login form validation and wrong password message",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/tung-wah-whatsapp/cases/auth/TWW-078-login-form-validation-and-wrong.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Bad input is caught and failed logins reveal nothing.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_* or TWW_QA_ADMIN_* in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /login and click 登錄 with empty fields",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter email \"not-an-email\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a valid email with a wrong password",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Empty fields and bad email are blocked in the form",
+          "status": null
+        },
+        {
+          "text": "Wrong password shows \"郵箱或密碼錯誤\" (same text for unknown emails); the email stays filled",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Native required/email checks; wrong password \"郵箱或密碼錯誤\", email kept."
+      ],
+      "evidence": [
+        "screenshots/TWW-078-m01-37-login-wrong-password.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:57.298Z"
+    },
+    {
+      "id": "TWW-079",
+      "title": "Login returns to the page that was requested",
+      "priority": "P2",
+      "feature": "auth",
+      "file": "projects/tung-wah-whatsapp/cases/auth/TWW-079-login-returns-to-the-page-that-was.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Deep links work after logging in.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_* or TWW_QA_ADMIN_* in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "While logged out open /users (redirects to /login?callbackUrl=/users)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as admin",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "While logged in open /login",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After login the user lands on /users",
+          "status": null
+        },
+        {
+          "text": "A logged-in user opening /login is sent to /templates",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "callbackUrl=/users -> /templates; /login shown while logged in."
+      ],
+      "evidence": [
+        "screenshots/TWW-079-m01-43-login-findings.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:57.798Z",
+      "failureType": "product-bug",
+      "bug": "BUG-030"
+    },
+    {
+      "id": "TWW-080",
+      "title": "Login does not redirect to external sites",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-080-login-does-not-redirect-to-external.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "callbackUrl cannot be used for phishing redirects.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_* or TWW_QA_ADMIN_* in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /login?callbackUrl=https://example.com/phish",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The user lands on a page of the app, never on example.com",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "callbackUrl=https://example.com/phish -> /templates."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:57.463Z"
+    },
+    {
+      "id": "TWW-081",
+      "title": "Logout invalidates the session token",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-081-logout-invalidates-the-session-token.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A copied session token stops working after logout.",
+      "preconditions": [
+        "A QA user"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA user in a separate HTTP session and keep the session cookie",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out (signout)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call /api/auth/session and an API with the kept cookie",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The old cookie is rejected after logout",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Copied token valid after signout (/api/users 200)."
+      ],
+      "evidence": [
+        "screenshots/TWW-081-m01-43-login-findings.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:58.137Z",
+      "failureType": "product-bug",
+      "bug": "BUG-019"
+    },
+    {
+      "id": "TWW-082",
+      "title": "Login form supports password managers and screen readers",
+      "priority": "P3",
+      "feature": "accessibility",
+      "file": "projects/tung-wah-whatsapp/cases/accessibility/TWW-082-login-form-supports-password-managers.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Login fields are labelled and autofill-friendly without exposing real accounts.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /login and inspect the fields",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "郵箱 and 密碼 labels are linked to their inputs",
+          "status": null
+        },
+        {
+          "text": "Inputs have autocomplete=\"username\" / \"current-password\"",
+          "status": null
+        },
+        {
+          "text": "The email placeholder is a generic example, not the real admin address",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Labels unlinked, no autocomplete, placeholder admin@tungwah.org."
+      ],
+      "evidence": [
+        "screenshots/TWW-082-m01-36-login-page.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:58.441Z",
+      "failureType": "product-bug",
+      "bug": "BUG-031"
+    },
+    {
+      "id": "TWW-083",
+      "title": "Editor cannot open the user management page",
+      "priority": "P2",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-083-editor-cannot-open-the-user-management.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Admin-only pages are hidden and blocked for editors.",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look at the nav",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /users directly",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "用戶管理 is not in the nav",
+          "status": null
+        },
+        {
+          "text": "/users shows a no-permission message or redirects; no 添加用户 button",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "/users renders with 添加用户 for editor."
+      ],
+      "evidence": [
+        "screenshots/TWW-083-m01-39-editor-users-page.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:58.757Z",
+      "failureType": "product-bug",
+      "bug": "BUG-032"
+    },
+    {
+      "id": "TWW-084",
+      "title": "Editor cannot change contacts of another user's template",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-084-editor-cannot-change-contacts-of.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Contacts can only be reset or deleted by the template owner (or admin).",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)",
+        "A QA contact on an admin template"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /templates/<admin template>/contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 全部重置, then delete the contact",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page does not show the contacts; reset and delete are refused (403/404)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor saw, reset and deleted admin contacts."
+      ],
+      "evidence": [
+        "screenshots/TWW-084-m01-40-editor-sees-admin-contacts.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:59.075Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "TWW-085",
+      "title": "Users cannot delete or edit other users' templates",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-085-users-cannot-delete-or-edit-other-users.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Only the owner (or admin) can delete or edit a template, in the app and in Twilio.",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)",
+        "A disposable QA draft owned by the admin"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As the QA editor call DELETE /api/templates/<admin draft id>",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call PATCH with a new questionTitle",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the draft in Twilio (Content API or console)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both return 403/404",
+          "status": null
+        },
+        {
+          "text": "The Twilio content still exists and the app record is unchanged",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor DELETE -> 500 but Twilio content deleted."
+      ],
+      "evidence": [
+        "screenshots/TWW-085-m01-44-role-findings.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:59.392Z",
+      "failureType": "product-bug",
+      "bug": "BUG-029"
+    },
+    {
+      "id": "TWW-086",
+      "title": "API errors do not expose internal details",
+      "priority": "P2",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-086-api-errors-do-not-expose-internal.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Error responses are generic.",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As the QA editor PATCH a template owned by someone else",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "403/404 with a short message; no stack trace or Prisma error text",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "PATCH -> 500 with Prisma error detail."
+      ],
+      "evidence": [
+        "screenshots/TWW-086-m01-44-role-findings.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:18:59.707Z",
+      "failureType": "product-bug",
+      "bug": "BUG-033"
+    },
+    {
+      "id": "TWW-087",
+      "title": "Viewer has a read-only interface",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-087-viewer-has-a-read-only-interface.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "查看者 cannot start any write action from the UI.",
+      "preconditions": [
+        "A QA viewer"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA viewer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 消息模版 and a template",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No 新建模板, 從 Twilio 同步, upload, mapping save, send, reset or delete controls",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Viewer UI identical to editor; create form opens."
+      ],
+      "evidence": [
+        "screenshots/TWW-087-m01-42-viewer-templates.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:19:00.025Z",
+      "failureType": "product-bug",
+      "bug": "BUG-002"
+    },
+    {
+      "id": "TWW-088",
+      "title": "Sync shows each user only the templates they may see",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-088-sync-shows-each-user-only-the-templates.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "從 Twilio 同步 does not reveal other users' templates.",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor (owns no templates)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 從 Twilio 同步",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Only the editor's templates (none) are listed",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor sync lists all admin templates."
+      ],
+      "evidence": [
+        "screenshots/TWW-088-m01-41-editor-after-sync.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:19:00.333Z",
+      "failureType": "product-bug",
+      "bug": "BUG-002"
+    },
+    {
+      "id": "TWW-089",
+      "title": "Admins can see and manage templates created by other admins",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-089-admins-can-see-and-manage-templates.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A second admin can take over another admin's campaigns (if intended).",
+      "preconditions": [
+        "Two admin accounts"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the second admin",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 消息模版 and the first admin's template URL",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The agreed behavior (see question): admins see all templates, or only their own",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Second admin sees only own templates; admin template 404. Waiting on Q-009."
+      ],
+      "evidence": [
+        "screenshots/TWW-089-m01-44-role-findings.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:19:00.645Z",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T08:19:00.952Z",
+  "summary": {
+    "total": 13,
+    "pass": 3,
+    "fail": 10,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

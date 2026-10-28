@@ -71,3 +71,8 @@ TWW-002 to TWW-045 (44 cases): users (002-009), security (010-014), templates (0
 - Submitted to Meta: qa_event_reminder_357859 (2 variables, 3 buttons, UTILITY, still 審核中), qa_var_edges_357859 (rejected: variables at start/end, deleted), qa_auth_357859 (AUTHENTICATION, submission failed, deleted). Drafts for limits/formats created and deleted; the draft duplicate 'attendance_confirmation' (HX94e1...) deleted, approved original untouched. qa_format and qa_body_long deleted (the latter first in Twilio to test sync).
 - Bugs BUG-022, BUG-023, BUG-024, BUG-025, BUG-026, BUG-027, BUG-028; cases TWW-064..076; run 2026-10-28_1506_local_manual. TWW-075 (send approved 2-variable template) waits for Meta.
 - QA data left: qa_event_reminder_357859 (pending, contact QA Tester PENDING, mapping set). Delete it after TWW-075.
+
+## Round 5: login, logout and roles
+- User allowed logging out of admin@tungwah.org. A QA admin was created first (kept at the user's request; credentials only in .env). Temporary QA editor/viewer users and a disposable draft (qa_owner_test_357859) were deleted afterwards.
+- New bugs BUG-029 (critical: any user deletes Twilio templates), BUG-030, BUG-031, BUG-032, BUG-033; BUG-001, BUG-002, BUG-019 extended; Q-009. Cases TWW-077..089; run 2026-10-28_1518_local_manual.
+- QA data: the QA Tester contact on attendance_confirmation was deleted by the editor test. The browser is logged in as the QA admin; admin@tungwah.org must log in again.

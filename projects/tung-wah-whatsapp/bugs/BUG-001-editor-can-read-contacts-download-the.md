@@ -8,7 +8,7 @@ url: "http://localhost:3000/api/templates/<id>/contacts"
 updated: 2026-10-28T06:37:45.622Z
 found: 2026-10-28T06:37:45.622Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-012, TWW-013]
+tests: [TWW-012, TWW-013, TWW-084]
 frequency: always
 ---
 ## Summary
@@ -38,3 +38,4 @@ Contacts: 200 with [{"name":"QA Tester","phone":"85265248661","customVars":{"會
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
+- 2026-10-28: also writes: a QA editor ran 全部重置 ("重置成功！") and deleted a contact on the admin template; the contacts page shows the data in the UI (40-editor-sees-admin-contacts.png). Linked TWW-084.

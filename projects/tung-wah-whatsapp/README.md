@@ -5,6 +5,7 @@
 ## Accounts
 
 - Admin `admin@tungwah.org` (role ADMIN). Password: `.env` TWW_ADMIN_USER / TWW_ADMIN_PASS (not set yet; the browser session was already logged in). Do not log out of the shared browser without it.
+- QA admin (role ADMIN, kept at the user's request 2026-10-28): `.env` TWW_QA_ADMIN_USER / TWW_QA_ADMIN_PASS. Use it to log back in after logout tests. Admins only see their own templates (Q-009), so admin@tungwah.org's templates are not visible to it.
 - Roles: 管理員 ADMIN, 編輯者 EDITOR, 查看者 VIEWER. Create QA users per test (`qa-<role>-<unique>@example.test`) and delete them afterwards.
 - Twilio: the "My First Twilio Account" console is logged in in the user's browser. Use it only to verify messages (Monitor > Logs > Messaging, Debugger). WhatsApp sender +85256250410 (Jockey Club Tin Shui Wai Integrated Services Centre).
 
