@@ -1,10 +1,25 @@
 // "Record result" dialog: mark test cases pass/fail/blocked/skip in one step, without a step-by-step manual run.
 // The server saves it as a finished manual run (suite "quick"), so history, plans and reports count it.
 import { html, useState } from '../vendor/preact-htm.mjs';
-import { post, toast } from './api.js';
+import { post, put, toast } from './api.js';
 import { Modal, Field, ErrorBox } from './ui.js';
 
 const STATUSES = [['pass', 'Pass'], ['fail', 'Fail'], ['blocked', 'Blocked'], ['skipped', 'Skip']];
+
+// POST /results does it in one call. A Test Manager started before that route existed answers "No route"
+// (page files load fresh, server code only at startup), so fall back to the manual-run steps it already has.
+async function record(slug, body) {
+  try {
+    return await post(`/api/projects/${slug}/results`, body);
+  } catch (e) {
+    if (!/No route/i.test(e.message || '')) throw e;
+    const { runId } = await post(`/api/projects/${slug}/manual-runs`, { ids: body.ids, env: body.env, tester: body.tester, name: 'quick' });
+    for (const id of body.ids) {
+      await put(`/api/projects/${slug}/manual-runs/${runId}/tests/${id}`, { status: body.status, note: body.note, ...(body.bug ? { bug: body.bug } : {}) });
+    }
+    return { ...(await post(`/api/projects/${slug}/manual-runs/${runId}/finish`, {})), runId };
+  }
+}
 
 export function QuickResultDialog({ project, tests, initial, onClose, onDone }) {
   const [status, setStatus] = useState(initial || 'pass');
@@ -20,7 +35,7 @@ export function QuickResultDialog({ project, tests, initial, onClose, onDone }) 
     setBusy(true);
     setErr(null);
     try {
-      const r = await post(`/api/projects/${project.slug}/results`, {
+      const r = await record(project.slug, {
         ids: tests.map((t) => t.id), status, env, note, bug: status === 'fail' ? bug : '', tester: localStorage.getItem('qa.tester') || '',
       });
       toast(`${n === 1 ? tests[0].id : `${n} test cases`} marked ${status}`, status === 'pass' ? 'good' : status === 'fail' ? 'error' : 'info');
