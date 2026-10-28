@@ -32,4 +32,4 @@ The eShop never lets a customer put more units in the cart than are available on
 - Cleanup: empty the cart
 
 ## Notes
-2026-10-27 manual: pass (52 accepted, 53 refused; 9 in cart + 60 refused). The checkout uses a different limit: BUG-017 / SBF-025.
+2026-10-27 manual: pass (52 accepted, 53 refused; 9 in cart + 60 refused). The checkout uses a different limit: BUG-017 (wont-fix, accepted) / SBF-025.

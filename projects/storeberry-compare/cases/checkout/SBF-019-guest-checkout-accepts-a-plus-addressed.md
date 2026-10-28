@@ -1,17 +1,17 @@
 ---
 id: SBF-019
-title: "Guest checkout accepts a plus-addressed email"
+title: "Guest checkout with a plus-addressed email is refused without placing an order"
 feature: checkout
 priority: P1
 tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-28
 ---
 
 ## Goal
-Valid emails such as name+tag@example.com can place an order, and invalid ones get a field-level message.
+A plus-addressed email (name+tag@example.com) is refused at guest checkout (accepted behavior, BUG-012 wont-fix) and no order is created.
 
 ## Preconditions
 - A non-quota product in the guest cart (e.g. NAKAJIMA cake)
@@ -27,8 +27,8 @@ Valid emails such as name+tag@example.com can place an order, and invalid ones g
 4. Click Proceed to checkout
 
 ## Expected
-- The order is placed and the thank-you page shows the order number
-- If an email is rejected, the message names the Email field and the reason
+- The dialog "Please fill all required info" appears and the page stays on /checkout
+- No order is created (no thank-you page or order number)
 
 ## Notes
-Currently fails: BUG-012 (2026-10-27). Bank Transfer only.
+BUG-012, closed as wont-fix (2026-10-28): refusing plus-addressed emails with the generic dialog is accepted behavior, so this case now expects the refusal. Use dotted unique emails for other guest orders. Bank Transfer only.

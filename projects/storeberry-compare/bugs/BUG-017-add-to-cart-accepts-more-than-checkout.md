@@ -2,13 +2,13 @@
 id: BUG-017
 title: "Add To Cart accepts more stock than checkout allows: 'Item added successfully' then 'Not enough stock'"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/products/product-test-2"
-updated: 2026-10-27T12:55:00.000Z
+updated: 2026-10-28T02:59:49.742Z
 found: 2026-10-27T12:55:00.000Z
 foundBy: "explorations/2026-10-27-promotions-stock.md"
-tests: [SBF-025]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -40,3 +40,4 @@ Add To Cart and checkout agree. Either the product page refuses quantities check
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-promotions-stock.md. Related: Q-009 in storeberry-crm (which warehouse serves online orders); BUG-005 (late quota warning, wont-fix) is a similar "told late" pattern but not the same check.
+- 2026-10-28: status open -> wont-fix. SBF-025 now checks only quantities within the TaiPo stock (accepted behavior noted); context.md updated; tests list emptied.

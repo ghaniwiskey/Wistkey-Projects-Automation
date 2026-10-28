@@ -2,13 +2,13 @@
 id: BUG-012
 title: "Guest checkout rejects a valid plus-addressed email with only \"Please fill all required info\""
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/checkout"
-updated: 2026-10-27T09:51:38.840Z
+updated: 2026-10-28T03:08:44.972Z
 found: 2026-10-27T09:51:38.840Z
 foundBy: "explorations/2026-10-27-cart-payment-review.md"
-tests: [SBF-019]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,4 @@ Warning dialog "Please fill all required info"; Your Details Email and Shipping 
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-cart-payment-review.md in the Test Manager app.
+- 2026-10-28: status open -> wont-fix. SBF-019 now expects the accepted refusal; context.md updated; tests list emptied.
