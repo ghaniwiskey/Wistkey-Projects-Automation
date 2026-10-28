@@ -1,6 +1,6 @@
 ---
 id: TWW-013
-title: "Editor cannot send messages from another user's template"
+title: "Editor cannot send messages from another user's template (API)"
 feature: security
 priority: P0
 tags: [regression]
@@ -11,17 +11,20 @@ updated: 2026-10-28
 ---
 
 ## Goal
-Only the owner (or an admin) can trigger a WhatsApp send for a template.
+Only the owner can trigger a WhatsApp send for a template.
+
+## Preconditions
+- Admin account (TWW_QA_ADMIN_* in .env)
+- The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards
+- An admin template whose contacts are all already sent (so nothing can go out)
 
 ## Steps
-1. As admin, have a template with contacts that are all already sent (so nothing can go out)
-2. Log in as a QA editor
-3. Call the send endpoint with the admin template's ID
+1. Log in as the QA editor
+2. Call the send endpoint (POST /api/send) with the admin template's ID
 
 ## Expected
-- The request is refused with 403/404 before any contact check
+- Refused with 403/404 before any contact check
 - No message is queued
 
 ## Notes
-Use only templates without pending contacts, otherwise a real WhatsApp message goes out.
-Related: BUG-001 (open).
+API-only on purpose: the editor sees "模板不存在" on the template page, so there is no send button to click. Use only templates without pending contacts, otherwise a real WhatsApp message goes out. Related: BUG-001 (open).

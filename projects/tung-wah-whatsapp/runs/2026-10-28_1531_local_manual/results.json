@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "ui-only-bug001-002-2026-10-28",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-28_1531_local_manual",
+  "startedAt": "2026-10-28T08:31:55.379Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-012",
+      "title": "Editor cannot see another user's contacts or report",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-012-editor-cannot-read-another-user-s.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Contacts and reports of a template are visible only to its owner.",
+      "preconditions": [
+        "Admin account (TWW_QA_ADMIN_* in .env)",
+        "The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin create a draft template qa_owner_<unique> (Meta unticked) and upload the contacts file to it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out and log in as the QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On 消息模版 click 從 Twilio 同步",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the qa_owner_<unique> card",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the address bar add /contacts to the template URL and open it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the address bar open the report link: replace /templates/ with /api/templates/ and add /export to the template URL",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log back in as admin and delete qa_owner_<unique> (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After sync the editor's list does not show qa_owner_<unique>",
+          "status": null
+        },
+        {
+          "text": "The template page says 模板不存在",
+          "status": null
+        },
+        {
+          "text": "The contacts page shows no contacts (or a no-permission message), not QA Tester's name and phone",
+          "status": null
+        },
+        {
+          "text": "The report link does not download a file",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "UI only: after sync the admin card shows, /contacts lists QA Tester, report link downloads reply_report_<id>.xlsx."
+      ],
+      "evidence": [
+        "screenshots/TWW-012-m01-46-ui-editor-sees-contacts.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:31:55.533Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "TWW-014",
+      "title": "Viewer cannot create templates or upload contacts",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-014-viewer-cannot-create-templates-upload.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The 查看者 role is read-only.",
+      "preconditions": [
+        "Admin account (TWW_QA_ADMIN_* in .env)",
+        "The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA viewer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On 消息模版 click 從 Twilio 同步",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 新建模板, untick Meta, enter qa_viewer_<unique>, body \"QA viewer draft\", button OK, click 創建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "If created, open it and upload the contacts file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete anything created (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "新建模板 and 從 Twilio 同步 are not offered to a viewer (or refused with a no-permission message)",
+          "status": null
+        },
+        {
+          "text": "No template is created and no contacts are uploaded",
+          "status": null
+        },
+        {
+          "text": "The viewer's list shows no other users' templates",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "UI only: viewer sync shows admin templates, created qa_viewer_made (模板已創建！), uploaded a contact (上傳成功！)."
+      ],
+      "evidence": [
+        "screenshots/TWW-014-m01-49-ui-viewer-created-and-uploaded.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:31:56.161Z",
+      "failureType": "product-bug",
+      "bug": "BUG-002"
+    },
+    {
+      "id": "TWW-084",
+      "title": "Editor cannot change contacts of another user's template",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-084-editor-cannot-change-contacts-of.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Contacts can only be reset or deleted by the template owner.",
+      "preconditions": [
+        "Admin account (TWW_QA_ADMIN_* in .env)",
+        "The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin create a draft template qa_owner_<unique> and upload the contacts file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor, click 從 Twilio 同步 and open the qa_owner_<unique> card",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add /contacts to the URL and open it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 全部重置 and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the trash icon of QA Tester and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as admin, open the template's 聯繫人 (then delete the template as cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The editor cannot reach the contacts page, or 全部重置 and delete are refused with a no-permission message",
+          "status": null
+        },
+        {
+          "text": "As admin, QA Tester is still there with its original status",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "UI only: 全部重置 -> 重置成功！, trash -> contact deleted (0 contacts)."
+      ],
+      "evidence": [
+        "screenshots/TWW-084-m01-47-ui-editor-deleted-contact.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T08:31:55.847Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T08:31:56.485Z",
+  "summary": {
+    "total": 3,
+    "pass": 0,
+    "fail": 3,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
