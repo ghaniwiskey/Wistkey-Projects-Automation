@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-28
 ---
 
 ## Goal
@@ -31,4 +31,5 @@ Past session dates cannot be chosen, and the enrolment is on the date the custom
 - If a date is accepted, the enrolment and cart show that same date
 
 ## Notes
-Currently fails: BUG-014 (2026-10-27). Void the order afterwards to free the seat.
+Click the dates like a customer (real pointer click). Past dates have CSS `pointer-events: none`; a DOM `element.click()` or a forced click bypasses that and reaches the booking (the server then books the next session), which a customer cannot do.
+2026-10-28 manual: pass (7/14/21 Oct do nothing, "Please select a date"). The 2026-10-27 fail and BUG-014 were an automation artifact (DOM click); BUG-014 withdrawn. If a booking is placed, void the order afterwards to free the seat.

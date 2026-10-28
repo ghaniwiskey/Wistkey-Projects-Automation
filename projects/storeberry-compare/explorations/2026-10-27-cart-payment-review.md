@@ -35,6 +35,6 @@ status: done
 - README: plus-addressed emails fail at guest checkout; use dotted unique emails for test data until BUG-012 is fixed. Use the "Or Choose File" input (`input[name=receipt_img]`) for receipt upload in automation.
 
 ## Round 4 (19:15-19:40 HKT): course purchase, eGift, home delivery
-- Course page lets a past date be picked and books the next session instead (BUG-014, SBF-021). Full session shows "Service is full".
+- Course page: past dates looked pickable and booked the next session instead, but only through automation clicks that bypass the CSS `pointer-events: none` on past dates; a real click does nothing (re-checked 2026-10-28, BUG-014 withdrawn, SBF-021 passes). Full session shows "Service is full".
 - E-Gift: reserve + redeem works; expired gift by URL: refused with the toast "Gift out of reserve period" (a first report, BUG-015, missed the toast and was withdrawn); the API error includes a stack trace (BUG-016, closed as won't fix) (SBF-022 pass). The gift name link (href="#") does not open the detail; only the image does.
 - Home delivery 香港本地送貨 and the JD minimum rule work (SBF-023 pass). Details: storeberry-crm explorations/2026-10-27-stock-movement.md, Round 4.

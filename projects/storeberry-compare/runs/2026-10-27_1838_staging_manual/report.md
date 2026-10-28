@@ -19,7 +19,7 @@
 
 | ID | Title | Status | Checks | Time | Notes | Evidence |
 |---|---|---|---|---|---|---|
-| SBF-021 | Course page only lets customers book upcoming sessions and books the chosen one | fail | 0/2 | 0.0s | product-bug; BUG-014 | [1](screenshots/SBF-021-m01-enrolment-4-nov.jpg) |
+| SBF-021 | Course page only lets customers book upcoming sessions and books the chosen one | fail | 0/2 | 0.0s | test-issue | [1](screenshots/SBF-021-m01-enrolment-4-nov.jpg) |
 | SBF-022 | Expired eGift cannot be reserved and the customer is told why | fail | 1/3 | 0.0s | test-issue | [1](screenshots/SBF-022-m01-expired-egift.jpg) |
 | SBF-023 | Member places a home-delivery order and staff deliver it | pass | 3/3 | 0.0s | - | - |
 
@@ -27,11 +27,12 @@
 
 ### SBF-021: Course page only lets customers book upcoming sessions and books the chosen one (fail)
 
-- Failure type: product-bug (bug BUG-014)
+- Failure type: test-issue
 - Source: `projects/storeberry-compare/cases/courses/SBF-021-course-page-only-lets-customers-book.md`
 - Failed: Past dates are disabled, or Apply is refused with a message
 - Failed: If a date is accepted, the enrolment and cart show that same date
 - Note: Picked 21 Oct and 14 Oct; both enrolled on 4 Nov.
+- Note: Re-checked 2026-10-28: past session dates have CSS pointer-events: none (styles.css, unchanged since 27 Oct 02:53 GMT), so a real click does nothing ("Please select a date"). The 27 Oct run reached them through automation clicks that bypass CSS (a DOM element.click() for 14 Oct). Not reachable by a customer: BUG-014 withdrawn.
 
 ![SBF-021](screenshots/SBF-021-m01-enrolment-4-nov.jpg)
 

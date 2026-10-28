@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "manual",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-28_1009_staging_manual",
+  "startedAt": "2026-10-28T03:09:31.137Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-021",
+      "title": "Course page only lets customers book upcoming sessions and books the chosen one",
+      "priority": "P1",
+      "feature": "courses",
+      "file": "projects/storeberry-compare/cases/courses/SBF-021-course-page-only-lets-customers-book.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Past session dates cannot be chosen, and the enrolment is on the date the customer picked.",
+      "preconditions": [
+        "A visible QA course with a weekly Fixed timetable",
+        "Logged-in QA member"
+      ],
+      "data": [
+        "QA course 3200 or another found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the course page on the eShop",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click a past session date in the calendar (shown with is_passed)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick the timeslot and click Apply",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check out (Bank Transfer) and open the enrolment in the CRM Status List",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Past dates are disabled, or Apply is refused with a message",
+          "status": "pass"
+        },
+        {
+          "text": "If a date is accepted, the enrolment and cart show that same date",
+          "status": null
+        }
+      ],
+      "checks": [
+        {
+          "label": "Past dates are disabled, or Apply is refused with a message",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Logged in as the QA member, course 3200 (timetable 70). Real pointer clicks on past Wednesdays 7/14/21 Oct do nothing: Timeslots stays \"Please select a date\" (CSS pointer-events: none on .circle.active.is_passed; styles.css last modified 27 Oct 02:53 GMT, before the original report). No date accepted, so no order placed and the second expectation does not apply. The 27 Oct fail came from automation clicks that bypass CSS; BUG-014 withdrawn."
+      ],
+      "evidence": [
+        "screenshots/SBF-021-m01-past-date-click-ignored.jpg"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T03:09:38.372Z"
+    }
+  ],
+  "notes": "Re-check of BUG-014 (course past session date).",
+  "finishedAt": "2026-10-28T03:09:38.610Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

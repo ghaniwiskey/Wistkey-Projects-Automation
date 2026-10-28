@@ -69,15 +69,15 @@
         }
       ],
       "notes": [
-        "Picked 21 Oct and 14 Oct; both enrolled on 4 Nov."
+        "Picked 21 Oct and 14 Oct; both enrolled on 4 Nov.",
+        "Re-checked 2026-10-28: past session dates have CSS pointer-events: none (styles.css, unchanged since 27 Oct 02:53 GMT), so a real click does nothing (\"Please select a date\"). The 27 Oct run reached them through automation clicks that bypass CSS (a DOM element.click() for 14 Oct). Not reachable by a customer: BUG-014 withdrawn."
       ],
       "evidence": [
         "screenshots/SBF-021-m01-enrolment-4-nov.jpg"
       ],
       "durationMs": 0,
       "executedAt": "2026-10-27T11:38:01.770Z",
-      "failureType": "product-bug",
-      "bug": "BUG-014"
+      "failureType": "test-issue"
     },
     {
       "id": "SBF-022",
