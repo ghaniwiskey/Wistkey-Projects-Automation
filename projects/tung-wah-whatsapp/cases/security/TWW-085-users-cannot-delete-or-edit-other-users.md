@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -28,4 +28,4 @@ Only the owner (or admin) can delete or edit a template, in the app and in Twili
 
 ## Notes
 NEVER use a real or approved template: when the bug is present the Twilio content is deleted.
-Related: BUG-029 (open).
+Related: BUG-029 verified 2026-10-29 (dev fix af9a789).

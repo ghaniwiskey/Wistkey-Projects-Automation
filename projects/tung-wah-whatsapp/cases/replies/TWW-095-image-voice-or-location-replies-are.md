@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ A reply without text is shown as a non-text reply, not an empty answer.
 - 回覆內容 is not empty; it says the member sent an image or similar
 
 ## Notes
-From the code: an empty Body falls back to 其它 with empty text. Related: BUG-015 (report shows 其它 instead of typed text).
+From the code: an empty Body falls back to 其它 with empty text. BUG-015 verified 2026-10-29: typed text is now stored and shown in the report.

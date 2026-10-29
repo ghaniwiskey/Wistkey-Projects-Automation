@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -33,4 +33,4 @@ The 查看者 role is read-only.
 - The viewer's list shows no other users' templates
 
 ## Notes
-Related: BUG-002 (open). Sending as a viewer cannot be reached in the UI (needs an approved template the viewer owns); TWW-013 covers send through the API. On 2026-10-28 the viewer synced (saw all admin templates), created a template ("模板已創建！") and uploaded a contact ("上傳成功！").
+Related: BUG-002 verified 2026-10-29 (dev fix af9a789). Sending as a viewer cannot be reached in the UI (needs an approved template the viewer owns); TWW-013 covers send through the API. On 2026-10-28 the viewer synced (saw all admin templates), created a template ("模板已創建！") and uploaded a contact ("上傳成功！").

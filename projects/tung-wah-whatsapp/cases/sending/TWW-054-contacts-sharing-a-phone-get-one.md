@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -29,4 +29,4 @@ A family sharing a phone is messaged correctly.
 - Report counts one person per phone
 
 ## Notes
-Currently one message "Hi QA Twin A，QA Twin B, do you confirm your attendance?". Related: BUG-004.
+Since the BUG-004 fix (verified 2026-10-29) the second row with the same number is skipped at upload (Excel 文件內重複號碼), so only the first person gets the message; the send step was not rerun.

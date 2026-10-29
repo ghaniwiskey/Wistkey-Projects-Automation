@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -25,4 +25,4 @@ Only Twilio can record replies.
 - A real reply from WhatsApp (valid signature) is still accepted
 
 ## Notes
-Use a From number that matches no contact so a missing check cannot record a fake reply. Related: BUG-012 (open).
+Use a From number that matches no contact so a missing check cannot record a fake reply. Related: BUG-012 verified 2026-10-29 (dev fix af9a789).

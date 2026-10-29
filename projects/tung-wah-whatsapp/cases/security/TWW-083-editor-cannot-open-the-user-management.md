@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -27,4 +27,4 @@ Admin-only pages are hidden and blocked for editors.
 
 ## Notes
 Nav part passes; the page itself renders with 添加用户.
-Related: BUG-032 (open).
+Related: BUG-032 verified 2026-10-29 (dev fix af9a789).

@@ -5,7 +5,7 @@ severity: trivial
 status: open
 env: local
 url: "http://localhost:3000/users"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-29T09:31:30.970Z
 found: 2026-10-28T06:37:46.658Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-009]
@@ -37,3 +37,4 @@ Simplified forms are shown:
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-29: Still fails in runs/2026-10-29_1630_local_manual: all UI labels are Traditional after af9a789, only the seeded admin name 系统管理员 (prisma/seed.ts) remains on 用戶管理..

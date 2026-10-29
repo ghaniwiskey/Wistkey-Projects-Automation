@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ Members who type 1 or 2 instead of tapping are counted under the right answer, a
 - Reply 3 is counted under 其它 with the text 3
 
 ## Notes
-Unsigned local POSTs work only while BUG-012 is open. 重置 deletes the recorded reply (BUG-016).
+Unsigned POSTs are rejected with 403 since BUG-012 was fixed (2026-10-29): use a real reply or a signed request. 重置 deletes the recorded reply after a confirmation (BUG-016 verified).

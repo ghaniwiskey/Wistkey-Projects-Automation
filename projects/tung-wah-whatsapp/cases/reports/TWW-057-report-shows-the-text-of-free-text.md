@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -25,4 +25,4 @@ Staff can read what members typed.
 - 數據統計 counts it under 其他
 
 ## Notes
-Related: BUG-015 (open).
+Related: BUG-015 verified 2026-10-29 (dev fix af9a789).

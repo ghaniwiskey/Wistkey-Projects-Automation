@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -24,4 +24,4 @@ Demoting a user takes effect without waiting for re-login.
 - The session shows VIEWER (or the user must log in again)
 
 ## Notes
-Related: BUG-019 (open).
+Related: BUG-019 verified 2026-10-29 (dev fix af9a789).

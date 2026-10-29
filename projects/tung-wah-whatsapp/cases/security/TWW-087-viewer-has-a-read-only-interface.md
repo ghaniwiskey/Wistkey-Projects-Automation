@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -24,4 +24,4 @@ updated: 2026-10-28
 - No 新建模板, 從 Twilio 同步, upload, mapping save, send, reset or delete controls
 
 ## Notes
-Related: BUG-002 (open).
+BUG-002 verified 2026-10-29 (the server blocks viewers). Fails on BUG-037 (open): the UI still shows 新建模板 and 從 Twilio 同步.

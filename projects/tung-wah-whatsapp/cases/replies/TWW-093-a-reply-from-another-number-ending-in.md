@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ A reply counts only for the contact whose full phone number sent it.
 - The contact still shows 未回覆
 
 ## Notes
-From the code: the webhook also matches the last 8 digits and swaps 86/852, so another number with the same 8 digits may be credited. Unsigned POSTs work only while BUG-012 is open; once fixed, sign the request with the Twilio auth token. 重置 the contact afterwards (deletes the reply, BUG-016).
+From the code: the webhook also matches the last 8 digits and swaps 86/852, so another number with the same 8 digits may be credited. Unsigned POSTs are rejected with 403 since BUG-012 was fixed (2026-10-29); use a real reply or a signed request.; once fixed, sign the request with the Twilio auth token. 重置 the contact afterwards (deletes the reply, BUG-016).

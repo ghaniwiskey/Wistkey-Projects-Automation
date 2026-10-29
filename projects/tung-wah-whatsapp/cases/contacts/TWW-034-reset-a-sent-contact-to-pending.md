@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -26,5 +26,5 @@ updated: 2026-10-28
 
 ## Notes
 On 2026-10-28 the old 發送時間 stayed visible after the reset (cosmetic).
-Related: BUG-011 (open).
-Reset also deletes the recorded reply without warning: BUG-016 (open).
+Related: BUG-011 verified 2026-10-29 (dev fix af9a789).
+Reset deletes the recorded reply after a confirmation that says so (BUG-016 verified 2026-10-29).

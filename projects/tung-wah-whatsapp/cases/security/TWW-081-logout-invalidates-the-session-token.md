@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -25,4 +25,4 @@ A copied session token stops working after logout.
 - The old cookie is rejected after logout
 
 ## Notes
-Related: BUG-019 (open).
+Fails on BUG-036 (open), split out of BUG-019 on 2026-10-29.

@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -36,4 +36,4 @@ Contacts and reports of a template are visible only to its owner.
 - The report link does not download a file
 
 ## Notes
-Related: BUG-001 (open), BUG-002 (open). On 2026-10-28 the card appeared after sync, the contacts page listed QA Tester with phone and member data, and the link downloaded reply_report_<id>.xlsx.
+Related: BUG-001 verified 2026-10-29 (dev fix af9a789), BUG-002 verified 2026-10-29 (dev fix af9a789). On 2026-10-28 the card appeared after sync, the contacts page listed QA Tester with phone and member data, and the link downloaded reply_report_<id>.xlsx.

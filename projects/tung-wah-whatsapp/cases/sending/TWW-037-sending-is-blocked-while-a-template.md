@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ Nobody receives a message with a wrong or placeholder value.
 
 ## Notes
 On 2026-10-28 the message went out as "Hi David, ..." (Twilio sample value).
-Related: BUG-003 (open).
+Related: BUG-003 verified 2026-10-29 (dev fix af9a789).

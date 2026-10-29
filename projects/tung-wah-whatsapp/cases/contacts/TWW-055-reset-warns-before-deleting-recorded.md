@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -27,4 +27,4 @@ Staff cannot wipe member answers by accident.
 - Cancel keeps contacts and replies unchanged
 
 ## Notes
-Related: BUG-016 (open).
+Related: BUG-016 verified 2026-10-29 (dev fix af9a789).

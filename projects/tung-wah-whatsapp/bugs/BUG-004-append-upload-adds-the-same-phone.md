@@ -2,10 +2,10 @@
 id: BUG-004
 title: "Append upload adds the same phone number several times (duplicates in one file or in other formats)"
 severity: major
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/templates/<template id>/contacts"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-29T09:31:28.095Z
 found: 2026-10-28T06:37:46.009Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-029, TWW-054]
@@ -44,3 +44,4 @@ Our run: data/contacts-phone-formats.xlsx (8 rows, also containing other numbers
 - 2026-10-28: corrected impact after reading the send route and sending data/contacts-send-merge-invalid.xlsx: one merged message per phone ("Hi QA Twin A，QA Twin B", Twilio 00:10:04 PDT), not one message per row. Linked TWW-054.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-29: status open -> verified; Retest passed in runs/2026-10-29_1630_local_manual (dev fix commit af9a789)..

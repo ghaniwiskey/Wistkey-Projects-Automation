@@ -1,0 +1,1325 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "retest-dev-fixes-af9a789",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-29_1630_local_manual",
+  "startedAt": "2026-10-29T09:30:58.353Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-012",
+      "title": "Editor cannot see another user's contacts or report",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-012-editor-cannot-read-another-user-s.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Contacts and reports of a template are visible only to its owner.",
+      "preconditions": [
+        "Admin account (TWW_QA_ADMIN_* in .env)",
+        "The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin create a draft template qa_owner_<unique> (Meta unticked) and upload the contacts file to it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out and log in as the QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On 消息模版 click 從 Twilio 同步",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the qa_owner_<unique> card",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the address bar add /contacts to the template URL and open it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the address bar open the report link: replace /templates/ with /api/templates/ and add /export to the template URL",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log back in as admin and delete qa_owner_<unique> (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After sync the editor's list does not show qa_owner_<unique>",
+          "status": null
+        },
+        {
+          "text": "The template page says 模板不存在",
+          "status": null
+        },
+        {
+          "text": "The contacts page shows no contacts (or a no-permission message), not QA Tester's name and phone",
+          "status": null
+        },
+        {
+          "text": "The report link does not download a file",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor (other user) gets 404 on contacts, export, responses, stats of the QA admin template."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:58.513Z"
+    },
+    {
+      "id": "TWW-013",
+      "title": "Editor cannot send messages from another user's template (API)",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-013-editor-cannot-send-messages-from.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Only the owner can trigger a WhatsApp send for a template.",
+      "preconditions": [
+        "Admin account (TWW_QA_ADMIN_* in .env)",
+        "The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards",
+        "An admin template whose contacts are all already sent (so nothing can go out)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call the send endpoint (POST /api/send) with the admin template's ID",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Refused with 403/404 before any contact check",
+          "status": null
+        },
+        {
+          "text": "No message is queued",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor POST /api/send on another user template -> 404; nothing sent."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:58.658Z"
+    },
+    {
+      "id": "TWW-084",
+      "title": "Editor cannot change contacts of another user's template",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-084-editor-cannot-change-contacts-of.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Contacts can only be reset or deleted by the template owner.",
+      "preconditions": [
+        "Admin account (TWW_QA_ADMIN_* in .env)",
+        "The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin create a draft template qa_owner_<unique> and upload the contacts file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor, click 從 Twilio 同步 and open the qa_owner_<unique> card",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add /contacts to the URL and open it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 全部重置 and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the trash icon of QA Tester and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as admin, open the template's 聯繫人 (then delete the template as cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The editor cannot reach the contacts page, or 全部重置 and delete are refused with a no-permission message",
+          "status": null
+        },
+        {
+          "text": "As admin, QA Tester is still there with its original status",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor reset-all, PATCH and DELETE contact on another user template -> 404; contact intact."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:58.810Z"
+    },
+    {
+      "id": "TWW-014",
+      "title": "Viewer cannot create templates or upload contacts",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-014-viewer-cannot-create-templates-upload.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The 查看者 role is read-only.",
+      "preconditions": [
+        "Admin account (TWW_QA_ADMIN_* in .env)",
+        "The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA viewer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On 消息模版 click 從 Twilio 同步",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 新建模板, untick Meta, enter qa_viewer_<unique>, body \"QA viewer draft\", button OK, click 創建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "If created, open it and upload the contacts file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete anything created (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "新建模板 and 從 Twilio 同步 are not offered to a viewer (or refused with a no-permission message)",
+          "status": null
+        },
+        {
+          "text": "No template is created and no contacts are uploaded",
+          "status": null
+        },
+        {
+          "text": "The viewer's list shows no other users' templates",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Viewer create template, upload, send, reset, delete -> 403 無權限; nothing created in Twilio."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:58.957Z"
+    },
+    {
+      "id": "TWW-088",
+      "title": "Sync shows each user only the templates they may see",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-088-sync-shows-each-user-only-the-templates.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "從 Twilio 同步 does not reveal other users' templates.",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor (owns no templates)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 從 Twilio 同步",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Only the editor's templates (none) are listed",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor and viewer sync return only their own templates (empty); admin templates not visible."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:59.107Z"
+    },
+    {
+      "id": "TWW-085",
+      "title": "Users cannot delete or edit other users' templates",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-085-users-cannot-delete-or-edit-other-users.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Only the owner (or admin) can delete or edit a template, in the app and in Twilio.",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)",
+        "A disposable QA draft owned by the admin"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As the QA editor call DELETE /api/templates/<admin draft id>",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call PATCH with a new questionTitle",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the draft in Twilio (Content API or console)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both return 403/404",
+          "status": null
+        },
+        {
+          "text": "The Twilio content still exists and the app record is unchanged",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor DELETE -> 404, viewer DELETE -> 403; Twilio content still exists (GET 200)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:59.259Z"
+    },
+    {
+      "id": "TWW-083",
+      "title": "Editor cannot open the user management page",
+      "priority": "P2",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-083-editor-cannot-open-the-user-management.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Admin-only pages are hidden and blocked for editors.",
+      "preconditions": [
+        "A QA editor created by the admin (delete afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA editor",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look at the nav",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /users directly",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "用戶管理 is not in the nav",
+          "status": null
+        },
+        {
+          "text": "/users shows a no-permission message or redirects; no 添加用户 button",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Editor /users -> 307 to /dashboard; /api/users 403."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:59.398Z"
+    },
+    {
+      "id": "TWW-005",
+      "title": "User name of only spaces is rejected",
+      "priority": "P2",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-005-user-name-of-only-spaces-is-rejected.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A user must have a visible name.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and open 添加用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter name **\"   \"** (spaces only), email **qa-<unique>@example.test**, password **Qa123456!**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建用户",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "If the user was created, delete it (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The form shows a required-name error and no user is created",
+          "status": null
+        },
+        {
+          "text": "No user card with an empty heading appears in 用户列表",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Spaces-only name -> 400 姓名不能為空."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:59.550Z"
+    },
+    {
+      "id": "TWW-016",
+      "title": "Template name accepts only English letters, digits and underscore",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-016-template-name-accepts-only-english.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Invalid WhatsApp template names are caught before reaching Twilio/Meta.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin and open 新建模板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Untick Meta submission",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter name **My Template 測試!**, body **hello**, one button **OK**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 創建模板",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A validation message explains the allowed characters (as in the field hint \"英文、數字、底線\")",
+          "status": null
+        },
+        {
+          "text": "No template is created in the app or in Twilio",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "\"My Template 測試!\" and \"qa-name\" -> 400 模板名稱只能包含英文字母、數字和底線."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:59.725Z"
+    },
+    {
+      "id": "TWW-066",
+      "title": "Create form checks WhatsApp template limits before submitting",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-066-create-form-checks-whatsapp-template.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Invalid templates are caught with a clear Chinese message instead of a Twilio error or a Meta rejection.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open 新建模板 (Meta unticked) and try each: a button title of 25 characters; a body of 1100 characters; the name of an existing template; a body with \"{{}}\"; two buttons both titled Yes; two buttons with the same ID; a button with an empty ID; a body starting or ending with a variable; a variable without example value while Meta is ticked",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each is rejected in the form with a Traditional Chinese message naming the rule (button ≤ 20 chars, body ≤ 1024 chars, unique name, no empty variable, unique button titles/IDs, no variable at start/end, example required)",
+          "status": null
+        },
+        {
+          "text": "Nothing is created in Twilio",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "All listed rules rejected with Traditional Chinese messages (button >20, body >1024, duplicate name, variable at start/end, {{}}, empty/duplicate button IDs, duplicate titles, Meta without example, no buttons). Not covered by the app: names differing only in case, name >450 and spaces-only body (Twilio English errors)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:30:59.877Z"
+    },
+    {
+      "id": "TWW-029",
+      "title": "Append mode skips numbers already in the list",
+      "priority": "P1",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-029-append-mode-skips-numbers-already-in.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "追加 never creates two contacts with the same (normalized) phone number.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx",
+        "Excel file projects/tung-wah-whatsapp/data/contacts-phone-formats.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a draft template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the valid HK file with 追加",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the phone-formats file with 追加 (contains the same number 4 times in different formats)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the valid HK file again with 追加",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人, then delete all contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Only one contact with 85265248661 exists",
+          "status": null
+        },
+        {
+          "text": "The upload summary counts the duplicates as skipped (\"跳過 N 個已存在號碼\")",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Same number in 4 formats + in-file duplicates: added once; skippedRows lists Excel 文件內重複號碼 / 號碼已存在於此模板."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:00.037Z"
+    },
+    {
+      "id": "TWW-030",
+      "title": "Upload summary reports rows that were not imported",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-030-upload-summary-reports-rows-that-were.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Rows with an invalid or empty phone are reported, not silently dropped.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-phone-formats.xlsx"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open a draft template with no contacts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the phone-formats file (8 rows: one with letters, one with an empty phone)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the contacts (cleanup)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The summary says how many rows were rejected and why (invalid phone / empty phone)",
+          "status": null
+        },
+        {
+          "text": "total equals the number of data rows in the file",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "UI shows 以下 8 筆未導入 with each row and reason (格式不正確, 缺少電話號碼, duplicates)."
+      ],
+      "evidence": [
+        "screenshots/TWW-030-m01-bug007-upload-summary.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:00.181Z"
+    },
+    {
+      "id": "TWW-034",
+      "title": "Reset a sent contact to pending",
+      "priority": "P2",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-034-reset-a-sent-contact-to-pending.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "重置 lets a sent contact be sent again.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open 聯繫人 of a template with a 已發送 contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 重置 on that contact",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The status changes to 待發送 and the 重置 button disappears",
+          "status": null
+        },
+        {
+          "text": "The old 發送時間 is cleared (or labelled as the previous send)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "After 全部重置 the contact shows 待發送 without 發送時間."
+      ],
+      "evidence": [
+        "screenshots/TWW-034-m01-bug011-after-reset.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:00.335Z"
+    },
+    {
+      "id": "TWW-037",
+      "title": "Sending is blocked while a template variable has no mapping",
+      "priority": "P0",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-037-sending-is-blocked-while-a-template.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Nobody receives a message with a wrong or placeholder value.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx",
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as admin, open an approved template with {{first_name}} and no saved mapping",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Upload the valid HK file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 發送到 WhatsApp",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The send is refused with a message naming the unmapped variable ({{first_name}})",
+          "status": null
+        },
+        {
+          "text": "Nothing is sent; Twilio shows no new outbound message",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Empty mapping: send -> 400 部分聯繫人缺少變數映射，無法發送：QA Tester（缺少：{{first_name}}）; nothing sent."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:00.482Z"
+    },
+    {
+      "id": "TWW-046",
+      "title": "Webhook rejects requests without a valid Twilio signature",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-046-webhook-rejects-requests-without-a.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Only Twilio can record replies.",
+      "preconditions": [
+        "App running with the ngrok tunnel up"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "POST a form-encoded message to the public /api/webhook/whatsapp URL without an X-Twilio-Signature header, From a phone that matches no contact (e.g. whatsapp:+85200000000)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "POST the same with a wrong signature",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both return 403 and nothing is logged or recorded",
+          "status": null
+        },
+        {
+          "text": "A real reply from WhatsApp (valid signature) is still accepted",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Unsigned (via ngrok) and bad-signature requests -> 403 Invalid signature, not saved; real Twilio-signed reply -> 200 and saved."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:00.632Z"
+    },
+    {
+      "id": "TWW-055",
+      "title": "Reset warns before deleting recorded replies",
+      "priority": "P1",
+      "feature": "contacts",
+      "file": "projects/tung-wah-whatsapp/cases/contacts/TWW-055-reset-warns-before-deleting-recorded.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff cannot wipe member answers by accident.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)",
+        "A contact with a recorded reply"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open 聯繫人 of a template with a replied contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 重置 on that contact",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 全部重置 and read the confirmation",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both actions warn that the reply will be deleted (or keep the reply)",
+          "status": null
+        },
+        {
+          "text": "Cancel keeps contacts and replies unchanged",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "全部重置 confirm: 確定要將所有聯繫人重置為待發送狀態嗎？這會刪除所有已記錄的回覆，此操作無法復原。 Single 重置 has its own confirm (code)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:00.782Z"
+    },
+    {
+      "id": "TWW-056",
+      "title": "Variable mapping must point to an existing Excel column",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-056-variable-mapping-must-point-to-an.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A mapping that would send blank or sample values cannot be saved.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open attendance_confirmation with contacts uploaded",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In 變數映射配置 save an empty value, then \"   \", then \"不存在的欄\", then \"姓名 先生\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Restore 姓名 and save",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Empty / unknown column is rejected with a message",
+          "status": null
+        },
+        {
+          "text": "Free text is either sent literally (as the placeholder \"或手動輸入\" suggests) or rejected, never silently dropped",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Spaces-only mapping -> 400; \"姓名 先生\" sent as \"Hi QA Tester 先生, do you confirm your attendance?\" (Twilio delivered). Unknown words are sent as typed text by design."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:00.930Z"
+    },
+    {
+      "id": "TWW-057",
+      "title": "Report shows the text of free-text replies",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/tung-wah-whatsapp/cases/reports/TWW-057-report-shows-the-text-of-free-text.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can read what members typed.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)",
+        "A contact with a free-text reply (TWW-041)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Download the report of the template",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "回覆內容 shows the typed text (e.g. \"maybe later\"), optionally with the 其它 category",
+          "status": null
+        },
+        {
+          "text": "數據統計 counts it under 其他",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Free-text reply \"maybe later\": 回覆內容 in the Excel report shows maybe later (數據統計 counts it under 其他)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:01.074Z"
+    },
+    {
+      "id": "TWW-060",
+      "title": "Role change applies to existing sessions",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-060-role-change-applies-to-existing-sessions.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Demoting a user takes effect without waiting for re-login.",
+      "preconditions": [
+        "A QA editor logged in in a separate session"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin change the QA user to 查看者",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the QA user's session / try an editor action",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The session shows VIEWER (or the user must log in again)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "EDITOR -> VIEWER: existing session shows role VIEWER at once; create -> 403."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:01.234Z"
+    },
+    {
+      "id": "TWW-064",
+      "title": "Submit a two-variable template for Meta review",
+      "priority": "P1",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-064-submit-a-two-variable-template-for-meta.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A new template with several variables and buttons reaches Meta review and shows 審核中.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [
+        "Name qa_event_reminder_<unique>, body 您好 {{first_name}}，提醒您 {{event_date}} 的活動，請問您會出席嗎？, examples 陳大文 / 11月5日, buttons 會出席 / 不出席 / 未決定, UTILITY"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open 新建模板, keep 創建後立即提交 Meta 審核 ticked",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill the data, click 創建並提交審核",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look at the new card right away, then after 從 Twilio 同步",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Alert \"模板已創建並提交 Meta 審核！審核通過後即可使用。\"",
+          "status": null
+        },
+        {
+          "text": "The card shows 審核中 immediately (not 草稿), with the question title and 3 button chips",
+          "status": null
+        },
+        {
+          "text": "Detail page: 發送到 WhatsApp disabled with \"只有審核通過的模板才能發送消息\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Ran with a one-variable template qa_meta_<n> (Meta submitted): card shows 審核中 right after creating; deleted via app (also removed from Twilio)."
+      ],
+      "evidence": [
+        "screenshots/TWW-064-m01-bug022-pending-card.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:01.389Z"
+    },
+    {
+      "id": "TWW-069",
+      "title": "Sync removes templates deleted in Twilio",
+      "priority": "P2",
+      "feature": "templates",
+      "file": "projects/tung-wah-whatsapp/cases/templates/TWW-069-sync-removes-templates-deleted-in-twilio.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The app list matches Twilio after 從 Twilio 同步.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Create a QA draft",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete it directly in Twilio (Content Template Builder or API)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 從 Twilio 同步",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The template disappears from the app (or is marked as removed)",
+          "status": null
+        },
+        {
+          "text": "The sync count matches the cards shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Template deleted directly in Twilio; next sync removed it from the app (old id 404)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:01.534Z"
+    },
+    {
+      "id": "TWW-009",
+      "title": "User management page uses Traditional Chinese consistently",
+      "priority": "P3",
+      "feature": "users",
+      "file": "projects/tung-wah-whatsapp/cases/users/TWW-009-user-management-page-uses-traditional.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "All user-management labels are in Traditional Chinese like the rest of the app.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the admin and open 用戶管理",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 添加用户",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Labels read 用戶管理, 用戶列表, 添加用戶, 添加新用戶, 創建用戶, 系統管理員, and confirm text 確定要刪除此用戶嗎？",
+          "status": null
+        },
+        {
+          "text": "No Simplified characters (户, 统, 员) appear",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Labels are Traditional now; the seeded admin is still named 系统管理员 (prisma/seed.ts) on 用戶管理."
+      ],
+      "evidence": [
+        "screenshots/TWW-009-m01-tww009-seed-admin-name.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:01.679Z",
+      "failureType": "product-bug",
+      "bug": "BUG-009"
+    },
+    {
+      "id": "TWW-039",
+      "title": "Contact status follows Twilio delivery and read receipts",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-039-contact-status-follows-twilio-delivery.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The app shows Delivered / Read / Undelivered like Twilio does.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "ngrok tunnel for the Twilio webhook running"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Make sure the Twilio status webhook reaches the app (ngrok tunnel up)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the QA contact (mapped)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the message on the phone",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 聯繫人 and click 刷新",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After delivery the contact shows a delivered state and time; after opening it shows read",
+          "status": null
+        },
+        {
+          "text": "A message to a non-HK number that Twilio marks Undelivered shows as failed, not 已發送",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Twilio message MM5ceb… went delivered then read; app stayed 已發送 (no status callback set). 已讀 appeared only after the member replied."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:01.972Z",
+      "failureType": "product-bug",
+      "bug": "BUG-013"
+    },
+    {
+      "id": "TWW-059",
+      "title": "Deleting a user ends their sessions",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-059-deleting-a-user-ends-their-sessions.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A removed staff member loses access immediately.",
+      "preconditions": [
+        "A QA user logged in in a separate session"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As admin delete the QA user",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "With the QA user's existing session, open /templates and call the templates API",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The old session is rejected (401/redirect to /login)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "APIs return 401 and session is empty after deletion (BUG-019 fixed), but opening /templates gives 500 TypeError reading role instead of /login."
+      ],
+      "evidence": [
+        "screenshots/TWW-059-m01-tww059-deleted-user-500.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:02.130Z",
+      "failureType": "product-bug",
+      "bug": "BUG-035"
+    },
+    {
+      "id": "TWW-081",
+      "title": "Logout invalidates the session token",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-081-logout-invalidates-the-session-token.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A copied session token stops working after logout.",
+      "preconditions": [
+        "A QA user"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA user in a separate HTTP session and keep the session cookie",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out (signout)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call /api/auth/session and an API with the kept cookie",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The old cookie is rejected after logout",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "After signout the copied session cookie still returns the user and /api/templates 200."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:02.431Z",
+      "failureType": "product-bug",
+      "bug": "BUG-036"
+    },
+    {
+      "id": "TWW-087",
+      "title": "Viewer has a read-only interface",
+      "priority": "P1",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-087-viewer-has-a-read-only-interface.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "查看者 cannot start any write action from the UI.",
+      "preconditions": [
+        "A QA viewer"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA viewer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 消息模版 and a template",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No 新建模板, 從 Twilio 同步, upload, mapping save, send, reset or delete controls",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Viewer sees 新建模板 and 從 Twilio 同步; create form opens and fails only on submit with 無權限."
+      ],
+      "evidence": [
+        "screenshots/TWW-087-m01-tww087-viewer-ui.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T09:31:02.575Z",
+      "failureType": "product-bug",
+      "bug": "BUG-037"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T09:31:03.327Z",
+  "summary": {
+    "total": 26,
+    "pass": 21,
+    "fail": 5,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

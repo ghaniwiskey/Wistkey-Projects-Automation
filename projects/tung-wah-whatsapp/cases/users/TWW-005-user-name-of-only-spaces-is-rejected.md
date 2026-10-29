@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -24,4 +24,4 @@ A user must have a visible name.
 - No user card with an empty heading appears in 用户列表
 
 ## Notes
-Related: BUG-005 (open).
+Related: BUG-005 verified 2026-10-29 (dev fix af9a789).

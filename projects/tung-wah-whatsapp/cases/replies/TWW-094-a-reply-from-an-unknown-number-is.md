@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -30,4 +30,4 @@ Messages from numbers that were never sent anything do not change any statistics
 - No reply count changes
 
 ## Notes
-Unsigned POSTs work only while BUG-012 is open.
+Unsigned POSTs are rejected with 403 since BUG-012 was fixed (2026-10-29): use a real reply, or sign the request with the Twilio auth token (twilio.validateRequest on the public ngrok URL).

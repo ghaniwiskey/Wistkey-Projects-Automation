@@ -2,13 +2,13 @@
 id: BUG-019
 title: "Sessions stay valid after the user is deleted or their role changes"
 severity: major
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/api/auth/session"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-29T09:31:39.074Z
 found: 2026-10-28T07:16:23.419Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-059, TWW-060, TWW-081]
+tests: [TWW-059, TWW-060]
 frequency: always
 ---
 ## Summary
@@ -39,3 +39,4 @@ Role changes apply at once; a deleted user is logged out and gets no data.
 - 2026-10-28: logout does not revoke the token either: a session cookie copied before signout still returns the user and /api/users 200 afterwards. Linked TWW-081.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-29: status open -> verified; Retest passed in runs/2026-10-29_1630_local_manual (dev fix af9a789): role change and deletion apply to existing sessions (API 401). Leftovers filed separately: BUG-035 (deleted user's pages crash with 500, TWW-059) and BUG-036 (logout does not revoke the token, TWW-081 moved there)..

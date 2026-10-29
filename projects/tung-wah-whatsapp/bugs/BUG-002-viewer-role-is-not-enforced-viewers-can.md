@@ -2,13 +2,13 @@
 id: BUG-002
 title: "Viewer role is not enforced: viewers can create templates, upload contacts and send"
 severity: critical
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/api/twilio/templates/create"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-29T09:31:38.889Z
 found: 2026-10-28T06:37:45.754Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-014, TWW-087, TWW-088]
+tests: [TWW-014, TWW-088]
 frequency: always
 ---
 ## Summary
@@ -50,3 +50,4 @@ Our run: sync said "同步成功！共 6 個模板". Direct API calls as the vie
 - 2026-10-28: steps rewritten as UI-only and reproduced in the browser (viewer: sync shows admin templates, create template, upload contacts, delete own template).
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-29: status open -> verified; Retest passed in runs/2026-10-29_1630_local_manual (dev fix af9a789): viewers get 403 on every write, sync shows only allowed templates. The UI still offering create/sync controls is now BUG-037 (TWW-087 moved there)..

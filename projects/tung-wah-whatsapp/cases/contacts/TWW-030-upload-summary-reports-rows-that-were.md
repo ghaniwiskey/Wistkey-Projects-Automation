@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -29,4 +29,4 @@ Rows with an invalid or empty phone are reported, not silently dropped.
 - total equals the number of data rows in the file
 
 ## Notes
-Related: BUG-007 (open).
+Related: BUG-007 verified 2026-10-29 (dev fix af9a789).

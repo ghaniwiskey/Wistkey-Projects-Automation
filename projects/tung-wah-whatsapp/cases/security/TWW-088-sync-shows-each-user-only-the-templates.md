@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -24,4 +24,4 @@ updated: 2026-10-28
 - Only the editor's templates (none) are listed
 
 ## Notes
-Related: BUG-002 (open).
+Related: BUG-002 verified 2026-10-29 (dev fix af9a789).

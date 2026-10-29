@@ -5,7 +5,7 @@ severity: major
 status: open
 env: local
 url: "http://localhost:3000/templates/<template id>/contacts"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-29T09:31:31.151Z
 found: 2026-10-28T06:57:21.409Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-039]
@@ -42,3 +42,4 @@ Our run: contact Ghani (+6287721956119) on welcome_greetings: Undelivered in Twi
 - 2026-10-28: reproduced with the tunnel up: +8520000000 Undelivered in Twilio, contact stays SENT (22-twilio-merged-and-invalid.jpg).
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-29: Still fails in runs/2026-10-29_1630_local_manual: af9a789 only records send errors (errorCode/errorMessage/failedAt); no Twilio status callback is set, so a message Twilio reports delivered/read stays 已發送 until the member replies..

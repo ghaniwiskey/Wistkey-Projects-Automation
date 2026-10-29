@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -32,5 +32,5 @@ updated: 2026-10-28
 - The upload summary counts the duplicates as skipped ("跳過 N 個已存在號碼")
 
 ## Notes
-Related: BUG-004 (open).
+Related: BUG-004 verified 2026-10-29 (dev fix af9a789).
 Send merges same-phone contacts into one message (see TWW-054).

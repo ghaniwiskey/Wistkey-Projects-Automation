@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -27,4 +27,4 @@ The app list matches Twilio after 從 Twilio 同步.
 
 ## Notes
 Deleting the stale card in the app still works (Twilio 404 is ignored).
-Related: BUG-026 (open).
+Related: BUG-026 verified 2026-10-29 (dev fix af9a789).

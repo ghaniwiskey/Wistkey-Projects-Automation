@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -33,4 +33,4 @@ Contacts can only be reset or deleted by the template owner.
 - As admin, QA Tester is still there with its original status
 
 ## Notes
-Related: BUG-001 (open). Only use QA contacts: with the bug present the actions really change data (2026-10-28: "重置成功！", contact deleted).
+Related: BUG-001 verified 2026-10-29 (dev fix af9a789). Only use QA contacts: with the bug present the actions really change data (2026-10-28: "重置成功！", contact deleted).

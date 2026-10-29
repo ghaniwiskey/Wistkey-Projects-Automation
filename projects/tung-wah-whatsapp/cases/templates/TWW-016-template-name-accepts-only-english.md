@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -28,4 +28,4 @@ Invalid WhatsApp template names are caught before reaching Twilio/Meta.
 
 ## Notes
 If it is created anyway, delete it from the app (this also deletes it in Twilio).
-Related: BUG-006 (open).
+Related: BUG-006 verified 2026-10-29 (dev fix af9a789).

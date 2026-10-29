@@ -2,10 +2,10 @@
 id: BUG-012
 title: "WhatsApp webhook accepts unsigned requests, so replies can be forged"
 severity: major
-status: open
+status: verified
 env: local
 url: "https://<ngrok-domain>/api/webhook/whatsapp"
-updated: 2026-10-28T09:08:46.326Z
+updated: 2026-10-29T09:31:29.000Z
 found: 2026-10-28T06:57:21.278Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-046]
@@ -40,3 +40,4 @@ Our run: sent to the public ngrok URL https://<ngrok-domain>/api/webhook/whatsap
 - 2026-10-28: filed from explorations/2026-10-28-core-journeys.md in the Test Manager app.
 - 2026-10-28: rewrote Summary, Steps, Expected and Actual in plain English with English translations of the Chinese UI text; facts unchanged, no retest, status unchanged.
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
+- 2026-10-29: status open -> verified; Retest passed in runs/2026-10-29_1630_local_manual (dev fix commit af9a789)..

@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -24,4 +24,4 @@ A removed staff member loses access immediately.
 - The old session is rejected (401/redirect to /login)
 
 ## Notes
-Related: BUG-019 (open).
+BUG-019 verified 2026-10-29: the APIs return 401 for a deleted user. Fails on BUG-035 (open): the dashboard pages crash with 500 instead of redirecting to /login.

@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -25,4 +25,4 @@ Invalid templates are caught with a clear Chinese message instead of a Twilio er
 
 ## Notes
 Use the request-blocking trick or delete anything created. Currently limits pass and are only caught by Twilio (raw English errors) or by Meta (rejection).
-Related: BUG-024 (open), BUG-006 (open).
+Related: BUG-024 verified 2026-10-29 (dev fix af9a789), BUG-006 verified 2026-10-29 (dev fix af9a789).

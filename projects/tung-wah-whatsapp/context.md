@@ -26,12 +26,12 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 - Test files live in `data/` (copy to the session folder before uploading from Aside's browser).
 
 ## Sending and replies
-- 變數映射配置: click an Excel column, + 插入, 儲存映射 (PATCH variable-mapping). The value is split on spaces and every word is looked up as a column (typed text is dropped); empty/unknown values are saved (BUG-017).
-- Send POSTs `/api/send {templateId}` (returns totalContacts / totalMessages) and sends to every PENDING contact in the background, 1 message per second. Contacts with the same phone are merged into one message, values joined with "，" (BUG-004). A Twilio API error sets FAILED; a later Undelivered stays SENT (BUG-013). Double-click sends once.
+- 變數映射配置: click an Excel column, + 插入, 儲存映射 (PATCH variable-mapping). The value is split on spaces; a word that matches a column is replaced by its value, any other word is sent as typed text ("姓名 先生" -> "QA Tester 先生"). Spaces-only values are rejected on save; an empty value saves but blocks sending.
+- Send POSTs `/api/send {templateId}` (returns totalContacts / totalMessages) and sends to every PENDING contact in the background, 1 message per second. Before sending, every contact must resolve every variable, otherwise 400 部分聯繫人缺少變數映射，無法發送：<name>（缺少：{{var}}） and nothing is sent. A Twilio API error sets FAILED with errorCode/errorMessage; a later Undelivered stays SENT (BUG-013). Double-click sends once.
 - An unmapped variable is not blocked: Twilio uses the template sample value (attendance_confirmation sends "Hi David").
-- Replies arrive through the Twilio webhook POST `/api/webhook/whatsapp` (tunnel: README). No Twilio signature check (BUG-012); GET with a wrong verify token returns 403 "驗證失敗" (Meta verification). The reply goes to the most recently sent contact with that phone (any template) and is stored for all contacts with that phone in the template; only the first reply counts (Q-007). Button title match (case-insensitive) or the button number -> that button, else 其它.
+- Replies arrive through the Twilio webhook POST `/api/webhook/whatsapp` (tunnel: README). X-Twilio-Signature is verified against the public URL (x-forwarded-host): unsigned or forged POSTs get 403 "Invalid signature", so reply tests need a real reply from the test phone (or a request signed with the auth token); GET with a wrong verify token returns 403 "驗證失敗" (Meta verification). The reply goes to the most recently sent contact with that phone (any template) and is stored for all contacts with that phone in the template; only the first reply counts (Q-007). Button title match (case-insensitive) or the button number -> that button, else 其它.
 - 回覆統計: a count card per answer, filters 全部 / <one per received answer> / 其它 / 未回覆. A reply sets the contact to READ.
-- No delivery/read receipts: sends set no status callback (BUG-013); deliveredAt/readAt stay empty.
+- No delivery/read receipts: sends set no status callback (BUG-013); deliveredAt/readAt stay empty, and 已讀 appears only when the member replies.
 
 ## Report
 `/api/templates/<id>/export` -> `reply_report_<id>.xlsx`: sheet 回覆紀錄 (rows 1-3: 東華三院屯門綜合服務中心, 服務使用者回覆電子訊息紀錄表, 問題：<question title or template name>; then member columns + 回覆內容, 回覆日期) and sheet 數據統計 (count per button, 其他, 未有回覆人數, sign-off block).
@@ -40,16 +40,16 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 Templates welcome_greetings and attendance_confirmation (APPROVED, admin), testing and templateName (DRAFT). Use "testing" for upload tests (send is disabled there) and attendance_confirmation (Yes/No buttons, {{first_name}}) for send/reply tests.
 
 ## Auth and sessions
-NextAuth credentials (JWT), 30-day session token, not re-checked against the database and not revoked by 退出: role changes and user deletion do not affect existing sessions (BUG-019). No login throttling (accepted, BUG-018 wont-fix). Wrong password and unknown email both return 401. Server-side user validation: password >= 6, email format, role enum.
+NextAuth credentials (JWT), 30-day session token. Every request re-reads the user: a role change applies at once and a deleted user gets an empty session and 401 from the APIs (dashboard pages then crash with 500, BUG-035). 退出 does not revoke the token (BUG-036). No login throttling (accepted, BUG-018 wont-fix). Wrong password and unknown email both return 401. Server-side user validation: password >= 6, email format, role enum.
 
 ## Report notes
-Free-text replies appear as 其它 in the report's 回覆內容 (BUG-015); same-phone contacts are separate rows.
+Free-text replies show their text in the report's 回覆內容 and count under 其他 in 數據統計.
 
 ## Template rules learned
 - Content is always twilio/quick-reply, language zh_HK, no header/footer/media; AUTHENTICATION can never be approved (accepted, BUG-023 wont-fix).
-- Statuses from Twilio approval: approved -> 已通過, pending -> 審核中, rejected -> 已拒絕; received/unsubmitted/paused/disabled -> 草稿 (BUG-022). Rejection reason only in Twilio; no resubmit or later submit (accepted, BUG-025 wont-fix). Utility review took > 40 min on 2026-10-28.
+- Statuses from Twilio approval: approved -> 已通過, pending -> 審核中, rejected -> 已拒絕; received -> 審核中, paused/disabled -> 已拒絕, unsubmitted -> 草稿; a template created with Meta submission shows 審核中 at once. Rejection reason only in Twilio; no resubmit or later submit (accepted, BUG-025 wont-fix). Utility review took > 40 min on 2026-10-28.
 - Variable names like {{1}}, {{ first name }}, {{姓名}} are accepted; {{}} is rejected by Twilio; Meta rejects a variable at the start or end of the body.
-- Delete (card trash or detail 刪除) shows an in-app alertdialog 確認刪除, removes contacts/replies and the Twilio content (Twilio 404 ignored). Sync never removes local templates (BUG-026).
+- Delete (card trash or detail 刪除) shows an in-app alertdialog 確認刪除, removes contacts/replies and the Twilio content (Twilio 404 ignored). Sync deletes local templates whose Twilio content is gone, with their contacts and replies, without a warning (Q-011).
 - Server refuses /api/send for non-APPROVED templates (403).
 - Login: /login (郵箱, 密碼, 登錄; labels unlinked, no autocomplete, placeholder admin@tungwah.org: accepted, BUG-031 wont-fix); wrong credentials -> 郵箱或密碼錯誤. After login always /templates (callbackUrl ignored; accepted, BUG-030 wont-fix); external callbackUrl not followed. 退出 has no confirmation.
-- Roles in the UI: editors and viewers get the same UI (BUG-002); the nav hides 用戶管理 for them but /users still renders (BUG-032). Ownership is checked on template detail/edit/delete (500 with internal error detail instead of 403; accepted, BUG-033 wont-fix) but not on contacts, export, send, reset or the Twilio delete in the delete route (BUG-001, BUG-029).
+- Roles (lib/authz.ts): ADMIN reads and changes all templates (Q-009); EDITOR only its own (others: 404 未找到 on every template, contact, export, send, reset, mapping and delete route, checked before the Twilio delete); VIEWER gets 403 無權限 on every write and sync never creates templates for it, but its UI still shows 新建模板 and sync (BUG-037). Non-admins opening /users are redirected to /dashboard. Upload dedupes numbers within the file and against the template (unique template+phone) and lists every skipped row with its reason.

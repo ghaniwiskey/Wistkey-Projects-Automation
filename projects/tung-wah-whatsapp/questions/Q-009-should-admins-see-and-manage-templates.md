@@ -17,6 +17,8 @@ Templates are private to their creator even for ADMIN users: a second admin list
 ## Context
 Checked 2026-10-28 with the QA admin account (TWW_QA_ADMIN_USER).
 
+2026-10-29: the developer's fix commit af9a789 changed this: requireTemplateOwner lets every ADMIN read and change all templates (the QA admin now lists admin@tungwah.org's templates). Still needs a decision whether that is intended.
+
 ## Answer
 Not answered yet.
 

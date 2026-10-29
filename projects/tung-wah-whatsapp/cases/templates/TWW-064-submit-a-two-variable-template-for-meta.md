@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ A new template with several variables and buttons reaches Meta review and shows 
 
 ## Notes
 Submits to Meta (irreversible record): needs the user's approval per run. Delete the template afterwards.
-Related: BUG-022 (open).
+Related: BUG-022 verified 2026-10-29 (dev fix af9a789).

@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
@@ -27,4 +27,4 @@ Only the owner can trigger a WhatsApp send for a template.
 - No message is queued
 
 ## Notes
-API-only on purpose: the editor sees "模板不存在" on the template page, so there is no send button to click. Use only templates without pending contacts, otherwise a real WhatsApp message goes out. Related: BUG-001 (open).
+API-only on purpose: the editor sees "模板不存在" on the template page, so there is no send button to click. Use only templates without pending contacts, otherwise a real WhatsApp message goes out. Related: BUG-001 verified 2026-10-29 (dev fix af9a789).
