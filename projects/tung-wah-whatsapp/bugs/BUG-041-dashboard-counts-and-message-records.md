@@ -5,7 +5,7 @@ severity: major
 status: open
 env: local
 url: "http://localhost:3000/dashboard"
-updated: 2026-10-29T12:05:47.159Z
+updated: 2026-10-29T12:08:37.185Z
 found: 2026-10-29T12:05:47.159Z
 foundBy: "Dashboard test 2026-10-29"
 tests: [TWW-108, TWW-109]
@@ -35,3 +35,4 @@ Admin: 本月已發送 (Sent this month) 0 and 總模板數 (Total templates) 1,
 
 ## History
 - 2026-10-29: filed from Dashboard test 2026-10-29 in the Test Manager app.
+- 2026-10-29: Still fails after 從 Twilio 同步 (Sync from Twilio) on 消息模版: the sync lists all 5 templates but keeps their owner (createdBy = whoever first synced them), so the dashboard still shows 總模板數 1 and 本月已發送 0 for the QA admin.
