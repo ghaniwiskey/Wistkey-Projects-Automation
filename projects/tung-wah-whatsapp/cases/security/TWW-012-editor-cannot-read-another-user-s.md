@@ -1,6 +1,6 @@
 ---
 id: TWW-012
-title: "Editor cannot see another user's contacts or report"
+title: "Editor can see every template's contacts and report"
 feature: security
 priority: P0
 tags: [regression, writes]
@@ -11,11 +11,11 @@ updated: 2026-10-29
 ---
 
 ## Goal
-Contacts and reports of a template are visible only to its owner.
+Editors work on all campaigns, not only their own.
 
 ## Preconditions
 - Admin account (TWW_QA_ADMIN_* in .env)
-- The admin creates a QA editor (and, for viewer cases, a QA viewer) in 用戶管理 > 添加用户 and deletes them afterwards
+- The admin creates a QA editor (and, for viewer checks, a QA viewer) in 用戶管理 > 添加用戶 and deletes them afterwards
 
 ## Data
 - Excel file projects/tung-wah-whatsapp/data/contacts-valid-hk.xlsx
@@ -24,16 +24,13 @@ Contacts and reports of a template are visible only to its owner.
 1. As admin create a draft template qa_owner_<unique> (Meta unticked) and upload the contacts file to it
 2. Log out and log in as the QA editor
 3. On 消息模版 click 從 Twilio 同步
-4. Click the qa_owner_<unique> card
-5. In the address bar add /contacts to the template URL and open it
-6. In the address bar open the report link: replace /templates/ with /api/templates/ and add /export to the template URL
-7. Log back in as admin and delete qa_owner_<unique> (cleanup)
+4. Click the qa_owner_<unique> card and open 聯繫人
+5. Click 下載報表
+6. Log back in as admin and delete qa_owner_<unique> (cleanup)
 
 ## Expected
-- After sync the editor's list does not show qa_owner_<unique>
-- The template page says 模板不存在
-- The contacts page shows no contacts (or a no-permission message), not QA Tester's name and phone
-- The report link does not download a file
+- After sync the editor's list shows qa_owner_<unique> and the other templates
+- The template page, the contacts page (QA Tester with phone and member data) and the report download work
 
 ## Notes
-Related: BUG-001 verified 2026-10-29 (dev fix af9a789), BUG-002 verified 2026-10-29 (dev fix af9a789). On 2026-10-28 the card appeared after sync, the contacts page listed QA Tester with phone and member data, and the link downloaded reply_report_<id>.xlsx.
+Intended roles (product owner, 2026-10-29): admin = everything incl. 用戶管理; editor = sync and create/edit/delete every template, no 用戶管理; viewer = sees every template and can sync, read-only. Fails on BUG-038 (open): since af9a789 an editor only sees templates they created. Expectation changed 2026-10-29 (it used to say the editor must not see them; BUG-001 is verified for the old rule).
