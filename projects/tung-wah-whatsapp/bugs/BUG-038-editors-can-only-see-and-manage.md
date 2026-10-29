@@ -12,7 +12,7 @@ tests: [TWW-012, TWW-013, TWW-084, TWW-085, TWW-088]
 frequency: always
 ---
 ## Summary
-Editors should be able to sync from Twilio and create, edit, delete and send every template; only user management is admin-only. Contacts belong to the template, not to the person who uploaded them, so an editor should also see and manage (upload, reset, delete, send) contacts uploaded by an admin or another editor. Currently an editor sees only the templates they created and gets 未找到 (Not found) on all others, including the shared Twilio templates.
+Editors should be able to sync from Twilio and create, edit, delete and send every template; only user management is admin-only. Contacts belong to the template, not to the person who uploaded them, so an editor should also see and manage (upload, reset, delete, send) contacts uploaded by an admin or another editor.
 
 ## Steps to reproduce
 1. As admin, in 用戶管理 (User management) > 添加用戶 (Add user), create a user with role 編輯者 (Editor) and log in as that user.

@@ -12,7 +12,7 @@ tests: [TWW-105, TWW-106, TWW-088]
 frequency: always
 ---
 ## Summary
-Viewers should be able to sync from Twilio and view every template read-only: message, contacts, reply statistics and report. Contacts belong to the template, not to the person who uploaded them, so a viewer should also see contacts uploaded by an admin or an editor. Currently a viewer sees no templates at all, yet their sync still overwrites templates and deletes the ones missing in Twilio.
+Viewers should be able to sync from Twilio and view every template read-only: message, contacts, reply statistics and report. Contacts belong to the template, not to the person who uploaded them, so a viewer should also see contacts uploaded by an admin or an editor.
 
 ## Steps to reproduce
 1. As admin create a user with role 查看者 (Viewer) and log in as that user.
