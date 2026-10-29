@@ -15,17 +15,20 @@ frequency: always
 Sessions are 30-day JWT cookies that are only checked for the user's existence and role. Logging out deletes the cookie in that browser but does not revoke it, so a copy keeps working for up to 30 days. Split out of BUG-019, whose role-change and deleted-user parts are fixed.
 
 ## Steps to reproduce
-1. Log in as any user and copy the next-auth.session-token cookie (F12 > Application > Cookies).
-2. Click 退出 (Log out).
-3. In another browser, add the copied cookie for localhost and open http://localhost:3000/api/auth/session and http://localhost:3000/api/templates.
+1. In Chrome, log in at http://localhost:3000 as any test user.
+2. Press F12 > Application > Cookies > http://localhost:3000 and copy the Value of next-auth.session-token.
+3. Click 退出 (Log out) in the app.
+4. Open a different browser (e.g. Edge) or a private window and go to http://localhost:3000/login.
+5. Press F12 > Application > Cookies > http://localhost:3000, double-click the empty row and add a cookie named next-auth.session-token with the value you copied.
+6. Open http://localhost:3000/templates (or http://localhost:3000/api/auth/session).
 
 ## Expected
-The copied cookie is rejected after logout (empty session, 401).
+After logout the copied cookie no longer works: the login page opens, and the APIs return an empty session and 401.
 
 ## Actual
-/api/auth/session still returns the user with role and a new expiry 30 days ahead; /api/templates returns 200.
+Step 6: you are logged in as that user, although you logged out in step 3; /api/auth/session returns the user and role with a new expiry 30 days ahead.
 
-Our run (2026-10-29): QA viewer session, signout POST returned, then the copied cookie gave {"user":{..."role":"VIEWER"},"expires":"2026-11-28..."} and /api/templates 200 [].
+Our run (2026-10-29): QA viewer, signout POST returned, then the copied cookie gave {"user":{..."role":"VIEWER"},"expires":"2026-11-28..."} and /api/templates 200 []. Retest the same day as QA admin: role ADMIN, expires 2026-11-28, /api/templates 200 (6 templates), admin-only /api/users 200.
 
 ## Evidence
 - Requests: POST /api/auth/signout, then GET /api/auth/session with the old cookie -> 200 with the user
@@ -36,3 +39,4 @@ Our run (2026-10-29): QA viewer session, signout POST returned, then the copied 
 
 ## History
 - 2026-10-29: filed from BUG retest 2026-10-29 (fix commit af9a789) in the Test Manager app.
+- 2026-10-29: steps rewritten as browser steps (DevTools > Application > Cookies, no console); facts unchanged.
