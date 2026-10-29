@@ -1,18 +1,18 @@
 ---
 id: BUG-038
-title: "Editor should be able to get all templates from Twilio sync and create, edit, delete and send any of them"
+title: "Editor should see every template from Twilio sync, including its contacts, and be able to edit, upload contacts to, send and delete any of them"
 severity: major
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T10:35:03.247Z
+updated: 2026-10-29T12:32:48.484Z
 found: 2026-10-29T10:26:11.614Z
 foundBy: "Role review with the product owner 2026-10-29 (after fix commit af9a789)"
 tests: [TWW-012, TWW-013, TWW-084, TWW-085, TWW-088]
 frequency: always
 ---
 ## Summary
-Intended roles (product owner, 2026-10-29): an editor syncs from Twilio and creates, edits and deletes every template, only without user management. Since af9a789 every template route checks the owner, so an editor sees only templates they created and gets 未找到 (Not found) on all others, including the shared Twilio templates.
+Intended roles (product owner, 2026-10-29): an editor syncs from Twilio and sees, edits and deletes every template, only without user management. That includes each template's contacts: contacts belong to the template, not to the person who uploaded them, so an editor sees and manages (upload, reset, delete, send) contacts that an admin or another editor uploaded. Since af9a789 every template route checks the owner, so an editor sees only templates they created, with their contacts, and gets 未找到 (Not found) on all others, including the shared Twilio templates. The dashboard has its own owner filter (BUG-041); retest it with this fix.
 
 ## Steps to reproduce
 1. As admin, in 用戶管理 (User management) > 添加用戶 (Add user), create a user with role 編輯者 (Editor) and log in as that user.
@@ -39,3 +39,4 @@ Our run (2026-10-29): QA editor got 404 on every route of the QA admin's templat
 ## History
 - 2026-10-29: filed from Role review with the product owner 2026-10-29 (after fix commit af9a789) in the Test Manager app.
 - 2026-10-29: Title reworded 2026-10-29 to state the intended role rule first (requirement from the product owner, not a regression of the BUG-001 fix)..
+- 2026-10-29: Title and summary now state that contacts are included (contacts belong to the template, not to the uploader).
