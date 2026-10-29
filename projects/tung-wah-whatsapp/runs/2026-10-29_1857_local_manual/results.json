@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "bug-036-retest",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-29_1857_local_manual",
+  "startedAt": "2026-10-29T11:57:36.889Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-081",
+      "title": "Logout invalidates the session token",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-081-logout-invalidates-the-session-token.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "A copied session token stops working after logout.",
+      "preconditions": [
+        "A QA user"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA user in a separate HTTP session and keep the session cookie",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out (signout)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Call /api/auth/session and an API with the kept cookie",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The old cookie is rejected after logout",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QA admin logged in over HTTP, copied next-auth.session-token, signed out (200). Old cookie still returns the ADMIN session (expires 2026-11-28), /api/templates 200 and admin-only /api/users 200."
+      ],
+      "evidence": [
+        "screenshots/TWW-081-m01-bug036.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T11:57:37.059Z",
+      "failureType": "product-bug",
+      "bug": "BUG-036"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T11:57:37.367Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
