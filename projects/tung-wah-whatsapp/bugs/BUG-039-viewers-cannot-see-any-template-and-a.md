@@ -1,11 +1,11 @@
 ---
 id: BUG-039
-title: "Viewers cannot see any template, and a viewer's sync still changes app data"
+title: "Viewer should be able to get all templates from Twilio sync and view them read-only (currently sees no templates, and their sync changes app data)"
 severity: major
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T10:26:11.761Z
+updated: 2026-10-29T10:35:03.040Z
 found: 2026-10-29T10:26:11.761Z
 foundBy: "Role review with the product owner 2026-10-29 (after fix commit af9a789)"
 tests: [TWW-105, TWW-106, TWW-088]
@@ -38,3 +38,4 @@ Our run (2026-10-29): QA viewer list [], sync [], 404 on the QA admin's template
 
 ## History
 - 2026-10-29: filed from Role review with the product owner 2026-10-29 (after fix commit af9a789) in the Test Manager app.
+- 2026-10-29: Title reworded 2026-10-29 to state the intended role rule first (requirement from the product owner, not a regression of the BUG-001 fix)..

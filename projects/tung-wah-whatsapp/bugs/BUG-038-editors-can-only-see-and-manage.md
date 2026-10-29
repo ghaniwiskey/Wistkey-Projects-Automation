@@ -1,11 +1,11 @@
 ---
 id: BUG-038
-title: "Editors can only see and manage templates they created; they should sync and manage all templates"
+title: "Editor should be able to get all templates from Twilio sync and create, edit, delete and send any of them"
 severity: major
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T10:26:11.614Z
+updated: 2026-10-29T10:35:03.247Z
 found: 2026-10-29T10:26:11.614Z
 foundBy: "Role review with the product owner 2026-10-29 (after fix commit af9a789)"
 tests: [TWW-012, TWW-013, TWW-084, TWW-085, TWW-088]
@@ -38,3 +38,4 @@ Our run (2026-10-29): QA editor got 404 on every route of the QA admin's templat
 
 ## History
 - 2026-10-29: filed from Role review with the product owner 2026-10-29 (after fix commit af9a789) in the Test Manager app.
+- 2026-10-29: Title reworded 2026-10-29 to state the intended role rule first (requirement from the product owner, not a regression of the BUG-001 fix)..
