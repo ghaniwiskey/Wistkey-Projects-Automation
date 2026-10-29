@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "dashboard-2026-10-29",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-29_1906_local_manual",
+  "startedAt": "2026-10-29T12:06:53.523Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-108",
+      "title": "Dashboard numbers match the templates' contacts and replies",
+      "priority": "P1",
+      "feature": "dashboard",
+      "file": "projects/tung-wah-whatsapp/cases/dashboard/TWW-108-dashboard-numbers-match-the-templates.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "The 儀表板 cards (本月已發送, 本月發送失敗, 回覆率, 總聯繫人數, 總模板數) and the 模板審核狀態 table show the same numbers as the templates themselves.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "At least one approved template with sent contacts, one failed contact and one reply this month"
+      ],
+      "data": [
+        "Recipient: WhatsApp +852 6524 8661 only (README > Testing permissions)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Note per template: contacts, sent this month, failed this month, replies (from the contacts page and 回覆統計)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 儀表板",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "本月已發送, 本月發送失敗, 總聯繫人數 and 總模板數 equal the sums of step 1",
+          "status": null
+        },
+        {
+          "text": "回覆率 = replies ÷ sent, counting only templates with 是否需要回覆 = 是",
+          "status": null
+        },
+        {
+          "text": "模板審核狀態 lists each template with its status, 是否需要回覆, 聯絡人 and 回覆數 matching step 1",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QA admin: cards 本月已發送 0, 總聯繫人數 1, 總模板數 1, 回覆率 N/A, but 模板審核狀態 lists 5 templates incl. qa_event_reminder_357859 sent 29 Oct with 1 reply. Table per-template counts (聯絡人, 回覆數) match the templates. DB-only template qa_legacy_909191 is counted in the cards but not listed in the table."
+      ],
+      "evidence": [
+        "screenshots/TWW-108-m01-dash-admin.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T12:06:53.681Z",
+      "failureType": "product-bug",
+      "bug": "BUG-041"
+    },
+    {
+      "id": "TWW-109",
+      "title": "Dashboard covers every template the user's role can see",
+      "priority": "P1",
+      "feature": "dashboard",
+      "file": "projects/tung-wah-whatsapp/cases/dashboard/TWW-109-dashboard-covers-every-template-the-role.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Admins, editors and viewers see dashboard totals and message records for every template, as the intended roles say (context.md, product owner 2026-10-29).",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "A template created by admin@tungwah.org with contacts, and a QA admin, a QA editor and a QA viewer (created per test, deleted afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as each QA user and open 儀表板",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare 總模板數, 總聯繫人數 and 消息記錄 with admin@tungwah.org's dashboard",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each role sees the same totals and records for all templates",
+          "status": null
+        },
+        {
+          "text": "A viewer sees them read-only",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QA admin sees only its own template in cards and 消息記錄; filtering by qa_event_reminder_357859 gives 暫無記錄. QA editor and QA viewer (created and deleted): all cards 0, empty status table, 0 records."
+      ],
+      "evidence": [
+        "screenshots/TWW-109-m01-dash-admin.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T12:06:53.826Z",
+      "failureType": "product-bug",
+      "bug": "BUG-041"
+    },
+    {
+      "id": "TWW-111",
+      "title": "Dashboard message records filter, search and page correctly",
+      "priority": "P2",
+      "feature": "dashboard",
+      "file": "projects/tung-wah-whatsapp/cases/dashboard/TWW-111-dashboard-message-records-filter-and-page.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "消息記錄 shows the right contacts for each filter, search and page.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "More than 50 contacts across two templates, with sent, failed and pending statuses (e.g. data/contacts-1000-rows.xlsx on a draft template, no send)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open 儀表板 > 消息記錄",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Filter by one template, then by each 狀態",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search a name, then part of a phone number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Go to page 2 and back",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "共 N 筆 matches the filtered count; each page shows up to 50 rows without repeats or gaps",
+          "status": null
+        },
+        {
+          "text": "Failed rows show the error 代碼 and 備註",
+          "status": null
+        },
+        {
+          "text": "Filters and search can be combined and cleared",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "1000 contacts appended to qa_legacy_909191 (no send, removed afterwards). 共 1001 筆, 21 pages of 50; Bulk 0499 on page 10 and 11, Bulk 0999 never listed. Search by name, partial and full phone works; phone with spaces finds nothing; PENDING filter correct; ?status=bogus returns 500 (API only). Sent/failed rows and error 代碼 not checkable: no sent contacts visible to the QA admin (BUG-041)."
+      ],
+      "evidence": [
+        "screenshots/TWW-111-m01-p10.png",
+        "screenshots/TWW-111-m02-p11.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T12:06:53.973Z",
+      "failureType": "product-bug",
+      "bug": "BUG-040"
+    },
+    {
+      "id": "TWW-112",
+      "title": "Opening the dashboard does not change or delete data",
+      "priority": "P1",
+      "feature": "dashboard",
+      "file": "projects/tung-wah-whatsapp/cases/dashboard/TWW-112-opening-the-dashboard-does-not-change-data.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Just viewing 儀表板 does not change templates, contacts or replies, for any role.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "A template with contacts and replies; a QA viewer (created per test, deleted afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Note templates, contacts and reply counts",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 儀表板 as admin, then as the QA viewer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare with step 1",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Nothing changed; a viewer's visit writes nothing",
+          "status": null
+        },
+        {
+          "text": "Status updates from Twilio are the only changes, and no template or reply is removed",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Admin load: nothing deleted (all synced templates still in Twilio). Viewer load: sync returned [] but all 5 synced templates were upserted (updatedAt changed). Values unchanged this time since Twilio and app matched."
+      ],
+      "evidence": [
+        "screenshots/TWW-112-m01-tww112.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T12:06:54.121Z",
+      "failureType": "product-bug",
+      "bug": "BUG-039"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T12:06:55.012Z",
+  "summary": {
+    "total": 4,
+    "pass": 0,
+    "fail": 4,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
