@@ -6,9 +6,9 @@ askedTo: "Ghani"
 env: local
 found: 2026-10-28T06:57:21.536Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
-tests: [TWW-047, TWW-048]
+tests: [TWW-047, TWW-048, TWW-107]
 bugs: []
-updated: 2026-10-28T06:57:21.536Z
+updated: 2026-10-29T12:00:00.000Z
 answered: ""
 ---
 ## Question
@@ -22,3 +22,4 @@ Not answered yet.
 
 ## History
 - 2026-10-28: asked from explorations/2026-10-28-core-journeys.md.
+- 2026-10-29: free text also blocks a later button tap ("maybe later" then 會出席 stays 其它); added TWW-107.
