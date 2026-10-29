@@ -27,4 +27,4 @@ Just viewing 儀表板 does not change templates, contacts or replies, for any r
 - Status updates from Twilio are the only changes, and no template or reply is removed
 
 ## Notes
-The page first runs a Twilio sync on every load ("先從 Twilio 同步模板審核狀態"). The sync removes templates missing in Twilio together with their replies (TWW-069/TWW-104) and writes for viewers (BUG-039), so just opening the dashboard can trigger both.
+The page first runs a Twilio sync on every load ("先從 Twilio 同步模板審核狀態"). The sync removes templates missing in Twilio together with their replies (TWW-069/TWW-104) and writes for viewers (BUG-039), so just opening the dashboard can trigger both. Fails on BUG-039 (open) since 2026-10-29: a viewer opening the dashboard rewrites every synced template.

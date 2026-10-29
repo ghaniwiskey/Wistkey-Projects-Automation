@@ -29,4 +29,4 @@ updated: 2026-10-29
 - Filters and search can be combined and cleared
 
 ## Notes
-Code: app/api/dashboard/messages/route.ts (PAGE_SIZE 50).
+Code: app/api/dashboard/messages/route.ts (PAGE_SIZE 50). Fails on BUG-040 (open) since 2026-10-29: with 1000 contacts from one upload, page 10 and 11 both show Bulk 0499 and Bulk 0999 is on no page. Search needs the phone without spaces ("852 9000 0123" finds nothing).

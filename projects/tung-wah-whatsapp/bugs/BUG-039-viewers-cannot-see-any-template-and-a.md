@@ -5,7 +5,7 @@ severity: major
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T10:35:03.040Z
+updated: 2026-10-29T12:06:19.864Z
 found: 2026-10-29T10:26:11.761Z
 foundBy: "Role review with the product owner 2026-10-29 (after fix commit af9a789)"
 tests: [TWW-105, TWW-106, TWW-088]

@@ -26,4 +26,4 @@ Admins, editors and viewers see dashboard totals and message records for every t
 - A viewer sees them read-only
 
 ## Notes
-From the code (2026-10-29): /api/dashboard/stats and /api/dashboard/messages filter by createdBy = the logged-in user, so other users' templates are left out. Same root cause as BUG-038/BUG-039 on the template list. Related: Q-009.
+From the code (2026-10-29): /api/dashboard/stats and /api/dashboard/messages filter by createdBy = the logged-in user, so other users' templates are left out. Same root cause as BUG-038/BUG-039 on the template list. Related: Q-009. Fails on BUG-041 (open) since 2026-10-29: editor and viewer dashboards are empty, admins see only their own templates.

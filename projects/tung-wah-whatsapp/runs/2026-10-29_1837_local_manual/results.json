@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "quick",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-29_1837_local_manual",
+  "startedAt": "2026-10-29T11:37:21.845Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "TWW-011",
+      "title": "Editor cannot use user management",
+      "priority": "P0",
+      "feature": "security",
+      "file": "projects/tung-wah-whatsapp/cases/security/TWW-011-editor-cannot-use-user-management.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Only admins can list or create users.",
+      "preconditions": [
+        "An editor account (create one as admin, delete afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as an editor (create a QA editor first)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Request the users API (list) and try to create a user with role 管理員 through it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /users",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "List and create return 403 \"無權限\"",
+          "status": null
+        },
+        {
+          "text": "The users page does not show the user list or the add button to an editor",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T11:37:21.879Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T11:37:21.914Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
