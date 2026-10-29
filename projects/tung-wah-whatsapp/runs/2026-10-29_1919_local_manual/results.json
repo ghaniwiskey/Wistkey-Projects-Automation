@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "console-sweep-2026-10-29",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-29_1919_local_manual",
+  "startedAt": "2026-10-29T12:19:38.499Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-116",
+      "title": "Main pages show no errors or warnings in the browser console",
+      "priority": "P3",
+      "feature": "navigation",
+      "file": "projects/tung-wah-whatsapp/cases/navigation/TWW-116-main-pages-show-no-errors-or-warnings.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Normal use of the app logs no errors or warnings in the browser console, for every role.",
+      "preconditions": [
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "A QA editor and a QA viewer (created per test, deleted afterwards)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the browser console (F12 > Console) and keep it open",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "As admin open 儀表板, 消息模版, a template (each tab: 聯絡人, 回覆統計, 變數映射), its contacts and edit pages, 用戶管理 and its 添加用户 dialog",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Repeat the page visits as the QA editor and the QA viewer",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No red errors, warnings or failed requests (4xx/5xx) on pages the role is allowed to open",
+          "status": null
+        },
+        {
+          "text": "Pages that do not exist may log a 404 for that page only",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Playwright sweep of 12 pages + template tabs, new-template dialog, dashboard search and add-user dialog. Admin: only the DialogContent warning on /users (BUG-042); 404s only on deliberately missing pages. Editor and viewer: 404 errors on the admin-created template pages (BUG-038/BUG-039, not this case). No page errors (uncaught exceptions) for any role."
+      ],
+      "evidence": [
+        "screenshots/TWW-116-m01-users-dialog.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T12:19:38.660Z",
+      "failureType": "product-bug",
+      "bug": "BUG-042"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T12:19:38.987Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
