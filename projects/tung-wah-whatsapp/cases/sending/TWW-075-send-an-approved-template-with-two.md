@@ -7,14 +7,14 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 ## Goal
 Each variable is filled from its own Excel column.
 
 ## Preconditions
-- An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)
+- An admin account (admin@tungwah.org)
 - qa_event_reminder_<unique> approved by Meta
 
 ## Data
@@ -32,4 +32,4 @@ Each variable is filled from its own Excel column.
 - The reply 會出席 is recorded with a 會出席 filter chip
 
 ## Notes
-Not run yet: qa_event_reminder_357859 still waiting for Meta approval (submitted 2026-10-28 14:26). Contact QA Tester and mapping are already set on it.
+Passed 2026-10-29 on qa_event_reminder_357859 (approved by Meta). To rerun: reset QA Tester on its 聯繫人 page, send, run the reply-routing check (README) before asking for the tap.

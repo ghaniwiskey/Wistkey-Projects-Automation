@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "manual-tww-075-2026-10-29",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-29_1829_local_manual",
+  "startedAt": "2026-10-29T11:29:26.279Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-075",
+      "title": "Send an approved template with two variables",
+      "priority": "P0",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-075-send-an-approved-template-with-two.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Each variable is filled from its own Excel column.",
+      "preconditions": [
+        "An admin account (TWW_ADMIN_USER / TWW_ADMIN_PASS)",
+        "qa_event_reminder_<unique> approved by Meta"
+      ],
+      "data": [
+        "Excel file projects/tung-wah-whatsapp/data/contacts-two-variables.xlsx",
+        "Recipient: WhatsApp +852 6524 8661 only"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Map {{first_name}} -> 姓名 and {{event_date}} -> 活動日期",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click 發送到 WhatsApp and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the message in Twilio and reply 會出席 on the phone",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 回覆統計",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Twilio shows \"您好 QA Tester，提醒您 11月5日（三） 的活動，請問您會出席嗎？\"",
+          "status": null
+        },
+        {
+          "text": "The reply 會出席 is recorded with a 會出席 filter chip",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "As admin@tungwah.org on qa_event_reminder_357859 (approved), mapping first_name->姓名, event_date->活動日期. Twilio delivered '您好 QA Tester，提醒您 11月5日（三） 的活動，請問您會出席嗎？'. Tapped 會出席 -> recorded as btn_0 會出席; 回覆統計 shows 1 會出席 and a 會出席 filter chip. The first tap (10:48 UTC) was lost because Twilio posted it to the developer's tunnel (error 11200); after checking the sender webhook the message was resent once and the second tap was recorded."
+      ],
+      "evidence": [
+        "screenshots/TWW-075-m01-tww075-reply-stats.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T11:29:26.441Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T11:29:26.741Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
