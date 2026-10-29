@@ -1,18 +1,18 @@
 ---
 id: BUG-041
-title: "Dashboard counts and message records include only templates the user created, even for admins"
+title: "Dashboard should show totals and message records for every template, not only the ones the user created"
 severity: major
 status: open
 env: local
 url: "http://localhost:3000/dashboard"
-updated: 2026-10-29T12:08:37.185Z
+updated: 2026-10-29T12:59:36.332Z
 found: 2026-10-29T12:05:47.159Z
 foundBy: "Dashboard test 2026-10-29"
 tests: [TWW-108, TWW-109]
 frequency: always
 ---
 ## Summary
-The 儀表板 cards and 消息記錄 count only templates the logged-in user created, while the 模板審核狀態 table on the same page lists every synced template. Admins get wrong totals; editors and viewers get an empty dashboard.
+The dashboard's cards and message records should cover every template the user's role can see, like the template status table on the same page does. Admins currently see wrong totals, and editors and viewers see an empty dashboard.
 
 ## Steps to reproduce
 1. Log in as an admin who did not create the Twilio templates (e.g. a new QA admin), while other templates have a message sent and replied this month.
@@ -36,3 +36,4 @@ Admin: 本月已發送 (Sent this month) 0 and 總模板數 (Total templates) 1,
 ## History
 - 2026-10-29: filed from Dashboard test 2026-10-29 in the Test Manager app.
 - 2026-10-29: Still fails after 從 Twilio 同步 (Sync from Twilio) on 消息模版: the sync lists all 5 templates but keeps their owner (createdBy = whoever first synced them), so the dashboard still shows 總模板數 1 and 本月已發送 0 for the QA admin.
+- 2026-10-29: Title and summary reworded.
