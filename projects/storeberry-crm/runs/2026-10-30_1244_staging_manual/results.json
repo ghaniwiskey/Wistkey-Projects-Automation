@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "retest-bug-005",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1244_staging_manual",
+  "startedAt": "2026-10-30T05:44:36.486Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-082",
+      "title": "Existing product detail opens without an error message",
+      "priority": "P1",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-082-existing-product-detail-opens-without.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Opening a product in the CRM shows no error and add-on templates load.",
+      "preconditions": [],
+      "data": [
+        "Any existing active product, picked from the list at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Products and click an existing product",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait 2 seconds on the Product Details tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Add-On Products > Import From Template",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No error toast appears (e.g. \"undefined: Unexpected Error\")",
+          "status": null
+        },
+        {
+          "text": "The template picker lists templates or says none exist, with no \"Cannot Fetch Templates\" error",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Retest 2026-10-30 after BUG-005 was set to verified: toast 'undefined: Unexpected Error' still shows on product detail (3 of 3: ids 3187, 3198, 3148); GET cmsapiv2.stagingl10.storeberry.xyz/cmsapi/addon-products/templates/product/3187 -> 500."
+      ],
+      "evidence": [
+        "screenshots/SCRM-082-m01-toast-undefined-error.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:44:36.654Z",
+      "failureType": "product-bug",
+      "bug": "BUG-005"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T05:44:37.036Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

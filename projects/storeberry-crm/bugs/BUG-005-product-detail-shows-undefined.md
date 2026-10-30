@@ -5,6 +5,7 @@ severity: major
 status: open
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/products/edit?id=3197"
+updated: 2026-10-30T05:44:37.363Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
 tests: [SCRM-082]
@@ -37,3 +38,5 @@ Toast "undefined: Unexpected Error" on every product detail page (5 of 5 checked
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
+- 2026-10-29: status open -> verified.
+- 2026-10-30: status verified -> open; Retest 2026-10-30 still fails in runs/2026-10-30_1244_staging_manual (SCRM-082): toast on 3 of 3 product details, add-on template API 500. Set back to open from verified..
