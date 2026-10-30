@@ -1,0 +1,631 @@
+{
+  "scope": "actual route/queue/reset source with in-memory adapters",
+  "realMessages": 0,
+  "databaseWrites": 0,
+  "sources": {
+    "lib/whatsapp.ts": "3c02d58143fb5f01706b852ccb2f7af0d496bcd98eae9d395df3c52a8488a93d",
+    "app/api/send/route.ts": "a40daedf3a54461895eba7c7bc0f39ed31f7ba3692430f73c78c7f0c3673a680",
+    "app/api/contacts/[id]/route.ts": "b5494e897195c31f5bff602b5bd0c1eb24e355588b905129c83124bea8cbc05b"
+  },
+  "queries": [
+    {
+      "where": {
+        "templateId": "isolated-template",
+        "status": {
+          "in": [
+            "PENDING",
+            "FAILED"
+          ]
+        }
+      },
+      "orderBy": {
+        "createdAt": "asc"
+      }
+    },
+    {
+      "where": {
+        "templateId": "isolated-template",
+        "status": {
+          "in": [
+            "PENDING",
+            "FAILED"
+          ]
+        }
+      },
+      "orderBy": {
+        "createdAt": "asc"
+      }
+    },
+    {
+      "where": {
+        "templateId": "isolated-template",
+        "status": {
+          "in": [
+            "PENDING",
+            "FAILED"
+          ]
+        }
+      },
+      "orderBy": {
+        "createdAt": "asc"
+      }
+    },
+    {
+      "where": {
+        "templateId": "isolated-template",
+        "status": {
+          "in": [
+            "PENDING",
+            "FAILED"
+          ]
+        }
+      },
+      "orderBy": {
+        "createdAt": "asc"
+      }
+    }
+  ],
+  "requests": [
+    {
+      "to": "whatsapp:+MOCK_RECIPIENT_0",
+      "attempt": 1,
+      "contentSid": "MOCK-CONTENT-NOT-REAL",
+      "contentVariables": "{\"first_name\":\"Mock 0\"}"
+    },
+    {
+      "to": "whatsapp:+MOCK_RECIPIENT_1",
+      "attempt": 1,
+      "contentSid": "MOCK-CONTENT-NOT-REAL",
+      "contentVariables": "{\"first_name\":\"Mock 1\"}"
+    },
+    {
+      "to": "whatsapp:+MOCK_RECIPIENT_1",
+      "attempt": 2,
+      "contentSid": "MOCK-CONTENT-NOT-REAL",
+      "contentVariables": "{\"first_name\":\"Mock 1\"}"
+    },
+    {
+      "to": "whatsapp:+MOCK_RECIPIENT_0",
+      "attempt": 2,
+      "contentSid": "MOCK-CONTENT-NOT-REAL",
+      "contentVariables": "{\"first_name\":\"Mock 0\"}"
+    }
+  ],
+  "phases": [
+    {
+      "name": "first send: success plus controlled failure",
+      "status": 200,
+      "response": {
+        "message": "發送任務已啓動",
+        "totalContacts": 2,
+        "totalMessages": 2
+      },
+      "requests": [
+        {
+          "to": "whatsapp:+MOCK_RECIPIENT_0",
+          "attempt": 1,
+          "contentSid": "MOCK-CONTENT-NOT-REAL",
+          "contentVariables": "{\"first_name\":\"Mock 0\"}"
+        },
+        {
+          "to": "whatsapp:+MOCK_RECIPIENT_1",
+          "attempt": 1,
+          "contentSid": "MOCK-CONTENT-NOT-REAL",
+          "contentVariables": "{\"first_name\":\"Mock 1\"}"
+        }
+      ],
+      "rows": [
+        {
+          "id": "mock-0",
+          "templateId": "isolated-template",
+          "name": "Mock 0",
+          "phone": "MOCK_RECIPIENT_0",
+          "customVars": {
+            "Name": "Mock 0"
+          },
+          "status": "SENT",
+          "waMessageId": "MOCK-MESSAGE-1",
+          "sentAt": "2026-10-30T08:02:38.615Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:00.000Z"
+        },
+        {
+          "id": "mock-1",
+          "templateId": "isolated-template",
+          "name": "Mock 1",
+          "phone": "MOCK_RECIPIENT_1",
+          "customVars": {
+            "Name": "Mock 1"
+          },
+          "status": "FAILED",
+          "waMessageId": null,
+          "sentAt": null,
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": "63001",
+          "errorMessage": "未知錯誤",
+          "failedAt": "2026-10-30T08:02:38.617Z",
+          "createdAt": "1970-01-01T00:00:01.000Z"
+        },
+        {
+          "id": "mock-2",
+          "templateId": "isolated-template",
+          "name": "Mock 2",
+          "phone": "MOCK_RECIPIENT_2",
+          "customVars": {
+            "Name": "Mock 2"
+          },
+          "status": "SENT",
+          "waMessageId": "OLD-2",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:02.000Z"
+        },
+        {
+          "id": "mock-3",
+          "templateId": "isolated-template",
+          "name": "Mock 3",
+          "phone": "MOCK_RECIPIENT_3",
+          "customVars": {
+            "Name": "Mock 3"
+          },
+          "status": "DELIVERED",
+          "waMessageId": "OLD-3",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:03.000Z"
+        },
+        {
+          "id": "mock-4",
+          "templateId": "isolated-template",
+          "name": "Mock 4",
+          "phone": "MOCK_RECIPIENT_4",
+          "customVars": {
+            "Name": "Mock 4"
+          },
+          "status": "READ",
+          "waMessageId": "OLD-4",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": "2026-01-01T00:00:00.000Z",
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:04.000Z"
+        }
+      ]
+    },
+    {
+      "name": "second send: retry Failed only",
+      "status": 200,
+      "response": {
+        "message": "發送任務已啓動",
+        "totalContacts": 1,
+        "totalMessages": 1
+      },
+      "requests": [
+        {
+          "to": "whatsapp:+MOCK_RECIPIENT_1",
+          "attempt": 2,
+          "contentSid": "MOCK-CONTENT-NOT-REAL",
+          "contentVariables": "{\"first_name\":\"Mock 1\"}"
+        }
+      ],
+      "rows": [
+        {
+          "id": "mock-0",
+          "templateId": "isolated-template",
+          "name": "Mock 0",
+          "phone": "MOCK_RECIPIENT_0",
+          "customVars": {
+            "Name": "Mock 0"
+          },
+          "status": "SENT",
+          "waMessageId": "MOCK-MESSAGE-1",
+          "sentAt": "2026-10-30T08:02:38.615Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:00.000Z"
+        },
+        {
+          "id": "mock-1",
+          "templateId": "isolated-template",
+          "name": "Mock 1",
+          "phone": "MOCK_RECIPIENT_1",
+          "customVars": {
+            "Name": "Mock 1"
+          },
+          "status": "SENT",
+          "waMessageId": "MOCK-MESSAGE-2",
+          "sentAt": "2026-10-30T08:02:38.618Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:01.000Z"
+        },
+        {
+          "id": "mock-2",
+          "templateId": "isolated-template",
+          "name": "Mock 2",
+          "phone": "MOCK_RECIPIENT_2",
+          "customVars": {
+            "Name": "Mock 2"
+          },
+          "status": "SENT",
+          "waMessageId": "OLD-2",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:02.000Z"
+        },
+        {
+          "id": "mock-3",
+          "templateId": "isolated-template",
+          "name": "Mock 3",
+          "phone": "MOCK_RECIPIENT_3",
+          "customVars": {
+            "Name": "Mock 3"
+          },
+          "status": "DELIVERED",
+          "waMessageId": "OLD-3",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:03.000Z"
+        },
+        {
+          "id": "mock-4",
+          "templateId": "isolated-template",
+          "name": "Mock 4",
+          "phone": "MOCK_RECIPIENT_4",
+          "customVars": {
+            "Name": "Mock 4"
+          },
+          "status": "READ",
+          "waMessageId": "OLD-4",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": "2026-01-01T00:00:00.000Z",
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:04.000Z"
+        }
+      ]
+    },
+    {
+      "name": "third send: no eligible contacts",
+      "status": 400,
+      "response": {
+        "error": "沒有待發送的聯繫人"
+      },
+      "requests": [],
+      "rows": [
+        {
+          "id": "mock-0",
+          "templateId": "isolated-template",
+          "name": "Mock 0",
+          "phone": "MOCK_RECIPIENT_0",
+          "customVars": {
+            "Name": "Mock 0"
+          },
+          "status": "SENT",
+          "waMessageId": "MOCK-MESSAGE-1",
+          "sentAt": "2026-10-30T08:02:38.615Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:00.000Z"
+        },
+        {
+          "id": "mock-1",
+          "templateId": "isolated-template",
+          "name": "Mock 1",
+          "phone": "MOCK_RECIPIENT_1",
+          "customVars": {
+            "Name": "Mock 1"
+          },
+          "status": "SENT",
+          "waMessageId": "MOCK-MESSAGE-2",
+          "sentAt": "2026-10-30T08:02:38.618Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:01.000Z"
+        },
+        {
+          "id": "mock-2",
+          "templateId": "isolated-template",
+          "name": "Mock 2",
+          "phone": "MOCK_RECIPIENT_2",
+          "customVars": {
+            "Name": "Mock 2"
+          },
+          "status": "SENT",
+          "waMessageId": "OLD-2",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:02.000Z"
+        },
+        {
+          "id": "mock-3",
+          "templateId": "isolated-template",
+          "name": "Mock 3",
+          "phone": "MOCK_RECIPIENT_3",
+          "customVars": {
+            "Name": "Mock 3"
+          },
+          "status": "DELIVERED",
+          "waMessageId": "OLD-3",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:03.000Z"
+        },
+        {
+          "id": "mock-4",
+          "templateId": "isolated-template",
+          "name": "Mock 4",
+          "phone": "MOCK_RECIPIENT_4",
+          "customVars": {
+            "Name": "Mock 4"
+          },
+          "status": "READ",
+          "waMessageId": "OLD-4",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": "2026-01-01T00:00:00.000Z",
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:04.000Z"
+        }
+      ]
+    },
+    {
+      "name": "after reset: send only reset contact",
+      "status": 200,
+      "response": {
+        "message": "發送任務已啓動",
+        "totalContacts": 1,
+        "totalMessages": 1
+      },
+      "requests": [
+        {
+          "to": "whatsapp:+MOCK_RECIPIENT_0",
+          "attempt": 2,
+          "contentSid": "MOCK-CONTENT-NOT-REAL",
+          "contentVariables": "{\"first_name\":\"Mock 0\"}"
+        }
+      ],
+      "rows": [
+        {
+          "id": "mock-0",
+          "templateId": "isolated-template",
+          "name": "Mock 0",
+          "phone": "MOCK_RECIPIENT_0",
+          "customVars": {
+            "Name": "Mock 0"
+          },
+          "status": "SENT",
+          "waMessageId": "MOCK-MESSAGE-3",
+          "sentAt": "2026-10-30T08:02:38.619Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:00.000Z"
+        },
+        {
+          "id": "mock-1",
+          "templateId": "isolated-template",
+          "name": "Mock 1",
+          "phone": "MOCK_RECIPIENT_1",
+          "customVars": {
+            "Name": "Mock 1"
+          },
+          "status": "SENT",
+          "waMessageId": "MOCK-MESSAGE-2",
+          "sentAt": "2026-10-30T08:02:38.618Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:01.000Z"
+        },
+        {
+          "id": "mock-2",
+          "templateId": "isolated-template",
+          "name": "Mock 2",
+          "phone": "MOCK_RECIPIENT_2",
+          "customVars": {
+            "Name": "Mock 2"
+          },
+          "status": "SENT",
+          "waMessageId": "OLD-2",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:02.000Z"
+        },
+        {
+          "id": "mock-3",
+          "templateId": "isolated-template",
+          "name": "Mock 3",
+          "phone": "MOCK_RECIPIENT_3",
+          "customVars": {
+            "Name": "Mock 3"
+          },
+          "status": "DELIVERED",
+          "waMessageId": "OLD-3",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:03.000Z"
+        },
+        {
+          "id": "mock-4",
+          "templateId": "isolated-template",
+          "name": "Mock 4",
+          "phone": "MOCK_RECIPIENT_4",
+          "customVars": {
+            "Name": "Mock 4"
+          },
+          "status": "READ",
+          "waMessageId": "OLD-4",
+          "sentAt": "2026-01-01T00:00:00.000Z",
+          "deliveredAt": "2026-01-01T00:00:00.000Z",
+          "readAt": "2026-01-01T00:00:00.000Z",
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "1970-01-01T00:00:04.000Z"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "label": "First send selects exactly the two Pending contacts",
+      "pass": true
+    },
+    {
+      "label": "Mock success becomes Sent; API rejection becomes Failed with error",
+      "pass": true
+    },
+    {
+      "label": "Existing Sent, Delivered and Read contacts remain unchanged",
+      "pass": true
+    },
+    {
+      "label": "Second send selects only the failed contact",
+      "pass": true
+    },
+    {
+      "label": "Retry succeeds and clears old failure fields",
+      "pass": true
+    },
+    {
+      "label": "Already-sent and delivered/read rows get no second request or mutation",
+      "pass": true
+    },
+    {
+      "label": "Sending when every contact is completed returns 400 and makes zero requests",
+      "pass": true
+    },
+    {
+      "label": "Actual reset handler clears the selected contact message/send state",
+      "pass": true
+    },
+    {
+      "label": "After reset exactly one request targets the reset contact",
+      "pass": true
+    },
+    {
+      "label": "Other Sent, Delivered and Read contacts were never resent",
+      "pass": true
+    }
+  ],
+  "reset": {
+    "status": 200,
+    "response": {
+      "id": "mock-0",
+      "templateId": "isolated-template",
+      "name": "Mock 0",
+      "phone": "MOCK_RECIPIENT_0",
+      "customVars": {
+        "Name": "Mock 0"
+      },
+      "status": "PENDING",
+      "waMessageId": null,
+      "sentAt": null,
+      "deliveredAt": null,
+      "readAt": null,
+      "errorCode": null,
+      "errorMessage": null,
+      "failedAt": null,
+      "createdAt": "1970-01-01T00:00:00.000Z"
+    }
+  },
+  "outcome": "pass",
+  "adapterLog": [
+    "[Twilio] 變數: [object Object]",
+    "[Twilio] 使用模板 SID: MOCK-CONTENT-NOT-REAL",
+    "[Twilio] 模板映射: [object Object]",
+    "[Twilio] 發送參數: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_0\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 0\\\"}\"\n}",
+    "[Twilio] variableMapping: [object Object]",
+    "[Twilio] variables: [object Object]",
+    "[Twilio] templateVariables: [object Object]",
+    "[Twilio] 發送消息: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_0\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 0\\\"}\"\n}",
+    "[Twilio] 變數: [object Object]",
+    "[Twilio] 使用模板 SID: MOCK-CONTENT-NOT-REAL",
+    "[Twilio] 模板映射: [object Object]",
+    "[Twilio] 發送參數: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_1\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 1\\\"}\"\n}",
+    "[Twilio] variableMapping: [object Object]",
+    "[Twilio] variables: [object Object]",
+    "[Twilio] templateVariables: [object Object]",
+    "[Twilio] 發送消息: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_1\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 1\\\"}\"\n}",
+    "發送失敗 [Mock 1 - MOCK_RECIPIENT_1]: Error: Controlled mocked Twilio API failure",
+    "發送完成: 1/2（原始聯繫人: 2）",
+    "[Twilio] 變數: [object Object]",
+    "[Twilio] 使用模板 SID: MOCK-CONTENT-NOT-REAL",
+    "[Twilio] 模板映射: [object Object]",
+    "[Twilio] 發送參數: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_1\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 1\\\"}\"\n}",
+    "[Twilio] variableMapping: [object Object]",
+    "[Twilio] variables: [object Object]",
+    "[Twilio] templateVariables: [object Object]",
+    "[Twilio] 發送消息: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_1\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 1\\\"}\"\n}",
+    "發送完成: 1/1（原始聯繫人: 1）",
+    "[Twilio] 變數: [object Object]",
+    "[Twilio] 使用模板 SID: MOCK-CONTENT-NOT-REAL",
+    "[Twilio] 模板映射: [object Object]",
+    "[Twilio] 發送參數: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_0\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 0\\\"}\"\n}",
+    "[Twilio] variableMapping: [object Object]",
+    "[Twilio] variables: [object Object]",
+    "[Twilio] templateVariables: [object Object]",
+    "[Twilio] 發送消息: {\n  \"from\": \"whatsapp:+MOCK_SENDER\",\n  \"to\": \"whatsapp:+MOCK_RECIPIENT_0\",\n  \"contentSid\": \"MOCK-CONTENT-NOT-REAL\",\n  \"contentVariables\": \"{\\\"first_name\\\":\\\"Mock 0\\\"}\"\n}",
+    "發送完成: 1/1（原始聯繫人: 1）"
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "isolated-source-integration-retry-skip",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-30_1503_local_manual",
+  "startedAt": "2026-10-30T08:03:14.000Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-091",
+      "title": "Failed contacts are retried on the next send and sent contacts are not",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-091-failed-contacts-are-retried-on-the-next.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Clicking send again retries failed messages only.",
+      "preconditions": [
+        "An isolated test app with a mocked Twilio transport; no real external message requests",
+        "An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)",
+        "An approved template with a mapped variable"
+      ],
+      "data": [
+        "Use a mocked Twilio transport with two Pending contacts: one mock-success contact and one mock-API-failure contact.",
+        "Add separate disposable contacts already in Sent, Delivered and Read states, and keep their original data for comparison.",
+        "No external messages. Do not use a random phone number to provoke an error."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Upload the file and send",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait for the mocked batch to finish, click 刷新 and note each contact status",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click send again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The rejected contact is shown as failed, not 已發送",
+          "status": "pass"
+        },
+        {
+          "text": "The second send reports 1 contact and sends only to the failed one",
+          "status": "pass"
+        },
+        {
+          "text": "The mock-success contact receives only one send request in total",
+          "status": "pass"
+        },
+        {
+          "text": "Previously Sent, Delivered and Read contacts receive no requests and remain unchanged",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The rejected contact is shown as failed, not 已發送",
+          "pass": true
+        },
+        {
+          "label": "The second send reports 1 contact and sends only to the failed one",
+          "pass": true
+        },
+        {
+          "label": "The mock-success contact receives only one send request in total",
+          "pass": true
+        },
+        {
+          "label": "Previously Sent, Delivered and Read contacts receive no requests and remain unchanged",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Isolated source-handler integration only: actual send route and queue with in-memory Prisma/auth and mocked Twilio. Initial 2 Pending attempts produced Sent/Failed; second request sent only the Failed record. Previously Sent/Delivered/Read records were unchanged and received no requests. Third send returned 400 with zero requests. No real messages, DB writes, browser/UI or live-provider test."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T08:04:13.106Z"
+    },
+    {
+      "id": "TWW-126",
+      "title": "Resending a reset contact skips other sent, delivered and read contacts",
+      "priority": "P1",
+      "feature": "sending",
+      "file": "projects/tung-wah-whatsapp/cases/sending/TWW-126-resending-a-reset-contact-skips-other.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Resend one reset contact\n\nVerify that resetting one completed contact makes it eligible again while other Sent, Delivered and Read contacts remain untouched.",
+      "preconditions": [
+        "An admin account and an approved template are available.",
+        "An isolated test setup with a mocked transport contains disposable contacts in Sent, Delivered and Read states, with no other Pending or Failed contacts."
+      ],
+      "data": [
+        "Use only disposable test records and mocked delivery; no real messages."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in with your admin account and open the contact list.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reset one Sent contact and confirm the reset.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check that this contact alone changes to Pending and its old message and send information is cleared.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the template again and wait for the mocked batch to finish.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Inspect outgoing requests and compare the other contacts with their previous state.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Exactly one outgoing request targets the reset contact.",
+          "status": "pass"
+        },
+        {
+          "text": "The reset contact becomes Sent with a new message identifier.",
+          "status": "pass"
+        },
+        {
+          "text": "Other Sent, Delivered and Read contacts receive no request and their data is unchanged.",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Exactly one outgoing request targets the reset contact.",
+          "pass": true
+        },
+        {
+          "label": "The reset contact becomes Sent with a new message identifier.",
+          "pass": true
+        },
+        {
+          "label": "Other Sent, Delivered and Read contacts receive no request and their data is unchanged.",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Actual reset route cleared the chosen in-memory contact to Pending; next actual send-handler invocation targeted only that reset record, made one mock request and assigned a new mock message ID. Other Sent/Delivered/Read fixtures untouched. Controlled integration, not live browser/database/Twilio. Retained sticker data untouched."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T08:04:13.254Z"
+    }
+  ],
+  "notes": "Two controlled source-integration cases passed; 10 assertions. Actual send/reset/queue code at app commit 1cdd076, mocked in-memory Prisma/auth and Twilio. Zero real messages or DB writes. Evidence/harness: explorations/2026-10-30-retry-skip/. No live UI/provider verification or concurrent-send test was performed.",
+  "finishedAt": "2026-10-30T08:04:13.396Z",
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
