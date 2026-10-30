@@ -3,7 +3,7 @@ id: VZ-015
 title: "Exported sequence with Vizone clips keeps all audio"
 feature: premiere-plugin
 priority: P1
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

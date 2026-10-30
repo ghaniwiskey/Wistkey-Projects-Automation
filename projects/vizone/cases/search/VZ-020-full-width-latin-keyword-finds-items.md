@@ -3,7 +3,7 @@ id: VZ-020
 title: "Full-width Latin keyword finds items with half-width titles"
 feature: search
 priority: P3
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

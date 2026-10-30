@@ -3,7 +3,7 @@ id: VZ-006
 title: "Video item preview plays sound"
 feature: audio
 priority: P1
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

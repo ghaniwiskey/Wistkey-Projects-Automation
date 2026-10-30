@@ -3,7 +3,7 @@ id: VZ-034
 title: "Two long items can play at the same time in two tabs"
 feature: preview
 priority: P2
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

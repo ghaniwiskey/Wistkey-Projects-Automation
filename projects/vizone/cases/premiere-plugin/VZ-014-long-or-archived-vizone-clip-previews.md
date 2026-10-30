@@ -3,7 +3,7 @@ id: VZ-014
 title: "Long or archived Vizone clip previews in the Premiere Media Bin without hanging"
 feature: premiere-plugin
 priority: P1
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

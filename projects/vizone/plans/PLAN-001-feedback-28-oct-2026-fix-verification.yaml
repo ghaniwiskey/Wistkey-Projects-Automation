@@ -1,0 +1,26 @@
+id: PLAN-001
+name: Feedback 28 Oct 2026 fix verification
+release: ""
+env: staging
+status: draft
+start: ""
+due: ""
+owner: ""
+description: "Retest after RTHK applies the fixes from the Vizone User Feedback
+  report (28 Oct 2026): every case tagged feedback-fix. Browser cases can be run
+  by Aside; premiere-plugin cases need an editing workstation; peak cases
+  (VZ-011, VZ-012, VZ-034) must run once off-peak and once from 15:00 HKT;
+  writes cases (VZ-013, VZ-017, VZ-042) need approval per run. Compare with the
+  baseline manual runs of 2026-10-30."
+scope:
+  tags:
+    - feedback-fix
+  tests: []
+  exclude: []
+signoff:
+  status: pending
+  by: ""
+  at: ""
+  note: ""
+created: 2026-10-30
+updated: 2026-10-30

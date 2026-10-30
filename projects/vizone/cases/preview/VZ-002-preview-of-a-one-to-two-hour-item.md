@@ -3,7 +3,7 @@ id: VZ-002
 title: "Preview of a one to two hour item starts playing promptly"
 feature: preview
 priority: P1
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

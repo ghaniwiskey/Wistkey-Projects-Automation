@@ -3,7 +3,7 @@ id: VZ-017
 title: "Growing file on the Premiere timeline extends its end timecode"
 feature: premiere-plugin
 priority: P2
-tags: [regression, writes]
+tags: [regression, writes, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

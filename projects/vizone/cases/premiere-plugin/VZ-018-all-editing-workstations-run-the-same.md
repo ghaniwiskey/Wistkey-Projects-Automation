@@ -3,7 +3,7 @@ id: VZ-018
 title: "All editing workstations run the same Vizone plugin and Premiere version"
 feature: premiere-plugin
 priority: P2
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

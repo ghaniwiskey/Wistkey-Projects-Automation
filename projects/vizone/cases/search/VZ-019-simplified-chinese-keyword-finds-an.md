@@ -3,7 +3,7 @@ id: VZ-019
 title: "Simplified Chinese keyword finds an item with a Traditional Chinese title"
 feature: search
 priority: P2
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

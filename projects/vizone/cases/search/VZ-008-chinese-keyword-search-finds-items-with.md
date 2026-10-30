@@ -3,7 +3,7 @@ id: VZ-008
 title: "Chinese keyword search finds items with Chinese titles"
 feature: search
 priority: P1
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

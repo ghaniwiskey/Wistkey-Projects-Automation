@@ -3,7 +3,7 @@ id: VZ-005
 title: "Keyframes of a long item load up to the last page"
 feature: preview
 priority: P2
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

@@ -6,7 +6,7 @@ askedTo: "Ghani"
 env: staging
 found: 2026-10-30T03:20:57.446Z
 foundBy: "edge-case exploration 2026-10-30"
-tests: [VZ-019, VZ-020, VZ-027]
+tests: [VZ-019, VZ-020]
 bugs: []
 updated: 2026-10-30T03:20:57.446Z
 answered: ""
@@ -22,3 +22,4 @@ Not answered yet.
 
 ## History
 - 2026-10-30: asked from edge-case exploration 2026-10-30.
+- 2026-10-30: VZ-027 (excluding words) archived as outside the feedback scope.

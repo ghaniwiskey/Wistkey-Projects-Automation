@@ -3,7 +3,7 @@ id: VZ-003
 title: "Seeking near the end of a long item plays without freezing"
 feature: preview
 priority: P1
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

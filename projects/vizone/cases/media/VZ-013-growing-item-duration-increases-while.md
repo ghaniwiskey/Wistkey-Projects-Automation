@@ -3,7 +3,7 @@ id: VZ-013
 title: "Growing item duration increases while it is still recording"
 feature: media
 priority: P2
-tags: [regression, writes]
+tags: [regression, writes, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

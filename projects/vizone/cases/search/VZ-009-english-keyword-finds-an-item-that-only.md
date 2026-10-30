@@ -3,7 +3,7 @@ id: VZ-009
 title: "English keyword finds an item that only has a Chinese title"
 feature: search
 priority: P2
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

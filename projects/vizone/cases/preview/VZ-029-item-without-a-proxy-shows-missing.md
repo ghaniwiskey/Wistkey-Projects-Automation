@@ -3,7 +3,7 @@ id: VZ-029
 title: "Item without a proxy shows Missing proxy instead of a broken player"
 feature: preview
 priority: P2
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

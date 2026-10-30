@@ -3,7 +3,7 @@ id: VZ-011
 title: "Search responds within the target time during the 3 PM peak"
 feature: performance
 priority: P1
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

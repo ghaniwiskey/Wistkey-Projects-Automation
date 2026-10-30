@@ -3,7 +3,7 @@ id: VZ-007
 title: "Audio-only item plays in the preview player"
 feature: audio
 priority: P2
-tags: [regression]
+tags: [regression, feedback-fix]
 envs: [all]
 automated: false
 created: 2026-10-30

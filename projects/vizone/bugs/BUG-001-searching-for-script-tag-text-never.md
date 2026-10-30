@@ -8,7 +8,7 @@ url: "http://vizone-staging01.bh.rthkeng.hk/studio/"
 updated: 2026-10-30T03:20:57.320Z
 found: 2026-10-30T03:20:57.320Z
 foundBy: "edge-case exploration 2026-10-30"
-tests: [VZ-024]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,4 @@ The search ends with "No search results found" (or results) within a few seconds
 
 ## History
 - 2026-10-30: filed from edge-case exploration 2026-10-30 in the Test Manager app.
+- 2026-10-30: VZ-024 archived (generic search robustness, outside the 28 Oct feedback scope at the user's request); bug kept open without a linked case.
