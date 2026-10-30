@@ -73,7 +73,7 @@ export function TestList({ slug, query, sandboxed }) {
             <td><${Tags} tags=${t.tags} /></td>
             <td><${Kind} automated=${t.automated} /></td>
             <td class="nowrap"><${Badge} status=${t.lastStatus} />${t.last ? html`<div class="muted small">${ago(t.last.at)}</div>` : null}
-              <div class="seg quick" style="margin-top:4px"><button type="button" title=${`Mark ${t.id} pass`} onClick=${() => setMark({ tests: [t], status: 'pass' })}>Pass</button><button type="button" title=${`Mark ${t.id} fail`} onClick=${() => setMark({ tests: [t], status: 'fail' })}>Fail</button>${t.lastStatus !== 'never' ? html`<button type="button" title=${`Set ${t.id} back to Not run`} onClick=${() => resetToNotRun(slug, [t])}>Not run</button>` : null}</div></td>
+              <div class="seg quick" style="margin-top:4px"><button type="button" title=${`Mark ${t.id} pass`} onClick=${() => setMark({ tests: [t], status: 'pass' })}>Pass</button><button type="button" title=${`Mark ${t.id} fail`} onClick=${() => setMark({ tests: [t], status: 'fail' })}>Fail</button><button type="button" title=${`Mark ${t.id} skipped`} onClick=${() => setMark({ tests: [t], status: 'skipped' })}>Skip</button>${t.lastStatus !== 'never' ? html`<button type="button" title=${`Set ${t.id} back to Not run`} onClick=${() => resetToNotRun(slug, [t])}>Not run</button>` : null}</div></td>
             <td><${Dots} slug=${slug} history=${t.history} /></td>
             <td>${t.bugs.length ? t.bugs.map((b) => html`<a href=${`#/p/${slug}/bugs/${b}`}>${b}</a> `) : html`<span class="muted">-</span>`}</td>
           </tr>`)}
