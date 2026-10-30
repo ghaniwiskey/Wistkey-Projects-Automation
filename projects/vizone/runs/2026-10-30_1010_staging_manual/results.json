@@ -1,0 +1,184 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "vizone",
+  "env": "staging",
+  "suite": "manual",
+  "baseUrl": "http://vizone-staging01.bh.rthkeng.hk/",
+  "runId": "2026-10-30_1010_staging_manual",
+  "startedAt": "2026-10-30T03:10:44.745Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "VZ-002",
+      "title": "Preview of a one to two hour item starts playing promptly",
+      "priority": "P1",
+      "feature": "preview",
+      "file": "projects/vizone/cases/preview/VZ-002-preview-of-a-one-to-two-hour-item.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An editor can preview a long program item in Studio without the player hanging.",
+      "preconditions": [
+        "At least one video item of 1 hour or longer exists (search Items sorted by Media Duration)"
+      ],
+      "data": [
+        "Item: the longest Online video item, found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Search > Items and sort by Media Duration",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the first video item whose duration is 01:00:00:00 or longer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Press Play/Pause in the item player",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait 5 seconds and press Play/Pause again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The item page shows the player within 5 seconds of opening the item",
+          "status": null
+        },
+        {
+          "text": "The player duration matches the Duration in the Overview (e.g. 02:15:36:11)",
+          "status": null
+        },
+        {
+          "text": "After pressing Play the time code advances within 3 seconds and keeps advancing (no frozen frame or endless spinner)",
+          "status": null
+        },
+        {
+          "text": "Pressing Play/Pause again stops the time code",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Longest Chinese item 20230222_財政司司長陳茂波宣讀財政預算案 (02:15:36:11): player showed duration 8136 s matching Overview, Play advanced the time code (09:51:31:20 -> 09:51:37:01 in 5 s), Play/Pause stopped it. Morning, off-peak."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:10:52.076Z"
+    },
+    {
+      "id": "VZ-008",
+      "title": "Chinese keyword search finds items with Chinese titles",
+      "priority": "P1",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-008-chinese-keyword-search-finds-items-with.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Editors can find items by a Chinese word in the title.",
+      "preconditions": [
+        "At least one item with Chinese characters in its title exists"
+      ],
+      "data": [
+        "Keyword: two Chinese characters taken from the title of an existing item at runtime (e.g. 財政 from 財政司司長陳茂波宣讀財政預算案)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Type the keyword in the Search Items box and press Enter",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The results count is 1 or more",
+          "status": null
+        },
+        {
+          "text": "The item the keyword was taken from is in the results",
+          "status": null
+        },
+        {
+          "text": "Each result contains the keyword in its title or text",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "財政 returned 22 results incl. the budget speech item; 財政預算案 returned exactly that item; 中文字 returned 1 matching item."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:10:52.183Z"
+    },
+    {
+      "id": "VZ-009",
+      "title": "English keyword finds an item that only has a Chinese title",
+      "priority": "P2",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-009-english-keyword-finds-an-item-that-only.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "An English search finds the matching item whose title and metadata are only in Chinese.",
+      "preconditions": [
+        "An item exists whose title is only Chinese, e.g. 財政司司長陳茂波宣讀財政預算案 (budget speech)"
+      ],
+      "data": [
+        "Keyword: budget (English for 財政預算案)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Type budget in the Search Items box and press Enter",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The results include the item titled ...財政司司長陳茂波宣讀財政預算案...",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "budget returned No search results found; 財政預算案 finds the item. Bug vs future feature pending Q-002, so no bug filed yet."
+      ],
+      "evidence": [
+        "screenshots/VZ-009-m01-budget-no-results.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:10:52.292Z",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "Exploration of staging while writing cases from the 28 Oct feedback. Only executed cases recorded.",
+  "finishedAt": "2026-10-30T03:10:52.510Z",
+  "summary": {
+    "total": 3,
+    "pass": 2,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
