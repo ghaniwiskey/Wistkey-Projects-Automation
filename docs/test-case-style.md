@@ -29,13 +29,3 @@ How to write cases so a person outside this repo can run them. The user asked fo
 - For a list of reported problems, write: one case per symptom, cases that verify each recommended fix, and post-fix regression cases (what the fix could break).
 - Before adding more cases, check existing ones for overlap and merge or split instead of duplicating.
 
-## Spreadsheet test plans
-
-Full workflow and sheet mechanics: `.agents/skills/qa-sheet-plan/SKILL.md`.
-
-
-- Copy the user's template tab, keep its look, and fill it. Column order: Test Case ID, Module, Test Description, Feedback/Source Ref, Preconditions, Test Steps, Expected Result, Actual Result, Testing Date, Execution Status, Remarks (last). No Automation Status, Priority, Platform, Test Data or When-to-run columns unless asked.
-- Fresh plan: Actual Result and Testing Date empty, Execution Status "Not Executed" for every case.
-- Group rows by module: web app modules first, desktop plugin (manual workstation) cases last; IDs ascending inside a module.
-- Status dropdowns as a fixed list (PASSED, FAILED, Blocked, Not Executed), not a range in another tab, so copying the sheet does not break them.
-- The user edits the sheet too: read the current sheet before every change, write only the cells you change, and never write back rows, columns or text the user removed.

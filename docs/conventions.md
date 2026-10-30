@@ -11,7 +11,7 @@ Shared rules for every project in `projects/` and for the `qa-*` skills in `.age
 
 ### Writing a test case
 
-Tester-facing wording, sections, scope and spreadsheet test plans: [test-case-style.md](test-case-style.md) (user, 2026-10-30; new cases only).
+Tester-facing wording, sections and scope: [test-case-style.md](test-case-style.md) (user, 2026-10-30; new cases only). Spreadsheet test plans: `.agents/skills/qa-sheet-plan/SKILL.md`.
 
 - **One behavior per test.** If the Expected list describes two unrelated outcomes, split it.
 - **Independent.** A test sets up its own state and cleans up what it changed (SCG-001 removes its cart item before and after). It never relies on another test having run first.
