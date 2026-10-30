@@ -7,11 +7,14 @@ start: ""
 due: ""
 owner: ""
 description: "Retest after RTHK applies the fixes from the Vizone User Feedback
-  report (28 Oct 2026): every case tagged feedback-fix. Browser cases can be run
-  by Aside; premiere-plugin cases need an editing workstation; peak cases
-  (VZ-011, VZ-012, VZ-034, VZ-048, VZ-049) must run once off-peak and once from 15:00 HKT;
-  writes cases (VZ-013, VZ-017, VZ-042, VZ-052) need approval per run. Compare with the
-  baseline manual runs of 2026-10-30."
+  report (28 Oct 2026): every case tagged feedback-fix. Before the fixes: run
+  the Premiere cases once to confirm they reproduce (otherwise a later pass
+  proves nothing); browser baseline = manual runs of 2026-10-30. Browser cases:
+  Aside. premiere-plugin cases: an editing workstation. Peak cases (VZ-011,
+  VZ-012, VZ-034, VZ-048, VZ-049, VZ-060): once 10:00-12:00 and once from 15:00
+  HKT. Ingest cases (VZ-013, VZ-017, VZ-042, VZ-052, VZ-061) create real items:
+  one approved recording session covers all five. VZ-063 is blocked until an
+  editor account exists. Pass limits come from Q-001..Q-003."
 scope:
   tags:
     - feedback-fix

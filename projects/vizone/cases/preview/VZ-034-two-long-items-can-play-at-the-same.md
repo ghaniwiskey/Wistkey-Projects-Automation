@@ -1,6 +1,6 @@
 ---
 id: VZ-034
-title: "Two long items can play at the same time in two tabs"
+title: "Five long items play at the same time during the 3 PM peak"
 feature: preview
 priority: P2
 tags: [regression, feedback-fix]
@@ -11,23 +11,24 @@ updated: 2026-10-30
 ---
 
 ## Goal
-Several editors (or one editor with two tabs) can preview long items at once without one stalling.
+Several editors can preview long items at once during the daily peak without any player stalling.
 
 ## Preconditions
-- At least two video items of 1 hour or longer exist
+- Run between 15:00 and 18:00 HKT, and once between 10:00 and 12:00 for comparison
+- At least five video items of 1 hour or longer exist
 
 ## Data
-- Items: the two longest Online video items
+- Items: the five longest Online video items
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
-2. Open the longest item in tab 1 and the second longest in tab 2
-3. Press Play in both tabs
-4. Watch both for 30 seconds
+1. Log in to Viz One Studio in five separate browser sessions (or the automated load script) with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+2. Open a different long item in each session
+3. Press Play in all five
+4. Watch all five for 30 seconds
 
 ## Expected
-- Both time codes keep advancing for the full 30 seconds
-- Neither player shows a spinner for more than 2 seconds
+- All five time codes keep advancing for the full 30 seconds
+- No player shows a spinner for more than 2 seconds
 
 ## Notes
-Load edge case of CNCA 2 (concurrent users). Run at peak and off-peak.
+CNCA 2 (concurrent users overload the Media Server). Read-only; keep the load short so the newsroom is not slowed.

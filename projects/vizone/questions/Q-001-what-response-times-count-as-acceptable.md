@@ -6,7 +6,7 @@ askedTo: "Ghani"
 env: staging
 found: 2026-10-30T03:10:07.826Z
 foundBy: "Vizone User Feedback 28Oct2026.docx"
-tests: [VZ-002, VZ-011, VZ-012]
+tests: [VZ-002, VZ-011, VZ-012, VZ-034, VZ-046, VZ-048, VZ-049, VZ-060, VZ-061, VZ-063]
 bugs: []
 updated: 2026-10-30T03:10:07.826Z
 answered: ""
