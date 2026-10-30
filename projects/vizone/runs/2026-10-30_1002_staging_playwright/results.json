@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "vizone",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "http://vizone-staging01.bh.rthkeng.hk/",
+  "runId": "2026-10-30_1002_staging_playwright",
+  "workers": [
+    "vizone"
+  ],
+  "startedAt": "2026-10-30T03:02:30.982Z",
+  "finishedAt": "2026-10-30T03:02:42.549Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "VZ-001",
+      "title": "home page loads",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/vizone/tests/e2e/smoke/home.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-10-30T03:02:30.982Z",
+      "durationMs": 5121,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the home page",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Page has a title and visible content",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveTitle\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"vizone\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

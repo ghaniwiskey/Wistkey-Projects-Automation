@@ -7,6 +7,15 @@
 - Dashboard: a dashboard message, Recent Items, Recent Folders. URLs are hash routes (`/studio/#DashboardPlace:`).
 - Login page: Domain select (Internal accounts = SYSTEM), User name, Password, Log In.
 
+## Media and preview
+
+- Items: Search > Items, sort "Media Duration" for the longest (staging has 1-3h40m Feed items). Item page = HTML5 video player (proxy H.264/AAC from vizone-staging-media01, audio items play an mp3), Overview table (Duration, Start TC, Format, Audio), tabs Metadata, Keyframes (paged thumbnails), Files (Highres / Proxy Video LR + Audio LR / Archive location), Log, Segments.
+- Player time code shows Start TC + position, not 00:00 based.
+- Archived items: no "archived" media status; use the Archive policy facet (No, N/A, NAS, Scality) and the Files tab location (e.g. Scality Archive). Their proxy still plays.
+- Asset media status values: Online, Empty, Failed, Importing (on 2026-10-30 Importing = stale .wav.filepart uploads, no live recording).
+- Search: Chinese keywords match titles and text; English keywords do not match Chinese-only items (Q-002). Facets list the top 4 values; "Show All" reveals all facets.
+- Easycut / Precut / Logger buttons on the item page did not open anything visible in the browser.
+
 ## Known user issues (feedback report 28 Oct 2026)
 
 Source: "Vizone User Feedback 28Oct2026.docx" from the user. Most issues are in the Premiere plugin / Media Server, not the web client; web-testable angles in brackets.
