@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -27,4 +27,4 @@ Just viewing 儀表板 does not change templates, contacts or replies, for any r
 - Status updates from Twilio are the only changes, and no template or reply is removed
 
 ## Notes
-The page first runs a Twilio sync on every load ("先從 Twilio 同步模板審核狀態"). The sync removes templates missing in Twilio together with their replies (TWW-069/TWW-104) and writes for viewers (BUG-039), so just opening the dashboard can trigger both. Fails on BUG-039 (open) since 2026-10-29: a viewer opening the dashboard rewrites every synced template.
+The dashboard starts a Twilio sync on load. Admin/editor sync may remove records missing in Twilio (TWW-069/TWW-104), so this case still checks those side effects. Viewer sync itself preserved the stale local fixture in TWW-106 during runs/2026-10-30_1349_local_manual. Broad BUG-039 was superseded; do not expect this case to fail on the old viewer-write behavior. The complete dashboard no-mutation case has not been rerun here.

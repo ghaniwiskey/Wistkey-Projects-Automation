@@ -27,4 +27,4 @@ Editors can run campaigns on shared templates.
 - The send starts (發送任務已啓動) and the test phone receives the message
 
 ## Notes
-Editors may send approved templates created by other users. Retest runs/2026-10-30_1349_local_manual passed: one message to the authorized test phone, received and read. Other parts of BUG-038 remain open; this send scenario no longer fails.
+Editors may send approved templates created by other users. Retest runs/2026-10-30_1349_local_manual passed: one message to the authorized test phone, received and read. Broad BUG-038 was superseded; remaining shared-report export is BUG-044 and does not mark this sending scenario.

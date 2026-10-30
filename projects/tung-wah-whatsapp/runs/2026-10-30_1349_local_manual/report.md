@@ -22,11 +22,11 @@
 | TWW-081 | Logout invalidates the session token | pass | - | 0.0s | - | - |
 | TWW-059 | Deleting a user ends their sessions | pass | - | 0.0s | - | - |
 | TWW-098 | Editing message text or buttons keeps the app and Twilio the same | pass | - | 0.0s | - | - |
-| TWW-012 | Editor can see every template's contacts and report | fail | - | 0.0s | product-bug; BUG-038 | [1](screenshots/TWW-012-m01-editor-report-404.png) |
+| TWW-012 | Editor can see every template's contacts and report | fail | - | 0.0s | product-bug; BUG-044 | [1](screenshots/TWW-012-m01-editor-report-404.png) |
 | TWW-013 | Editor can send from a template another user created | pass | - | 0.0s | - | - |
 | TWW-084 | Editor can manage the contacts of a template another user created | pass | - | 0.0s | - | - |
 | TWW-088 | Sync shows every template to editors and viewers | pass | - | 0.0s | - | - |
-| TWW-105 | Viewer can open and read every template | fail | - | 0.0s | product-bug; BUG-039 | [1](screenshots/TWW-105-m01-viewer-write-controls.png) |
+| TWW-105 | Viewer can open and read every template | fail | - | 0.0s | product-bug; BUG-044 | [1](screenshots/TWW-105-m01-viewer-write-controls.png) |
 | TWW-106 | Viewer's sync from Twilio does not change app data | pass | - | 0.0s | - | - |
 | TWW-108 | Dashboard numbers match the templates' contacts and replies | fail | - | 0.0s | product-bug; BUG-043 | [1](screenshots/TWW-108-m01-missing-local-template.png) |
 | TWW-109 | Dashboard covers every template the user's role can see | pass | - | 0.0s | - | - |
@@ -36,17 +36,19 @@
 
 ### TWW-012: Editor can see every template's contacts and report (fail)
 
-- Failure type: product-bug (bug BUG-038)
+- Failure type: product-bug (bug BUG-044)
 - Source: `projects/tung-wah-whatsapp/cases/security/TWW-012-editor-cannot-read-another-user-s.md`
 - Note: Shared template and contacts now open; editor export of admin-owned template still 404 {error:模板不存在}, reproduced twice. Creator-only check remains in export route.
+- Note: Tracking split only: the confirmed export 404 is now BUG-044, superseding the remaining part of BUG-038. No new execution or result change.
 
 ![TWW-012](screenshots/TWW-012-m01-editor-report-404.png)
 
 ### TWW-105: Viewer can open and read every template (fail)
 
-- Failure type: product-bug (bug BUG-039)
+- Failure type: product-bug (bug BUG-044)
 - Source: `projects/tung-wah-whatsapp/cases/security/TWW-105-viewer-can-open-and-read-every-template.md`
 - Note: Viewer shared detail, contacts and replies/stats work, but export still 404 twice and detail UI exposes write controls. Checked write endpoints still correctly reject with 403.
+- Note: Tracking split only: report export 404 is BUG-044; the separately evidenced viewer detail write controls are BUG-045. Broad BUG-039 superseded. No new execution or result change.
 
 ![TWW-105](screenshots/TWW-105-m01-viewer-write-controls.png)
 

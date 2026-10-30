@@ -11,3 +11,7 @@
 - Evidence: 2026-10-30-report-retest/*.png and retest-api-evidence.json (no credentials/cookies).
 - Cleanup: temporary editor/viewer/admin deleted; draft absent in app and Twilio; sent QA contact/reply and upload metadata/file removed; three QA upload files removed. Original users/templates/contacts retained. QA admin browser session restored on ngrok.
 - Manual run: runs/2026-10-30_1349_local_manual. No automation written or full suite run.
+
+## Follow-up: focused bug reports
+
+At the user's request, split the remaining defects into BUG-044 (editor/viewer shared-report export 404) and BUG-045 (viewer detail-page write controls). BUG-038/BUG-039 are superseded using duplicate status, not marked fully verified. Existing case coverage was reused, with notes and current retest triage relinked. The original 12-case results remain 9 pass / 3 fail; no application retest, new send, data mutation or new manual run was performed for this tracking-only change. BUG-037 retains its separate template-list New template scope.

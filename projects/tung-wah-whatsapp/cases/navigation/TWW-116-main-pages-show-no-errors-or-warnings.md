@@ -27,4 +27,4 @@ Normal use of the app logs no errors or warnings in the browser console, for eve
 - Pages that do not exist may log a 404 for that page only
 
 ## Notes
-2026-10-29 sweep with Playwright (console, page errors, failed requests): admin clean except the 添加用户 dialog warning "Missing `Description` or `aria-describedby={undefined}` for {DialogContent}." (BUG-042, closed as wont-fix: accepted, not counted here). Editor and viewer get 404 errors on templates they did not create; that is BUG-038/BUG-039, not counted here.
+Historical 2026-10-29 console sweep: admin clean except the accepted add-user dialog warning (BUG-042, wont-fix); editors/viewers previously received owner-only template 404s. Shared page access now works in the 2026-10-30 retest. Broad BUG-038/BUG-039 were superseded; remaining report-export 404 is BUG-044 and viewer write controls are BUG-045. Neither should be treated as accepted console noise. This complete console sweep has not been rerun.

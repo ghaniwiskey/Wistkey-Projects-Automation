@@ -25,4 +25,4 @@ updated: 2026-10-30
 - The viewer's sync does not change data (TWW-106)
 
 ## Notes
-Editors and viewers see all synced Twilio templates. Viewer sync is read-only. Both role sync checks and the viewer no-write check passed in runs/2026-10-30_1349_local_manual; remaining BUG-038/BUG-039 failures are elsewhere.
+Editors and viewers see all synced Twilio templates. Viewer sync is read-only. Role sync and viewer no-write checks passed in runs/2026-10-30_1349_local_manual. Broad BUG-038/BUG-039 were superseded; their remaining export and viewer-detail UI defects are tracked independently by BUG-044/BUG-045 and do not mark this sync scenario.

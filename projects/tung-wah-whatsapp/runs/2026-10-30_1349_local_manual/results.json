@@ -218,7 +218,8 @@
       ],
       "checks": [],
       "notes": [
-        "Shared template and contacts now open; editor export of admin-owned template still 404 {error:模板不存在}, reproduced twice. Creator-only check remains in export route."
+        "Shared template and contacts now open; editor export of admin-owned template still 404 {error:模板不存在}, reproduced twice. Creator-only check remains in export route.",
+        "Tracking split only: the confirmed export 404 is now BUG-044, superseding the remaining part of BUG-038. No new execution or result change."
       ],
       "evidence": [
         "screenshots/TWW-012-m01-editor-report-404.png"
@@ -226,7 +227,7 @@
       "durationMs": 0,
       "executedAt": "2026-10-30T06:57:11.843Z",
       "failureType": "product-bug",
-      "bug": "BUG-038"
+      "bug": "BUG-044"
     },
     {
       "id": "TWW-013",
@@ -425,7 +426,8 @@
       ],
       "checks": [],
       "notes": [
-        "Viewer shared detail, contacts and replies/stats work, but export still 404 twice and detail UI exposes write controls. Checked write endpoints still correctly reject with 403."
+        "Viewer shared detail, contacts and replies/stats work, but export still 404 twice and detail UI exposes write controls. Checked write endpoints still correctly reject with 403.",
+        "Tracking split only: report export 404 is BUG-044; the separately evidenced viewer detail write controls are BUG-045. Broad BUG-039 superseded. No new execution or result change."
       ],
       "evidence": [
         "screenshots/TWW-105-m01-viewer-write-controls.png"
@@ -433,7 +435,7 @@
       "durationMs": 0,
       "executedAt": "2026-10-30T06:57:11.991Z",
       "failureType": "product-bug",
-      "bug": "BUG-039"
+      "bug": "BUG-044"
     },
     {
       "id": "TWW-106",

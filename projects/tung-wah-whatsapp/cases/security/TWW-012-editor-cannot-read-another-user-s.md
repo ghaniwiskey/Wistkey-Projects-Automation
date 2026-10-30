@@ -33,4 +33,4 @@ Editors work on all campaigns, not only their own.
 - The template page, the contacts page (QA Tester with phone and member data) and the report download work
 
 ## Notes
-Intended roles: editors may access every template. Retest runs/2026-10-30_1349_local_manual: shared detail and contacts now return 200, but report download still returns 404 模板不存在. Remaining BUG-038 failure is the export route owner check.
+Editors may access every template. Retest runs/2026-10-30_1349_local_manual: shared detail and contacts return 200, but report download returns 404 模板不存在. The remaining export defect is BUG-044; broad BUG-038 was superseded at the user’s request.

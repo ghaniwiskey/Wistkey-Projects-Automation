@@ -31,4 +31,4 @@ Editors can prepare contact lists on shared templates.
 - Upload, reset and delete succeed for the editor (with the usual confirmations)
 
 ## Notes
-Editors may upload, reset and delete QA contacts on any template. These permission checks passed through HTTP APIs in runs/2026-10-30_1349_local_manual using an admin-synced throwaway draft. Other parts of BUG-038 remain open; this scenario no longer fails.
+Editors may upload, reset and delete QA contacts on any template. HTTP permission checks passed in runs/2026-10-30_1349_local_manual using an admin-synced throwaway draft. Broad BUG-038 was superseded; remaining report export is BUG-044 and does not mark this scenario.

@@ -33,4 +33,4 @@ A viewer can follow every campaign read-only.
 - No create, upload, mapping save, send, reset or delete control is offered (TWW-087)
 
 ## Notes
-Viewer list, shared detail, contacts, reply statistics and replies now work. Still fails on BUG-039 in runs/2026-10-30_1349_local_manual: report export returns 404 模板不存在 and the detail UI still offers edit/delete/upload/mapping/send controls, although checked write APIs return 403.
+Viewer list, shared detail, contacts, reply statistics and replies work. Retest runs/2026-10-30_1349_local_manual still fails: export returns 404 模板不存在 (BUG-044), and the detail UI offers edit/delete/upload/mapping/send controls despite checked write APIs returning 403 (BUG-045). Broad BUG-039 was superseded by these focused reports.

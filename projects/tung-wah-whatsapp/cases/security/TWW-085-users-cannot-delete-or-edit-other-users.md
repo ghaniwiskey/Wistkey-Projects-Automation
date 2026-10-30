@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -28,4 +28,4 @@ Template changes follow the role, and the Twilio delete never happens without pe
 - Editor: the edit is saved and the delete removes draft 2 from the app and from Twilio
 
 ## Notes
-Intended roles (product owner, 2026-10-29): admin = everything incl. 用戶管理; editor = sync and create/edit/delete every template, no 用戶管理; viewer = sees every template and can sync, read-only. The editor part fails on BUG-038 (open). BUG-029 (Twilio delete before the permission check) verified 2026-10-29. NEVER use a real or approved template. Delete draft 1 as admin afterwards.
+Admins and editors manage shared templates; viewers cannot write. BUG-029 verified for the server-side permission-before-delete rule. Broad BUG-038 was superseded, with export tracked separately as BUG-044. On 2026-10-30, viewer PATCH/DELETE denial, editor question edit and stale-local deletion were checked, but live editor-initiated Twilio deletion was not exercised; this case was excluded from the executed-case results. Never use a real or approved template. Clean up disposable drafts afterwards.

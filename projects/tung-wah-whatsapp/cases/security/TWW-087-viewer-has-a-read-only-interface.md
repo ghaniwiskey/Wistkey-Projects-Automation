@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -21,7 +21,8 @@ updated: 2026-10-29
 2. Open 消息模版 and a template
 
 ## Expected
-- No 新建模板, 從 Twilio 同步, upload, mapping save, send, reset or delete controls
+- No 新建模板, edit, upload, mapping save, send, reset or delete controls
+- 從 Twilio 同步 remains available as a read-only refresh
 
 ## Notes
-BUG-002 verified 2026-10-29 (the server blocks viewers). Fails on BUG-037 (open): the UI still shows 新建模板 and 從 Twilio 同步.
+Viewers may use read-only sync. BUG-002 verified that the server blocks writes. BUG-037 covers New template on the template list; BUG-045 covers edit/delete/upload/mapping/send controls on template details, evidenced in runs/2026-10-30_1349_local_manual under TWW-105. This tracking update is not a new execution of TWW-087.
