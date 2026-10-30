@@ -21,7 +21,7 @@ Rules and allowed values: `docs/conventions.md`. Case format: `docs/templates/te
      "preconditions": [], "data": ["Query: plug"], "steps": ["Open the home page", "Search for plug"],
      "expected": ["The results page lists at least one product whose name contains \"Plug\""], "notes": "" }
    ```
-   Case rules (user-language steps with concrete data, `<unique>` values, observable expectations, tags): conventions > Writing a test case. Editing an existing case: edit the Markdown and bump `updated:`.
+   Case rules (user-language steps with concrete data, `<unique>` values, observable expectations, tags): conventions > Writing a test case; tester-facing wording, scenario descriptions and spreadsheet plans: `docs/test-case-style.md`. Editing an existing case: edit the Markdown and bump `updated:`.
 4. **Validate:** `.\qa lint` shows 0 errors.
 5. **Report:** cases added (ID, title, priority, tags), coverage gaps, open questions. Offer to automate them (Part B).
 
