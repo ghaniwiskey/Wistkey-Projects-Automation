@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -23,8 +23,8 @@ Normal use of the app logs no errors or warnings in the browser console, for eve
 3. Repeat the page visits as the QA editor and the QA viewer
 
 ## Expected
-- No red errors, warnings or failed requests (4xx/5xx) on pages the role is allowed to open
+- No red errors, warnings or failed requests (4xx/5xx) on pages the role is allowed to open, apart from the accepted 添加用户 dialog warning (BUG-042)
 - Pages that do not exist may log a 404 for that page only
 
 ## Notes
-2026-10-29 sweep with Playwright (console, page errors, failed requests): admin clean except the 添加用户 dialog warning (BUG-042). Editor and viewer get 404 errors on templates they did not create; that is BUG-038/BUG-039, not counted here.
+2026-10-29 sweep with Playwright (console, page errors, failed requests): admin clean except the 添加用户 dialog warning "Missing `Description` or `aria-describedby={undefined}` for {DialogContent}." (BUG-042, closed as wont-fix: accepted, not counted here). Editor and viewer get 404 errors on templates they did not create; that is BUG-038/BUG-039, not counted here.

@@ -2,13 +2,13 @@
 id: BUG-024
 title: "Promotion saves with an End Datetime earlier than its Start Datetime"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/promotions/edit?pid=661"
-updated: 2026-10-27T12:55:00.000Z
+updated: 2026-10-30T05:45:53.005Z
 found: 2026-10-27T12:55:00.000Z
 foundBy: "explorations/2026-10-27-promotions-transfers.md"
-tests: [SCRM-102]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -36,3 +36,5 @@ Saved with no message. List row: start 2026-10-27 00:00:00, end 2026-10-26 09:00
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-promotions-transfers.md.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-102 now expects the promotion to save as expired); tests list emptied..

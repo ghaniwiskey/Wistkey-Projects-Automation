@@ -2,12 +2,13 @@
 id: BUG-003
 title: "Registration with an impossible birthday stores today's date"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/register"
+updated: 2026-10-30T05:45:51.373Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-eshop-critical.md"
-tests: [SBF-007]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +35,5 @@ Registration succeeds; CRM shows Birthday 10-27 for member MEMy001164525.
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-eshop-critical.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SBF-007 no longer checks the birthday); tests list emptied..

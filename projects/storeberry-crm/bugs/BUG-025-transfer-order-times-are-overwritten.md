@@ -2,13 +2,13 @@
 id: BUG-025
 title: "Transfer order Transfer time and Receive Time are overwritten by later actions (cancel, second receive)"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/inventory/transfer-detail?id=312"
-updated: 2026-10-27T12:55:00.000Z
+updated: 2026-10-30T05:45:53.218Z
 found: 2026-10-27T12:55:00.000Z
 foundBy: "explorations/2026-10-27-promotions-transfers.md"
-tests: [SCRM-105, SCRM-104]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -41,3 +41,5 @@ Inventory History still has the correct timestamps, so the detail page contradic
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-promotions-transfers.md.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-104 and SCRM-105 no longer check transfer/receive times); tests list emptied..

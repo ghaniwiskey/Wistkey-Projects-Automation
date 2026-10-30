@@ -2,13 +2,13 @@
 id: BUG-007
 title: "Transfer order can reserve more stock than is available, leaving negative available quantity"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/inventory/transfer-edit?id=304"
-updated: 2026-10-28T22:07:46.036Z
+updated: 2026-10-30T05:45:52.169Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
-tests: [SCRM-174]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -36,3 +36,5 @@ Line shows 0 / -3 with Qty 3; Qty 99999 is accepted by the form without any mess
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
 - 2026-10-27: Creation path also unguarded (explorations/2026-10-27-stock-movement.md): Add Replenish Request Office -> TaiPo, product test 2 qty 999 while Office shows 45 / 45 reaches the Confirm dialog with no warning (not confirmed); screenshot ../explorations/2026-10-27-stock-movement/05-replenish-confirm-qty-999-over-available.jpg.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-174 now expects the over-available transfer to be accepted); tests list emptied..

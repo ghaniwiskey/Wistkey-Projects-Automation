@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -28,7 +28,6 @@ A shipped transfer can be cancelled and the source warehouse gets all its stock 
 ## Expected
 - Status Canceled; Office back to S / A; TaiPo unchanged
 - Inventory History lists IN_TRANSIT, CANCEL_TRANSFER and CANCEL_TRANSFER_ORDER for the transfer number
-- Transfer time is empty or shows the real shipping time (not the cancel time)
 
 ## Notes
-2026-10-27 manual: stock pass (transfer 312 QA-TO-mvqoiwwt, Office 43/43 restored); the last bullet fails, BUG-025 (Transfer time = cancel time). The two-step cancel and label are asked in Q-016.
+2026-10-27 manual: stock pass (transfer 312 QA-TO-mvqoiwwt, Office 43/43 restored); Transfer time showed the cancel time: BUG-025, closed as wont-fix (accepted behavior), so the transfer time is not checked here. The two-step cancel and label are asked in Q-016.

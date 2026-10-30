@@ -1,17 +1,17 @@
 ---
 id: SCRM-094
-title: "Receiving a transfer with no product toggled tells staff to select items"
+title: "Receive with no product toggled leaves the transfer In-transit"
 feature: inventory
 priority: P2
 tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-30
 ---
 
 ## Goal
-Receive on an in-transit transfer gives feedback when no product row is marked as received.
+Receive on an in-transit transfer with no product row marked as received changes nothing.
 
 ## Preconditions
 - An own QA transfer order in In-transit status
@@ -25,8 +25,8 @@ Receive on an in-transit transfer gives feedback when no product row is marked a
 3. Click OK in "Confirm receive"
 
 ## Expected
-- A message says to select at least one product (or Receive is disabled)
-- Status stays In-transit and no stock moves
+- The dialog closes without a message (accepted)
+- Status stays In-transit, Receive Qty 0 and no stock moves
 
 ## Notes
-Currently fails: BUG-019 (2026-10-27). POST /inventory/transfer-receive returns 200 and nothing changes.
+BUG-019, closed as wont-fix (accepted behavior): no message is shown. POST /inventory/transfer-receive returns 200 and nothing changes.

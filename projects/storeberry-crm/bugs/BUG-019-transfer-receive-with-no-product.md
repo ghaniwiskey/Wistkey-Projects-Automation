@@ -2,13 +2,13 @@
 id: BUG-019
 title: "Transfer Receive with no product toggled silently does nothing"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/inventory/transfer-detail?id=308"
-updated: 2026-10-27T09:51:38.724Z
+updated: 2026-10-30T05:45:52.801Z
 found: 2026-10-27T09:51:38.724Z
 foundBy: "explorations/2026-10-27-stock-movement.md"
-tests: [SCRM-094]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,5 @@ Dialog closes, status stays In-transit, Receive Qty 0, no message. Reproduced tw
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-stock-movement.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-094 now expects no message and no change); tests list emptied..

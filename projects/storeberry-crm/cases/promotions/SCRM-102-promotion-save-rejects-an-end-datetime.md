@@ -1,17 +1,17 @@
 ---
 id: SCRM-102
-title: "Promotion save rejects an End Datetime earlier than the Start Datetime"
+title: "A promotion with an End Datetime earlier than its Start Datetime saves as expired"
 feature: promotions
 priority: P2
 tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-30
 ---
 
 ## Goal
-Staff cannot save a promotion whose date window is impossible.
+Documents the accepted behavior for an impossible date window: the promotion saves and is listed as expired, so it never applies.
 
 ## Preconditions
 - None
@@ -23,10 +23,11 @@ Staff cannot save a promotion whose date window is impossible.
 1. Log in to the staging CRM and open Promotions > Add Promotion > "Promo Code: Get $Y off upon spending over $X with discount code"
 2. Fill the data, type Start Datetime **today 00:00:00** and End Datetime **yesterday 09:00:00**
 3. Click Save
+4. Cleanup: delete the QA promotion
 
 ## Expected
-- A message says the end datetime must be after the start datetime
-- The page stays on the form and no promotion is added (list count unchanged)
+- Step 3: saved without a message
+- The list row shows the typed start and end and status expired
 
 ## Notes
-Currently fails: BUG-024 (2026-10-27): saved silently and listed as expired. Empty Save shows a toast listing only name and start datetime ("The name is required.The start datetime is required.").
+BUG-024, closed as wont-fix (accepted behavior). Empty Save shows a toast listing only name and start datetime ("The name is required.The start datetime is required.").

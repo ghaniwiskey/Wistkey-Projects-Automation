@@ -2,13 +2,13 @@
 id: BUG-040
 title: "Dashboard message records repeat one contact across pages and never show another"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/dashboard"
-updated: 2026-10-29T12:05:28.167Z
+updated: 2026-10-30T05:45:54.253Z
 found: 2026-10-29T12:05:28.167Z
 foundBy: "Dashboard test 2026-10-29"
-tests: [TWW-111]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,5 @@ Page 10 ends with Bulk 0499 and page 11 starts with Bulk 0499 again; Bulk 0999 i
 
 ## History
 - 2026-10-29: filed from Dashboard test 2026-10-29 in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (TWW-111 no longer checks repeats or gaps between pages); tests list emptied..

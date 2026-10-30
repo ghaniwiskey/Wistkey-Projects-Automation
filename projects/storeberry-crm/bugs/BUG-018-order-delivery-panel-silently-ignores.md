@@ -2,13 +2,13 @@
 id: BUG-018
 title: "Order delivery panel silently ignores Dispatch with nothing packed and Save with packed qty above ordered"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=10969"
-updated: 2026-10-27T09:05:39.178Z
+updated: 2026-10-30T05:45:52.592Z
 found: 2026-10-27T09:05:39.178Z
 foundBy: "explorations/2026-10-27-fulfilment-stock.md"
-tests: [SCRM-093]
+tests: []
 frequency: always (Save 2/2, Dispatch 1/1)
 ---
 ## Summary
@@ -34,3 +34,5 @@ Nothing happens, no XHR is sent, no message. With qty 1, Save works ("update suc
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-fulfilment-stock.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-093 now expects both actions to be ignored); tests list emptied..

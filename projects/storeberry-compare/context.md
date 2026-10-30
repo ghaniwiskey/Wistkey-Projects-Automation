@@ -19,7 +19,7 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes an
 - Staging promotions that change checkout totals: basket 全單買滿$1000減$300, VIP888 (promotions 605/606), free gift 631 at net $800, add-on 620 at $1000. After an item is removed, the add-on block can show the wrong product until reload (BUG-013).
 - eShop API error responses include a full server stack trace (BUG-016, accepted: do not re-report).
 - Shipping fees: rules live in CRM Online Store > Shipping > edit method (values load by JS, read them in a browser). Paid flat methods offered at checkout: Testing (flat 30, free from 1600) and ShipAnySF350free (flat 30, free from 350); the threshold uses the discounted total. SF/ShipAny courier methods need the full address before a fee shows. Shipping method select: `#shipping-address-shipping-method`.
-- A cart change at checkout can reset the shipping method while the Summary keeps the old fee (BUG-021). Delivery Info date fields are plain text inputs behind an xdsoft picker: typed dates bypass the blocked dates (BUG-020).
+- A cart change at checkout can reset the shipping method while the Summary keeps the old fee (BUG-021). Delivery Info date fields are plain text inputs behind an xdsoft picker: typed dates bypass the blocked dates (BUG-020, accepted).
 - Stock is re-checked at Proceed against TaiPo: "The following item(s) are out of stock/not enough stock now: - <product>" and the line shows "Not enough stock".
 
 ## Courses

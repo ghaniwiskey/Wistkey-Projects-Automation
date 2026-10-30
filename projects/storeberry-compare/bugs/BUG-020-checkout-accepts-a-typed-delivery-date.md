@@ -2,13 +2,13 @@
 id: BUG-020
 title: "Checkout accepts a typed delivery date that the date picker blocks (same day, outside the allowed range, non-date text)"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/checkout"
-updated: 2026-10-28T04:26:57.751Z
+updated: 2026-10-30T05:45:51.531Z
 found: 2026-10-28T04:26:57.751Z
 foundBy: "explorations/2026-10-28-shipping-fees-last-unit.md"
-tests: [SBF-034]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -38,3 +38,5 @@ Order TXN0126102800010 placed (Total HKD 540.00); CRM Delivery Info 'test' = 202
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-shipping-fees-last-unit.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SBF-034 now tests the picker-chosen date only); tests list emptied..

@@ -2,13 +2,13 @@
 id: BUG-003
 title: "Bulk \"Make product terminated in all platforms\" runs without confirmation"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/products"
-updated: 2026-10-28T22:07:46.267Z
+updated: 2026-10-30T05:45:51.956Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
-tests: [SCRM-175]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -33,3 +33,5 @@ The product is terminated instantly (active 88 -> 87, terminated 82 -> 83) with 
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-175 now expects the action to terminate only the selected row, without confirmation); tests list emptied..

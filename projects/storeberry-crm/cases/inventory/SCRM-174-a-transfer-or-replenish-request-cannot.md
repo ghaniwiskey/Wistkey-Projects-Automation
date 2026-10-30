@@ -1,33 +1,33 @@
 ---
 id: SCRM-174
-title: "A transfer or replenish request cannot move more than the source warehouse has available"
+title: "A transfer above the source available stock is accepted and leaves the source available negative"
 feature: inventory
 priority: P0
 tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
-Stock movements never push available stock below zero.
+Documents the accepted behavior: transfers and replenish requests are not limited by the source available quantity, and the shortfall shows as negative available.
 
 ## Preconditions
 - A QA product with a known small Available in the source warehouse (read in Inventory)
 
 ## Data
-- Qty: Available + 1, and 99999
+- Qty: Available + 1
 
 ## Steps
-1. Add Transfer Order from that warehouse with qty Available + 1; Submit
-2. Edit a pending QA transfer and type 99999
-3. Add Replenish Request with qty above the source Available
+1. Add Transfer Order from that warehouse with qty Available + 1; Submit > Confirm
+2. Read the source warehouse Available in Inventory
+3. Cleanup: cancel the QA transfer
 
 ## Expected
-- Each is refused or warned before Confirm; nothing is reserved
-- Available never shows a negative value
-- Cleanup: cancel any QA transfer/request created
+- Step 1: the transfer is saved as Pending without a message
+- Step 2: source Available = previous Available - qty (here -1)
+- Step 3: after cancelling, source Available is back to its previous value
 
 ## Notes
-Gap from the 2026-10-29 review, sixth pass (no existing case found by search). Never tested. Linked bug: BUG-007 (open, major).
+Gap from the 2026-10-29 review, sixth pass. Never tested. BUG-007, closed as wont-fix (accepted behavior): over-available transfers and replenish requests are allowed.

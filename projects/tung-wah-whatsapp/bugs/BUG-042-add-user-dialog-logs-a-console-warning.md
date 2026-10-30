@@ -2,13 +2,13 @@
 id: BUG-042
 title: "Add-user dialog logs a console warning and points screen readers to a description that does not exist"
 severity: trivial
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/users"
-updated: 2026-10-29T12:19:38.318Z
+updated: 2026-10-30T05:45:54.431Z
 found: 2026-10-29T12:19:38.318Z
 foundBy: "Console sweep 2026-10-29"
-tests: [TWW-116]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Console warning: "Missing `Description` or `aria-describedby={undefined}` for {D
 
 ## History
 - 2026-10-29: filed from Console sweep 2026-10-29 in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (TWW-116 now accepts the dialog warning); tests list emptied..

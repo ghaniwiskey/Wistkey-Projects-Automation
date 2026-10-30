@@ -2,13 +2,13 @@
 id: BUG-029
 title: "Partial return refund rounds the negative total down: it refunds more than the item share and lets refunds exceed the amount paid"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=11018"
-updated: 2026-10-28T02:41:59.752Z
+updated: 2026-10-30T05:45:53.640Z
 found: 2026-10-28T02:41:59.752Z
 foundBy: "explorations/2026-10-28-paid-order-changes.md"
-tests: [SCRM-132]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -37,3 +37,5 @@ Refund 004 = HKD 510.00 (the full order total) for C alone; refund 005 = HKD 0.1
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-paid-order-changes.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-132 now allows rounding up to HKD 0.10); tests list emptied..

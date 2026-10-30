@@ -2,13 +2,13 @@
 id: BUG-030
 title: "Stock take job created as Open count runs as Blind count"
 severity: minor
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/stock-take/create"
-updated: 2026-10-28T04:54:45.183Z
+updated: 2026-10-30T05:45:53.848Z
 found: 2026-10-28T04:54:45.183Z
 foundBy: "explorations/2026-10-28-payment-recovery-fix-retests.md"
-tests: [SCRM-135]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -34,3 +34,5 @@ Count inventory says 'Expected warehouse quantities stay hidden during counting.
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-payment-recovery-fix-retests.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-135 now expects Blind count); tests list emptied..

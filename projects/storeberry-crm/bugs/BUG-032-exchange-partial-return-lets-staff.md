@@ -2,13 +2,13 @@
 id: BUG-032
 title: "Exchange / Partial Return lets staff refund more than the customer paid (refund edited above the remaining paid amount)"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=11016"
-updated: 2026-10-28T05:19:13.904Z
+updated: 2026-10-30T05:45:54.058Z
 found: 2026-10-28T05:19:13.904Z
 foundBy: "explorations/2026-10-28-payment-recovery-fix-retests.md"
-tests: [SCRM-118]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -36,3 +36,5 @@ Refund order TXN0126102800015 completed, Total $ -900.00 (Bank Transfer -900); o
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-payment-recovery-fix-retests.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-118 now refunds the remaining share without editing the amount); tests list emptied..

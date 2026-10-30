@@ -2,9 +2,10 @@
 id: BUG-004
 title: "CRM copy and label errors on customer and product screens"
 severity: trivial
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/customers/create"
+updated: 2026-10-29T01:20:10.211Z
 found: 2026-10-27
 foundBy: "explorations/2026-10-27-crm-eshop-critical.md"
 tests: []
@@ -35,3 +36,4 @@ As listed in the steps.
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-crm-eshop-critical.md in the Test Manager app.
 - 2026-10-27: More copy errors 2026-10-27: Orders Action menu "Facebook Meseenger"; Purchase Order cancel dialog and category/brand delete "Are you want to ..."; category and brand forms "Recommentd dimensions"; category Action menu "Hide/Show in retail plaform"; brand link preview ".../brand//brand-id/" (double slash); replenish cancel toast "Cancelled transfer order".
+- 2026-10-29: status open -> wont-fix.

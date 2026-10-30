@@ -2,13 +2,13 @@
 id: BUG-027
 title: "Editing a paid order discards the payment: the replacement order is Pending Payment for its full total and the difference is never refunded"
 severity: critical
-status: open
+status: wont-fix
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/orders/detail?id=11021"
-updated: 2026-10-28T02:41:59.431Z
+updated: 2026-10-30T05:45:53.425Z
 found: 2026-10-28T02:41:59.431Z
 foundBy: "explorations/2026-10-28-paid-order-changes.md"
-tests: [SCRM-120, SCRM-121]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -41,3 +41,5 @@ Lower (TXN0126102800006 -> 006A): 006 Canceled / Payment Canceled, its Payment H
 
 ## History
 - 2026-10-28: filed from explorations/2026-10-28-paid-order-changes.md in the Test Manager app.
+- 2026-10-29: status open -> wont-fix.
+- 2026-10-30: Closed as wont-fix: linked cases updated to the accepted behavior (SCRM-120 and SCRM-121 now expect a Pending Payment replacement for the full total); tests list emptied..

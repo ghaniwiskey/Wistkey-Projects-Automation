@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ Receiving one row of a multi-product transfer moves only that product and marks 
 - Cleanup: receive the C row (status Received)
 
 ## Notes
-2026-10-27 manual: pass (transfer 311 QA-TO-mvqodhe9, TaiPo product test 2 9/8 -> 10/9). After a partial receive Cancel Transfer is no longer offered (Q-016). The final receive overwrites Receive Time (BUG-025).
+2026-10-27 manual: pass (transfer 311 QA-TO-mvqodhe9, TaiPo product test 2 9/8 -> 10/9). After a partial receive Cancel Transfer is no longer offered (Q-016). The final receive overwrites Receive Time (BUG-025, closed as wont-fix; not checked here).

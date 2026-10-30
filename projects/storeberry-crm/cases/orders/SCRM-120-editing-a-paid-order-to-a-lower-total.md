@@ -1,17 +1,17 @@
 ---
 id: SCRM-120
-title: "Editing a paid order to a lower total records the difference as a refund and adjusts the points"
+title: "Editing a paid order to a lower total creates a Pending Payment replacement for the new total"
 feature: orders
 priority: P0
 tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-30
 ---
 
 ## Goal
-When staff remove something from a paid order, the customer is not overcharged and points follow the new amount.
+Documents the accepted behavior when staff remove something from a paid order: the payment is not carried over to the replacement order.
 
 ## Preconditions
 - A QA member's eShop order paid by Bank Transfer with the receipt accepted (Processing / Complete), placed during the test, two units of one product (or two products)
@@ -28,12 +28,9 @@ When staff remove something from a paid order, the customer is not overcharged a
 4. Reread member points, level spending and Point History
 
 ## Expected
-- Step 2: the POS shows the amount already paid and the difference to give back (no negative "Balance due" without explanation)
-- Step 3: replacement order total = original minus the removed line (after discounts); paid status Complete; the difference appears as a refund line (or a clear outstanding credit)
-- Step 3: original order Canceled with a link to the replacement; payments are not counted twice in Payment History
-- Step 4: points and level spending reflect only the replacement total
+- Step 3: replacement order total = original minus the removed line (after discounts); status Pending Payment with Outstanding balance = that total
+- Step 3: original order Canceled; its Payment History still shows the original payment and there is no refund line
+- Step 4: the original order points are voided and the replacement earns none until it is paid
 
 ## Notes
-2026-10-28 manual: fail, BUG-027. POS asked for the full 510.00 (Total Paid 0), tender "Bank Transfer (已付Paid: 894) $510.00"; 006A Pending Payment with 510.00 outstanding, 006 Canceled with no refund, points voided (TXN0126102800006 -> 006A).
-
-Never tested before (2026-10-28 review). On 2026-10-27 an unpaid edit showed "Balance due $ -390.00" (BUG-010 evidence) and the paid/unpaid outcome is Q-011.
+2026-10-28 run: TXN0126102800006 -> 006A (POS asked for the full 510.00, 006A Pending Payment 510.00, 006 Canceled with no refund, points voided). BUG-027, closed as wont-fix (accepted behavior): editing a paid order discards the payment. Paid/unpaid outcome background: Q-011.
