@@ -15,7 +15,7 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 - At most 3 quick-reply buttons (ID btn_0..). Currently at least one is required.
 - Deleting a template in the app also deletes it in Twilio (sync does not bring it back).
 - Only APPROVED templates can be sent ("只有審核通過的模板才能發送消息").
-- Templates belong to their creator; a non-owner gets 404 on the template itself.
+- Templates are shared across the team: every signed-in role can read them; ADMIN/EDITOR can write. Report export still has a creator-or-admin check and returns 404 to other editors/viewers (BUG-038/BUG-039). Twilio content fields are immutable: the edit UI disables them and PATCH rejects content edits with 400; local questionTitle/requiresReply remain editable for writers.
 
 ## Contacts and upload
 - Excel .xlsx/.xls with 姓名 and 手提電話 (English Name/Phone also work). Every column is kept in customVars and offered for variable mapping; Tung Wah member columns (會員類別, 會員編號, ...) appear in reply stats and the report.
@@ -31,7 +31,7 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 - An unmapped variable is not blocked: Twilio uses the template sample value (attendance_confirmation sends "Hi David").
 - Replies arrive through the Twilio webhook POST `/api/webhook/whatsapp` (tunnel: README). X-Twilio-Signature is verified against the public URL (x-forwarded-host): unsigned or forged POSTs get 403 "Invalid signature", so reply tests need a real reply from the test phone (or a request signed with the auth token); GET with a wrong verify token returns 403 "驗證失敗" (Meta verification). The reply goes to the most recently sent contact with that phone (any template) and is stored for all contacts with that phone in the template; only the first reply counts (Q-007). Button title match (case-insensitive) or the button number -> that button, else 其它.
 - 回覆統計: a count card per answer, filters 全部 / <one per received answer> / 其它 / 未回覆. A reply sets the contact to READ.
-- No delivery/read receipts: sends set no status callback (BUG-013); deliveredAt/readAt stay empty, and 已讀 appears only when the member replies.
+- Set PUBLIC_URL to the public tunnel when starting the app. Sends then include a Twilio status callback to /api/webhook/whatsapp: delivered/read populate timestamps and failed/undelivered populate FAILED, errorCode/errorMessage/failedAt. Invalid signatures return 403; older records without callbacks are not backfilled.
 
 ## Report
 `/api/templates/<id>/export` -> `reply_report_<id>.xlsx`: sheet 回覆紀錄 (rows 1-3: 東華三院屯門綜合服務中心, 服務使用者回覆電子訊息紀錄表, 問題：<question title or template name>; then member columns + 回覆內容, 回覆日期) and sheet 數據統計 (count per button, 其他, 未有回覆人數, sign-off block).
@@ -40,7 +40,7 @@ Success and error messages are native dialogs ("上傳成功！", "郵箱已存�
 Templates welcome_greetings and attendance_confirmation (APPROVED, admin), testing and templateName (DRAFT). Use "testing" for upload tests (send is disabled there) and attendance_confirmation (Yes/No buttons, {{first_name}}) for send/reply tests.
 
 ## Auth and sessions
-NextAuth credentials (JWT), 30-day session token. Every request re-reads the user: a role change applies at once and a deleted user gets an empty session and 401 from the APIs (dashboard pages then crash with 500, BUG-035). 退出 does not revoke the token (BUG-036). No login throttling (accepted, BUG-018 wont-fix). Wrong password and unknown email both return 401. Server-side user validation: password >= 6, email format, role enum.
+NextAuth credentials (JWT), 30-day session token. Every request re-reads the user: a role change applies at once and a deleted user gets an empty session and 401 from the APIs; dashboard pages redirect to /login. Logout increments users.session_version so copied old cookies are rejected. The database column and generated Prisma client must match this schema before starting the app. No login throttling (accepted, BUG-018 wont-fix). Wrong password and unknown email both return 401. Server-side user validation: password >= 6, email format, role enum.
 
 ## Report notes
 Free-text replies show their text in the report's 回覆內容 and count under 其他 in 數據統計.
@@ -52,4 +52,4 @@ Free-text replies show their text in the report's 回覆內容 and count under �
 - Delete (card trash or detail 刪除) shows an in-app alertdialog 確認刪除, removes contacts/replies and the Twilio content (Twilio 404 ignored). Sync deletes local templates whose Twilio content is gone, with their contacts and replies, without a warning (Q-011).
 - Server refuses /api/send for non-APPROVED templates (403).
 - Login: /login (郵箱, 密碼, 登錄; labels unlinked, no autocomplete, placeholder admin@tungwah.org: accepted, BUG-031 wont-fix); wrong credentials -> 郵箱或密碼錯誤. After login always /templates (callbackUrl ignored; accepted, BUG-030 wont-fix); external callbackUrl not followed. 退出 has no confirmation.
-- Roles, intended (product owner 2026-10-29): admin = everything incl. 用戶管理; editor = sync and create/edit/delete every template, no 用戶管理; viewer = sees every template and can sync, read-only. Implemented (lib/authz.ts, af9a789): ADMIN reads and changes all templates; EDITOR only templates it created (others: 404 未找到 on every template route, BUG-038); VIEWER gets 403 無權限 on every write but sees no templates at all, while its sync still upserts and deletes (BUG-039), and its UI still shows 新建模板 (BUG-037). Non-admins opening /users are redirected to /dashboard. Upload dedupes numbers within the file and against the template (unique template+phone) and lists every skipped row with its reason.
+- Roles: admin = everything incl. 用戶管理; editor = sync and create/edit/delete every template, no 用戶管理; viewer = reads every template and can sync without writing the database. Shared detail/contacts/stats/replies now work, but export still checks creator-or-admin. Viewer detail still exposes edit/delete/upload/mapping/send controls even though checked write APIs return 403. Non-admins opening /users are redirected to /dashboard. Dashboard cards/message records cover all owners; the status table uses only Twilio-backed templates, omitting local-only records (BUG-043). Upload dedupes numbers within the file and against the template and lists skipped rows.

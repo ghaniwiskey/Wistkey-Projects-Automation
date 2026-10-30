@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -25,4 +25,4 @@ updated: 2026-10-29
 - The viewer's sync does not change data (TWW-106)
 
 ## Notes
-Intended roles (product owner, 2026-10-29): admin = everything incl. 用戶管理; editor = sync and create/edit/delete every template, no 用戶管理; viewer = sees every template and can sync, read-only. Fails on BUG-038 (editor) and BUG-039 (viewer), both open: since af9a789 both lists are empty. Expectation changed 2026-10-29 (it used to say only own templates).
+Editors and viewers see all synced Twilio templates. Viewer sync is read-only. Both role sync checks and the viewer no-write check passed in runs/2026-10-30_1349_local_manual; remaining BUG-038/BUG-039 failures are elsewhere.

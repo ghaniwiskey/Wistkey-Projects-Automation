@@ -2,13 +2,13 @@
 id: BUG-041
 title: "Dashboard should show totals and message records for every template, not only the ones the user created"
 severity: major
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/dashboard"
-updated: 2026-10-29T12:59:36.332Z
+updated: 2026-10-30T06:54:22.204Z
 found: 2026-10-29T12:05:47.159Z
 foundBy: "Dashboard test 2026-10-29"
-tests: [TWW-108, TWW-109]
+tests: [TWW-109]
 frequency: always
 ---
 ## Summary
@@ -37,3 +37,4 @@ Admin: 本月已發送 (Sent this month) 0 and 總模板數 (Total templates) 1,
 - 2026-10-29: filed from Dashboard test 2026-10-29 in the Test Manager app.
 - 2026-10-29: Still fails after 從 Twilio 同步 (Sync from Twilio) on 消息模版: the sync lists all 5 templates but keeps their owner (createdBy = whoever first synced them), so the dashboard still shows 總模板數 1 and 本月已發送 0 for the QA admin.
 - 2026-10-29: Title and summary reworded.
+- 2026-10-30: status open -> verified; Role-scope retest passed in runs/2026-10-30_1349_local_manual (TWW-109): fresh admin/editor/viewer each see the same 6 templates, totals and all shared message records; filtering another owner template returns its contact. TWW-108 sums now match, but its distinct missing-local-template status-table failure is tracked separately by BUG-043; updated linked cases TWW-108/TWW-109..

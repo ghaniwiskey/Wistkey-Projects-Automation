@@ -5,14 +5,14 @@ severity: major
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T12:06:19.864Z
+updated: 2026-10-30T06:57:10.294Z
 found: 2026-10-29T10:26:11.761Z
 foundBy: "Role review with the product owner 2026-10-29 (after fix commit af9a789)"
 tests: [TWW-105, TWW-106, TWW-088]
 frequency: always
 ---
 ## Summary
-Viewers should be able to sync from Twilio and view every template read-only: message, contacts, reply statistics and report. Contacts belong to the template, not to the person who uploaded them, so a viewer should also see contacts uploaded by an admin or an editor.
+Partially fixed in build 1cdd076: viewers can list and read shared templates, contacts and replies, and their sync no longer writes app data. Shared report export still returns 404 模板不存在, and the detail page still exposes edit/delete/upload/mapping/send controls even though checked write APIs reject them with 403. Viewers should have report access and a read-only UI.
 
 ## Steps to reproduce
 1. As admin create a user with role 查看者 (Viewer) and log in as that user.
@@ -40,3 +40,4 @@ Our run (2026-10-29): QA viewer list [], sync [], 404 on the QA admin's template
 - 2026-10-29: filed from Role review with the product owner 2026-10-29 (after fix commit af9a789) in the Test Manager app.
 - 2026-10-29: Title reworded 2026-10-29 to state the intended role rule first (requirement from the product owner, not a regression of the BUG-001 fix)..
 - 2026-10-29: title and summary reworded (contacts belong to the template, not to the uploader).
+- 2026-10-30: Retest runs/2026-10-30_1349_local_manual: shared lists/detail/contacts/replies/stats now work and viewer sync preserved a stale local draft and contact unchanged (TWW-106 pass). Report export still returns 404 模板不存在 twice. Detail UI still offers edit/delete/upload/mapping/send controls; checked viewer PATCH/DELETE APIs return 403. TWW-105 fails; related cases updated..

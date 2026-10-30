@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -33,4 +33,4 @@ Editors work on all campaigns, not only their own.
 - The template page, the contacts page (QA Tester with phone and member data) and the report download work
 
 ## Notes
-Intended roles (product owner, 2026-10-29): admin = everything incl. 用戶管理; editor = sync and create/edit/delete every template, no 用戶管理; viewer = sees every template and can sync, read-only. Fails on BUG-038 (open): since af9a789 an editor only sees templates they created. Expectation changed 2026-10-29 (it used to say the editor must not see them; BUG-001 is verified for the old rule).
+Intended roles: editors may access every template. Retest runs/2026-10-30_1349_local_manual: shared detail and contacts now return 200, but report download still returns 404 模板不存在. Remaining BUG-038 failure is the export route owner check.

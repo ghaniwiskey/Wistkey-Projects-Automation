@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -26,4 +26,4 @@ Admins, editors and viewers see dashboard totals and message records for every t
 - A viewer sees them read-only
 
 ## Notes
-From the code (2026-10-29): /api/dashboard/stats and /api/dashboard/messages filter by createdBy = the logged-in user, so other users' templates are left out. Same root cause as BUG-038/BUG-039 on the template list. Related: Q-009. Fails on BUG-041 (open) since 2026-10-29: editor and viewer dashboards are empty, admins see only their own templates.
+Role-scoped totals and message records cover all templates for fresh admins, editors and viewers. BUG-041 verified in runs/2026-10-30_1349_local_manual: matching cards and message IDs across roles, plus a shared-template filter returning its contact. The separate local-only status-table omission is BUG-043, covered by TWW-108.

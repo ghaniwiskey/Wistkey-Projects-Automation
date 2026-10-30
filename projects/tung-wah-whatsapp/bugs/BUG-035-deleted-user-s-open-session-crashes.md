@@ -2,10 +2,10 @@
 id: BUG-035
 title: "Deleted user's open session crashes every dashboard page with 500 (NavBar reads role of an empty session)"
 severity: minor
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T09:30:36.914Z
+updated: 2026-10-30T06:54:21.830Z
 found: 2026-10-29T09:30:36.914Z
 foundBy: "BUG retest 2026-10-29 (fix commit af9a789)"
 tests: [TWW-059]
@@ -35,3 +35,4 @@ The user is sent to /login (the APIs already return 401).
 
 ## History
 - 2026-10-29: filed from BUG retest 2026-10-29 (fix commit af9a789) in the Test Manager app.
+- 2026-10-30: status open -> verified; Retest passed in runs/2026-10-30_1349_local_manual (TWW-059): deleted temporary viewer old API returns 401 and browser /templates redirects to /login without a 500..

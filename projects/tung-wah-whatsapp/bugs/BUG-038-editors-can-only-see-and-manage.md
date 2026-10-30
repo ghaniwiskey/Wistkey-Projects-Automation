@@ -5,14 +5,14 @@ severity: major
 status: open
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T10:35:03.247Z
+updated: 2026-10-30T06:57:10.103Z
 found: 2026-10-29T10:26:11.614Z
 foundBy: "Role review with the product owner 2026-10-29 (after fix commit af9a789)"
 tests: [TWW-012, TWW-013, TWW-084, TWW-085, TWW-088]
 frequency: always
 ---
 ## Summary
-Editors should be able to sync from Twilio and create, edit, delete and send every template; only user management is admin-only. Contacts belong to the template, not to the person who uploaded them, so an editor should also see and manage (upload, reset, delete, send) contacts uploaded by an admin or another editor.
+Partially fixed in build 1cdd076: editor shared lists, detail, contacts, sync, upload/reset/contact deletion, question editing and sending now work. Downloading another user's template report still returns 404 模板不存在 because the export route retains its creator-or-admin check. Editors should be able to download these reports too.
 
 ## Steps to reproduce
 1. As admin, in 用戶管理 (User management) > 添加用戶 (Add user), create a user with role 編輯者 (Editor) and log in as that user.
@@ -40,3 +40,4 @@ Our run (2026-10-29): QA editor got 404 on every route of the QA admin's templat
 - 2026-10-29: filed from Role review with the product owner 2026-10-29 (after fix commit af9a789) in the Test Manager app.
 - 2026-10-29: Title reworded 2026-10-29 to state the intended role rule first (requirement from the product owner, not a regression of the BUG-001 fix)..
 - 2026-10-29: title and summary reworded (contacts belong to the template, not to the uploader).
+- 2026-10-30: Retest runs/2026-10-30_1349_local_manual: shared lists/detail/contacts/sync now work; editor upload/reset/contact delete/question edit/send passed. Report export still returns 404 模板不存在 for another owner template, reproduced twice: export/route.ts retains creator-or-admin check. TWW-012 fails; other executed role cases updated. TWW-085 partly covered, live Twilio delete by editor not exercised..

@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -25,4 +25,4 @@ A copied session token stops working after logout.
 - The old cookie is rejected after logout
 
 ## Notes
-Fails on BUG-036 (open), split out of BUG-019 on 2026-10-29.
+Logout increments the user session version. Copied pre-logout cookies must return an expired empty session and protected APIs must return 401. BUG-036 verified in runs/2026-10-30_1349_local_manual.

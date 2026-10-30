@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -33,4 +33,4 @@ A viewer can follow every campaign read-only.
 - No create, upload, mapping save, send, reset or delete control is offered (TWW-087)
 
 ## Notes
-Intended roles decided by the product owner 2026-10-29: viewers see all templates read-only. Fails on BUG-039 (open): since af9a789 a viewer sees no templates.
+Viewer list, shared detail, contacts, reply statistics and replies now work. Still fails on BUG-039 in runs/2026-10-30_1349_local_manual: report export returns 404 模板不存在 and the detail UI still offers edit/delete/upload/mapping/send controls, although checked write APIs return 403.

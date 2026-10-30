@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -33,6 +33,4 @@ What the app shows as the message is what members receive.
 - a sync does not silently undo an edit
 
 ## Notes
-From the code: the edit page PATCHes /api/templates/<id> with name, body and buttons, changing only the database. For an approved template the app would then show text that differs from what WhatsApp sends, and replies would be matched against the edited button titles. Never edit approved templates for this test.
-
-Fails on BUG-034 (2026-10-28, runs/2026-10-28_1738_local_manual): the app showed the edited text and button, Twilio kept the original (Date updated unchanged), and 從 Twilio 同步 then reverted the app to Twilio's content without a warning.
+Twilio content is immutable: the edit page disables content fields and explains how to replace the template; direct content PATCH returns 400. BUG-034 verified in runs/2026-10-30_1349_local_manual. Use a throwaway draft; never modify approved content.

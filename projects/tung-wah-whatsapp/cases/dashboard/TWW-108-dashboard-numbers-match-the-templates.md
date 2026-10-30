@@ -7,7 +7,7 @@ tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -30,4 +30,4 @@ The 儀表板 cards (本月已發送, 本月發送失敗, 回覆率, 總聯繫�
 - 模板審核狀態 lists each template with its status, 是否需要回覆, 聯絡人 and 回覆數 matching step 1
 
 ## Notes
-Page added in dev fix af9a789 (2026-10-29). Code: app/api/dashboard/stats/route.ts. Related: TWW-109, TWW-110. Fails on BUG-041 (open) since 2026-10-29: the cards count only templates the user created.
+BUG-041 role scoping is verified; current cross-role totals match the underlying data. Still fails on separate BUG-043 in runs/2026-10-30_1349_local_manual: 6 templates counted, but only 5 Twilio-backed rows in the status table; the local-only template and its message record are omitted from that table.

@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -27,4 +27,4 @@ Editors can run campaigns on shared templates.
 - The send starts (發送任務已啓動) and the test phone receives the message
 
 ## Notes
-Intended roles (product owner, 2026-10-29): admin = everything incl. 用戶管理; editor = sync and create/edit/delete every template, no 用戶管理; viewer = sees every template and can sync, read-only. Fails on BUG-038 (open): since af9a789 the editor gets 404 未找到 on another user's template. Sends a real message: only to the test phone.
+Editors may send approved templates created by other users. Retest runs/2026-10-30_1349_local_manual passed: one message to the authorized test phone, received and read. Other parts of BUG-038 remain open; this send scenario no longer fails.

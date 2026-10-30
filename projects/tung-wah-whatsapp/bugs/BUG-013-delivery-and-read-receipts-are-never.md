@@ -2,10 +2,10 @@
 id: BUG-013
 title: "Delivery and read receipts are never tracked; undelivered messages stay 已發送 (Sent)"
 severity: major
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/templates/<template id>/contacts"
-updated: 2026-10-29T12:30:00.000Z
+updated: 2026-10-30T06:54:21.450Z
 found: 2026-10-28T06:57:21.409Z
 foundBy: "explorations/2026-10-28-core-journeys.md"
 tests: [TWW-039]
@@ -51,3 +51,4 @@ Our run (2026-10-29, no new send): welcome_greetings > 聯繫人, contact Ghani 
 - 2026-10-28: steps made reproducible on any local setup (placeholders <P>, <template id>, <n> and test data described row by row instead of our template IDs, phone and data files); Summary shortened to 1-2 sentences; our observed values kept under Actual ("Our run").
 - 2026-10-29: Still fails in runs/2026-10-29_1630_local_manual: af9a789 only records send errors (errorCode/errorMessage/failedAt); no Twilio status callback is set, so a message Twilio reports delivered/read stays 已發送 until the member replies..
 - 2026-10-29: steps rewritten to use only the app screens and the phone (no browser console); added the no-send check on an existing undelivered contact (Ghani, Twilio error 63058); status unchanged.
+- 2026-10-30: status open -> verified; Retest passed in runs/2026-10-30_1349_local_manual (TWW-039): real send DELIVERED then READ through our ngrok callback, both timestamps populated and Twilio status read; signed undelivered replay on the disposable contact returned 200 and recorded FAILED/63058/failedAt. Runtime PUBLIC_URL had to be set to our tunnel. No new send to a non-HK number..

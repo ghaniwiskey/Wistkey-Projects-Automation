@@ -1,0 +1,492 @@
+{
+  "build": "1cdd076",
+  "base": "https://murmuring-amused-diaper.ngrok-free.dev",
+  "roleResults": {
+    "ADMIN": {
+      "listStatus": 200,
+      "ids": [
+        "cmvongu1p0001kjy3exyb2eda",
+        "cmvongu2r0003kjy3sclvuifm",
+        "cmvongu2t0005kjy3stn25txd",
+        "cmvongu2u0007kjy3ot9anfon",
+        "cmvrsj5bk00t33au0mu2gr727",
+        "cmvrxmcgs01633au0ede881si"
+      ],
+      "syncStatus": 200,
+      "syncCount": 5,
+      "detail": 200,
+      "contactsStatus": 200,
+      "stats": {
+        "totalSentThisMonth": 2,
+        "totalFailedThisMonth": 0,
+        "totalContacts": 3,
+        "totalTemplates": 6,
+        "sentThisMonthRepliable": 2,
+        "repliedThisMonth": 1,
+        "replyRate": 0.5
+      },
+      "messages": {
+        "contacts": [
+          {
+            "id": "cmvrxnws401673au0skzphncg",
+            "name": "=HYPERLINK(\"http://example.test\",\"click\")",
+            "phone": "85265248661",
+            "status": "PENDING",
+            "sentAt": null,
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": null,
+            "createdAt": "2026-10-28T09:49:52.181Z",
+            "template": {
+              "id": "cmvrxmcgs01633au0ede881si",
+              "name": "qa_legacy_909191"
+            }
+          },
+          {
+            "id": "cmvrtt8bz00z73au0bvapok7h",
+            "name": "QA Tester",
+            "phone": "85265248661",
+            "status": "READ",
+            "sentAt": "2026-10-29T11:10:10.526Z",
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": "MM0cac6428b9ea9657efd53c8fb65bd553",
+            "createdAt": "2026-10-28T08:02:01.967Z",
+            "template": {
+              "id": "cmvrsj5bk00t33au0mu2gr727",
+              "name": "qa_event_reminder_357859"
+            }
+          },
+          {
+            "id": "cmvonn1ax000bkjy3vxxablmo",
+            "name": "Ghani",
+            "phone": "6287721956119",
+            "status": "SENT",
+            "sentAt": "2026-10-26T02:47:20.691Z",
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": "MMfd59ec8918cef0038483a521e16ed3a9",
+            "createdAt": "2026-10-26T02:45:56.698Z",
+            "template": {
+              "id": "cmvongu2u0007kjy3ot9anfon",
+              "name": "welcome_greetings"
+            }
+          }
+        ],
+        "page": 1,
+        "pageSize": 50,
+        "total": 3,
+        "totalPages": 1
+      }
+    },
+    "EDITOR": {
+      "listStatus": 200,
+      "ids": [
+        "cmvongu1p0001kjy3exyb2eda",
+        "cmvongu2r0003kjy3sclvuifm",
+        "cmvongu2t0005kjy3stn25txd",
+        "cmvongu2u0007kjy3ot9anfon",
+        "cmvrsj5bk00t33au0mu2gr727",
+        "cmvrxmcgs01633au0ede881si"
+      ],
+      "syncStatus": 200,
+      "syncCount": 5,
+      "detail": 200,
+      "contactsStatus": 200,
+      "stats": {
+        "totalSentThisMonth": 2,
+        "totalFailedThisMonth": 0,
+        "totalContacts": 3,
+        "totalTemplates": 6,
+        "sentThisMonthRepliable": 2,
+        "repliedThisMonth": 1,
+        "replyRate": 0.5
+      },
+      "messages": {
+        "contacts": [
+          {
+            "id": "cmvrxnws401673au0skzphncg",
+            "name": "=HYPERLINK(\"http://example.test\",\"click\")",
+            "phone": "85265248661",
+            "status": "PENDING",
+            "sentAt": null,
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": null,
+            "createdAt": "2026-10-28T09:49:52.181Z",
+            "template": {
+              "id": "cmvrxmcgs01633au0ede881si",
+              "name": "qa_legacy_909191"
+            }
+          },
+          {
+            "id": "cmvrtt8bz00z73au0bvapok7h",
+            "name": "QA Tester",
+            "phone": "85265248661",
+            "status": "READ",
+            "sentAt": "2026-10-29T11:10:10.526Z",
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": "MM0cac6428b9ea9657efd53c8fb65bd553",
+            "createdAt": "2026-10-28T08:02:01.967Z",
+            "template": {
+              "id": "cmvrsj5bk00t33au0mu2gr727",
+              "name": "qa_event_reminder_357859"
+            }
+          },
+          {
+            "id": "cmvonn1ax000bkjy3vxxablmo",
+            "name": "Ghani",
+            "phone": "6287721956119",
+            "status": "SENT",
+            "sentAt": "2026-10-26T02:47:20.691Z",
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": "MMfd59ec8918cef0038483a521e16ed3a9",
+            "createdAt": "2026-10-26T02:45:56.698Z",
+            "template": {
+              "id": "cmvongu2u0007kjy3ot9anfon",
+              "name": "welcome_greetings"
+            }
+          }
+        ],
+        "page": 1,
+        "pageSize": 50,
+        "total": 3,
+        "totalPages": 1
+      }
+    },
+    "VIEWER": {
+      "listStatus": 200,
+      "ids": [
+        "cmvongu1p0001kjy3exyb2eda",
+        "cmvongu2r0003kjy3sclvuifm",
+        "cmvongu2t0005kjy3stn25txd",
+        "cmvongu2u0007kjy3ot9anfon",
+        "cmvrsj5bk00t33au0mu2gr727",
+        "cmvrxmcgs01633au0ede881si"
+      ],
+      "syncStatus": 200,
+      "syncCount": 5,
+      "detail": 200,
+      "contactsStatus": 200,
+      "stats": {
+        "totalSentThisMonth": 2,
+        "totalFailedThisMonth": 0,
+        "totalContacts": 3,
+        "totalTemplates": 6,
+        "sentThisMonthRepliable": 2,
+        "repliedThisMonth": 1,
+        "replyRate": 0.5
+      },
+      "messages": {
+        "contacts": [
+          {
+            "id": "cmvrxnws401673au0skzphncg",
+            "name": "=HYPERLINK(\"http://example.test\",\"click\")",
+            "phone": "85265248661",
+            "status": "PENDING",
+            "sentAt": null,
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": null,
+            "createdAt": "2026-10-28T09:49:52.181Z",
+            "template": {
+              "id": "cmvrxmcgs01633au0ede881si",
+              "name": "qa_legacy_909191"
+            }
+          },
+          {
+            "id": "cmvrtt8bz00z73au0bvapok7h",
+            "name": "QA Tester",
+            "phone": "85265248661",
+            "status": "READ",
+            "sentAt": "2026-10-29T11:10:10.526Z",
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": "MM0cac6428b9ea9657efd53c8fb65bd553",
+            "createdAt": "2026-10-28T08:02:01.967Z",
+            "template": {
+              "id": "cmvrsj5bk00t33au0mu2gr727",
+              "name": "qa_event_reminder_357859"
+            }
+          },
+          {
+            "id": "cmvonn1ax000bkjy3vxxablmo",
+            "name": "Ghani",
+            "phone": "6287721956119",
+            "status": "SENT",
+            "sentAt": "2026-10-26T02:47:20.691Z",
+            "failedAt": null,
+            "errorCode": null,
+            "errorMessage": null,
+            "waMessageId": "MMfd59ec8918cef0038483a521e16ed3a9",
+            "createdAt": "2026-10-26T02:45:56.698Z",
+            "template": {
+              "id": "cmvongu2u0007kjy3ot9anfon",
+              "name": "welcome_greetings"
+            }
+          }
+        ],
+        "page": 1,
+        "pageSize": 50,
+        "total": 3,
+        "totalPages": 1
+      }
+    }
+  },
+  "logout": {
+    "signout": 200,
+    "session": {
+      "status": 200,
+      "data": {
+        "expires": "1970-01-01T00:00:00.000Z"
+      },
+      "location": null
+    },
+    "templates": {
+      "status": 401,
+      "data": {
+        "error": "未授權"
+      },
+      "location": null
+    }
+  },
+  "viewerSync": {
+    "sync": 200,
+    "templateUnchanged": true,
+    "contactsUnchanged": true
+  },
+  "realDelivery": {
+    "status": "READ",
+    "deliveredAt": "2026-10-30T06:48:20.857Z",
+    "readAt": "2026-10-30T06:49:44.217Z"
+  },
+  "liveTwilio": {
+    "status": "read",
+    "error_code": null
+  },
+  "signedFailure": {
+    "callback": {
+      "status": 200,
+      "body": ""
+    },
+    "status": "FAILED",
+    "errorCode": "63058",
+    "failedAt": "2026-10-30T06:52:09.149Z"
+  },
+  "baseline": [
+    {
+      "name": "attendance_confirmation",
+      "id": "cmvongu2t0005kjy3stn25txd",
+      "twilio": true,
+      "requiresReply": true,
+      "contacts": [
+        {
+          "id": "cmvum1x8n001cc826f4ltto0r",
+          "uploadId": "cmvum1x8l001bc826zlp0s86b",
+          "templateId": "cmvongu2t0005kjy3stn25txd",
+          "name": "QA Tester",
+          "phone": "85265248661",
+          "customVars": {
+            "姓名": "QA Tester",
+            "手提電話": "85265248661",
+            "會員編號": "M0001",
+            "會員類別": "普通會員"
+          },
+          "status": "FAILED",
+          "waMessageId": "MM6e5abd7ff7053b139ccd2db4a66bd5b3",
+          "sentAt": "2026-10-30T06:48:09.838Z",
+          "deliveredAt": "2026-10-30T06:48:20.857Z",
+          "readAt": "2026-10-30T06:49:44.217Z",
+          "errorCode": "63058",
+          "errorMessage": "QA signed callback replay: undelivered",
+          "failedAt": "2026-10-30T06:52:09.149Z",
+          "createdAt": "2026-10-30T06:48:09.095Z"
+        }
+      ],
+      "responses": [
+        {
+          "id": "cmvum1x8n001cc826f4ltto0r",
+          "name": "QA Tester",
+          "phone": "85265248661",
+          "customVars": {
+            "姓名": "QA Tester",
+            "手提電話": "85265248661",
+            "會員編號": "M0001",
+            "會員類別": "普通會員"
+          },
+          "buttonId": "btn_0",
+          "buttonTitle": "Yes",
+          "context": {
+            "body": "Yes",
+            "from": "+85265248661",
+            "messageSid": "SM56ae4b4f9bc80f31655c368c7cd4b015"
+          },
+          "respondedAt": "2026-10-30T06:49:46.361Z"
+        }
+      ]
+    },
+    {
+      "name": "qa_event_reminder_357859",
+      "id": "cmvrsj5bk00t33au0mu2gr727",
+      "twilio": true,
+      "requiresReply": true,
+      "contacts": [
+        {
+          "id": "cmvrtt8bz00z73au0bvapok7h",
+          "uploadId": "cmvrtt8bt00z63au06wkpjwat",
+          "templateId": "cmvrsj5bk00t33au0mu2gr727",
+          "name": "QA Tester",
+          "phone": "85265248661",
+          "customVars": {
+            "姓名": "QA Tester",
+            "手提電話": "85265248661",
+            "活動日期": "11月5日（三）"
+          },
+          "status": "READ",
+          "waMessageId": "MM0cac6428b9ea9657efd53c8fb65bd553",
+          "sentAt": "2026-10-29T11:10:10.526Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "2026-10-28T08:02:01.967Z"
+        }
+      ],
+      "responses": [
+        {
+          "id": "cmvrtt8bz00z73au0bvapok7h",
+          "name": "QA Tester",
+          "phone": "85265248661",
+          "customVars": {
+            "姓名": "QA Tester",
+            "手提電話": "85265248661",
+            "活動日期": "11月5日（三）"
+          },
+          "buttonId": "btn_0",
+          "buttonTitle": "會出席",
+          "context": {
+            "body": "會出席",
+            "from": "+85265248661",
+            "messageSid": "SM9861498884fa78208d23bdee2d723bec"
+          },
+          "respondedAt": "2026-10-29T11:25:07.121Z"
+        }
+      ]
+    },
+    {
+      "name": "templateName",
+      "id": "cmvongu1p0001kjy3exyb2eda",
+      "twilio": true,
+      "requiresReply": true,
+      "contacts": [],
+      "responses": []
+    },
+    {
+      "name": "testing",
+      "id": "cmvongu2r0003kjy3sclvuifm",
+      "twilio": true,
+      "requiresReply": true,
+      "contacts": [],
+      "responses": []
+    },
+    {
+      "name": "welcome_greetings",
+      "id": "cmvongu2u0007kjy3ot9anfon",
+      "twilio": true,
+      "requiresReply": true,
+      "contacts": [
+        {
+          "id": "cmvonn1ax000bkjy3vxxablmo",
+          "uploadId": "cmvonn1at000akjy396u5o4k2",
+          "templateId": "cmvongu2u0007kjy3ot9anfon",
+          "name": "Ghani",
+          "phone": "6287721956119",
+          "customVars": {
+            "姓名": "Ghani",
+            "手提電話": 6287721956119
+          },
+          "status": "SENT",
+          "waMessageId": "MMfd59ec8918cef0038483a521e16ed3a9",
+          "sentAt": "2026-10-26T02:47:20.691Z",
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "2026-10-26T02:45:56.698Z"
+        }
+      ],
+      "responses": [
+        {
+          "id": "cmvonn1ax000bkjy3vxxablmo",
+          "name": "Ghani",
+          "phone": "6287721956119",
+          "customVars": {
+            "姓名": "Ghani",
+            "手提電話": 6287721956119
+          },
+          "buttonId": null,
+          "buttonTitle": null,
+          "context": null,
+          "respondedAt": null
+        }
+      ]
+    },
+    {
+      "name": "qa_legacy_909191",
+      "id": "cmvrxmcgs01633au0ede881si",
+      "twilio": false,
+      "requiresReply": true,
+      "contacts": [
+        {
+          "id": "cmvrxnws401673au0skzphncg",
+          "uploadId": "cmvrxnws201663au05jbqzhtj",
+          "templateId": "cmvrxmcgs01633au0ede881si",
+          "name": "=HYPERLINK(\"http://example.test\",\"click\")",
+          "phone": "85265248661",
+          "customVars": {
+            "備註": "=1+1",
+            "姓名": "=HYPERLINK(\"http://example.test\",\"click\")",
+            "手提電話": "+852 6524 8661"
+          },
+          "status": "PENDING",
+          "waMessageId": null,
+          "sentAt": null,
+          "deliveredAt": null,
+          "readAt": null,
+          "errorCode": null,
+          "errorMessage": null,
+          "failedAt": null,
+          "createdAt": "2026-10-28T09:49:52.181Z"
+        }
+      ],
+      "responses": [
+        {
+          "id": "cmvrxnws401673au0skzphncg",
+          "name": "=HYPERLINK(\"http://example.test\",\"click\")",
+          "phone": "85265248661",
+          "customVars": {
+            "備註": "=1+1",
+            "姓名": "=HYPERLINK(\"http://example.test\",\"click\")",
+            "手提電話": "+852 6524 8661"
+          },
+          "buttonId": null,
+          "buttonTitle": null,
+          "context": null,
+          "respondedAt": null
+        }
+      ]
+    }
+  ]
+}

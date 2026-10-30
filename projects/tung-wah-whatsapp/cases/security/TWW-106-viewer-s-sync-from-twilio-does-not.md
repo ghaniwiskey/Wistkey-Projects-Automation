@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -31,4 +31,4 @@ Sync is a read-only refresh for viewers.
 - As admin, the throwaway template and its contacts are unchanged by the viewer's sync (only an admin's or editor's sync may remove it, see Q-011)
 
 ## Notes
-Intended roles decided by the product owner 2026-10-29. Fails on BUG-039 (open) according to the code: the sync upserts existing templates and deletes those missing in Twilio for every role. Clean up the throwaway template as admin afterwards.
+Passed in runs/2026-10-30_1349_local_manual: after the approved throwaway draft was deleted directly in Twilio, viewer sync returned 200 without changing the local template, its timestamps or its QA contact. The editor then removed the stale local draft. Other BUG-039 findings remain open.

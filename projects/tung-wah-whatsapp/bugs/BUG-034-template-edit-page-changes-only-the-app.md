@@ -2,10 +2,10 @@
 id: BUG-034
 title: "Template edit page changes only the app: Twilio keeps the old text and buttons, and the next sync silently undoes the edit"
 severity: minor
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/templates/<template id>/edit"
-updated: 2026-10-28T10:38:12.826Z
+updated: 2026-10-30T06:54:21.630Z
 found: 2026-10-28T10:38:12.826Z
 foundBy: "manual run TWW-098"
 tests: [TWW-098]
@@ -44,3 +44,4 @@ Our run (2026-10-28, QA admin): template qa_edit_723337 (HX34391b600a9ccd8b0f624
 
 ## History
 - 2026-10-28: filed from manual run TWW-098 in the Test Manager app.
+- 2026-10-30: status open -> verified; Retest passed in runs/2026-10-30_1349_local_manual (TWW-098): draft edit UI disables Twilio content fields; PATCH body/buttons returns 400 with clear immutable-content explanation, Twilio content unchanged. Throwaway draft cleaned up..

@@ -2,10 +2,10 @@
 id: BUG-036
 title: "Logout does not invalidate the session token: a copied session cookie still works after 退出"
 severity: major
-status: open
+status: verified
 env: local
 url: "http://localhost:3000/api/auth/signout"
-updated: 2026-10-29T09:30:37.073Z
+updated: 2026-10-30T06:54:22.015Z
 found: 2026-10-29T09:30:37.073Z
 foundBy: "BUG retest 2026-10-29 (fix commit af9a789)"
 tests: [TWW-081]
@@ -40,3 +40,4 @@ Our run (2026-10-29): QA viewer, signout POST returned, then the copied cookie g
 ## History
 - 2026-10-29: filed from BUG retest 2026-10-29 (fix commit af9a789) in the Test Manager app.
 - 2026-10-29: steps rewritten as browser steps (DevTools > Application > Cookies, no console); facts unchanged.
+- 2026-10-30: status open -> verified; Retest passed in runs/2026-10-30_1349_local_manual (TWW-081): signout 200, replayed copied cookie gives empty expired session and templates API 401. Required approved local session_version schema setup and Prisma regeneration..
