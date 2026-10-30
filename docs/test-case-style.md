@@ -31,6 +31,9 @@ How to write cases so a person outside this repo can run them. The user asked fo
 
 ## Spreadsheet test plans
 
+Full workflow and sheet mechanics: `.agents/skills/qa-sheet-plan/SKILL.md`.
+
+
 - Copy the user's template tab, keep its look, and fill it. Column order: Test Case ID, Module, Test Description, Feedback/Source Ref, Preconditions, Test Steps, Expected Result, Actual Result, Testing Date, Execution Status, Remarks (last). No Automation Status, Priority, Platform, Test Data or When-to-run columns unless asked.
 - Fresh plan: Actual Result and Testing Date empty, Execution Status "Not Executed" for every case.
 - Group rows by module: web app modules first, desktop plugin (manual workstation) cases last; IDs ascending inside a module.
