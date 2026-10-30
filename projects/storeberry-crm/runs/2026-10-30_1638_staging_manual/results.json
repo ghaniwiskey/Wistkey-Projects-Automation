@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1638_staging_manual",
+  "startedAt": "2026-10-30T09:38:19.930Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-166",
+      "title": "Imported members without an explicit marketing consent are not opted in",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-166-imported-members-without-an-explicit.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Imports do not subscribe people to marketing without consent.",
+      "preconditions": [],
+      "data": [
+        "Import file: one new QA member with the opt-in column empty, one with No"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Import the file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open both members and the Mailchimp/marketing audience if connected",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both members are opted out of marketing (no default Yes)",
+          "status": null
+        },
+        {
+          "text": "Cleanup: delete both members",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:38:19.983Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:38:20.033Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

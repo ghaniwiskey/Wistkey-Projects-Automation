@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1637_staging_manual",
+  "startedAt": "2026-10-30T09:37:54.780Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-145",
+      "title": "Manual stock adjustment updates inventory, history and eShop availability",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-145-manual-stock-adjustment-updates.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Stock corrections by staff are recorded and reach the shop.",
+      "preconditions": [
+        "A QA product with known TaiPo stock"
+      ],
+      "data": [
+        "Adjustment: +2 then -2"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Adjust stock in Inventory (if the CRM has a direct adjustment; otherwise record that only stock take/transfer change stock)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read Inventory History and the eShop Add To Cart limit",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Stock and Available change by the adjustment; history shows who, when, why",
+          "status": null
+        },
+        {
+          "text": "The eShop accepts the new quantity; the -2 restores it",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:37:54.833Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:37:54.887Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

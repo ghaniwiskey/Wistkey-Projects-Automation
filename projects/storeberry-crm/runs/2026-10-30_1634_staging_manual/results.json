@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1634_staging_manual",
+  "startedAt": "2026-10-30T09:34:40.174Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-170",
+      "title": "A payment method switched off in Online Store settings cannot be used at checkout",
+      "priority": "P1",
+      "feature": "online-store",
+      "file": "projects/storeberry-crm/cases/online-store/SCRM-170-a-payment-method-switched-off-in-online.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers can only pay with methods the shop has enabled.",
+      "preconditions": [
+        "Ask the user first: settings change on the shared staging shop (README > Testing permissions).",
+        "Only Bank Transfer may be used for orders; do not enable card or wallet gateways"
+      ],
+      "data": [
+        "Method to switch off: Bank Transfer (fn-bank-transfer) briefly, then back on"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open checkout in one tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Switch off Bank Transfer in the CRM",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reload checkout; then Proceed in the old tab with Bank Transfer still selected",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After reload Bank Transfer is not offered",
+          "status": null
+        },
+        {
+          "text": "The old tab is refused; no order is created with the disabled method",
+          "status": null
+        },
+        {
+          "text": "Cleanup: switch Bank Transfer back on and confirm checkout offers it",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:34:40.228Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:34:40.281Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

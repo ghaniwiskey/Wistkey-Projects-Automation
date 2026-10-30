@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1636_staging_manual",
+  "startedAt": "2026-10-30T09:36:30.673Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-043",
+      "title": "Member buys a package (quota) product and its remaining uses are tracked",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-043-member-buys-a-package-quota-product-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Package products sold online give the member the right number of uses and each use is deducted once.",
+      "preconditions": [
+        "Logged-in QA member",
+        "A package/quota product found at runtime (CRM Products > Package view, e.g. 偈油x10)"
+      ],
+      "data": [
+        "Bank Transfer (fn-bank-transfer)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Buy 1 package as the member and pay (receipt accepted in the CRM, SCRM-075)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the member's package/quota balance on the eShop and in the CRM",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Redeem one use in Web POS with the member and recheck the balance",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: the balance equals the package size (e.g. 10)",
+          "status": null
+        },
+        {
+          "text": "Step 3: the balance drops by exactly 1 and the redemption is in the history",
+          "status": null
+        },
+        {
+          "text": "Cleanup: refund the package order; the remaining quota is removed",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:36:30.695Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:36:30.716Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
