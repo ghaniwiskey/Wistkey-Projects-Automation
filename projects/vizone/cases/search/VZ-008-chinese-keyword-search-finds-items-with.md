@@ -17,7 +17,7 @@ Editors can find items by a Chinese word in the title.
 - At least one item with Chinese characters in its title exists
 
 ## Data
-- Keyword: two Chinese characters taken from the title of an existing item at runtime (e.g. 財政 from 財政司司長陳茂波宣讀財政預算案)
+- Keyword: two Chinese characters taken from the title of an existing item (e.g. 財政 from 財政司司長陳茂波宣讀財政預算案)
 
 ## Steps
 1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)

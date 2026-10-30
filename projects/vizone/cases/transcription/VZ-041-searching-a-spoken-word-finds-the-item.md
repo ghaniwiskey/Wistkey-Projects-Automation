@@ -17,7 +17,7 @@ Editors find clips by what is said, not only by the title.
 - AI auto-transcription is enabled and at least one item has a transcript
 
 ## Data
-- Keyword: a word heard in the item's speech that is not in its title, picked at runtime from its subtitles
+- Keyword: a word heard in the item's speech that is not in its title, taken from its subtitles while you test
 
 ## Steps
 1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
