@@ -59,6 +59,7 @@ export function TestList({ slug, query, sandboxed }) {
           <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'pass' })}>Mark pass</button>
           <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'fail' })}>Mark fail</button>
           <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'blocked' })}>Mark blocked</button>
+          <button class="btn sm" onClick=${() => setMark({ tests: selected, status: 'skipped' })}>Mark skipped</button>
           <button class="btn sm" onClick=${async () => { if (await resetToNotRun(slug, selected)) setSel(new Set()); }}>Mark not run</button>
           <button class="btn sm" onClick=${() => setSel(new Set())}>Clear</button></div>` : null}
         ${rows.length ? html`<div class="tablewrap"><table class="t"><thead><tr>
@@ -124,6 +125,7 @@ export function TestDetail({ slug, id, sandboxed }) {
             <button class="btn sm primary" onClick=${() => setMark('pass')}>Pass</button>
             <button class="btn sm danger" onClick=${() => setMark('fail')}>Fail</button>
             <button class="btn sm" onClick=${() => setMark('blocked')}>Blocked</button>
+            <button class="btn sm" title="Not applicable this time (e.g. env or data missing on purpose); give the reason" onClick=${() => setMark('skipped')}>Skip</button>
             <button class="btn sm" disabled=${t.lastStatus === 'never'} title=${t.lastStatus === 'never' ? 'Already Not run' : 'Set back to Not run; earlier results stay in history'} onClick=${() => resetToNotRun(slug, [t])}>Not run</button>
           </span></div>
           <div class="muted small" style="margin-top:6px">Marks this case without stepping through it. Use Run... > Manual to check each step.</div></div>
