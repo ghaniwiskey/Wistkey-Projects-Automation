@@ -17,10 +17,10 @@ The proxy preview of a video item has working audio, not only picture.
 - At least one video item whose Overview Audio is PCM exists
 
 ## Data
-- Item: the first Online video item with audio, found at runtime
+- Item: the first Online video item with audio, picked when you run the test
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open the first Online video item from Search > Items
 3. Make sure Mute/Unmute shows the item is not muted
 4. Press Play/Pause and listen for 10 seconds

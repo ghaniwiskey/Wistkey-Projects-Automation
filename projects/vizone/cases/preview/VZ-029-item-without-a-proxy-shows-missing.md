@@ -17,10 +17,10 @@ An item whose proxy was never made tells the user clearly.
 - A video item with Asset media status Failed and no Proxy file exists
 
 ## Data
-- Item: first Failed video item, found at runtime
+- Item: first Failed video item, picked when you run the test
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open Search > Items, Asset media status facet, select Failed
 3. Open the first result that has a duration
 

@@ -17,10 +17,10 @@ An item whose high-res file is in the archive (Scality or NAS) can still be prev
 - At least one video item with Archive policy Scality or NAS exists
 
 ## Data
-- Item: the first video item with Archive policy Scality (or NAS), found at runtime
+- Item: the first video item with Archive policy Scality (or NAS), picked when you run the test
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open Search > Items, open the Archive policy facet and select Scality
 3. Open the first result that has a duration (video)
 4. Open the Files tab

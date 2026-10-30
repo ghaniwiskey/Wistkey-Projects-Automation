@@ -20,7 +20,7 @@ Editors can narrow the item list to one feed source (e.g. agency feed, Live View
 - Facet value: Feed (or the feed source values the newsroom uses, see Q-002)
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open Search > Items
 3. Open the Classification facet (Show All if needed) and select Feed
 

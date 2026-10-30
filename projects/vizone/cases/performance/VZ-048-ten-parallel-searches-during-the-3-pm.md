@@ -20,7 +20,7 @@ The upgraded Media Server handles many editors searching at once.
 - 10 keywords that return results (5 English, 5 Chinese)
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Start the 10 searches at the same time (10 browser sessions or the automated load script)
 3. Note each time until the results count appears
 

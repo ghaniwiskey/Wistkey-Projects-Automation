@@ -17,10 +17,10 @@ An editor can preview a long program item in Studio without the player hanging.
 - At least one video item of 1 hour or longer exists (search Items sorted by Media Duration)
 
 ## Data
-- Item: the longest Online video item, found at runtime
+- Item: the longest Online video item, picked when you run the test
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open Search > Items and sort by Media Duration
 3. Open the first video item whose duration is 01:00:00:00 or longer
 4. Press Play/Pause in the item player

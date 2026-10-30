@@ -20,7 +20,7 @@ An English search finds the matching item whose title and metadata are only in C
 - Keyword: budget (English for 財政預算案)
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Type budget in the Search Items box and press Enter
 
 ## Expected

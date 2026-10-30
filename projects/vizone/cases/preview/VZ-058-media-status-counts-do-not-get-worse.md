@@ -20,7 +20,7 @@ The upgrade does not leave items Failed, Empty or stuck Importing.
 - Baseline 2026-10-30 (196 items): Online 181, Empty 10, Failed 3, Importing 2
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open Search > Items and the Asset media status facet
 3. Note the count for each status
 

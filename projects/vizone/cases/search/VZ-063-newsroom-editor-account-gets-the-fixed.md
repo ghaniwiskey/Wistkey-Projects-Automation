@@ -14,15 +14,15 @@ updated: 2026-10-30
 The fixes work for a real CNCA/ENCA editor account, not only for admin.
 
 ## Preconditions
-- A newsroom editor test account in .env as VZ_EDITOR_USER / VZ_EDITOR_PASS (not provided yet)
+- A newsroom editor test account (e.g. a CNCA or ENCA editor; not available yet, ask the QA lead)
 
 ## Data
 - Keywords: 財政, budget; feed-source filters (Live View, agency feed, press release)
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Search 財政 and budget and apply each feed-source filter; note the counts and times
-3. Log out and log in with VZ_EDITOR_USER / VZ_EDITOR_PASS
+3. Log out and log in with the newsroom editor test account
 4. Repeat the same searches and filters
 
 ## Expected

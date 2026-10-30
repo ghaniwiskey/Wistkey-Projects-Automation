@@ -21,7 +21,7 @@ Incoming material is categorised by feed source (Live View, agency feeds, press 
 - One clip from each feed source: Live View, an agency feed, a press release
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Note the time and let one clip arrive from each feed source
 3. Open Search > Items, sort by Creation date and open each new clip
 4. Filter Items by each feed-source value

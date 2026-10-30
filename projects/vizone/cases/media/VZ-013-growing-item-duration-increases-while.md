@@ -20,7 +20,7 @@ A live recording shows a growing duration in Studio and can be previewed up to n
 - Item: the recording item with Asset media status Importing
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open Search > Items, open the Asset media status facet and select Importing
 3. Open the recording item and note its Duration
 4. Wait 2 minutes and reload the item

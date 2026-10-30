@@ -18,11 +18,11 @@ With multilingual translation, CNCA editors searching in Chinese find English-on
 - An item whose title and text are English only exists
 
 ## Data
-- Item: an English-only item with a clear phrase (e.g. Financial Secretary), found at runtime
+- Item: an English-only item with a clear phrase (e.g. Financial Secretary), picked when you run the test
 - Keyword: the Chinese for that phrase (e.g. 財政司司長)
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open the English-only item and note its key phrase
 3. Search Items for the Chinese equivalent
 

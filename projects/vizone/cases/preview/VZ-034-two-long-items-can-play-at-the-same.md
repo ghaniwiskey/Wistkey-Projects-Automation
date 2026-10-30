@@ -21,7 +21,7 @@ Several editors can preview long items at once during the daily peak without any
 - Items: the five longest Online video items
 
 ## Steps
-1. Log in to Viz One Studio in five separate browser sessions (or the automated load script) with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio in five separate browser sessions (or the automated load script) with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open a different long item in each session
 3. Press Play in all five
 4. Watch all five for 30 seconds

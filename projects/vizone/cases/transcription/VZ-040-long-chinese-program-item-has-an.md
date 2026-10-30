@@ -18,10 +18,10 @@ After AI auto-transcription is enabled, an item's speech is available as subtitl
 - A Cantonese or Mandarin program item ingested after it was switched on exists
 
 ## Data
-- Item: a spoken-word item ingested after transcription was enabled, found at runtime
+- Item: a spoken-word item ingested after transcription was enabled, picked when you run the test
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open the item
 3. Press Toggle subtitles in the player and press Play
 

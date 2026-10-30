@@ -18,10 +18,10 @@ With the proxy workflow, new material becomes usable quickly, including 1-2 hour
 - An ingest of a 1 hour test recording or file can be triggered on staging (approval needed per run)
 
 ## Data
-- A 1 hour test recording or file named qa-proxy-<unique>
+- A 1 hour test recording or file named qa-proxy- plus the date and time (e.g. qa-proxy-20261030-1500)
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Note the time the ingest ends
 3. Open the new item and its Files tab, refreshing until Video LR and Audio LR files appear
 4. Press Play, then jump to the last minute and play

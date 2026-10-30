@@ -20,7 +20,7 @@ Adding translation or transcription does not make normal English search worse.
 - Keyword: Paul Chan
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Search Items for Paul Chan
 3. Open the first three results
 

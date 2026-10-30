@@ -20,7 +20,7 @@ Editors typing Simplified Chinese still find items titled in Traditional Chinese
 - Keyword: 财政 (Simplified form of 財政)
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Search Items for 財政 and note the results count
 3. Search Items for 财政
 

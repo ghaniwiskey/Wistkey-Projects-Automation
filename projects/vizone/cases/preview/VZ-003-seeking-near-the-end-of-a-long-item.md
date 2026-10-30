@@ -17,10 +17,10 @@ An editor can jump to the last minutes of a long item and keep playing.
 - At least one video item of 1 hour or longer exists
 
 ## Data
-- Item: the longest Online video item, found at runtime
+- Item: the longest Online video item, picked when you run the test
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open Search > Items, sort by Media Duration and open the first video item of 01:00:00:00 or longer
 3. Drag the Timeline slider to about 1 minute before the end
 4. Press Play/Pause

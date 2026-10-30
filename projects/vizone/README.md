@@ -5,6 +5,7 @@ RTHK Vizone: Vizrt **Viz One Studio** (web client, (c) 2019 Vizrt) at http://viz
 ## Accounts
 
 - Admin: `.env` VZ_ADMIN_USER / VZ_ADMIN_PASS, login domain "Internal accounts" (SYSTEM). Verified working 2026-10-30.
+- Test cases are shared with testers outside this repo: write accounts in plain words ("the admin test account (user name admin; get the password from the QA lead)"), never .env variable names or passwords. Specs still read credentials from .env (user, 2026-10-30).
 
 ## Run
 

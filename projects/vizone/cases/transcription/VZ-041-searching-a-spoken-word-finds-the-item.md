@@ -20,7 +20,7 @@ Editors find clips by what is said, not only by the title.
 - Keyword: a word heard in the item's speech that is not in its title, picked at runtime from its subtitles
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open the transcribed item, play it and note a spoken word that is not in the title
 3. Search Items for that word
 4. In the item player, type the word in Search in Subtitles

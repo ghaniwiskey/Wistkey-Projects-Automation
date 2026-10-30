@@ -18,10 +18,10 @@ Long program items stay usable during the daily peak.
 - At least one video item of 1 hour or longer exists
 
 ## Data
-- Item: the longest Online video item, found at runtime
+- Item: the longest Online video item, picked when you run the test
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open the longest video item and note the time until the player shows the duration
 3. Press Play/Pause and note the time until the time code advances
 4. Repeat 3 times

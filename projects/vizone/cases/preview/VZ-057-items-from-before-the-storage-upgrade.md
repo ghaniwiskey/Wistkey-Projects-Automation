@@ -20,7 +20,7 @@ Moving media to the new NAS keeps old items playable.
 - Items: one 2022 Feed item, the 2023 budget speech item, one 2026 item, one audio item
 
 ## Steps
-1. Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account
+1. Log in to Viz One Studio with domain Internal accounts and the admin test account (user name admin; get the password from the QA lead)
 2. Open each item from Search > Items (sort by Creation date to find the old ones)
 3. Press Play on each and open its Files tab
 
