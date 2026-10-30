@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1257_staging_manual-3",
+  "startedAt": "2026-10-30T05:57:52.570Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-011",
+      "title": "Order detail and history views match the selected order",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-011-order-detail-and-history-views-match.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can review an order summary and its associated history without changing it.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [
+        "An existing staging order with a detail record."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Orders.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Details for an existing order.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare the order number and status in the detail view with the selected list row.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review Item, Delivery history, Receipt, and Status History.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The detail page shows the same order number and current order status as the selected row.",
+          "status": null
+        },
+        {
+          "text": "Payment and delivery statuses are visible, and each history view belongs to the selected order.",
+          "status": null
+        },
+        {
+          "text": "No order, payment, delivery, or customer data is changed or included in the test report.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:57:52.695Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T05:57:52.817Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
