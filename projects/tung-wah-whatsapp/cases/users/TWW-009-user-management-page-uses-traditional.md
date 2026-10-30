@@ -1,17 +1,17 @@
 ---
 id: TWW-009
-title: "User management page uses Traditional Chinese consistently"
+title: "User management remains usable with accepted Chinese wording"
 feature: users
 priority: P3
 tags: [regression]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-30
 ---
 
 ## Goal
-All user-management labels are in Traditional Chinese like the rest of the app.
+User management remains usable with the accepted Chinese wording.
 
 ## Preconditions
 - An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)
@@ -21,8 +21,8 @@ All user-management labels are in Traditional Chinese like the rest of the app.
 2. Click 添加用户
 
 ## Expected
-- Labels read 用戶管理, 用戶列表, 添加用戶, 添加新用戶, 創建用戶, 系統管理員, and confirm text 確定要刪除此用戶嗎？
-- No Simplified characters (户, 统, 员) appear
+- The user management page and add-user dialog remain readable and usable.
+- Existing Simplified wording, including the seeded admin name 系统管理员, is accepted and is not a failed check.
 
 ## Notes
-Related: BUG-009 (open).
+BUG-009 is wont-fix at the user’s decision on 2026-10-30. The seeded admin name 系统管理员 and existing Simplified wording are accepted; their presence alone is not a failure. This task did not rerun this language case.

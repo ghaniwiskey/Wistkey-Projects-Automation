@@ -28,9 +28,9 @@ A viewer can follow every campaign read-only.
 4. Click 下載報表
 
 ## Expected
-- After sync every template is listed (the same list the admin sees)
-- The message preview, contacts, reply statistics and report are shown or downloaded
-- No create, upload, mapping save, send, reset or delete control is offered (TWW-087)
+- After sync every template is listed (the same list the admin sees).
+- The message preview, contacts, reply statistics and report are shown or downloaded.
+- Visible write controls are accepted; this read-access case does not fail on their presence.
 
 ## Notes
-Viewer list, shared detail, contacts, reply statistics and replies work. Retest runs/2026-10-30_1349_local_manual still fails: export returns 404 模板不存在 (BUG-044), and the detail UI offers edit/delete/upload/mapping/send controls despite checked write APIs returning 403 (BUG-045). Broad BUG-039 was superseded by these focused reports.
+Shared list/detail/contacts/replies now work. The 2026-10-30 retest export 404 is tracked by open BUG-044. Visible write controls are accepted behavior after BUG-045 was closed as wont-fix; do not fail this case on control visibility. Broad BUG-039 was superseded.

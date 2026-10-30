@@ -1,6 +1,6 @@
 ---
 id: TWW-087
-title: "Viewer has a read-only interface"
+title: "Viewer can browse templates with accepted control visibility"
 feature: security
 priority: P1
 tags: [regression]
@@ -11,7 +11,7 @@ updated: 2026-10-30
 ---
 
 ## Goal
-查看者 cannot start any write action from the UI.
+A viewer can browse shared campaign pages with the accepted visible controls.
 
 ## Preconditions
 - A QA viewer
@@ -21,8 +21,9 @@ updated: 2026-10-30
 2. Open 消息模版 and a template
 
 ## Expected
-- No 新建模板, edit, upload, mapping save, send, reset or delete controls
-- 從 Twilio 同步 remains available as a read-only refresh
+- The viewer can open the template list and a shared template.
+- 從 Twilio 同步 remains available as a read-only refresh.
+- Creation, edit, upload, mapping, send, reset and delete controls may be visible; that visibility is accepted, not a failed check.
 
 ## Notes
-Viewers may use read-only sync. BUG-002 verified that the server blocks writes. BUG-037 covers New template on the template list; BUG-045 covers edit/delete/upload/mapping/send controls on template details, evidenced in runs/2026-10-30_1349_local_manual under TWW-105. This tracking update is not a new execution of TWW-087.
+BUG-037 and BUG-045 are wont-fix at the user’s decision on 2026-10-30. Visible template-list and detail write controls are accepted behavior; read-only sync remains available. Server authorization is covered separately. This task did not rerun this UI case.

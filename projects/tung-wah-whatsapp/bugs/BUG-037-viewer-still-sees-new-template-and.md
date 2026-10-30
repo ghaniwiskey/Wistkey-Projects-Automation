@@ -2,13 +2,13 @@
 id: BUG-037
 title: "Viewers still see 新建模板 (New template); creating fails only after submitting with 無權限"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "http://localhost:3000/templates"
-updated: 2026-10-29T10:27:02.676Z
+updated: 2026-10-30T07:26:24.328Z
 found: 2026-10-29T09:30:37.233Z
 foundBy: "BUG retest 2026-10-29 (fix commit af9a789)"
-tests: [TWW-087]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Both 從 Twilio 同步 (Sync from Twilio) and 新建模板 (New template) are sh
 ## History
 - 2026-10-29: filed from BUG retest 2026-10-29 (fix commit af9a789) in the Test Manager app.
 - 2026-10-29: Scope narrowed 2026-10-29: viewers are meant to sync (read-only, see BUG-039), so only 新建模板 and other write controls should be hidden..
+- 2026-10-30: status open -> wont-fix.
+- 2026-10-30: Accepted behavior synchronized to TWW-087: visible creation controls are permitted; read-only sync remains available. Cleared tests list; no new execution..

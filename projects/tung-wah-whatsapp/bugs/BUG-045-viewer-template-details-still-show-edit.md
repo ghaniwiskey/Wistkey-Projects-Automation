@@ -2,13 +2,13 @@
 id: BUG-045
 title: "Viewer template details still show edit, delete, upload, mapping and send controls"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "https://murmuring-amused-diaper.ngrok-free.dev/templates/<template-id>"
-updated: 2026-10-30T07:09:19.153Z
+updated: 2026-10-30T07:26:23.887Z
 found: 2026-10-30T07:09:19.153Z
 foundBy: "runs/2026-10-30_1349_local_manual"
-tests: [TWW-087, TWW-105]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -40,3 +40,5 @@ The viewer sees enabled 編輯 (Edit), 刪除 (Delete), editable mapping fields 
 
 ## History
 - 2026-10-30: filed from runs/2026-10-30_1349_local_manual in the Test Manager app.
+- 2026-10-30: status open -> wont-fix.
+- 2026-10-30: Accepted visibility synchronized to TWW-087 and TWW-105: visible write controls no longer fail these cases. Server authorization expectations unchanged. Cleared tests list; no new execution..

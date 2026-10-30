@@ -2,13 +2,13 @@
 id: BUG-043
 title: "Dashboard template status table omits local-only templates counted in cards and message records"
 severity: minor
-status: open
+status: wont-fix
 env: local
 url: "https://murmuring-amused-diaper.ngrok-free.dev/dashboard"
-updated: 2026-10-30T06:53:37.807Z
+updated: 2026-10-30T07:26:24.132Z
 found: 2026-10-30T06:53:37.807Z
 foundBy: "runs/2026-10-30_1349_local_manual"
-tests: [TWW-108]
+tests: []
 frequency: always
 ---
 ## Summary
@@ -35,3 +35,5 @@ Total templates is 6, but the status table lists 5 Twilio-backed templates. qa_l
 
 ## History
 - 2026-10-30: filed from runs/2026-10-30_1349_local_manual in the Test Manager app.
+- 2026-10-30: status open -> wont-fix.
+- 2026-10-30: Accepted behavior synchronized to TWW-108: local-only templates may be counted in totals but omitted from Twilio status rows. Cleared tests list; historic failed run remains factual..

@@ -25,9 +25,9 @@ The 儀表板 cards (本月已發送, 本月發送失敗, 回覆率, 總聯繫�
 2. Open 儀表板
 
 ## Expected
-- 本月已發送, 本月發送失敗, 總聯繫人數 and 總模板數 equal the sums of step 1
-- 回覆率 = replies ÷ sent, counting only templates with 是否需要回覆 = 是
-- 模板審核狀態 lists each template with its status, 是否需要回覆, 聯絡人 and 回覆數 matching step 1
+- 本月已發送, 本月發送失敗, 總聯繫人數 and 總模板數 equal the sums of all local template data.
+- 回覆率 = replies ÷ sent, counting only templates with 是否需要回覆 = 是.
+- 模板審核狀態 lists Twilio-backed templates with matching status, reply requirement, contacts and replies; local-only templates may be absent.
 
 ## Notes
-BUG-041 role scoping is verified; current cross-role totals match the underlying data. Still fails on separate BUG-043 in runs/2026-10-30_1349_local_manual: 6 templates counted, but only 5 Twilio-backed rows in the status table; the local-only template and its message record are omitted from that table.
+BUG-041 role scoping is verified. BUG-043 is wont-fix at the user’s decision on 2026-10-30: totals/message records may include local-only templates while the status table lists only Twilio-backed templates. This accepted difference is not a failed check. The historic run result is retained as observed, not rewritten as a pass.
