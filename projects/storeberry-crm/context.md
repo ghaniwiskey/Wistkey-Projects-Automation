@@ -52,3 +52,10 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes, e
 - Course creation keeps the selected Category across the Info and Session & Timetable tabs (SCRM-090). Timetable 70 ("QA Course Flow 2026-10-27", active, capacity 1, not linked to a course) was made for that retest and can be removed when no longer needed.
 - Courses & Enrolment > Status List: the Details/Order links wrap over two lines; click the link text (not the centre of the box) or call `element.click()`. Details = `/bookings/bookings-detail?id=<enrolment>`.
 - CRM appointment pages call cmsapiv2.storeberry.ai and get 403 (BUG-022). Customers book on the eShop at `/appointment` (resource 3 "Course").
+
+## Customer CSV import
+- Customers > Import > Import CSV provides the sample template; New Member List creates an empty list, not the upload workflow.
+- The sample includes member level, Initial Spending, Initial Loyalty Point and Initial Loyalty Wallet, but no marketing-consent column. A duplicate mobile is refused with 'The mobile is already registered.'
+- Imported base points and Register Reward are separate point-history entries. Do not assume the displayed total equals the imported points alone.
+- New-member opt-in defaults and where Initial Spending appears need clarification (Q-020, Q-021). The completion message can claim emails were sent with registration email unchecked; actual sending is unverified (Q-022, SCRM-181).
+

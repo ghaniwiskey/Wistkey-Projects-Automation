@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "member-import-protection",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1452_staging_manual",
+  "startedAt": "2026-10-30T07:52:26.790Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-165",
+      "title": "Member import never overwrites an existing member's points, level, spending or opt-in",
+      "priority": "P0",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-165-member-import-never-overwrites-an.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A bulk import cannot silently damage existing customer accounts.",
+      "preconditions": [
+        "A QA member we created, with points, a level and opt-in No; note them"
+      ],
+      "data": [
+        "Import file: one row with the QA member's email/phone and different name, points, level and spending; include a conflicting opt-in only if the current template supports it; one new QA member"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Customers > Import > Import CSV > download the sample, fill it and upload the file once",
+          "status": "pass"
+        },
+        {
+          "kind": "step",
+          "text": "Open the existing QA member and the new one",
+          "status": "pass"
+        }
+      ],
+      "expected": [
+        {
+          "text": "The existing member is refused as a duplicate (or only allowed fields change, as the screen states); points, level, spending and opt-in are unchanged",
+          "status": "pass"
+        },
+        {
+          "text": "The new member is created",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: delete the new member only with explicit approval; retain it when the user requests this",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The existing member is refused as a duplicate (or only allowed fields change, as the screen states); points, level, spending and opt-in are unchanged",
+          "pass": true
+        },
+        {
+          "label": "The new member is created",
+          "pass": true
+        },
+        {
+          "label": "Cleanup: delete the new member only with explicit approval; retain it when the user requests this",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Single approved import. Existing MEMy001164525 refused as duplicate mobile; unchanged 738 points, Level 2, $368.00 Level spending, Opt-in No. New MEMy001164528 created: Level 1, 542 points = 42 base + 500 Register Reward. No consent column, so conflicting opt-in could not be supplied. QA list 22 and members retained per user request; cleanup waived, not performed. Q-020/Q-021/Q-022 capture ancillary observations; SCRM-181 written but not run. No retry or other test executed."
+      ],
+      "evidence": [
+        "screenshots/SCRM-165-m01-01-existing-before.png",
+        "screenshots/SCRM-165-m02-02-import-result.png",
+        "screenshots/SCRM-165-m03-03-new-member.png",
+        "screenshots/SCRM-165-m04-04-new-point-history.png",
+        "screenshots/SCRM-165-m05-05-existing-after.png",
+        "screenshots/SCRM-165-m06-06-existing-point-history.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T07:52:26.955Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T07:52:28.165Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
