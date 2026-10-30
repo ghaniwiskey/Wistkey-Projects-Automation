@@ -1,0 +1,532 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick-never-run-2026-10-30",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1241_staging_manual",
+  "startedAt": "2026-10-30T05:41:55.024Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-006",
+      "title": "Customer search by Member ID returns the selected customer",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-006-customer-search-by-member-id-returns.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can locate one existing customer by an exact Member ID.",
+      "preconditions": [
+        "The staging Storeberry Flower admin account is configured in local .env.",
+        "At least one customer with a unique Member ID is available in staging."
+      ],
+      "data": [
+        "The Member ID of the selected staging customer; do not copy customer details into reports."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM as the Storeberry Flower admin.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Customers > Customers.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select one existing customer and note its Member ID privately.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter that exact Member ID in the customer search field and run the search.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The customer count is 1 and one matching customer row is shown.",
+          "status": null
+        },
+        {
+          "text": "The search result corresponds to the selected customer; no personal customer details are included in the test report.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Picked the 5th customer on page 1 at runtime; Member ID search -> No. of Customer: 1, the only row is that Member ID."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:55.187Z"
+    },
+    {
+      "id": "SCRM-007",
+      "title": "Customer Remark search filters the directory",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-007-customer-remark-search-filters-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can use the separate Remark search field to filter the customer directory.",
+      "preconditions": [
+        "The staging Storeberry Flower admin account is configured in local .env."
+      ],
+      "data": [
+        "A unique search term that does not occur in any customer remark."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM as the Storeberry Flower admin.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Customers > Customers.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the unique no-match term in the Remark search field and run the search.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The customer count is 0 and no customer rows are shown.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Unique no-match term in Search by Remark -> No. of Customer: 0, no rows."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:55.369Z"
+    },
+    {
+      "id": "SCRM-008",
+      "title": "Exact order-number search returns the matching order",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-008-exact-order-number-search-returns-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can locate one order by its exact order number.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [
+        "Order number of an existing staging order; keep it out of reports."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Orders and choose a date range that includes an existing order.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select an order from the list and note its order number.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter that exact number in Order No. and run the search.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The result count is 1 and the single row shows the selected order number.",
+          "status": null
+        },
+        {
+          "text": "Customer names, contact details, and order contents are not copied into reports.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Picked the 6th order of Last 12 Months; Order No. search -> No. of Order: 1, only that order number shown."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:55.552Z"
+    },
+    {
+      "id": "SCRM-009",
+      "title": "Order status tabs show only matching orders",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-009-order-status-tabs-show-only-matching.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Each order status view limits the list to the selected status.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Orders.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review All orders, then select Pending payment, Payment review, Payment rejected, Processing, Complete, Canceled, Refunded, Refund order, and Exchanged one at a time.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "For each selected status, every visible row has that status label.",
+          "status": null
+        },
+        {
+          "text": "The All orders view can contain multiple statuses, and an empty status view shows no rows.",
+          "status": null
+        },
+        {
+          "text": "Counts are taken from the current page and are not hard-coded.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Each status tab (Pending payment, Payment review, Payment rejected, Processing, Complete, Canceled, Refunded, Refund order) shows only its own status label on page 1 (Processing/Complete also include their (Exchange Order) rows); All orders mixes statuses. Exchanged is a flag (exchanged_order=1), not a status: rows keep Processing/Complete and their detail shows Exchanged: n (checked 3). No empty tab today."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:55.720Z"
+    },
+    {
+      "id": "SCRM-010",
+      "title": "Order date presets and custom range constrain results",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-010-order-date-presets-and-custom-range.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can restrict orders to a selected creation-date range.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [
+        "A valid custom start date and end date."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Orders.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select Last 3 Months, Last 6 Months, and Last 12 Months in turn.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose Custom and enter a valid start and end date.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The selected date range is shown after each selection.",
+          "status": null
+        },
+        {
+          "text": "Every visible order creation date is within the chosen range.",
+          "status": null
+        },
+        {
+          "text": "The count updates with the range and is not a fixed number.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Last 3/6/12 Months start at today minus 3/6/12 months (oldest order on the last page is on that start date); custom 2026-10-01..2026-10-15 -> 32 orders, all created inside the range; inputs keep the dates."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:55.892Z"
+    },
+    {
+      "id": "SCRM-012",
+      "title": "Product name or SKU search finds matching orders",
+      "priority": "P1",
+      "feature": "orders",
+      "file": "projects/storeberry-crm/cases/orders/SCRM-012-product-name-or-sku-search-finds.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can find orders containing a selected product by its name or SKU.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [
+        "Product name or SKU from an existing staging order; do not include customer details."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Orders.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose an existing order with a product line and note the product name or SKU privately.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the product name or SKU in Product Name / SKU and run the search.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The result includes the order containing the selected product.",
+          "status": null
+        },
+        {
+          "text": "The result count reflects the matching orders and no customer details are included in reports.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Product name taken from an order line at runtime (鞋C) -> 12 orders, incl. the picked one; all 12 contain 鞋C (10 checked in detail because delivered/POS rows list no items). Searching the full line text \"name (option)\" returns 0: search matches the product name only."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:56.054Z"
+    },
+    {
+      "id": "SCRM-013",
+      "title": "Product ID search returns the selected catalog item",
+      "priority": "P1",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-013-product-id-search-returns-the-selected.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can locate an active product by its unique product ID.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [
+        "Product ID of a currently active staging product."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Products.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select an active product and note its Product ID.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the ID in Product ID, Name, Option, SKU, Barcode and run the search.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The result count is 1 and the row shows the selected Product ID and product name.",
+          "status": null
+        },
+        {
+          "text": "The selected product remains active and unchanged.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Product ID of the 10th active product -> No. of Product: 1, same ID and name, still Launched."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:56.228Z"
+    },
+    {
+      "id": "SCRM-014",
+      "title": "Package view contains only package products",
+      "priority": "P1",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-014-package-view-contains-only-package.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The Package product view displays records classified as packages.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Products.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select Package.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the listed product types across the result pages.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every listed row has Product Type Package.",
+          "status": null
+        },
+        {
+          "text": "The displayed product count matches the filtered package result set and is not hard-coded.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Package(8) view -> 8 rows, all Product Type Package; count matches the tab."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:56.397Z"
+    },
+    {
+      "id": "SCRM-015",
+      "title": "On-sale view contains products with active discounts",
+      "priority": "P1",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-015-on-sale-view-contains-products-with.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The On Sale Products view contains only products currently marked on sale.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Products.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select On Sale Products.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the visible product prices and promotion/discount indicators.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The view is filtered to its on-sale product set.",
+          "status": null
+        },
+        {
+          "text": "Each visible result has an on-sale price or active promotion/discount indicator.",
+          "status": null
+        },
+        {
+          "text": "The count changes with the current data and is not hard-coded.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "On Sale Products (13) -> 13 rows; each has at least one variant with Final Price below Original Price (all 13 checked); a regular product has Final = Original. The Promotions column is not a sale indicator: every product shows the whole-basket promo \"All Basket & member Free Shipping\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:56.568Z"
+    },
+    {
+      "id": "SCRM-023",
+      "title": "Inventory search locates stock by SKU or barcode",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-023-inventory-search-locates-stock-by-sku.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can locate a product or variant in inventory using its SKU or barcode.",
+      "preconditions": [
+        "An active inventory item with a SKU or barcode is available."
+      ],
+      "data": [
+        "SKU or barcode of an existing staging item; do not include personal data."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Inventory.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select an existing product variant and note its SKU or barcode privately.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search by that exact SKU or barcode.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The matching product or variant appears in the results.",
+          "status": null
+        },
+        {
+          "text": "The row shows the corresponding inventory quantities and platform status.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Inventory variants view, SKU picked from a variant row -> No. of variants: 1, same product, variant, SKU, Available/Stock qty and Launched status. Barcode not tried."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:41:56.739Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T05:41:56.910Z",
+  "summary": {
+    "total": 10,
+    "pass": 10,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

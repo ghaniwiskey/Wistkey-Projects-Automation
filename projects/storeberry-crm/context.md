@@ -5,8 +5,10 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes, e
 ## Login and lists
 - The root redirects to `/auth/login`; the staging test account lands on `/get-start`.
 - Order and customer lists (Last 12 Months, Pending payment, customers) change daily: never hard-code counts.
+- Order list: status tabs filter by `status=`; Exchanged is a separate flag (`exchanged_order=1`) whose rows keep their own status. Product Name / SKU search (`search_product_name`) matches the product name only: the list's "name (option)" text finds nothing. Delivered/POS rows list no items, so check matches in the order detail.
 
 ## Products and customers
+- On Sale Products = at least one variant with Final Price below Original Price. The list's Promotions column shows the whole-basket promotion on every product, so it says nothing about sales.
 - Hidden Product: not viewable online but still purchasable; the setting persists after save/edit. A terminated product leaves the active list and stays in the terminated list.
 - Product Actions > "Make product terminated in all platforms" runs without confirmation (BUG-003): select one row only.
 - Customer create, edit and delete work with a QA member; an invalid birthday is silently saved as today (BUG-001). In the customer list count `input.item_checkbox` for selected rows (the hidden column toggles are checked too).
