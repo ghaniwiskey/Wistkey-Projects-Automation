@@ -1,0 +1,901 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "vizone",
+  "env": "staging",
+  "suite": "manual",
+  "baseUrl": "http://vizone-staging01.bh.rthkeng.hk/",
+  "runId": "2026-10-30_1021_staging_manual",
+  "startedAt": "2026-10-30T03:21:30.570Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "VZ-019",
+      "title": "Simplified Chinese keyword finds an item with a Traditional Chinese title",
+      "priority": "P2",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-019-simplified-chinese-keyword-finds-an.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Editors typing Simplified Chinese still find items titled in Traditional Chinese.",
+      "preconditions": [
+        "An item with a Traditional Chinese title exists, e.g. one containing 財政"
+      ],
+      "data": [
+        "Keyword: 财政 (Simplified form of 財政)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for 財政 and note the results count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for 财政",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The 财政 search returns the same results count as 財政",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "财政 -> No search results found; 財政 -> 22 results. Pending Q-003."
+      ],
+      "evidence": [
+        "screenshots/VZ-019-m01-evidence.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:30.706Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "VZ-020",
+      "title": "Full-width Latin keyword finds items with half-width titles",
+      "priority": "P3",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-020-full-width-latin-keyword-finds-items.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Text typed with a Chinese input method in full-width mode still matches.",
+      "preconditions": [
+        "Items with \"test\" in the title exist"
+      ],
+      "data": [
+        "Keyword: ＴＥＳＴ (full-width), compared with TEST"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for TEST and note the results count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for ＴＥＳＴ",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The ＴＥＳＴ search returns the same results count as TEST",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ＴＥＳＴ -> No search results found; TEST -> 89. Pending Q-003."
+      ],
+      "evidence": [
+        "screenshots/VZ-020-m01-evidence.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:30.953Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "VZ-021",
+      "title": "Search ignores letter case",
+      "priority": "P2",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-021-search-ignores-letter-case.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Upper, lower and mixed case keywords return the same items.",
+      "preconditions": [
+        "Items with \"test\" in the title exist"
+      ],
+      "data": [
+        "Keywords: test, Test, TEST"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for test and note the results count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for Test",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for TEST",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "All three searches show the same results count (89 on 2026-10-30)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "test, Test, TEST all 89 results."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:31.212Z"
+    },
+    {
+      "id": "VZ-022",
+      "title": "Extra spaces in a Chinese keyword do not change the results",
+      "priority": "P3",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-022-extra-spaces-in-a-chinese-keyword-do.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Leading, trailing and inner spaces typed by mistake do not break a Chinese search.",
+      "preconditions": [
+        "An item with 財政 in its title exists"
+      ],
+      "data": [
+        "Keywords: 財政, \"  財政\", \"財政 \", \"財 政\""
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for 財政 and note the results count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for each variant with spaces",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every variant returns the same results count as 財政",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "\"財政 \", \"  財政\", \"財 政\" all 22 results like 財政."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:31.340Z"
+    },
+    {
+      "id": "VZ-023",
+      "title": "Search with no matches shows a clear empty result",
+      "priority": "P2",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-023-search-with-no-matches-shows-a-clear.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A search that matches nothing tells the user so instead of showing an empty or loading page.",
+      "preconditions": [],
+      "data": [
+        "Keyword: qa-nomatch-<unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for qa-nomatch-<unique>",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page shows \"No search results found\" within 5 seconds",
+          "status": null
+        },
+        {
+          "text": "The search box keeps the typed keyword",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Non-matching keywords (%, a<b) showed \"No search results found\" at once."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:31.468Z"
+    },
+    {
+      "id": "VZ-024",
+      "title": "Search text that looks like HTML or script finishes and is not executed",
+      "priority": "P2",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-024-search-text-that-looks-like-html-or.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Pasted text with HTML tags is searched safely and never hangs the page.",
+      "preconditions": [],
+      "data": [
+        "Keywords: <b>bold</b>, <script>alert(1)</script>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for <b>bold</b>",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for <script>alert(1)</script>",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each search ends within 5 seconds with a results count or \"No search results found\"",
+          "status": null
+        },
+        {
+          "text": "No alert dialog appears and the text is shown as typed in the search box",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "<b>bold</b> OK; <script>alert(1)</script> stuck on Loading Search Results 25+ s, no request sent."
+      ],
+      "evidence": [
+        "screenshots/VZ-024-m01-evidence.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:31.599Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "VZ-025",
+      "title": "Very long keyword returns no results without an error",
+      "priority": "P3",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-025-very-long-keyword-returns-no-results.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A 300 character keyword does not crash or hang the search.",
+      "preconditions": [],
+      "data": [
+        "Keyword: the letter a repeated 300 times"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for the 300 character keyword",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page shows \"No search results found\" within 5 seconds and no error message",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "300 x a -> No search results found, no error."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:31.852Z"
+    },
+    {
+      "id": "VZ-026",
+      "title": "Wildcard search matches title prefixes",
+      "priority": "P3",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-026-wildcard-search-matches-title-prefixes.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A trailing * finds every item whose words start with the typed text.",
+      "preconditions": [
+        "Items with titles starting with test (e.g. test221029...) exist"
+      ],
+      "data": [
+        "Keywords: test, test*, *"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for test and note the count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for test*",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for *",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "test* returns more results than test (138 vs 89 on 2026-10-30), including titles like test221029 bb1port 01 v001",
+          "status": null
+        },
+        {
+          "text": "returns every item (same count as the unfiltered Items list)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "test 89, test* 138, * 196 (= all items)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:31.975Z"
+    },
+    {
+      "id": "VZ-027",
+      "title": "Excluding a keyword removes the matching items",
+      "priority": "P3",
+      "feature": "search",
+      "file": "projects/vizone/cases/search/VZ-027-excluding-a-keyword-removes-the.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Editors can exclude a word (NOT or minus) to narrow results.",
+      "preconditions": [
+        "An item with 財政 in its title exists"
+      ],
+      "data": [
+        "Keywords: 財政, -財政, NOT 財政"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Search > Items and note the total count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for 財政 and note the count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for -財政",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search Items for NOT 財政",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "-財政 and NOT 財政 return the total count minus the 財政 count",
+          "status": null
+        },
+        {
+          "text": "No result contains 財政 in its title",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "-財政 and NOT 財政 both 196 (all), expected 174. Pending Q-003."
+      ],
+      "evidence": [
+        "screenshots/VZ-027-m01-evidence.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:32.101Z",
+      "failureType": "untriaged"
+    },
+    {
+      "id": "VZ-029",
+      "title": "Item without a proxy shows Missing proxy instead of a broken player",
+      "priority": "P2",
+      "feature": "preview",
+      "file": "projects/vizone/cases/preview/VZ-029-item-without-a-proxy-shows-missing.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An item whose proxy was never made tells the user clearly.",
+      "preconditions": [
+        "A video item with Asset media status Failed and no Proxy file exists"
+      ],
+      "data": [
+        "Item: first Failed video item, found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Search > Items, Asset media status facet, select Failed",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the first result that has a duration",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The player area shows \"Missing proxy\"",
+          "status": null
+        },
+        {
+          "text": "The Overview still shows Duration, Start TC and Format",
+          "status": null
+        },
+        {
+          "text": "The Files tab lists only Highres files",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "test221109 bb2 p02 v0001 (Failed): player area \"Missing proxy\", Overview intact, Files only Highres."
+      ],
+      "evidence": [
+        "screenshots/VZ-029-m01-missing-proxy.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:32.347Z"
+    },
+    {
+      "id": "VZ-030",
+      "title": "Item with no media shows No media",
+      "priority": "P3",
+      "feature": "preview",
+      "file": "projects/vizone/cases/preview/VZ-030-item-with-no-media-shows-no-media.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Placeholder and empty items show a clear message instead of a player.",
+      "preconditions": [
+        "An item with Asset media status Empty exists"
+      ],
+      "data": [
+        "Item: first Empty item, found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Search > Items, Asset media status facet, select Empty",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the first result",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The player area shows \"No media\"",
+          "status": null
+        },
+        {
+          "text": "No video player controls are shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "testAudio0001 (Empty) and a .wav.filepart placeholder show \"No media\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:32.474Z"
+    },
+    {
+      "id": "VZ-031",
+      "title": "Typing a time code jumps the player to that frame",
+      "priority": "P2",
+      "feature": "preview",
+      "file": "projects/vizone/cases/preview/VZ-031-typing-a-time-code-jumps-the-player-to.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Editors can go straight to a known time code in a long item.",
+      "preconditions": [
+        "At least one video item of 1 hour or longer exists"
+      ],
+      "data": [
+        "Time code: Start TC + about 8 minutes (e.g. 10:00:00:00 for Start TC 09:51:31:20)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Search > Items, sort by Media Duration and open the first video item of 01:00:00:00 or longer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the time code, press Enter, type the time code and press Enter",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The time code shows the typed value",
+          "status": null
+        },
+        {
+          "text": "The picture changes to that position",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "2h15m item: typed 10:00:00:00, time code shows 10:00:00:00, playhead moved to 508 s."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:32.607Z"
+    },
+    {
+      "id": "VZ-032",
+      "title": "Typing a time code past the end goes to the last frame",
+      "priority": "P2",
+      "feature": "preview",
+      "file": "projects/vizone/cases/preview/VZ-032-typing-a-time-code-past-the-end-goes-to.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Out-of-range time codes do not break the player.",
+      "preconditions": [
+        "At least one video item of 1 hour or longer exists"
+      ],
+      "data": [
+        "Time code: 23:59:59:24"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Search > Items, sort by Media Duration and open the first video item of 01:00:00:00 or longer",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the time code, press Enter, type 23:59:59:24 and press Enter",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The time code shows the last frame (Start TC + Duration)",
+          "status": null
+        },
+        {
+          "text": "The player still plays when Play/Pause is pressed after jumping back to the start",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "23:59:59:24 -> 12:07:08:05 (last frame)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:32.735Z"
+    },
+    {
+      "id": "VZ-033",
+      "title": "Invalid time code text is ignored",
+      "priority": "P3",
+      "feature": "preview",
+      "file": "projects/vizone/cases/preview/VZ-033-invalid-time-code-text-is-ignored.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Typing letters or impossible values leaves the player where it was.",
+      "preconditions": [
+        "At least one video item exists"
+      ],
+      "data": [
+        "Values: abc, 99:99:99:99"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open any Online video item",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter abc in the time code",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter 99:99:99:99 in the time code",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The time code and picture stay at the previous position after each entry",
+          "status": null
+        },
+        {
+          "text": "No error dialog appears",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "abc and 99:99:99:99 ignored, position unchanged, no error."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:32.862Z"
+    },
+    {
+      "id": "VZ-036",
+      "title": "Wrong password is rejected with a clear message",
+      "priority": "P1",
+      "feature": "login",
+      "file": "projects/vizone/cases/login/VZ-036-wrong-password-is-rejected-with-a-clear.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A wrong password does not log in and says why.",
+      "preconditions": [],
+      "data": [
+        "User: VZ_ADMIN_USER, password: wrong-<unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the Studio login page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in with VZ_ADMIN_USER and a wrong password",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page stays on the login form",
+          "status": null
+        },
+        {
+          "text": "The message \"Incorrect username or password\" is shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "\"Incorrect username or password\", stayed on login."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:32.996Z"
+    },
+    {
+      "id": "VZ-037",
+      "title": "Empty username is rejected",
+      "priority": "P2",
+      "feature": "login",
+      "file": "projects/vizone/cases/login/VZ-037-empty-username-is-rejected.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Submitting the login form with no username shows a message.",
+      "preconditions": [],
+      "data": [
+        "User name and password empty"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the Studio login page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Press Log In without typing anything",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The message \"Empty username\" is shown and the page stays on the login form",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "\"Empty username\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:33.128Z"
+    },
+    {
+      "id": "VZ-038",
+      "title": "Username is case sensitive",
+      "priority": "P3",
+      "feature": "login",
+      "file": "projects/vizone/cases/login/VZ-038-username-is-case-sensitive.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Only the exact username logs in.",
+      "preconditions": [],
+      "data": [
+        "User: VZ_ADMIN_USER in upper case, correct password"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the Studio login page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in with the username in upper case and the correct password",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The message \"Incorrect username or password\" is shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ADMIN + correct password -> \"Incorrect username or password\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:33.257Z"
+    },
+    {
+      "id": "VZ-039",
+      "title": "Item link opened while logged out returns to the item after login",
+      "priority": "P2",
+      "feature": "login",
+      "file": "projects/vizone/cases/login/VZ-039-item-link-opened-while-logged-out.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A shared item link still works for a user who has to log in first.",
+      "preconditions": [],
+      "data": [
+        "Link: the URL of any item page (#ItemPlace:<id>), found at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Viz One Studio with domain Internal accounts and the VZ_ADMIN_USER / VZ_ADMIN_PASS account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Copy the URL of an item page and log out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the copied URL",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After login the same item page opens (its title is in the page heading)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Logged out, opened #ItemPlace link, logged in -> same item page."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T03:21:33.390Z"
+    }
+  ],
+  "notes": "Edge-case exploration on staging; only executed cases recorded.",
+  "finishedAt": "2026-10-30T03:21:33.647Z",
+  "summary": {
+    "total": 18,
+    "pass": 14,
+    "fail": 4,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
