@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1453_staging_manual",
+  "startedAt": "2026-10-30T07:53:54.751Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-174",
+      "title": "A transfer above the source available stock is accepted and leaves the source available negative",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-174-a-transfer-or-replenish-request-cannot.md",
+      "status": "skipped",
+      "source": "manual",
+      "goal": "Documents the accepted behavior: transfers and replenish requests are not limited by the source available quantity, and the shortfall shows as negative available.",
+      "preconditions": [
+        "A QA product with a known small Available in the source warehouse (read in Inventory)"
+      ],
+      "data": [
+        "Qty: Available + 1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add Transfer Order from that warehouse with qty Available + 1; Submit > Confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the source warehouse Available in Inventory",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cleanup: cancel the QA transfer",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: the transfer is saved as Pending without a message",
+          "status": null
+        },
+        {
+          "text": "Step 2: source Available = previous Available - qty (here -1)",
+          "status": null
+        },
+        {
+          "text": "Step 3: after cancelling, source Available is back to its previous value",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Skipped at user request. Not executed; no application changes made."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T07:53:54.814Z"
+    },
+    {
+      "id": "SCRM-069",
+      "title": "Complete sandbox storefront checkout and verify order confirmation",
+      "priority": "P0",
+      "feature": "storefront",
+      "file": "projects/storeberry-crm/cases/storefront/SCRM-069-complete-sandbox-storefront-checkout.md",
+      "status": "skipped",
+      "source": "manual",
+      "goal": "A shopper can complete a staging purchase using only a documented sandbox payment method.",
+      "preconditions": [
+        "A staging storefront and documented sandbox payment method are available.",
+        "Notification routing is confirmed safe for QA contact details."
+      ],
+      "data": [
+        "Available storefront product selected dynamically.",
+        "Test-only contact details and designated sandbox payment method."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the staging storefront in an isolated session.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add an available product to the cart and proceed through checkout.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter QA-only contact and delivery details and select the documented sandbox payment method.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Submit the order and open its confirmation.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The storefront displays an order confirmation with a new order reference.",
+          "status": null
+        },
+        {
+          "text": "The order appears in staging with the expected item, total, and initial payment/order status.",
+          "status": null
+        },
+        {
+          "text": "No live payment is attempted and no real person receives a message.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Skipped at user request. Not executed; no application changes made."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T07:53:54.874Z"
+    },
+    {
+      "id": "SCRM-070",
+      "title": "Declined sandbox payment does not create a paid order",
+      "priority": "P0",
+      "feature": "storefront",
+      "file": "projects/storeberry-crm/cases/storefront/SCRM-070-declined-sandbox-payment-does-not.md",
+      "status": "skipped",
+      "source": "manual",
+      "goal": "A designated sandbox decline response does not leave the QA order in a paid state.",
+      "preconditions": [
+        "A staging checkout supports a documented payment-decline test method.",
+        "Notification routing is confirmed safe for QA contact details."
+      ],
+      "data": [
+        "Available product selected dynamically.",
+        "Test-only contact details and the designated sandbox decline method."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the staging storefront in an isolated session.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add an available product and proceed to checkout with QA-only contact details.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Use only the documented sandbox decline method.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Review the displayed result and inspect the resulting QA order/payment status if an order record is created.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Checkout displays a payment-failure state.",
+          "status": null
+        },
+        {
+          "text": "No resulting order is marked paid or completed and no successful payment is recorded.",
+          "status": null
+        },
+        {
+          "text": "No live payment is attempted.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Skipped at user request. Not executed; no application changes made."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T07:53:54.937Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T07:53:55.002Z",
+  "summary": {
+    "total": 3,
+    "pass": 0,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 3
+  }
+}
