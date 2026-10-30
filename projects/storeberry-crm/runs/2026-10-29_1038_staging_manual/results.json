@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1038_staging_manual",
+  "startedAt": "2026-10-29T03:38:28.906Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-148",
+      "title": "Overview dashboard figures match the orders and sales for the same period",
+      "priority": "P1",
+      "feature": "overview",
+      "file": "projects/storeberry-crm/cases/overview/SCRM-148-overview-dashboard-figures-match-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Owners can trust the numbers on the first screen.",
+      "preconditions": [
+        "Logged in to the CRM"
+      ],
+      "data": [
+        "Period: today and last 7 days"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Overview and note sales, order count and other figures for the period",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare with Reports > Sales and the order list for the same period",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Figures match the report and the paid orders (or the difference is explained by the label)",
+          "status": null
+        },
+        {
+          "text": "The page loads without errors (it rendered blank in a quick check on 2026-10-29)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T03:38:28.958Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T03:38:29.005Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

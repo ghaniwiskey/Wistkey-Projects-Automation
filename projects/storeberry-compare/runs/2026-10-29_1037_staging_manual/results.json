@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1037_staging_manual",
+  "startedAt": "2026-10-29T03:37:04.366Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-059",
+      "title": "Contact Us form sends the message and tells the customer",
+      "priority": "P2",
+      "feature": "content",
+      "file": "projects/storeberry-compare/cases/content/SBF-059-contact-us-form-sends-the-message-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers can contact the shop.",
+      "preconditions": [
+        "Find where contact messages arrive (CRM Message Centre or email) at runtime"
+      ],
+      "data": [
+        "QA name, dotted unique email, short message"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /page/contact-us, submit empty, then submit valid data",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Empty submit shows required-field errors",
+          "status": null
+        },
+        {
+          "text": "Valid submit shows a confirmation and the message reaches the shop",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T03:37:04.390Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T03:37:04.411Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

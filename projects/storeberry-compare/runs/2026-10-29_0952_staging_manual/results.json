@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_0952_staging_manual",
+  "startedAt": "2026-10-29T02:52:11.369Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-042",
+      "title": "A customer cannot open another customer's order by changing the order number in the URL",
+      "priority": "P0",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-042-a-customer-cannot-open-another-customer.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Order details, receipts and addresses of one customer are never visible to another customer or a guest.",
+      "preconditions": [
+        "Two QA members (A and B) from .env or created at runtime, each with at least one order"
+      ],
+      "data": [
+        "Order URLs of member B, read at runtime from B's My Orders"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as member B and copy the URL of one order detail and its Upload Receipt tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out, log in as member A and open those URLs",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out and open the same URLs as a guest",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Use Guest Order Tracking with B's order number and A's email",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: access denied or redirect to A's own orders; none of B's name, address, items or receipt is shown",
+          "status": null
+        },
+        {
+          "text": "Step 3: redirect to /login",
+          "status": null
+        },
+        {
+          "text": "Step 4: no order found",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T02:52:11.422Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T02:52:11.477Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_0934_staging_manual-2",
+  "startedAt": "2026-10-30T02:34:29.930Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-007",
+      "title": "Registration validates policy, password length, confirmation and birthday",
+      "priority": "P2",
+      "feature": "account",
+      "file": "projects/storeberry-compare/cases/account/SBF-007-registration-validates-policy-password.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Invalid registration input is rejected with clear messages.",
+      "preconditions": [],
+      "data": [
+        "Password 123 / confirm 456",
+        "Birthday 02-30"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /register and fill name and a unique email",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter password 123 and confirmation 456, leave the policy unticked, Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fix the passwords, tick the policy, type birthday 02-30, Register",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Warning lists \"The Agreement of Privacy policy is required.\", \"The Password must be at least 6 characters.\" and \"The Password confirmation does not match.\"",
+          "status": null
+        },
+        {
+          "text": "Birthday 02-30 is rejected; no account is created with a different birthday",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T02:34:29.992Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T02:34:30.052Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

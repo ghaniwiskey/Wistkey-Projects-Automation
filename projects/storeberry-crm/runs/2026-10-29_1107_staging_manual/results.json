@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1107_staging_manual",
+  "startedAt": "2026-10-29T04:07:37.628Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-053",
+      "title": "Edit a QA customer profile and verify saved fields",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-053-edit-a-qa-customer-profile-and-verify.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can edit a QA customer name and remark and see the values persist.",
+      "preconditions": [
+        "The staging CRM permits creation of a dedicated QA customer."
+      ],
+      "data": [
+        "First name: QA-<unique>.",
+        "Email: qa-<unique>@example.invalid.",
+        "Updated remark: QA profile edit <unique>."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and create a unique QA customer using the supplied non-routable email.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open that customer profile.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change the first name and remark to the unique QA values.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Save, reopen the customer, and reload the profile.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The updated first name and remark remain visible after reload.",
+          "status": null
+        },
+        {
+          "text": "The customer email remains the non-routable QA address and no message is sent.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T04:07:37.680Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T04:07:37.729Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

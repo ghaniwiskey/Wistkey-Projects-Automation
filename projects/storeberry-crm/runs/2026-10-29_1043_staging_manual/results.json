@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1043_staging_manual",
+  "startedAt": "2026-10-29T03:43:30.182Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-164",
+      "title": "Technical support page lets staff open and view a support ticket",
+      "priority": "P3",
+      "feature": "support",
+      "file": "projects/storeberry-crm/cases/support/SCRM-164-technical-support-page-lets-staff-open.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can reach Storeberry support from the CRM.",
+      "preconditions": [
+        "Ask the user before creating a ticket: it reaches the vendor's support team"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Technical support",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page loads with the ticket list or a contact form (it rendered blank in a quick check on 2026-10-29)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T03:43:30.236Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T03:43:30.285Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1022_staging_manual",
+  "startedAt": "2026-10-29T03:22:13.252Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-060",
+      "title": "Promotion landing page lists the promotion's products and the discount applies in the cart",
+      "priority": "P1",
+      "feature": "promotions",
+      "file": "projects/storeberry-compare/cases/promotions/SBF-060-promotion-landing-page-lists-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers who open a promotion page get the advertised deal.",
+      "preconditions": [
+        "A live promotion page found at runtime from the home page (/promotion/<id>)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the promotion page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add a listed product to the cart and open checkout",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page shows the promotion terms and only eligible products",
+          "status": null
+        },
+        {
+          "text": "The discount in the cart matches the terms",
+          "status": null
+        },
+        {
+          "text": "Cleanup: empty the cart",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T03:22:13.312Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T03:22:13.368Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

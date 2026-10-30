@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1036_staging_manual",
+  "startedAt": "2026-10-29T03:36:49.338Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-058",
+      "title": "Information pages (About Us, FAQ, Privacy Policy, T&C) open in each language",
+      "priority": "P2",
+      "feature": "content",
+      "file": "projects/storeberry-compare/cases/content/SBF-058-information-pages-about-us-faq-privacy.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Legal and help pages are reachable from the footer.",
+      "preconditions": [],
+      "data": [
+        "Pages: /page/About-Us, /page/faq, /page/privacy-policy, /page/tnc"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open each footer link in en-HK, zh-HK and ja",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each page opens with content (no 404, no empty page); the checkout agreement links point to the same T&C",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T03:36:49.361Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T03:36:49.384Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

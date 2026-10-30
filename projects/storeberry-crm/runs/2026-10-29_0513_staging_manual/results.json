@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_0513_staging_manual",
+  "startedAt": "2026-10-28T22:13:22.483Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-006",
+      "title": "Customer search by Member ID returns the selected customer",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-006-customer-search-by-member-id-returns.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A CRM user can locate one existing customer by an exact Member ID.",
+      "preconditions": [
+        "The staging Storeberry Flower admin account is configured in local .env.",
+        "At least one customer with a unique Member ID is available in staging."
+      ],
+      "data": [
+        "The Member ID of the selected staging customer; do not copy customer details into reports."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM as the Storeberry Flower admin.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Customers > Customers.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select one existing customer and note its Member ID privately.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter that exact Member ID in the customer search field and run the search.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The customer count is 1 and one matching customer row is shown.",
+          "status": null
+        },
+        {
+          "text": "The search result corresponds to the selected customer; no personal customer details are included in the test report.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "test"
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-28T22:13:22.565Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-28T22:13:22.638Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

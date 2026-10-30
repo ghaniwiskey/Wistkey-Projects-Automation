@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1034_staging_manual",
+  "startedAt": "2026-10-29T03:34:58.412Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-057",
+      "title": "Blog list and posts open and show their content",
+      "priority": "P3",
+      "feature": "content",
+      "file": "projects/storeberry-compare/cases/content/SBF-057-blog-list-and-posts-open-and-show-their.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customers can read the shop blog.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /blog and open a post (/post)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Posts list with titles and images; a post opens with its content; no broken links",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T03:34:58.436Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T03:34:58.459Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

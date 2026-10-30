@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1045_staging_manual",
+  "startedAt": "2026-10-29T03:45:07.591Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-180",
+      "title": "Get Started setup checklist links open the right setup pages and track completion",
+      "priority": "P3",
+      "feature": "onboarding",
+      "file": "projects/storeberry-crm/cases/onboarding/SCRM-180-get-started-setup-checklist-links-open.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "New shop owners can follow the setup guide.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open Get Started and click each step",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each step opens its setup page; completed steps are marked done",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T03:45:07.643Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T03:45:07.693Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

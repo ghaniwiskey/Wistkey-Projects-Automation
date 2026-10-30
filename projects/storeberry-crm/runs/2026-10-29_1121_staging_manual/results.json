@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-29_1121_staging_manual",
+  "startedAt": "2026-10-29T04:21:10.028Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-154",
+      "title": "Customer List Management imports a member list from a file and reports bad rows",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-154-customer-list-management-imports-a.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can bulk-import members without corrupting data.",
+      "preconditions": [
+        "The template downloaded from Create Template"
+      ],
+      "data": [
+        "File with 2 valid new QA members, 1 duplicate email, 1 invalid email"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Customer List Management > New Member List > Select file > Upload file > OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search the customers",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The 2 valid members are created with the file data; the bad rows are refused with a reason",
+          "status": null
+        },
+        {
+          "text": "Cleanup: delete the imported QA members (SCRM-072)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-29T04:21:10.081Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-29T04:21:10.131Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
