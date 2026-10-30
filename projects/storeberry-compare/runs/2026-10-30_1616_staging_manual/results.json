@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "user-reported-accepted-behavior",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1616_staging_manual",
+  "startedAt": "2026-10-30T09:16:15.620Z",
+  "inProgress": false,
+  "tester": "User",
+  "tests": [
+    {
+      "id": "SBF-028",
+      "title": "Two prepared checkouts can place orders for the last available unit",
+      "priority": "P0",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-028-only-one-of-two-customers-can-buy-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Two prepared checkouts can place separate orders for the same last available unit, with the extra quantity recorded as a pre-order and available stock allowed to become negative.",
+      "preconditions": [
+        "A stock-tracked, non-quota product with Pre-order disabled, exactly 1 available unit in the warehouse serving Online Shop, and zero units elsewhere",
+        "Two independent browser sessions with separate cookies and empty carts"
+      ],
+      "data": [
+        "Bank Transfer only; store pickup",
+        "Different guest details and unique emails for the two shoppers"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "In both sessions, add 1 unit of the same product to the cart.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In both sessions, fill all checkout details, select store pickup and Bank Transfer, and accept the terms.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Submit session A and wait for its order confirmation.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Submit session B from its already-prepared checkout.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the CRM, search orders by the product name and inspect inventory for the order warehouse.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Void both test orders and empty both carts.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both sessions reach order confirmation with different order numbers.",
+          "status": null
+        },
+        {
+          "text": "The CRM shows two orders, each with quantity 1 of the selected product.",
+          "status": null
+        },
+        {
+          "text": "Available quantity may reach -1 with Stock Qty 1 and Pre-order Qty 1; this is accepted even when the product Pre-order setting is disabled.",
+          "status": null
+        },
+        {
+          "text": "After both orders are voided, Available Qty and Stock Qty return to 1, Pre-order Qty returns to 0, and both carts are empty.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "User-reported result and acceptance decision: user reproduced both prepared checkouts succeeding without near-simultaneous submission, accepted the behavior as wont-fix, and requested this case pass. Recorded against revised accepted-behavior expectations. No fresh execution or cleanup was performed by Aside; user did not supply order IDs, timing, inventory measurements or cleanup evidence. Original independently observed failed run 2026-10-30_1557_staging_manual is unchanged."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:16:26.338Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:16:26.466Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

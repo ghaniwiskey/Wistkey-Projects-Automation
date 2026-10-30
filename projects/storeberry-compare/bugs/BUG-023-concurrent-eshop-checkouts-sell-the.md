@@ -2,13 +2,13 @@
 id: BUG-023
 title: "Concurrent eShop checkouts sell the last unit twice and leave negative available stock"
 severity: major
-status: open
+status: wont-fix
 env: staging
 url: "https://storeberry-flower.stagingl10.storeberry.xyz/checkout"
-updated: 2026-10-30T09:02:01.949Z
+updated: 2026-10-30T09:16:15.475Z
 found: 2026-10-30T09:02:01.949Z
 foundBy: "runs/2026-10-30_1557_staging_manual"
-tests: [SBF-028]
+tests: []
 frequency: Observed in 1 of 1 approved simultaneous two-session runs; not repeated.
 ---
 ## Summary
@@ -41,3 +41,4 @@ Both shoppers reached thank-you pages. Shopper B created TXN0126103000007 (CRM 1
 
 ## History
 - 2026-10-30: filed from runs/2026-10-30_1557_staging_manual in the Test Manager app.
+- 2026-10-30: status open -> wont-fix; User reports the same behavior without near-simultaneous submission and explicitly accepts it. Updated SBF-028 title, goal, steps and expectations to allow both prepared checkouts to succeed and stock to become negative. Removed active test linkage; no automated spec exists. Original observed failure and evidence remain unchanged..
