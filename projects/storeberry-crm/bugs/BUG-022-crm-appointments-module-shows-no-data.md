@@ -5,7 +5,7 @@ severity: critical
 status: open
 env: staging
 url: "https://www.stagingl10.storeberry.xyz/appointment/list"
-updated: 2026-10-27T10:45:09.529Z
+updated: 2026-10-30T10:10:40.467Z
 found: 2026-10-27T10:45:09.529Z
 foundBy: "explorations/2026-10-27-stock-movement.md"
 tests: [SCRM-059, SCRM-060, SCRM-061, SCRM-039]
@@ -34,3 +34,4 @@ Lists show "Total: 1 page(s) (0 items)"; all appointment API calls 403 code 2208
 
 ## History
 - 2026-10-27: filed from explorations/2026-10-27-stock-movement.md in the Test Manager app.
+- 2026-10-30: During SBF-040 on 2026-10-30, the CRM appointment list loaded and a newly created QA appointment was found by its unique remark, matching member, service, date and time. The old empty-list symptom was not observed. Underlying response status was not captured; the other linked cases and appointment pages were not retested, so status remains open pending targeted verification..

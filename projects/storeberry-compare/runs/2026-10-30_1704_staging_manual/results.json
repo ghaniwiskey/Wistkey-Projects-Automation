@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "member-appointment-sync",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1704_staging_manual",
+  "startedAt": "2026-10-30T10:04:06.709Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SBF-040",
+      "title": "Customer books an appointment on the eShop and staff see it in the CRM",
+      "priority": "P1",
+      "feature": "appointments",
+      "file": "projects/storeberry-compare/cases/appointments/SBF-040-customer-books-an-appointment-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The customer-side appointment booking at /appointment works end to end.",
+      "preconditions": [
+        "Logged-in QA member",
+        "An appointment resource with a free future slot, found at runtime (resource 3 \"Course\" per context.md)"
+      ],
+      "data": [
+        "A future free slot chosen at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open /appointment and pick the resource and a free future slot",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Confirm the booking",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the member account bookings (if shown) and the CRM Appointments list for that date",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2: a confirmation with the date and time",
+          "status": "pass"
+        },
+        {
+          "text": "Step 3: the booking shows for the member and in the CRM; the slot is no longer free for another customer",
+          "status": "pass"
+        },
+        {
+          "text": "Cleanup: cancel the booking",
+          "status": "skipped"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Step 2: a confirmation with the date and time",
+          "pass": true
+        },
+        {
+          "label": "Step 3: the booking shows for the member and in the CRM; the slot is no longer free for another customer",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "One approved QA member booking, no retry: Thai, eShop resource Course (3), 2026-11-02 10:00-10:30, remark SBF-040-MVUT1XJ4. Confirmation showed the date/time. Member My Appointment and filtered CRM list both showed Pending for MEMy001164526; CRM resource label Dorothy. An independent Playwright guest context no longer offered 10:00-10:30 (or the overlapping 10:15-10:45); first free slot was 10:30-11:00. No second booking or payment was submitted. Cleanup skipped at explicit user request: CRM Cancel opened Do you want to delete the item? with Delete/Cancel; user selected Keep the booking, so dialog was dismissed without Delete. Booking verified still Pending and reserved. Older CRM BUG-022 list-empty symptom was not observed, but linked-case retest was out of scope and bug status not changed."
+      ],
+      "evidence": [
+        "screenshots/SBF-040-m01-02-booking-confirmed.png",
+        "screenshots/SBF-040-m02-03-member-booking.png",
+        "screenshots/SBF-040-m03-04-crm-booking.png",
+        "screenshots/SBF-040-m04-05-guest-booked-slot-unavailable.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T10:10:40.655Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T10:10:41.304Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

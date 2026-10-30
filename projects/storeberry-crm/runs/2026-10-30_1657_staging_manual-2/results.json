@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1657_staging_manual-2",
+  "startedAt": "2026-10-30T09:57:37.883Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-158",
+      "title": "Online Store template edit is reflected on the eShop",
+      "priority": "P1",
+      "feature": "online-store",
+      "file": "projects/storeberry-crm/cases/online-store/SCRM-158-online-store-template-edit-is-reflected.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can change the storefront content and see it live.",
+      "preconditions": [
+        "Ask the user first: this is a settings change (README > Testing permissions). The storefront is shared with other testers."
+      ],
+      "data": [
+        "A small, reversible change (e.g. a banner text) chosen with the user"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Online Store > My Templates > Edit; make the change and save/publish",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the eShop home page",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The change shows on the eShop; nothing else on the page breaks",
+          "status": null
+        },
+        {
+          "text": "Cleanup: revert the change",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:57:37.937Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:57:37.988Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

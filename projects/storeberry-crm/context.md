@@ -51,7 +51,8 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes, e
 ## Courses, enrolment, appointments
 - Course creation keeps the selected Category across the Info and Session & Timetable tabs (SCRM-090). Timetable 70 ("QA Course Flow 2026-10-27", active, capacity 1, not linked to a course) was made for that retest and can be removed when no longer needed.
 - Courses & Enrolment > Status List: the Details/Order links wrap over two lines; click the link text (not the centre of the box) or call `element.click()`. Details = `/bookings/bookings-detail?id=<enrolment>`.
-- CRM appointment pages call cmsapiv2.storeberry.ai and get 403 (BUG-022). Customers book on the eShop at `/appointment` (resource 3 "Course").
+- Customers book on the eShop at `/appointment`; resource 3 is customer-facing "Course" and a Thai booking appeared under "Dorothy" in CRM. Match records by unique remark, member and date/time rather than resource display label alone. The appointment list loaded and showed a newly created booking during SBF-040; the older empty-list/403 report (BUG-022) was not reproduced on that list. Other appointment pages and linked cases have not been retested.
+- CRM appointment Cancel opens "Do you want to delete the item?" with Delete / Cancel. The Delete action has not been executed in this check, so its cancellation/deletion semantics remain unverified (Q-023). Ask for explicit approval before confirming.
 
 ## Customer CSV import
 - Customers > Import > Import CSV provides the sample template; New Member List creates an empty list, not the upload workflow.

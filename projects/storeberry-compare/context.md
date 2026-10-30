@@ -31,3 +31,8 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes an
 - Guest Order Tracking: `/guest-order-tracking` with order number + order email (case-insensitive).
 - Forgot password: `/forgot-password`; it reveals whether an email is registered (BUG-011, accepted).
 - My Account > My Promotion Codes is a 404 (BUG-019).
+
+## Appointments
+- `/appointment` offers resource > service > date > timeslot > general information. Booking confirmation shows the displayed date/time; member records are under `/my-account/appointment`.
+- A booked Thai 30-minute slot is removed from a separate guest session's available times, including overlapping starts. CRM general search accepts the unique booking remark, so use it to identify only the test record.
+- Confirmation URLs contain a booking access token. Do not copy that token into reports or shared links.

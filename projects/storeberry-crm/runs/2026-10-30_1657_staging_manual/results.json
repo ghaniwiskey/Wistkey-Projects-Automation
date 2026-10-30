@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1657_staging_manual",
+  "startedAt": "2026-10-30T09:57:12.433Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-152",
+      "title": "Staff set up an appointment resource, service and label and customers can book it",
+      "priority": "P1",
+      "feature": "appointments",
+      "file": "projects/storeberry-crm/cases/appointments/SCRM-152-staff-set-up-an-appointment-resource.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The appointment catalogue that customers book from can be maintained.",
+      "preconditions": [
+        "Appointments module working (blocked while BUG-022 is open)"
+      ],
+      "data": [
+        "QA resource, service and label names with a unique suffix"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Create a label category and label, a resource and a service linked to it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /appointment on the eShop",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The new service/resource is bookable on the eShop with the set duration and price",
+          "status": null
+        },
+        {
+          "text": "Cleanup: delete the QA service, resource and label",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:57:12.486Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:57:12.537Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

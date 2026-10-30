@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1655_staging_manual",
+  "startedAt": "2026-10-30T09:55:48.108Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-144",
+      "title": "A new product published in the CRM appears on the eShop with its price, options and stock",
+      "priority": "P1",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-144-a-new-product-published-in-the-crm.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff can launch a product and customers can buy it straight away.",
+      "preconditions": [
+        "A QA product we create (not hidden), with 2 variants, a category and stock moved in by transfer"
+      ],
+      "data": [
+        "Price and variants chosen at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Create and save the product visible on Online Shop",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open its category and search on the eShop",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the product page and add each variant",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The product is listed in its category and search with the CRM price",
+          "status": null
+        },
+        {
+          "text": "Variants and stock match; a variant with 0 stock shows SOLD OUT",
+          "status": null
+        },
+        {
+          "text": "Cleanup: terminate the product (ask: terminate is @final, see SCRM-002)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T09:55:48.163Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T09:55:48.212Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

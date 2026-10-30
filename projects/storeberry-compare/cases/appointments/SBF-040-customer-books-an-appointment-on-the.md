@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [staging]
 automated: false
 created: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
@@ -15,7 +15,7 @@ The customer-side appointment booking at /appointment works end to end.
 
 ## Preconditions
 - Logged-in QA member
-- An appointment resource with a free future slot, found at runtime (resource 3 "Course" per context.md)
+- An appointment resource with a free future slot, found at runtime
 
 ## Data
 - A future free slot chosen at runtime
