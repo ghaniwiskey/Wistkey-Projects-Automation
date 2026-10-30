@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1313_staging_manual-2",
+  "startedAt": "2026-10-30T06:13:12.164Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-032",
+      "title": "A member-only promo code is refused for guests and for members below the allowed level",
+      "priority": "P1",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-032-a-member-only-promo-code-is-refused-for.md",
+      "status": "skipped",
+      "source": "manual",
+      "goal": "Level-restricted codes reach only the intended members.",
+      "preconditions": [
+        "A QA code promotion with \"Member only\" and only a level the QA member does not have (e.g. Level 5) ticked, created in the CRM during the test"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "As a guest apply the code at /checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "As the QA member (lower level) apply it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick the member's level in the promotion and apply again as the member",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Steps 1 and 2: refused, no discount",
+          "status": null
+        },
+        {
+          "text": "Step 3: applied with the promotion discount",
+          "status": null
+        },
+        {
+          "text": "Cleanup: delete the QA promotion",
+          "status": null
+        },
+        {
+          "text": "$12026-10-28 partial run (not recorded: guest step not run because logging out would lose the QA member session): Level-5-only code QALVL1028 (promotion 663, deleted after) refused for the Level 1 member with \"Current shopping cart does not meet the promotion code conditions\"; after ticking Level 1 it applied (-HKD 15). The refusal message does not say the code is for other member levels.",
+          "status": null
+        },
+        {
+          "text": "Idea from explorations/2026-10-27-promotions-transfers.md.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T06:13:12.219Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T06:13:12.272Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 1
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-compare",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://storeberry-flower.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1313_staging_manual",
+  "startedAt": "2026-10-30T06:13:00.454Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SBF-028",
+      "title": "Only one of two customers can buy the last unit of a product",
+      "priority": "P0",
+      "feature": "checkout",
+      "file": "projects/storeberry-compare/cases/checkout/SBF-028-only-one-of-two-customers-can-buy-the.md",
+      "status": "skipped",
+      "source": "manual",
+      "goal": "The eShop never sells more units than are available, even when two carts hold the last one.",
+      "preconditions": [
+        "A non-quota product whose stock in the warehouse serving Online Shop (TaiPo, see Q-009) is small, found at runtime in CRM Inventory; if none, create it with a transfer of 1 unit to TaiPo (SCRM-028) and note the product (available = 1 for the test)",
+        "Two browser sessions: a QA member and a guest (or a second QA member), both carts empty"
+      ],
+      "data": [
+        "Bank Transfer (fn-bank-transfer) only; store pickup"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Session A and session B each add 1 unit of the product to the cart -> Expect: both get \"Item added successfully\"",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Both open /checkout and fill the details up to Proceed to checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Session A clicks Proceed to checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Session B clicks Proceed to checkout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "CRM: read the product row in Inventory and the order list",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 3: thank-you page with an order number",
+          "status": null
+        },
+        {
+          "text": "Step 4: refused with a message that the product is out of stock / not enough stock; no second order is created",
+          "status": null
+        },
+        {
+          "text": "Step 5: exactly one new order; Available for the warehouse is 0, never negative",
+          "status": null
+        },
+        {
+          "text": "Cleanup: void the order (stock returns to 1) and empty both carts",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T06:13:00.516Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T06:13:00.568Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 1
+  }
+}

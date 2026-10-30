@@ -11,6 +11,7 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes an
 - Add To Cart accepts the Online Shop stock total (Office, TaiPo, IFC Warehouse, 半島倉), but checkout flags "Not enough stock" above the TaiPo stock (BUG-017, closed as wont-fix 2026-10-28: accepted behavior, do not re-report).
 
 ## Checkout
+- Concurrent checkout: two isolated guest sessions can both place a Bank Transfer order for the last unit, leaving Available -1 and one Pre-order Qty even when the product Pre-order setting is off (SBF-028, BUG-023). Confirmed once; do not repeat without scenario/run approval.
 - Orders on staging only, Bank Transfer only (`fn-bank-transfer`); never card or wallet methods.
 - 住宅送貨 requires every Delivery Info field, including 回收聖誕樹日期 (November dates only). 門市自取 requires an Address (Q-007) and the store radio (荔枝角).
 - Guest checkout refuses plus-addressed emails (`name+tag@...`) with only "Please fill all required info" (BUG-012, closed as wont-fix 2026-10-28: accepted behavior, do not re-report): use dotted unique emails for test data.

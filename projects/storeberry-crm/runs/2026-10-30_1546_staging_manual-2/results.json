@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1546_staging_manual-2",
+  "startedAt": "2026-10-30T08:46:35.058Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-139",
+      "title": "CRM pages are not reachable after logout or without login",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/storeberry-crm/cases/auth/SCRM-139-crm-pages-are-not-reachable-after.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customer and order data in the CRM cannot be opened without a valid staff session.",
+      "preconditions": [
+        "Logged in as the .env staff account"
+      ],
+      "data": [
+        "URLs of the order list, an order detail, the customer list and Web POS, read at runtime"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Copy the URLs, then log out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Press Back",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open each URL directly in the same and in a fresh browser",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every URL redirects to /auth/login",
+          "status": null
+        },
+        {
+          "text": "Back after logout shows no data and allows no action",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T08:46:35.111Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T08:46:35.160Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

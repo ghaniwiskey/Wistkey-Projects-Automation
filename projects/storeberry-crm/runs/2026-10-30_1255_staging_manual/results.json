@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1255_staging_manual",
+  "startedAt": "2026-10-30T05:55:35.159Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-019",
+      "title": "Customer filters narrow results by registration date, member level, and source platform",
+      "priority": "P1",
+      "feature": "customers",
+      "file": "projects/storeberry-crm/cases/customers/SCRM-019-customer-filters-narrow-results-by.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Customer directory filters return only records matching the selected criteria.",
+      "preconditions": [
+        "Dedicated Storeberry Flower staging admin account is configured in local .env."
+      ],
+      "data": [
+        "Registration-date range and member level selected from available controls."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and open Customers > Customers.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Filter and select a registration-date range and member level; apply the filter.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reset the filter, select a source platform such as POS, ESHOP, or CMS, and apply it.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every result matches the selected date range and member level in the first filtered view.",
+          "status": null
+        },
+        {
+          "text": "Every result in the second view matches the selected source platform.",
+          "status": null
+        },
+        {
+          "text": "Counts are dynamic and customer personal data is not copied into reports.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:55:35.284Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T05:55:35.406Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

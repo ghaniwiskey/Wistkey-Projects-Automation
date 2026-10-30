@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1254_staging_manual-2",
+  "startedAt": "2026-10-30T05:54:47.701Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-018",
+      "title": "Hidden products are absent from storefront category listings",
+      "priority": "P1",
+      "feature": "products",
+      "file": "projects/storeberry-crm/cases/products/SCRM-018-hidden-products-are-absent-from.md",
+      "status": "skipped",
+      "source": "manual",
+      "goal": "A hidden product remains active in CRM but is not publicly discoverable in the storefront catalog.",
+      "preconditions": [
+        "The staging CRM has an active Hidden Product available."
+      ],
+      "data": [
+        "Name of an existing active Hidden Product; do not change it."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Sign in to the staging CRM and identify an active product whose visibility is Hidden Product.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Visit my online store in a separate tab.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search the storefront for the exact product name and browse its relevant category.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The active product remains present in the CRM with Hidden Product visibility.",
+          "status": null
+        },
+        {
+          "text": "The exact product is not shown in storefront search or category results.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:54:47.823Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T05:54:47.942Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 1
+  }
+}

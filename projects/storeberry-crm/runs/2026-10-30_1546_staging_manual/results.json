@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1546_staging_manual",
+  "startedAt": "2026-10-30T08:46:23.525Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-138",
+      "title": "A staff account with a limited role cannot see or open admin-only pages",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/storeberry-crm/cases/auth/SCRM-138-a-staff-account-with-a-limited-role.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Staff roles restrict what each staff member can do in the CRM.",
+      "preconditions": [
+        "A second staff account with a limited role. Ask the user first: creating staff or changing staff mapping needs approval (README)"
+      ],
+      "data": [
+        "Admin-only URLs read at runtime from the .env staff account menus (settings, staff, promotions, reports)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the limited staff account and note the menus",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open each admin-only URL directly",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Menus show only what the role allows",
+          "status": null
+        },
+        {
+          "text": "Direct URLs are refused or redirected; no data is shown and nothing can be saved",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T08:46:23.578Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T08:46:23.628Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

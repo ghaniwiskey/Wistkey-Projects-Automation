@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "quick",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-10-30_1249_staging_manual",
+  "startedAt": "2026-10-30T05:49:54.627Z",
+  "inProgress": false,
+  "tests": [
+    {
+      "id": "SCRM-174",
+      "title": "A transfer above the source available stock is accepted and leaves the source available negative",
+      "priority": "P0",
+      "feature": "inventory",
+      "file": "projects/storeberry-crm/cases/inventory/SCRM-174-a-transfer-or-replenish-request-cannot.md",
+      "status": "skipped",
+      "source": "manual",
+      "goal": "Documents the accepted behavior: transfers and replenish requests are not limited by the source available quantity, and the shortfall shows as negative available.",
+      "preconditions": [
+        "A QA product with a known small Available in the source warehouse (read in Inventory)"
+      ],
+      "data": [
+        "Qty: Available + 1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Add Transfer Order from that warehouse with qty Available + 1; Submit > Confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Read the source warehouse Available in Inventory",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cleanup: cancel the QA transfer",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: the transfer is saved as Pending without a message",
+          "status": null
+        },
+        {
+          "text": "Step 2: source Available = previous Available - qty (here -1)",
+          "status": null
+        },
+        {
+          "text": "Step 3: after cancelling, source Available is back to its previous value",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T05:49:54.680Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-10-30T05:49:54.733Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 1
+  }
+}
