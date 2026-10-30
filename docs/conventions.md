@@ -80,6 +80,8 @@ Retries: `npm test` has none locally, CI retries twice, `.\qa auto` retries once
 
 ## Bugs
 
+Reader-facing wording and structure: [bug-report-style.md](bug-report-style.md) (new reports only; existing reports stay unchanged). Use the same simple style as test cases, but preserve factual failure details and evidence.
+
 - One file per defect: `projects/<slug>/bugs/BUG-<NNN>-<slug>.md` (format: `docs/templates/bug-report.md`). The Test Manager's **File bug** on a failed result prefills it; agents use `.\qa call createBug`.
 - **Search the bugs first** (`.\qa bugs <slug>`). If the same symptom is already filed, link the existing bug instead of filing a duplicate; wont-fix bugs are accepted behavior, do not re-report them.
 - A bug needs: exact steps from a known starting state, expected vs actual (quote exact error text), URL, env, date, and evidence (failure screenshot from the run folder; console errors or failed requests when relevant).

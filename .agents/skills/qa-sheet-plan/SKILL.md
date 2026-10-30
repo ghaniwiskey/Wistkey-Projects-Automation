@@ -5,7 +5,7 @@ description: "Build or update a Google Sheets test plan / test report for a proj
 
 # Spreadsheet test plan
 
-Wording, sections and scope of the cases: `docs/test-case-style.md` (follow it for every cell a tester reads). Sheets API: `googleSheets` global (read the google-sheets and google-accounts skills first). Cases come from `projects/<slug>/cases` (`.\qa tests <slug>`).
+Wording, sections and scope of the cases: `docs/test-case-style.md` (follow it for every cell a tester reads). New spreadsheet bug/defect reports: `docs/bug-report-style.md`; keep observed results and history, do not reset defects like a fresh test plan. Sheets API: `googleSheets` global (read the google-sheets and google-accounts skills first). Cases come from `projects/<slug>/cases` (`.\qa tests <slug>`).
 
 ## Rules
 

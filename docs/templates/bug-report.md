@@ -12,12 +12,14 @@ frequency: always
 ---
 
 ## Summary
-One or two sentences a developer can act on.
+One or two plain-language sentences describing the trigger and user impact. Follow docs/bug-report-style.md.
 
 ## Steps to reproduce
-1. Starting state (logged in as the test account from project.yaml, empty cart).
-2. Exact action.
-3. Exact action.
+Starting state: required account role, item or configuration; only what must exist before the actions.
+
+1. Log in with your account for the required role, if needed.
+2. Describe the exact user action and input in plain language.
+3. Describe the action that exposes the failure.
 
 ## Expected
 What should happen, with the source of truth if known (spec, ticket, user manual, previous behavior).
