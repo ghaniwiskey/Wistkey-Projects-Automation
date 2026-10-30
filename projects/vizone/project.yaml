@@ -1,0 +1,31 @@
+name: Vizone
+slug: vizone
+testIdPrefix: VZ
+description: "RTHK Vizone: Vizrt Viz One Studio media asset management (search, browse, media, transfers) used with the Adobe Premiere plugin"
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with VZ_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: http://vizone-staging01.bh.rthkeng.hk/
+    allowWrites: false
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
+# A test links to a test case when its title starts with the ID: test('VZ-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium]        # chromium | firefox | webkit | mobile; first one is the "vizone" Playwright project
+  fullyParallel: true
+
+# Test accounts: usernames only. Passwords go in .env as VZ_<ROLE>_USER / VZ_<ROLE>_PASS.
+auth:
+  accounts:
+    - roles: [admin]
+      notes: Internal accounts (SYSTEM) domain login at /studio/. Password in .env.
+      envUser: VZ_ADMIN_USER
+      envPass: VZ_ADMIN_PASS
+
+suites:
+  smoke: { tags: [smoke], description: Fast checks of the main journeys }
+  regression: { tags: [regression, smoke], description: Full regression }
