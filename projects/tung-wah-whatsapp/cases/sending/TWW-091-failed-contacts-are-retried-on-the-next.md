@@ -7,19 +7,20 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-30
 ---
 
 ## Goal
 Clicking send again retries failed messages only.
 
 ## Preconditions
+- An isolated test app with a mocked Twilio transport; no real external message requests
 - An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)
 - An approved template with a mapped variable
 
 ## Data
-- Excel: 1 row +852 6524 8661, 1 row with a number Twilio rejects at the API (e.g. 852<unique 8 digits> not on WhatsApp)
-- Recipient: WhatsApp +852 6524 8661 only
+- Use a mocked Twilio transport and two disposable contacts: one mock-success contact and one mock-API-failure contact.
+- No external messages. Do not use a random phone number to provoke an error.
 
 ## Steps
 1. Upload the file and send
@@ -29,7 +30,9 @@ Clicking send again retries failed messages only.
 ## Expected
 - The rejected contact is shown as failed, not 已發送
 - The second send reports 1 contact and sends only to the failed one
-- +852 6524 8661 receives only one message in total
+- The mock-success contact receives only one send request in total
 
 ## Notes
-From the code: the send route selects PENDING and FAILED contacts. A message Twilio accepts but later marks Undelivered stays 已發送 (BUG-013), so the number must fail at the API call.
+Safety review 2026-10-30: use controlled mock success/failure responses, not an arbitrary non-WhatsApp number. Failure callbacks are now supported; distinguish API rejection from later Undelivered. No new execution occurred.
+
+From the code: the send route selects PENDING and FAILED contacts. Configure the mock failure at the send API call; a later Undelivered event exercises a different path.

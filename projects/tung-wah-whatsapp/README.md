@@ -19,6 +19,7 @@
 
 - Test WhatsApp only; skip SMS and email (user, 2026-10-28).
 - This retest only (2026-10-30): user explicitly approved temporary QA user creation/deletion, one throwaway Twilio draft creation/edit/deletion without Meta submission, template sync and one approved-template WhatsApp send to the test phone. Separately approved adding the missing local users.session_version column (integer, default 0), regenerating Prisma and restarting the app. No approval for an irreversible retry.
+- Sticker test only (2026-10-30): user approved one attendance_confirmation WhatsApp send to +852 6524 8661 with a fresh QA contact, through our ngrok webhook. Keep its test contact/reply/upload for user inspection; no cleanup or automatic resend approved.
 - WhatsApp sends: only to +852 6524 8661 (user's test phone). Twilio delivers only to HK numbers. Ask the user when a test needs a reply from that phone.
 - Twilio templates: creating a draft template in Twilio (no Meta submission) and deleting it via the app needs the user's approval per run (approved once on 2026-10-28). Never submit to Meta (創建後立即提交 Meta 審核) without explicit approval: it cannot be undone.
 - Local app data (QA users, contacts on the draft template "testing") may be created and must be cleaned up. Never delete or demote admin@tungwah.org.

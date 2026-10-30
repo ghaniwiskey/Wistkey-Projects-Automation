@@ -7,20 +7,21 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-10-30
 ---
 
 ## Goal
 If the app restarts or is redeployed during a long send, the rest can still be sent and nobody gets the message twice.
 
 ## Preconditions
+- An isolated test app with a mocked Twilio transport; no real external message requests
 - An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)
 - The user's OK to restart the local dev server
 - An approved template with a mapped variable
 
 ## Data
-- Excel: 20 fake HK numbers 852<unique 8 digits>, then +852 6524 8661 last
-- Recipient: WhatsApp +852 6524 8661 only
+- Use about 20 disposable mock-recipient contacts with delayed mocked delivery.
+- No transport requests may reach Twilio or real phone numbers.
 
 ## Steps
 1. Upload the file and send
@@ -34,4 +35,6 @@ If the app restarts or is redeployed during a long send, the rest can still be s
 - No phone gets the message twice
 
 ## Notes
+Safety review 2026-10-30: requires an isolated app instance and mocked transport; do not restart the shared app or send to fake-looking phone numbers. Obtain fresh approval for the interruption scenario. No new execution occurred.
+
 Sending runs inside the server process at 1 message per second (1000 contacts take about 17 minutes), so a restart or deploy during a send is realistic.

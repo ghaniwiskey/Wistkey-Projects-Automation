@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "tung-wah-whatsapp",
+  "env": "local",
+  "suite": "sticker-reply-2026-10-30",
+  "baseUrl": "http://localhost:3000/",
+  "runId": "2026-10-30_1421_local_manual",
+  "startedAt": "2026-10-30T07:21:16.599Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "TWW-117",
+      "title": "Sticker reply is recorded as a non-text answer",
+      "priority": "P2",
+      "feature": "replies",
+      "file": "projects/tung-wah-whatsapp/cases/replies/TWW-117-sticker-reply-is-recorded-as-a-non-text.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Reply with a WhatsApp sticker\n\nVerify that a sticker reply is counted once and is identified as a non-text answer in reply statistics and the downloaded report.",
+      "preconditions": [
+        "An admin account and an approved WhatsApp template are available.",
+        "The receiving phone can send a WhatsApp sticker.",
+        "The receiving contact has been sent the template and has no recorded reply."
+      ],
+      "data": [
+        "Use only the designated WhatsApp test phone.",
+        "Reply with one sticker without text or a caption."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in with your admin account and open the sent template.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the receiving phone, reply with one WhatsApp sticker before sending any text or tapping a reply button.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open 回覆統計 (Reply statistics) and inspect the contact’s answer.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Download the reply report and inspect the answer cell for the contact.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The sticker counts as one reply under Other or a clearly labelled media category.",
+          "status": null
+        },
+        {
+          "text": "The displayed answer and report identify that the member sent a sticker or non-text media, rather than a blank or unexplained answer.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "One approved send delivered to designated test phone. One inbound image/webp attachment with empty Body arrived via our ngrok webhook (200), counted once under Other. UI and exported 回覆紀錄!K6 show only 其它, no sticker/media label; 數據統計 counts 1. User asked to keep contact/reply/upload. No resend or cleanup.",
+        "User clarified that generic Other is expected for sticker/image replies. Original failed check reflected the earlier media-label expectation, not a product defect. BUG-046 is wont-fix; case expectations updated. The received attachment was counted once and exported as Other. No new execution or outcome rewrite."
+      ],
+      "evidence": [
+        "screenshots/TWW-117-m01-sticker-reply-other.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-10-30T07:26:00.086Z",
+      "failureType": "test-issue"
+    }
+  ],
+  "notes": "Sticker test through our ngrok tunnel. Single send only; real media reply received and counted, but no sticker/media label in UI or report (BUG-046). All test data retained at user request. No other reply types were tested.",
+  "finishedAt": "2026-10-30T07:26:00.409Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

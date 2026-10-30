@@ -7,11 +7,11 @@ tags: [regression, writes]
 envs: [all]
 automated: false
 created: 2026-10-28
-updated: 2026-10-29
+updated: 2026-10-30
 ---
 
 ## Goal
-A reply without text is shown as a non-text reply, not an empty answer.
+A media reply is counted once and shown under Other or a media label.
 
 ## Preconditions
 - An admin account (logged in session or TWW_ADMIN_USER / TWW_ADMIN_PASS in .env)
@@ -28,7 +28,7 @@ A reply without text is shown as a non-text reply, not an empty answer.
 
 ## Expected
 - The reply is counted once (under 其它 or a media label)
-- 回覆內容 is not empty; it says the member sent an image or similar
+- 回覆內容 may show 其它 (Other); a separate image/sticker label or preview is not required
 
 ## Notes
-From the code: an empty Body falls back to 其它 with empty text. BUG-015 verified 2026-10-29: typed text is now stored and shown in the report.
+User confirmed on 2026-10-30 that generic Other for sticker/image replies is expected. BUG-046 closed as wont-fix. TWW-117 covered one actual image/webp sticker-style reply, not all image/voice/location variants; this broader case remains unrun. BUG-015 verified for typed-text preservation.

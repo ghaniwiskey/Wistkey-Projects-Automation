@@ -1,0 +1,36 @@
+{
+  "outbound": {
+    "sid": "MM87e30cad368d2330546d4520ed3d4847",
+    "status": "DELIVERED",
+    "sentAt": "2026-10-30T07:21:03.799Z",
+    "deliveredAt": "2026-10-30T07:21:13.088Z"
+  },
+  "inbound": {
+    "sid": "MM6c0ad16542ce8963e6e803afca0712db",
+    "status": "received",
+    "direction": "inbound",
+    "numMedia": "1",
+    "body": "",
+    "contentType": "image/webp",
+    "webhookStatus": 200
+  },
+  "response": {
+    "id": "cmvun88f7009ic826bzhcdrlg",
+    "name": "QA Tester",
+    "phone": "85265248661",
+    "customVars": {
+      "姓名": "QA Tester",
+      "手提電話": "85265248661",
+      "會員編號": "M0001",
+      "會員類別": "普通會員"
+    },
+    "buttonId": "other",
+    "buttonTitle": "其它",
+    "context": {
+      "body": "",
+      "from": "+85265248661",
+      "messageSid": "MM6c0ad16542ce8963e6e803afca0712db"
+    },
+    "respondedAt": "2026-10-30T07:22:58.399Z"
+  }
+}
