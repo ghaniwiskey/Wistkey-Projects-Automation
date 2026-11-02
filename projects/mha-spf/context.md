@@ -3,7 +3,7 @@
 The ATS web app is shared with HTA: product, roles, page map, quirks, and the rules, behavior and test data per area are in `shared/mha-ats/context.md` and `shared/mha-ats/context/`. This file holds what is SPF-specific (docs/conventions.md > Knowledge files).
 
 ## Environment and account
-- UAT: https://mhauatweb.southeastasia.cloudapp.azure.com/ (project.yaml). The manual's other URLs need the SPF intranet VPN and are not used.
+- UAT: https://mhauatwebspf.southeastasia.cloudapp.azure.com/ (project.yaml; moved from mhauatweb.southeastasia.cloudapp.azure.com on 2026-11-02, also used by mha-mobile staging). The manual's other URLs need the SPF intranet VPN and are not used.
 - Account: `.env` only (`SPF_USER`, `SPF_PASS` empty = passwordless; README > Accounts). It lacks HQ AO, HQ FALO and End User, and there is no second LOGS1/FALO user; URO was added for SPF-018. Its units include 332600 APD (asset tests use its data; adding units: README > Testing permissions).
 - SPF has every role of the manual's Table 3 (FALO, End User, HQ AO, HQ FALO); UAO approval is final on UAT. No user delete.
 - FAVE numbers `FAVE FYaa-20cc` (agency code 20).

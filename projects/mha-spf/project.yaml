@@ -9,7 +9,7 @@ description: e-RFID Asset Tracking System (ATS) for MHA/SPF fixed assets (UAT on
 defaultEnv: staging
 envs:
   staging:
-    baseUrl: https://mhauatweb.southeastasia.cloudapp.azure.com/
+    baseUrl: https://mhauatwebspf.southeastasia.cloudapp.azure.com/
     allowWrites: true
 
 # Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).

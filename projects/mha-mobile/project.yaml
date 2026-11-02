@@ -15,7 +15,7 @@ description: "MHA Mobile native Android app (com.iconsult.mhasgtwo) on the Andro
 defaultEnv: staging
 envs:
   staging:
-    baseUrl: https://mhauatweb.southeastasia.cloudapp.azure.com/
+    baseUrl: https://mhauatwebspf.southeastasia.cloudapp.azure.com/
     allowWrites: true
     agency: SPF
     mobileAccount: MHM

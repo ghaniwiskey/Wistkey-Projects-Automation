@@ -1,6 +1,6 @@
 # MHA SPF
 
-e-RFID Asset Tracking System (ATS) for MHA/SPF fixed assets. UAT: https://mhauatweb.southeastasia.cloudapp.azure.com/ (never production). Same application as `mha-hta` (HTA database): page objects, knowledge and the user manual are shared in `shared/mha-ats/`.
+e-RFID Asset Tracking System (ATS) for MHA/SPF fixed assets. UAT: https://mhauatwebspf.southeastasia.cloudapp.azure.com/ (never production). Same application as `mha-hta` (HTA database): page objects, knowledge and the user manual are shared in `shared/mha-ats/`.
 
 ## Run
 
