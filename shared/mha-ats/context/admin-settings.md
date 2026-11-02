@@ -17,7 +17,7 @@ Core: `../context.md`. Manual: `../docs/user-manual/09-settings.md`, `10-user.md
 - Master Setup: Agency Name (read-only) and "Stocktake FAVE Start (MMDD-00:00)" (e.g. 0917). Not touched by tests.
 
 ## Quirks and waits
-- Flatpickr dialogs (Role period, Announcement): picking the start date opens the end date's calendar, and a refused Submit refocuses the date field and reopens it; it covers the dialog buttons. Page objects close the calendars before clicking.
+- Flatpickr dialogs (Role period, Announcement): picking the start date opens the end date's calendar, and a refused Submit refocuses the date field and reopens it; it covers the dialog buttons. Page objects close the calendars before clicking. A server error after Submit (BUG-011 "SqlDateTime overflow") also reopens the Start Date calendar over the alert's Ok button, and it keeps reopening: `submitPeriod` presses Ok in the DOM (2026-11-02).
 
 ## Test data (found at runtime)
 - User admin (SPF-044..046): SPF-044 creates one user per run (`QA-AUTO-<TIME>`, name "QA auto user <time>", first unit offered) and leaves it INACTIVE (no user delete on SPF); SPF-045/046 reuse the first "QA auto user" User Listing finds (fixture `qaUser`, set ACTIVE first; created when none). Role tests use End User (fewest rights, no real users on UAT; HTA: Stocktaker). New users log in in a second browser context (fixture `otherSession`), so the test account's session survives.

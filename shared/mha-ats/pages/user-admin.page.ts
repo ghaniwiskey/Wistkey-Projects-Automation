@@ -348,7 +348,14 @@ export class RoleListingPage extends BasePage {
   /** Submit the period and close the result. Returns the message (success or the server's error). */
   async submitPeriod(): Promise<string> {
     await this.clickSubmitPeriod();
-    return this.acknowledge(/.+/);
+    await expect(this.alertText).toHaveText(/.+/);
+    const text = (await this.alertText.innerText()).trim();
+    // An error result (e.g. mha-spf BUG-011) refocuses Start Date, whose calendar keeps opening over the
+    // alert's Ok button, so a normal click never reaches it: press Ok in the DOM, then close the calendar.
+    await this.alert.getByRole('button', { name: 'Ok', exact: true }).evaluate((b) => (b as HTMLButtonElement).click());
+    await expect(this.alert).toBeHidden();
+    await this.closeCalendars();
+    return text;
   }
 
   async cancelPeriod(): Promise<void> {

@@ -61,7 +61,7 @@ Registration reminders (1st and 15th); partial registration assigned to a FALO; 
 - UAT only (URLs in each project.yaml); the manual's intranet URLs are not used. Never test production. UAT writes can send real emails.
 - Announcement banner may show maintenance notices (weekly downtime Friday 2 pm to 5 pm).
 - No Zebra printer (ZT411R + Browser Print) is attached: tag printing must be answered No, or expect the "failed to print" list.
-- **One session per account**: a newer login of the same account ends older sessions; pages still load but the next server action (role switch) lands on /Account/Login. The role fixture re-logs in; the `loginPage` fixture drops the saved session after login/logout tests. Don't log in with the test account in another browser during a run.
+- **One session per account**: a newer login of the same account ends older sessions; pages still load but the next server action (role switch) lands on /Account/Login. The role fixture re-logs in; the `loginPage` fixture drops the saved session after login/logout tests. Don't log in with the test account in another browser during a run. Gap: when the test's role is already the active one, no role switch happens and a session ended by such a login is reused (the test lands on the login page); after logging in by hand, run with `$env:QA_AUTH_MAX_AGE_MIN='0'` (2026-11-02).
 
 ## Page map
 | Area | Path | Page object / notes |
