@@ -4,7 +4,8 @@ title: "Ad Hoc Setup Cancel: the only Reason option has an empty label, so the s
 severity: major
 status: open
 env: staging
-url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/StocktakeForm?stktakeId=<id>
+url: "https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/StocktakeForm?stktakeId=<id>"
+updated: 2026-11-02T03:04:28.609Z
 found: 2026-10-06
 foundBy: "exploratory session 2026-10-06 (Aside)"
 tests: [SPF-023]
@@ -36,3 +37,4 @@ The dropdown shows "Select Reason" and one empty row (<option value="OTHER"></op
 
 ## History
 - 2026-10-06: filed from exploratory session 2026-10-06 (Aside) in the Test Manager app.
+- 2026-11-02: Retest 2026-11-02: the Reason dropdown now lists a readable 'Others' (option OTHER), seen by hand on ADST00000038 without submitting ![retest](BUG-001-retest-2026-11-02.png). Not verified end to end: SPF-023 stops before the Cancel step because the ad hoc Choose Asset list is empty for the current test account (Q-001). Possibly fixed; rerun SPF-023 once a setup can be created.

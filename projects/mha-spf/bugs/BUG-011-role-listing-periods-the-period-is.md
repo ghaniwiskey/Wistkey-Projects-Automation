@@ -4,7 +4,8 @@ title: "Role Listing > Periods: the period is saved with day and month swapped; 
 severity: major
 status: open
 env: staging
-url: https://mhauatweb.southeastasia.cloudapp.azure.com/User/Role
+url: "https://mhauatweb.southeastasia.cloudapp.azure.com/User/Role"
+updated: 2026-11-02T03:04:28.440Z
 found: 2026-10-06
 foundBy: "explorations/2026-10-06-admin.md"
 tests: [SPF-048]
@@ -37,3 +38,4 @@ Step 3: "SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/99
 
 ## History
 - 2026-10-06: filed from explorations/2026-10-06-admin.md in the Test Manager app.
+- 2026-11-02: Retest 2026-11-02: still fails in runs/2026-11-02_1003_staging_playwright-2; by hand 13/12/2026-20/12/2026 on End User gives 'SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.' ![retest](BUG-011-retest-2026-11-02.png). RoleListingPage.submitPeriod fixed: the reopened Start Date calendar covered the alert's Ok button.

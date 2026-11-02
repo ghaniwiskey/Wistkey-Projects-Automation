@@ -1,0 +1,261 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "bug-retest",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-11-02_0951_staging_playwright",
+  "workers": [
+    "mha-spf"
+  ],
+  "startedAt": "2026-11-02T02:51:57.023Z",
+  "finishedAt": "2026-11-02T02:52:57.989Z",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "SPF-023",
+      "title": "logs1 creates a periodic ad hoc stocktake and cancels it with a reason",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-adhoc/adhoc.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-11-02T02:51:57.023Z",
+      "durationMs": 19725,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1-2. Create a monthly setup that starts tomorrow",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: locator('#tbSearch tbody tr').first()"
+        },
+        {
+          "label": "Stocktake/StocktakeCreate responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeAttached\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": false,
+          "actual": "Error: expect(locator).toContainText(expected) failed  Locator: locator('#tbSearch tbody tr').first()"
+        },
+        {
+          "label": "Stocktake/Stocktake responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Expected failure, known bug: BUG-001: the ad hoc Cancel dialog has no readable reason, so \"Others\" cannot be picked"
+      ],
+      "bug": "BUG-001"
+    },
+    {
+      "id": "SPF-037",
+      "title": "fave import template downloads the lmsassetid template",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/stocktake-fave/fave-import.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-11-02T02:51:57.023Z",
+      "durationMs": 15506,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open Import Working Result on 332100",
+          "pass": true
+        },
+        {
+          "label": "Stocktake/Fave responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toContainText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveClass\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Import Template gives a real zip file (BUG-006)",
+          "pass": false,
+          "actual": "Error: expect(received).toBe(expected) // Object.is equality  - Expected  - 1"
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBe\"",
+          "pass": false,
+          "actual": "Error: expect(received).toBe(expected) // Object.is equality  - Expected  - 1"
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Expected failure, known bug: BUG-006: Import Template downloads the \"Page Not Found\" HTML page"
+      ],
+      "bug": "BUG-006"
+    },
+    {
+      "id": "SPF-048",
+      "title": "role period is saved with the dates picked in the calendar",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/mha-spf/tests/e2e/user-admin/role-periods.spec.ts",
+      "tags": [
+        "@regression",
+        "@writes"
+      ],
+      "startedAt": "2026-11-02T02:51:57.023Z",
+      "durationMs": 20442,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 1-2. Add the period 13-Dec-2026 to 20-Dec-2026",
+          "pass": false,
+          "actual": "TimeoutError: locator.click: Timeout 15000ms exceeded. Call log:   - waiting for locator('.swal2-popup').getByRole('button', { name: 'Ok', exact: true })"
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "User/Role responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveText\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveURL\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": [
+        "Expected failure, known bug: BUG-011: the server reads the dd/mm/yyyy period dates as mm/dd/yyyy; a day above 12 fails with \"SqlDateTime overflow\""
+      ],
+      "bug": "BUG-011"
+    }
+  ],
+  "notes": "Playwright project \"mha-spf\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

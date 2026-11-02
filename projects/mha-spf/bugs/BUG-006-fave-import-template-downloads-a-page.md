@@ -4,7 +4,8 @@ title: "FAVE: Import Template downloads a \"Page Not Found\" page instead of the
 severity: minor
 status: open
 env: staging
-url: https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/FaveForm?stktakeFAVEId=<id>
+url: "https://mhauatweb.southeastasia.cloudapp.azure.com/Stocktake/FaveForm?stktakeFAVEId=<id>"
+updated: 2026-11-02T03:04:28.268Z
 found: 2026-10-06
 foundBy: "explorations/2026-10-06-uncovered-flows.md"
 tests: [SPF-037]
@@ -33,3 +34,4 @@ GET /Templates/StocktakeFAVEWorkTemplate.zip returns 200 text/html "Page Not Fou
 
 ## History
 - 2026-10-06: filed from explorations/2026-10-06-uncovered-flows.md in the Test Manager app.
+- 2026-11-02: Retest 2026-11-02: still fails in runs/2026-11-02_0951_staging_playwright (Import Template file is not the zip template).

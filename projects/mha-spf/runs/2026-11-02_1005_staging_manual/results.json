@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "bug-retest-2026-11-02",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-11-02_1005_staging_manual",
+  "startedAt": "2026-11-02T03:05:07.657Z",
+  "inProgress": true,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SPF-048",
+      "title": "Role period is saved with the dates picked in the calendar",
+      "priority": "P1",
+      "feature": "user-admin",
+      "file": "projects/mha-spf/cases/user-admin/SPF-048-role-period-is-saved-with-the-dates.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Role validity periods (used to enable VET IC and Stocktaker roles for FAVE) keep the chosen dates.",
+      "preconditions": [
+        "Logged in as the test account (`SPF_USER` in .env) with Agency Admin active"
+      ],
+      "data": [
+        "Role End User",
+        "Start Date the 13th, End Date the 20th of next month"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "User > Role Listing > pencil of End User > Periods > Add Period",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick Start Date the 13th and End Date the 20th of next month, Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cleanup: delete the new period (trash icon)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 2 shows \"Period has been successfully saved.\"",
+          "status": null
+        },
+        {
+          "text": "The Periods table lists the period with exactly the picked dates (dd-Mon-yyyy)",
+          "status": null
+        },
+        {
+          "text": "Step 3 shows \"Period <start> to <end> has been successfully deleted.\" and the table is back to its previous rows",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "End User > Periods > Add Period 13/12/2026 to 20/12/2026 (calendar clicks), Submit: 'SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.'; nothing saved"
+      ],
+      "evidence": [
+        "screenshots/SPF-048-m01-sqldatetime-overflow.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-02T03:05:07.802Z",
+      "failureType": "product-bug",
+      "bug": "BUG-011"
+    }
+  ],
+  "notes": ""
+}
