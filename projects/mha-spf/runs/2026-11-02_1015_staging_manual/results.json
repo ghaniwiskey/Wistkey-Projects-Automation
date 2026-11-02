@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "mha-spf",
+  "env": "staging",
+  "suite": "fave-import-500-2026-11-02",
+  "baseUrl": "https://mhauatweb.southeastasia.cloudapp.azure.com/",
+  "runId": "2026-11-02_1015_staging_manual",
+  "startedAt": "2026-11-02T03:15:05.347Z",
+  "inProgress": true,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SPF-036",
+      "title": "VET IC imports a working result file and the assets become SIGHTED / WORKING",
+      "priority": "P1",
+      "feature": "stocktake-fave",
+      "file": "projects/mha-spf/cases/stocktake-fave/SPF-036-vet-ic-imports-a-working-result-file.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Import Working Result batch-sights assets without RFID tags: every imported asset gets Sighted / Working.",
+      "preconditions": [
+        "Logged in as the test account (`SPF_USER` in .env) with Verification Team IC/2IC active",
+        "A FAVE exists with a cost centre that is not APPROVED"
+      ],
+      "data": [
+        "Cost centre `<cc>`: normally the first non-approved cost centre of the current FAVE (fixture faveTarget). `SPF_FAVE_COST_CENTRE` may select a specific unapproved cost centre.",
+        "Import size: `SPF_FAVE_IMPORT_COUNT` defaults to 1. For a larger batch, the test obtains distinct IDs at runtime from the FAVE export and only proceeds when the cost centre has at least that many assets and all are PENDING. It bulk-resets the cost centre to PENDING afterward, which is safe under that precondition.",
+        "File: .xlsx with A1 \"LMSAssetID\" and one asset ID per row (built by the test)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the FAVE on `<cc>`, Details tab, search `<asset>` (if it has a result, set it back to PENDING with **Update Result**), then **Import Working Result**",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Excel file: choose the file",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Import",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search `<asset>` in the Details tab",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick the asset and click **Update Result**",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Step 1: the selected assets show PENDING before the import",
+          "status": null
+        },
+        {
+          "text": "Step 2 preview count matches the number of rows in the file",
+          "status": null
+        },
+        {
+          "text": "Step 3 shows \"The import record(s) have been successful.\"",
+          "status": null
+        },
+        {
+          "text": "Step 4: all imported assets count as SIGHTED; a representative asset shows WORKING, HTD Follow-up \"No Further Action\", FSSC Outcome \"Working condition\"",
+          "status": null
+        },
+        {
+          "text": "Step 5: Update Result is pre-loaded with Sighted Result SIGHTED, Asset Condition WORKING and HTD Follow-up \"No Further Action\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Batch of 500 by hand: FAVE FY26-2001, cost centre 332140 PTD, 500 PENDING asset IDs from Details (Result PENDING), .xlsx A1 LMSAssetID + 500 rows. Preview 'Showing 1 to 10 of 500 records'; Import -> 'The import record(s) have been successful.' in 1.5 s; Summary PENDING 1541 -> 1041, SIGHTED WORKING 4 -> 504; rows 1, 250, 500 show SIGHTED WORKING / No Further Action / Working condition. Results kept (user's choice), not reset."
+      ],
+      "evidence": [
+        "screenshots/SPF-036-m01-fave500-preview.png",
+        "screenshots/SPF-036-m02-fave500-result.png",
+        "screenshots/SPF-036-m03-fave500-summary.png",
+        "screenshots/SPF-036-m04-fave500-last-asset.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-02T03:15:05.490Z"
+    }
+  ],
+  "notes": ""
+}

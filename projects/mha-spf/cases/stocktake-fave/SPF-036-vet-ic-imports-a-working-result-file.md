@@ -7,7 +7,7 @@ tags: [regression, writes]
 envs: [staging]
 automated: true
 created: 2026-10-06
-updated: 2026-10-23
+updated: 2026-11-02
 ---
 
 ## Goal
@@ -38,5 +38,7 @@ Import Working Result batch-sights assets without RFID tags: every imported asse
 
 ## Notes
 Covers BUG-007, verified on 2026-10-21 (the import first cleared the result, then saved "Sighted" instead of SIGHTED so Update Result showed no Sighted Result): the test must pass. The asset starts PENDING so that an earlier result cannot make step 4 pass; cleanup sets it back to PENDING.
+
+Large batch: 500 assets in one file imported fine on 2026-11-02 (manual run 2026-11-02_1015_staging_manual, cost centre 332140: all 500 saved SIGHTED / WORKING in about 1.5 s). The results were kept, so 332140 is no longer all PENDING and the automated batch mode (SPF_FAVE_IMPORT_COUNT > 1) skips there; no cost centre of FAVE FY26-2001 has 500+ assets that are all PENDING.
 
 Automated in tests/e2e/stocktake-fave/fave-import.spec.ts.

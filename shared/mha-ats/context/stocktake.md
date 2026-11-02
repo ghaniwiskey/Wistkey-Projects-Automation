@@ -25,6 +25,7 @@ Core: `../context.md`. Manual: `../docs/user-manual/06-stocktake-fave.md`, `07-s
 - FAVE Details columns shift with approval state (no checkbox column once APPROVED): read cells by header text (`FavePage.detailCell`).
 
 ## Test data (found at runtime)
+- FAVE import size (SPF, 2026-11-02): a 500-row Import Working Result file works (preview shows 500, all saved). FAVE FY26-2001 cost centre 332140 PTD now holds 504 SIGHTED results (500 from that import, kept on purpose), so SPF-036 batch mode skips there.
 - FAVE: tests open the first FAVE in the list (new FY picked up automatically); fixture `faveTarget` = first non-APPROVED cost centre + its first asset, returned to VET IC first. SPF-027 (@final) approves a cost centre for good but never the last one; ask the user before running it. When cost centres run out, give the account another unit (Agency Admin > User > User Listing > pencil > Unit; add, keep the current one since asset tests use its data). Other User Listing accounts may be used (check LoginBk accepts them; mind one session per account).
 - FAVE relocation (SPF-039): first non-approved cost centre with a PENDING asset whose Assignee (LOGS1) is the test account (Details filters), fixture `faveRelocateTarget`. Each run uses one asset up (result locked after approval; accepted, mha-spf BUG-009 wont-fix); skips when none is left.
 - Follow up (SPF-041): first item in the Follow up list (FALO). Closing cannot be undone, so each run uses one item up; skips when the list is empty.
