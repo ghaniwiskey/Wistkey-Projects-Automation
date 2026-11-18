@@ -1,0 +1,1464 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "web-testing-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1057_staging_manual",
+  "startedAt": "2026-11-18T03:57:27.753Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-002",
+      "title": "Administrator logs in and lands on the Dashboard",
+      "priority": "P0",
+      "feature": "auth",
+      "file": "projects/htx-lims-web/cases/auth/HLW-002-administrator-logs-in-and-lands-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Log in to HTX LIMS web\n\nVerify that an administrator can log in with username and password and lands on the Dashboard with the full menu.",
+      "preconditions": [
+        "An administrator account"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the HTX LIMS web home page and click Login",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the administrator username and password and click Login",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The Dashboard opens with the heading HTX - LIMS and the sections Alerts requiring acknowledgement and Latest location",
+          "status": null
+        },
+        {
+          "text": "The menu shows Dashboard, Inventory, Registration, Purchase Order, Check In / Out, Stock Take, Gantry, Report, Master Data, System and My Account",
+          "status": null
+        },
+        {
+          "text": "The user button at the top shows the user's name and Role: Administrator",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ADMIN login -> Dashboard, full menu, Role: Administrator."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:27.894Z"
+    },
+    {
+      "id": "HLW-003",
+      "title": "Login with a wrong password is refused",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/htx-lims-web/cases/auth/HLW-003-login-with-a-wrong-password-is-refused.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Wrong password\n\nVerify that the login page refuses a valid username with a wrong password and does not open the Dashboard.",
+      "preconditions": [
+        "A User account"
+      ],
+      "data": [
+        "Password: WrongPass<unique>!"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the login page",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter a valid username and the wrong password and click Login",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The login page stays open with an error message about an invalid login",
+          "status": null
+        },
+        {
+          "text": "Opening /dashboard afterwards shows the login page, not the Dashboard",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER2 + wrong password: \"Invalid login attempt.\", stays on login; /dashboard redirects to login."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.018Z"
+    },
+    {
+      "id": "HLW-004",
+      "title": "Log out ends the session",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/htx-lims-web/cases/auth/HLW-004-log-out-ends-the-session.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Log out\n\nVerify that Log Out ends the session so protected pages need a new login.",
+      "preconditions": [
+        "A User account"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click the user button at the top of the page and click Log Out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the Check In page by its address (/checkin)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After Log Out the public home page with the Login link is shown",
+          "status": null
+        },
+        {
+          "text": "/checkin shows the login page instead of the Check In list",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1 Log Out -> public home page with Login; /checkin then redirects to the login page."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.139Z"
+    },
+    {
+      "id": "HLW-005",
+      "title": "User role sees only the operations menu",
+      "priority": "P0",
+      "feature": "access",
+      "file": "projects/htx-lims-web/cases/access/HLW-005-user-role-sees-only-the-operations-menu.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Menu for the User role\n\nVerify that an account with the User role sees only the operations and gantry log pages in the menu.",
+      "preconditions": [
+        "An account with the User role"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open each menu group",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The menu shows Dashboard, Inventory (Chemical Usage, Item Information), Registration (Item Register, Asset Tag Printing), Purchase Order (PO Creation, PO Management), Check In / Out (Printed, Tagged Not Checked In, Count Item, Check In, Check Out), Gantry (Gantry Log only) and My Account",
+          "status": null
+        },
+        {
+          "text": "Stock Take, Report, Master Data and System are not in the menu",
+          "status": null
+        },
+        {
+          "text": "The user button shows Role: User",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1: Role User; menu Dashboard, Inventory (Chemical Usage, Item Information), Registration, Purchase Order, Check In / Out (5 pages), Gantry (Gantry Log), My Account; no Stock Take, Report, Master Data, System."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.271Z"
+    },
+    {
+      "id": "HLW-006",
+      "title": "User role cannot open administrator pages by address",
+      "priority": "P0",
+      "feature": "access",
+      "file": "projects/htx-lims-web/cases/access/HLW-006-user-role-cannot-open-administrator.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Admin pages blocked for the User role\n\nVerify that a User-role account typing the address of an administrator page gets the Not Authorized page and no data.",
+      "preconditions": [
+        "An account with the User role"
+      ],
+      "data": [
+        "Addresses: /usermanagement, /stocktake, /stocktakelist, /itemcategory, /gantrysetup, /gantrywhitelist, /audittrail, /stockreport/level"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open each address in the data list",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every address shows \"You're Not Authorized! Your account does not have access to this page.\"",
+          "status": null
+        },
+        {
+          "text": "No table, button or record of the page is shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1: all 8 admin addresses show \"You're Not Authorized!\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.391Z"
+    },
+    {
+      "id": "HLW-007",
+      "title": "Create a purchase order",
+      "priority": "P0",
+      "feature": "purchase-order",
+      "file": "projects/htx-lims-web/cases/purchase-order/HLW-007-create-a-purchase-order.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "PO Creation\n\nVerify that a user can create a purchase order and find it in PO Management.",
+      "preconditions": [
+        "At least one PO location and item type exist in the PO Creation lists"
+      ],
+      "data": [
+        "PO Number and PO Name: QA-PO-<unique>",
+        "Supplier: QA Supplier",
+        "PO Date: today, Delivery Date: today + 7 days"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Creation",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill PO Number, PO Name, Address, Supplier, Department, Team In Charge, Contact Person, Contact Number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick a PO Location and an Item Type, set PO Date and Delivery Date",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Management and search for the PO Number",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown after Submit",
+          "status": null
+        },
+        {
+          "text": "PO Management lists the PO with its PO Number, PO Name and status",
+          "status": null
+        },
+        {
+          "text": "The Manager column shows the user who created it",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1 created QA-PO-3781642 (HTX Store Room, Box, PO date 18/11, delivery 25/11): \"Successfully creating a new PO.\"; PO Management lists it, Manager User1, status APPROVED straight away (no approval step). Deleted afterwards."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.515Z"
+    },
+    {
+      "id": "HLW-008",
+      "title": "PO Creation requires a PO date",
+      "priority": "P2",
+      "feature": "purchase-order",
+      "file": "projects/htx-lims-web/cases/purchase-order/HLW-008-po-creation-requires-a-po-date.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "PO date required\n\nVerify that PO Creation does not submit without a PO date.",
+      "preconditions": [],
+      "data": [
+        "PO Number: QA-PO-<unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Creation",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill the PO Number and PO Name, leave PO Date empty and click Submit",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The message \"PO date is required.\" is shown under PO Date",
+          "status": null
+        },
+        {
+          "text": "No PO with that number appears in PO Management",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "PO Number + Name filled, no PO Date, Submit: nothing saved (PO Management still 3 POs). Note: \"PO date is required.\" is shown before Submit, and missing PO Location / Item Type get no message."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.638Z"
+    },
+    {
+      "id": "HLW-010",
+      "title": "Register a new item",
+      "priority": "P0",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-010-register-a-new-item.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Item Register\n\nVerify that a user can register a new item and it appears in the list of registered items not checked in yet.",
+      "preconditions": [
+        "Item categories and item types exist (Master Data)"
+      ],
+      "data": [
+        "Item category: Consumable (e.g.), first item type of that category",
+        "Item description: QA item <unique>",
+        "Number of units: 1",
+        "Serial number: QA-SN-<unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick the item category and item type, fill Item description, Number of units and Serial number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Register",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown and the form is cleared",
+          "status": null
+        },
+        {
+          "text": "Registered items not checked in yet lists the item with a new Item Number, the description, category, item type and serial",
+          "status": null
+        },
+        {
+          "text": "Its Status is NOT PRE CHECK IN and Tag printed is empty",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Registered Chemical/Toluene \"QA chem 122612\": message \"1 item(s) registered with Item Number 003000025\"; listed NOT PRE CHECK IN, Tag printed \"Not yet\"; count 3 -> 4."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.772Z"
+    },
+    {
+      "id": "HLW-011",
+      "title": "Register several units at once",
+      "priority": "P1",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-011-register-several-units-at-once.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Number of units\n\nVerify that registering an item with Number of units 3 creates three items with the same details and their own item numbers.",
+      "preconditions": [],
+      "data": [
+        "Item description: QA multi <unique>",
+        "Number of units: 3"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill the required fields with Number of units 3 and click Register",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Registered items not checked in yet lists 3 new items with the description",
+          "status": null
+        },
+        {
+          "text": "Each has a different Item Number, all with Status NOT PRE CHECK IN",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Consumable/Glove \"QA multi 152129\" x3: \"3 item(s) registered with Item Number 002000017 – 002000019\"; three rows, NOT PRE CHECK IN; count 3 -> 6. Deleted afterwards."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:28.897Z"
+    },
+    {
+      "id": "HLW-012",
+      "title": "Item Register checks required fields",
+      "priority": "P2",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-012-item-register-checks-required-fields.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Required fields\n\nVerify that Register does not save an item while required fields are empty.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Register without filling anything",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each required field (marked *) shows a validation message",
+          "status": null
+        },
+        {
+          "text": "The count of registered items not checked in yet does not change",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Register on an empty form: \"Item category is required.\", \"Item type is required.\", \"Item description is required.\"; count stays 3."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.020Z"
+    },
+    {
+      "id": "HLW-014",
+      "title": "Check in an item that is out",
+      "priority": "P0",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-014-check-in-an-item-that-is-out.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Check In\n\nVerify that an item with status OUT can be checked in on the web and becomes IN.",
+      "preconditions": [
+        "At least one item with status OUT in Check In / Out > Check In"
+      ],
+      "data": [
+        "Item: the first OUT item in the Check In list"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check In / Out > Check In and note the first item's Item Number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Check In on its row and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown and the item leaves the Check In list",
+          "status": null
+        },
+        {
+          "text": "Inventory > Item Information shows the item with Status IN at the chosen storage location",
+          "status": null
+        },
+        {
+          "text": "If it was on the gantry whitelist (returned loan), it is no longer listed",
+          "status": null
+        },
+        {
+          "text": "The item appears in Check In / Out > Check Out under Checked-In Items",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ADMIN Check In of 001000029 (OUT, Loan): \"Successfully Manual Check-In Selected Item\" (no confirmation, no location asked), status IN; but the item stays on the gantry whitelist and keeps purpose LOAN (BUG-001); Loan Out Report Returned with empty Returned On (BUG-004). Repro with 001000027."
+      ],
+      "evidence": [
+        "screenshots/HLW-014-m01-bug-whitelist.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.146Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "HLW-015",
+      "title": "Check out an item on loan with a due date",
+      "priority": "P0",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-015-check-out-an-item-on-loan-with-a-due.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Check Out on loan\n\nVerify that a checked-in item can be checked out on loan with a due date and shows in the Loan Out Report.",
+      "preconditions": [
+        "At least one item with status IN"
+      ],
+      "data": [
+        "Purpose: Loan",
+        "Due Date: today + 7 days",
+        "Remarks: QA loan <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check In / Out > Check Out and tick the first item",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Set Purpose Loan, Due Date and Remarks, keep the storage location",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Check Out and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown and the item leaves Checked-In Items",
+          "status": null
+        },
+        {
+          "text": "Item Information shows the item with Status OUT",
+          "status": null
+        },
+        {
+          "text": "Report > Loan Out Report lists the item with the due date",
+          "status": null
+        },
+        {
+          "text": "Report > Check In Out Report shows a LOAN check-out by the user",
+          "status": null
+        },
+        {
+          "text": "Gantry > Gantry Whitelist lists the item, and Report > Stock Level Report shows it under On loan with the item type's Stock unchanged",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1: 001000029 Loan due 25/11/2026: confirmation then \"Checked out 1 item(s) - Loan, loan no 23, due 25/11/2026\"; status OUT/LOAN, on Gantry Whitelist, Loan Out Report \"On loan\", Check In Out Report LOAN row, Box stock unchanged 15 (12 in lab + 3 on loan)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.276Z"
+    },
+    {
+      "id": "HLW-017",
+      "title": "Check Out needs a selected item and a due date for loans",
+      "priority": "P2",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-017-check-out-needs-a-selected-item-and-a.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Check Out validation\n\nVerify that Check Out stays disabled with no item selected and that a loan needs a due date.",
+      "preconditions": [
+        "At least one item with status IN"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check In / Out > Check Out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look at the Check Out button with no item ticked",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick one item, keep Purpose Loan, leave Due Date empty and click Check Out",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "With no item ticked the button reads Check Out 0 item(s) selected and is disabled",
+          "status": null
+        },
+        {
+          "text": "Without a due date a message asks for the Due Date and the item stays IN",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Check Out disabled with \"0 item(s) selected\"; enabled after ticking 001000029; Loan without due date: \"A due date is required for a loan.\", item stays listed."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.400Z"
+    },
+    {
+      "id": "HLW-019",
+      "title": "Stock take progress and results are reported",
+      "priority": "P1",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-web/cases/stocktake/HLW-019-stock-take-progress-and-results-are.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Stock take reports\n\nVerify that a completed stock take shows its totals in the Stock Take Progress Report and each item's result in the Stock Take Report.",
+      "preconditions": [
+        "At least one Completed stock take"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Stock Take > Stock Take List and note a Completed stock take's number and item count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Stock Take Progress Report and search for that number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Stock Take Report and search for that number",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The progress report shows status Completed, Total Item equal to the item count, and Commenced/Completed dates and users",
+          "status": null
+        },
+        {
+          "text": "The Stock Take Report lists one row per item with Result Located or Not located",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ST00000012 (Completed, 2 items): progress report Completed, Total Item 2, Total Scanned 2, commenced/completed by Admin; Stock Take Report 2 rows, both Located. \"Total Completed\" shows 0 (meaning unclear)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.533Z"
+    },
+    {
+      "id": "HLW-023",
+      "title": "Find an item in Item Information",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/htx-lims-web/cases/inventory/HLW-023-find-an-item-in-item-information.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Item search\n\nVerify that Item Information finds an item by its item number and filters by type and status.",
+      "preconditions": [
+        "At least one item exists"
+      ],
+      "data": [
+        "Item number: taken from the first row of the list"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Inventory > Item Information and note the first item's number, type and status",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search for that item number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Reset, then set Type to the item's type and Status to its status and search",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The search for the number lists that item",
+          "status": null
+        },
+        {
+          "text": "With the filters every listed item has the chosen type and status",
+          "status": null
+        },
+        {
+          "text": "Details opens the item's details",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Search 001000009 -> Total 1 (that item); Type Chemical + Status IN -> 15 rows, all Chemical/IN; Details opens \"Tag details - <number>\" with type, batch, status/location, reader."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.659Z"
+    },
+    {
+      "id": "HLW-025",
+      "title": "Stock Level Report flags low stock",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/htx-lims-web/cases/reports/HLW-025-stock-level-report-flags-low-stock.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Low stock\n\nVerify that the Stock Level Report shows Low for an item type whose stock is at or below its minimum.",
+      "preconditions": [
+        "An item type with a minimum stock set (Master Data > Item Type)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Stock Level Report and click Search",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Find an item type with Min set",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Level is Low when Stock is at or below Min, and not Low when it is above",
+          "status": null
+        },
+        {
+          "text": "Stock equals In lab + On loan for the row",
+          "status": null
+        },
+        {
+          "text": "Export downloads the report with the columns shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Stock Level: Alcohol 70 (2, min 10) and Alcohol 90 (1, min 15) Low; Box/Chemicals/Consumables/Fixed Asset Stock = In lab + On loan; Export > MS-Excel downloads \"Stock Level Report 18112026.xlsx\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.779Z"
+    },
+    {
+      "id": "HLW-026",
+      "title": "Stock Expiry Report lists items expiring within a number of days",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/htx-lims-web/cases/reports/HLW-026-stock-expiry-report-lists-items.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Expiring stock\n\nVerify that the Stock Expiry Report lists only items expiring within the chosen number of days.",
+      "preconditions": [
+        "At least one item with an expiry date in the next 30 days"
+      ],
+      "data": [
+        "Expiring within (days): 30"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Stock Expiry Report, set Expiring within (days) to 30 and click Search",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every row has Days left of 30 or fewer (expired items show their status)",
+          "status": null
+        },
+        {
+          "text": "Days left matches the expiry date counted from today",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Expiring within 30 days: 5 rows (Formaldehyde -18 Expired, Sodium Hydroxide 0, Hexamine1 3, Isopropanol 11, item001 12); Days left matches the expiry date from today."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:29.916Z"
+    },
+    {
+      "id": "HLW-027",
+      "title": "Audit Trail records user actions",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/htx-lims-web/cases/reports/HLW-027-audit-trail-records-user-actions.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Audit Trail\n\nVerify that the Audit Trail records a login and a change with user, workstation IP, action, target and time.",
+      "preconditions": [],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Audit Trail and filter User by the administrator's username",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The latest entries include this login with the current time",
+          "status": null
+        },
+        {
+          "text": "Each row shows Time, User, Workstation IP, Action, Target and Details",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Audit Trail logs logins (web/handheld), failed login, item registered/number assigned/deleted, check-out (no workstation IP), stock adjustment; the two web Manual Check-Ins of 18/11 11:43 and 11:46 (001000029, 001000027) are missing."
+      ],
+      "evidence": [
+        "screenshots/HLW-027-m01-audit-trail.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.036Z",
+      "failureType": "product-bug",
+      "bug": "BUG-002"
+    },
+    {
+      "id": "HLW-029",
+      "title": "Add an item type to a category",
+      "priority": "P1",
+      "feature": "master-data",
+      "file": "projects/htx-lims-web/cases/master-data/HLW-029-add-an-item-type-to-a-category.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Item Type\n\nVerify that an administrator can add an item type with min and max stock and pick it in Item Register.",
+      "preconditions": [],
+      "data": [
+        "Item Type: QA type <unique>",
+        "Category: Consumable",
+        "Min. Stock: 2, Max. Stock: 10"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Master Data > Item Type and click Add Item Type",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the data and save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register and pick category Consumable",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Item Type lists the new type with its category, min and max",
+          "status": null
+        },
+        {
+          "text": "The Item type list in Item Register offers the new type for Consumable",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Added \"QA type 126550\" (Consumable, max 10; min left empty because the default min 1 would raise a Low stock alert for a type with 0 items); listed in Item Type and offered in Item Register as \"(min - / max 10)\"; deleted afterwards."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.159Z"
+    },
+    {
+      "id": "HLW-033",
+      "title": "The gantry whitelist follows the check-out purpose",
+      "priority": "P0",
+      "feature": "gantry",
+      "file": "projects/htx-lims-web/cases/gantry/HLW-033-the-gantry-whitelist-follows-the-check.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Whitelist by purpose\n\nVerify that checking out on Loan or No return puts the item on the gantry whitelist, For use does not, and checking the item in again takes it off.",
+      "preconditions": [
+        "Three items with status IN"
+      ],
+      "data": [
+        "Purposes: Loan (due date tomorrow), No return, For use"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check out the first item on Loan, the second on No return and the third For use",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry > Gantry Whitelist (and, if available, Swagger GET /api/Gantry: the list the gantries download)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the Loan item in again through the return flow (pre check-in, count, check in)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry > Gantry Whitelist again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After step 2 the Loan and No return items are on the whitelist and the For use item is not",
+          "status": null
+        },
+        {
+          "text": "After step 4 the returned Loan item is no longer on the whitelist",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Loan check-out added 001000029 to the whitelist (pass); check-in did not remove it (BUG-001). No return / For use part not run."
+      ],
+      "evidence": [
+        "screenshots/HLW-033-m01-bug-whitelist.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.279Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "HLW-035",
+      "title": "A new item gets a 9-digit item number from its category",
+      "priority": "P1",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-035-a-new-item-gets-a-9-digit-item-number.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Item number format\n\nVerify that a newly registered item gets a 9-digit Item Number made of the category ID (3 digits) and a running number (6 digits).",
+      "preconditions": [],
+      "data": [
+        "Item category: Chemical (category ID 003), item description: QA item <unique>, CAS number: 64-17-5"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register and note the highest Item Number of a Chemical item in Inventory > Item Information",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Register one Chemical item",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The new Item Number has 9 digits and starts with 003",
+          "status": null
+        },
+        {
+          "text": "Its last 6 digits are the next running number after the highest existing Chemical item",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "New Chemical item number 003000025: 9 digits, prefix 003, next after 003000024."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.400Z"
+    },
+    {
+      "id": "HLW-036",
+      "title": "A chemical cannot be registered without a CAS number",
+      "priority": "P2",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-036-a-chemical-cannot-be-registered-without.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "CAS number required\n\nVerify that Item Register refuses a Chemical item without a CAS number.",
+      "preconditions": [],
+      "data": [
+        "Item category: Chemical"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register, pick category Chemical, fill item type and description, leave CAS number empty",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Register",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A message says the CAS number is required",
+          "status": null
+        },
+        {
+          "text": "No item is added to Registered items not checked in yet",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Chemical with all other required fields, no CAS: \"CAS number is required for chemicals.\"; nothing saved."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.526Z"
+    },
+    {
+      "id": "HLW-037",
+      "title": "A registered item can be deleted only until its tag is printed",
+      "priority": "P1",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-037-a-registered-item-can-be-deleted-only.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Delete before printing\n\nVerify that a registered item can be deleted while its tag has not been printed, and cannot be deleted after printing.",
+      "preconditions": [
+        "A registered item without a printed tag",
+        "A registered item with a printed tag"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Delete the item without a printed tag",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Try to delete the item with a printed tag",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The unprinted item is deleted and leaves the list",
+          "status": null
+        },
+        {
+          "text": "The printed item offers no delete, or the delete is refused with a message",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Delete on the unprinted QA item 003000025 removed it (count 4 -> 3); printed items (001000030, 002000016, 003000024) show only Edit. Delete has no confirmation."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.648Z"
+    },
+    {
+      "id": "HLW-040",
+      "title": "Checking out an expired chemical is refused",
+      "priority": "P1",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-040-checking-out-an-expired-chemical-is.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "FEFO: expired\n\nVerify that Check Out refuses a chemical or consumable that is past its expiry date and saves nothing.",
+      "preconditions": [
+        "A chemical with status IN that is past its expiry date"
+      ],
+      "data": [
+        "Purpose: For use"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check In / Out > Check Out, tick the expired chemical, set Purpose For use and click Check Out",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A message says the item is expired and cannot be checked out",
+          "status": null
+        },
+        {
+          "text": "The item stays IN",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Formaldehyde 37% 003000012 (expired 31/10/2026), Loan: \"These items are expired and cannot be checked out: - 003000012 (Formaldehyde 37%, batch FA-2410, expiry 31/10/2026)\"; stays IN. Run with purpose Loan instead of For use so it could be undone."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.767Z"
+    },
+    {
+      "id": "HLW-042",
+      "title": "If one item of a check-out fails, nothing is saved",
+      "priority": "P1",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-042-if-one-item-of-a-check-out-fails.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "All or nothing\n\nVerify that a check-out of several items where one item is refused saves none of them.",
+      "preconditions": [
+        "One valid IN item and one expired chemical with status IN"
+      ],
+      "data": [
+        "Purpose: For use"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check Out, tick both items and click Check Out",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The check-out is refused with the reason for the expired item",
+          "status": null
+        },
+        {
+          "text": "Both items stay IN",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Methanol HPLC Grade 003000008 + expired Formaldehyde 003000012, Loan: refused with the expired message before the confirmation; Methanol stays IN (still in Checked-In Items)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:30.889Z"
+    },
+    {
+      "id": "HLW-043",
+      "title": "A loan due date in the past is refused",
+      "priority": "P2",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-043-a-loan-due-date-in-the-past-is-refused.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Loan due date\n\nVerify that a Loan check-out with a due date in the past is refused.",
+      "preconditions": [
+        "An item with status IN"
+      ],
+      "data": [
+        "Due Date: yesterday"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check Out, tick the item, set Purpose Loan and Due Date yesterday, click Check Out",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The past date cannot be picked, or a message says the due date cannot be in the past",
+          "status": null
+        },
+        {
+          "text": "The item stays IN",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Loan Due Date picker: past days (e.g. 17/11) are disabled and cannot be picked."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:31.011Z"
+    },
+    {
+      "id": "HLW-045",
+      "title": "Expiring and expired items raise Dashboard alerts",
+      "priority": "P1",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-045-expiring-and-expired-items-raise.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Expiry alerts\n\nVerify that an IN item expiring within 30 days raises an Expiring alert and an IN item past its expiry date raises an Expired alert.",
+      "preconditions": [
+        "An IN item expiring within 30 days and one past its expiry date (or register one with such an expiry date and check it in)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the Dashboard and Report > Stock Expiry Report",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each IN item expiring within 30 days has an Expiring alert with the expiry date and days left",
+          "status": null
+        },
+        {
+          "text": "Each IN item past its expiry has an Expired alert",
+          "status": null
+        },
+        {
+          "text": "Items that are OUT raise no expiry alert",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Expiring alert for Hexamine1 (21/11) and item001 (30/11) on the Dashboard; Sodium Hydroxide / Isopropanol had Expiring alerts on 09/11 acknowledged by ADMIN 17/11; Formaldehyde has Expired. Older alerts show old item numbers (IFD-1-0000xx), see Q-005."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:31.129Z"
+    },
+    {
+      "id": "HLW-046",
+      "title": "Stock at or below minimum raises a Low stock alert",
+      "priority": "P1",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-046-stock-at-or-below-minimum-raises-a-low.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Low and high stock\n\nVerify that an item type whose stock is at or below its Min raises a Low stock alert, and at or above its Max a High stock alert.",
+      "preconditions": [
+        "An item type with Min and Max set in Master Data > Item Type"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare Report > Stock Level Report with the Dashboard alerts",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every item type with Stock <= Min has a Low stock alert: \"Stock for <type> is <n> item(s), at or below minimum <min>.\"",
+          "status": null
+        },
+        {
+          "text": "Every item type with Stock >= Max has a High stock alert",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Stock Level: Alcohol 70 2 <= min 10 and Alcohol 90 1 <= min 15 show Low; Dashboard has the matching Low stock alerts. No item type has a Max, so High stock was not checked."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:57:31.253Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T03:57:31.749Z",
+  "summary": {
+    "total": 28,
+    "pass": 25,
+    "fail": 3,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

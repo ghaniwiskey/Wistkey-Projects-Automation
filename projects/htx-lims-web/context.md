@@ -33,11 +33,24 @@ Master Data (Item Category: 4 built-in categories Asset, Chemical, Consumable, F
 - **Administrator**: everything.
 - **User**: Dashboard, Inventory, Registration, Purchase Order, Check In / Out, Gantry > Gantry Log, My Account. Other pages opened by URL show "You're Not Authorized! Your account does not have access to this page." (HLW-005, 006). The User role still sees Approve / Edit / Delete on every PO (Q-001).
 
+## Behavior seen in testing
+
+- PO Creation: a new PO is APPROVED at once (no approval step). PO Location is its own list (00001 Location 1, 00002 HTX Store Room, 00003 Lab Room), not the storage locations.
+- Item Register: success message "<n> item(s) registered with Item Number <first> – <last>"; unprinted items show Edit + Delete (Delete with no confirmation, BUG-003), printed ones Edit only. Chemicals also require lot, production / delivery / expiry date and CAS number; consumables lot and the three dates.
+- Item category IDs: Asset 1, Consumable 2, Chemical 3, Fixed Asset 4 (the item number prefix).
+- Check Out: confirmation dialog "Check out <n> item(s) - purpose: <p>?"; success "Checked out <n> item(s) - Loan, loan no <n>, due <date>: <numbers>". Expired items are refused before the confirmation ("These items are expired and cannot be checked out: ..."). Past due dates are disabled in the picker. The selection is lost on search or page change.
+- Web Check In lists OUT items and checks one in at once: "Successfully Manual Check-In Selected Item", no confirmation, no location (Q-006); it leaves the item whitelisted (BUG-001) and writes no audit entry (BUG-002).
+- Item Type: Min. stock defaults to 1, and a type with 0 items would then raise a Low stock alert: leave Min empty for QA types.
+- Audit Trail: logins (API logins show as "Login Handheld"), failed logins, item registered / number assigned / deleted, check-outs (no workstation IP), stock adjustments, handheld stock take scans.
+
 ## UI behavior
 
 - Blazor Server with Radzen components: pages render the heading first and show "Loading..." while the data loads (a few seconds); wait for the grid or the form, not for network idle (the SignalR connection stays open).
 - Grids: Search / Reset / Refresh, "1 - 10 Total N" paging, column filter menus (Contains, Equal...), Export and Columns on reports.
 - Radzen dropdowns are textboxes with placeholder "Please select ..."; the options open as a list below (e.g. Check Out Purpose: Loan, For use, No return).
+- Date fields are read-only BootstrapBlazor pickers: click the field (sometimes twice) until a `.popover.show` calendar opens, use Next Month / Prev Month, click the day (`table.date-table span.cell`). Typing is not possible.
+- Multi-selects (PO Location, Item Type on PO Creation) show "Select items ..." and open a checkbox list.
+- Text typed with Playwright `fill()` on PO Creation was only taken after the field lost focus: check the saved values, not only the success message.
 - Log out: the unnamed user button at the top of the main area opens a panel (name, Role, Account, Log Out).
 - The UAT certificate is self-signed (project.yaml `ignoreHTTPSErrors`).
 
