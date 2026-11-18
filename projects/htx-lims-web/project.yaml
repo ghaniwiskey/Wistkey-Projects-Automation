@@ -9,7 +9,7 @@ defaultEnv: staging
 envs:
   staging:
     baseUrl: https://htx.eastus.cloudapp.azure.com:5001/
-    allowWrites: false
+    allowWrites: true
 
 # Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
 # A test links to a test case when its title starts with the ID: test('HLW-001: ...').

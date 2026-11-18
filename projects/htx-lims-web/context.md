@@ -41,6 +41,9 @@ Master Data (Item Category: 4 built-in categories Asset, Chemical, Consumable, F
 - Check Out: confirmation dialog "Check out <n> item(s) - purpose: <p>?"; success "Checked out <n> item(s) - Loan, loan no <n>, due <date>: <numbers>". Expired items are refused before the confirmation ("These items are expired and cannot be checked out: ..."). Past due dates are disabled in the picker. The selection is lost on search or page change.
 - Web Check In lists OUT items and checks one in at once: "Successfully Manual Check-In Selected Item", no confirmation, no location (Q-006); it leaves the item whitelisted (BUG-001) and writes no audit entry (BUG-002).
 - Item Type: Min. stock defaults to 1, and a type with 0 items would then raise a Low stock alert: leave Min empty for QA types.
+- Create Stock Take: pick the Storage Location, Search, tick items, Move to Selected, then tick them again under Selected Items (BUG-007). An item already in a stock take with an overlapping period is refused ("Can't submit item that already exists on the same period"), so QA stock takes use a future period. Show > Commence / Complete / Abort; completing unscanned items marks them NOT FOUND (stock adjustment), so abort QA stock takes.
+- Add User: pick Role in its dropdown even when it shows User, or Save does nothing (BUG-006). Password: 6+ characters with upper, lower, digit and symbol.
+- Dashboard Acknowledge currently does nothing (BUG-005). Asset Tag Printing has no printer on UAT (Q-009).
 - Audit Trail: logins (API logins show as "Login Handheld"), failed logins, item registered / number assigned / deleted, check-outs (no workstation IP), stock adjustments, handheld stock take scans.
 
 ## UI behavior
@@ -56,4 +59,4 @@ Master Data (Item Category: 4 built-in categories Asset, Chemical, Consumable, F
 
 ## Test data
 
-Shared UAT data (items, POs, stock takes, open alerts) is used by others: tests find records at runtime and create their own with a `QA` prefix. There is no Delete on Storage Location, and acknowledging alerts is permanent.
+Shared UAT data (items, POs, stock takes, open alerts) is used by others: tests find records at runtime and create their own with a `QA` prefix. Storage locations, item types, users and unprinted items have Delete; acknowledging alerts is permanent. The user allows irreversible test steps on UAT (README > Testing permissions).

@@ -1,0 +1,576 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "web-testing-approved-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1115_staging_manual",
+  "startedAt": "2026-11-18T04:15:07.897Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-009",
+      "title": "Approve a purchase order",
+      "priority": "P0",
+      "feature": "purchase-order",
+      "file": "projects/htx-lims-web/cases/purchase-order/HLW-009-approve-a-purchase-order.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "PO approval\n\nVerify that a PO waiting for approval can be approved in PO Management and its status changes.",
+      "preconditions": [
+        "A PO that is not approved yet (create one first)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Management and search for the PO",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Approve on its row and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The PO Status changes to APPROVED",
+          "status": null
+        },
+        {
+          "text": "Audit Trail has an entry for the approval with the user and time",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "No PO waits for approval: QAPO521908 (USER1) is APPROVED as soon as it is created. Approve on it asks \"Are you sure want to approve PO QAPO521908?\" then \"Failed PO is already approved\". Waiting on Q-001."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:08.023Z"
+    },
+    {
+      "id": "HLW-013",
+      "title": "Print RFID tags for a newly registered item",
+      "priority": "P0",
+      "feature": "tag-printing",
+      "file": "projects/htx-lims-web/cases/tag-printing/HLW-013-print-rfid-tags-for-a-newly-registered.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "Asset Tag Printing\n\nVerify that a registered item can be sent to tag printing and then shows a tag printed time.",
+      "preconditions": [
+        "A registered item without a printed tag",
+        "A printer configured in Asset Tag Printing"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Asset Tag Printing",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick the printer and label size, select the new item under Print new tags",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Print 1 selected",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown",
+          "status": null
+        },
+        {
+          "text": "Item Register > Registered items not checked in yet shows a Tag printed time for the item",
+          "status": null
+        },
+        {
+          "text": "Check In / Out > Printed lists the item with Tag Printed On",
+          "status": null
+        },
+        {
+          "text": "The item has a 24-digit chip code (encoded RFID) and can no longer be deleted",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Asset Tag Printing has no printer to choose (Printer list empty); Print 3 selected (001000031, 002000017, 003000025, label size By category) -> \"Select a printer first. Nothing was printed.\" Needs a Zebra printer configured for UAT."
+      ],
+      "evidence": [
+        "screenshots/HLW-013-m01-hlw-013.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:08.144Z"
+    },
+    {
+      "id": "HLW-016",
+      "title": "Check out for use and with no return",
+      "priority": "P1",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-016-check-out-for-use-and-with-no-return.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Check Out purposes\n\nVerify that the For use and No return purposes check items out and are recorded with that purpose.",
+      "preconditions": [
+        "Two items with status IN"
+      ],
+      "data": [
+        "Purposes: For use, No return"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check In / Out > Check Out, tick one item, set Purpose For use and click Check Out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick another item, set Purpose No return and click Check Out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Check In Out Report and search for both items",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both items have Status OUT",
+          "status": null
+        },
+        {
+          "text": "Check In Out Report shows FOR USE for the first and NO RETURN for the second",
+          "status": null
+        },
+        {
+          "text": "Gantry > Gantry Whitelist lists the No return item but not the For use item",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1: 001000025 For use -> \"Checked out 1 item(s) - For use\", OUT/FOR USE, not whitelisted; 001000023 No return -> OUT/NO RETURN, whitelisted (API)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:08.393Z"
+    },
+    {
+      "id": "HLW-018",
+      "title": "Create a stock take for a storage location",
+      "priority": "P0",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-web/cases/stocktake/HLW-018-create-a-stock-take-for-a-storage.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Create Stock Take\n\nVerify that an administrator can create a stock take with selected items and it appears as Draft in the Stock Take List.",
+      "preconditions": [
+        "Items with status IN in at least one storage location"
+      ],
+      "data": [
+        "Title: QA ST <unique>",
+        "Proposed dates: today to today + 7 days"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Stock Take > Create Stock Take, pick a Storage Location and click Search",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select the listed items and click Move to Selected",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter Title and the proposed start and end dates and click Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Stock Take > Stock Take List",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The new stock take is listed with a Stock Take No, the title, the dates, the item count of the selected items and Status Draft",
+          "status": null
+        },
+        {
+          "text": "Show lists the selected items",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ADMIN: Biology, 003000005 + 003000009 moved to Selected (and ticked again), title \"QA ST 625531\", 01/12-05/12/2026: \"Successfully submit a new stock take.\"; Stock Take List ST00000014 Draft, 2 items; Show lists both \"Not located\". Same items in an overlapping period are refused (\"Can't submit item that already exists on the same period\"). Items in Selected must be ticked again or Submit says \"At least have 1 selected items to submit\"."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:08.515Z"
+    },
+    {
+      "id": "HLW-020",
+      "title": "Acknowledge an alert on the Dashboard",
+      "priority": "P0",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-020-acknowledge-an-alert-on-the-dashboard.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Alert acknowledgement\n\nVerify that acknowledging an alert removes it from the Dashboard and Alert History shows it as acknowledged.",
+      "preconditions": [
+        "At least one alert requiring acknowledgement"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the Dashboard note the count of alerts requiring acknowledgement and the first alert's text",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Acknowledge on that alert",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The alert disappears from the list and the count drops by 1",
+          "status": null
+        },
+        {
+          "text": "Report > Alert History shows the alert as acknowledged with the user and time",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ADMIN, Dashboard: Acknowledge on \"Unauthorized removal: Box6 (Item Number 001000006) passed exit gantry 3b EXIT.\" does nothing (3 tries, full load and menu navigation): no dialog, no console error, count stays 12; API acknowledgedOn stays empty; Alert History status Open."
+      ],
+      "evidence": [
+        "screenshots/HLW-020-m01-hlw-020.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:08.637Z",
+      "failureType": "product-bug",
+      "bug": "BUG-005"
+    },
+    {
+      "id": "HLW-028",
+      "title": "Add a storage location",
+      "priority": "P1",
+      "feature": "master-data",
+      "file": "projects/htx-lims-web/cases/master-data/HLW-028-add-a-storage-location.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Storage Location\n\nVerify that an administrator can add a storage location and use it in item lists and reports.",
+      "preconditions": [],
+      "data": [
+        "Location Code: QA<unique>",
+        "Location Description: QA room <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Master Data > Storage Location and click Add Storage Location",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the code and description and save",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The location is listed with its code and description",
+          "status": null
+        },
+        {
+          "text": "It can be picked as Location in Report > Stock Level Report and as Storage Location in Check Out",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Add Storage Location: code 00006 filled in automatically, \"QA room 061718\" saved; listed in Storage Location (with Edit/Delete), offered in Stock Level Report and Check Out Storage Location."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:08.882Z"
+    },
+    {
+      "id": "HLW-030",
+      "title": "Add a user with the User role",
+      "priority": "P1",
+      "feature": "users",
+      "file": "projects/htx-lims-web/cases/users/HLW-030-add-a-user-with-the-user-role.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "User Management\n\nVerify that an administrator can add a user with the User role who can then log in with that role.",
+      "preconditions": [],
+      "data": [
+        "Name and username: QA User <unique> / QAUSER<unique>",
+        "Email: qa+<unique>@example.com",
+        "Role: User"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open System > User Management, click Add User, fill the data with a password and save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out and log in as the new user",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "User Management lists the new user with Role User",
+          "status": null
+        },
+        {
+          "text": "The new user logs in and sees the User-role menu",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Add User with all fields valid and Role showing \"User\": Save does nothing (no message, no user; 3 tries). Only after picking Role > User again in its dropdown does Save create the user (QAUSER107393, Role User); the dialog stays open after saving. The new user logs in with Role: User and the User-role menu."
+      ],
+      "evidence": [
+        "screenshots/HLW-030-m01-hlw-030.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:09.000Z",
+      "failureType": "product-bug",
+      "bug": "BUG-006"
+    },
+    {
+      "id": "HLW-038",
+      "title": "Label size By category picks the tag type of the item's category",
+      "priority": "P2",
+      "feature": "tag-printing",
+      "file": "projects/htx-lims-web/cases/tag-printing/HLW-038-label-size-by-category-picks-the-tag.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "Tag type by category\n\nVerify that printing with label size By category uses Anti-Liquid for chemicals, Metal for assets and Paper (box tag) for other categories.",
+      "preconditions": [
+        "Registered unprinted items of category Chemical, Asset and Consumable",
+        "The Zebra printer available"
+      ],
+      "data": [
+        "Label size: By category"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Asset Tag Printing, pick the printer and label size By category",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select one Chemical, one Asset and one Consumable item and print",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The Label details column (or printed labels) show Anti-Liquid 46 x 40 mm for the chemical, Metal 50 x 15 mm for the asset and Paper 73 x 20 mm for the consumable",
+          "status": null
+        },
+        {
+          "text": "Each item gets a 24-digit chip code",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Asset Tag Printing has no printer to choose (Printer list empty); Print 3 selected (001000031, 002000017, 003000025, label size By category) -> \"Select a printer first. Nothing was printed.\" Needs a Zebra printer configured for UAT."
+      ],
+      "evidence": [
+        "screenshots/HLW-038-m01-hlw-013.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:09.242Z"
+    },
+    {
+      "id": "HLW-039",
+      "title": "Reprinting a tag issues a new chip code and retires the old tag",
+      "priority": "P1",
+      "feature": "tag-printing",
+      "file": "projects/htx-lims-web/cases/tag-printing/HLW-039-reprinting-a-tag-issues-a-new-chip-code.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "Reprint\n\nVerify that reprinting an item's tag gives it a new 24-digit chip code and that the old code is no longer recognised.",
+      "preconditions": [
+        "An item with a printed tag",
+        "The printer available"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account and note the item's chip code (Item Information details or tag history)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Asset Tag Printing > Reprint tags, select the item and reprint",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look the item up by the old and the new chip code",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The item has a new chip code different from the old one",
+          "status": null
+        },
+        {
+          "text": "A gantry read or lookup with the old code no longer finds the item; the new one does",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Asset Tag Printing has no printer to choose (Printer list empty); Print 3 selected (001000031, 002000017, 003000025, label size By category) -> \"Select a printer first. Nothing was printed.\" Needs a Zebra printer configured for UAT."
+      ],
+      "evidence": [
+        "screenshots/HLW-039-m01-hlw-013.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:09.481Z"
+    },
+    {
+      "id": "HLW-044",
+      "title": "Stock follows the check-out purpose",
+      "priority": "P1",
+      "feature": "reports",
+      "file": "projects/htx-lims-web/cases/reports/HLW-044-stock-follows-the-check-out-purpose.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Stock by purpose\n\nVerify that the stock of an item type stays the same after a Loan check-out and goes down by 1 after For use or No return.",
+      "preconditions": [
+        "Three IN items of the same item type"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account and note the item type's Stock in Report > Stock Level Report",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check out one item on Loan and note the Stock",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check out one item For use and note the Stock",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check out one item No return and note the Stock",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After Loan the Stock is unchanged (In lab -1, On loan +1)",
+          "status": null
+        },
+        {
+          "text": "After For use the Stock is 1 lower",
+          "status": null
+        },
+        {
+          "text": "After No return the Stock is 1 lower again",
+          "status": null
+        },
+        {
+          "text": "Stock always equals In lab + On loan",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Box stock (API, IN + OUT on Loan): 15 before; Loan of 001000029 -> 15 (12 in lab + 3 on loan); For use 001000025 and No return 001000023 -> 13."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:15:09.736Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T04:15:09.857Z",
+  "summary": {
+    "total": 10,
+    "pass": 4,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 4,
+    "skipped": 0
+  }
+}

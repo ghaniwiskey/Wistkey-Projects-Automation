@@ -21,6 +21,23 @@ Not run: HLW-024 (no chemical with several batches of different expiry dates), H
 
 ![Returned loan still on the gantry whitelist](2026-11-18-web-testing/BUG-whitelist.png)
 
+## Round 2: irreversible cases (user approved, no undo needed)
+
+Run `runs/2026-11-18_1115_staging_manual`: 4 pass, 2 fail, 4 blocked.
+
+| Case | Result |
+|---|---|
+| HLW-016 For use / No return | pass: For use not whitelisted, No return whitelisted |
+| HLW-044 Stock by purpose | pass: Box stock 15 -> 15 after Loan -> 13 after For use + No return |
+| HLW-018 Create stock take | pass: ST00000014 (Biology, 01-05/12/2026), then aborted; Selected items must be ticked again (BUG-007); label 'Title' for the number (BUG-008); items in an overlapping stock take are refused |
+| HLW-028 Storage location | pass: 00006 QA room 061718 |
+| HLW-020 Acknowledge alert | fail: Acknowledge does nothing (BUG-005) |
+| HLW-030 Add user | fail: Save does nothing until Role is picked again (BUG-006); QAUSER107393 created after that, logs in as User |
+| HLW-009 Approve PO | blocked: new POs are APPROVED at once; Approve says 'PO is already approved' (Q-001) |
+| HLW-013, 038, 039 Printing | blocked: no printer on UAT (Q-009) |
+
+Also seen: deleted item numbers are reused (Q-007); a new item type defaults to Min 1 and raises a Low stock alert (Q-008, another tester's 'Type Asset New 1').
+
 ## Findings
 
 | # | Type | Finding | Link |
@@ -36,5 +53,6 @@ Not run: HLW-024 (no chemical with several batches of different expiry dates), H
 ## QA data left behind
 
 - 001000029 (Box Description 1, Chemistry) and 001000027 (test_item, Airlock 2): loaned and checked in again; now IN but still on the gantry whitelist with purpose LOAN (BUG-001). Loans 23 and 24 show Returned. Left as they are for the developers; remove them from Gantry Whitelist once BUG-001 is looked at.
-- Deleted again: items 003000025, 002000017..019; PO QA-PO-3781642; item type "QA type 126550".
+- Deleted again (round 1): items 003000025, 002000017..019; PO QA-PO-3781642; item type "QA type 126550".
+- Round 2, kept: 001000025 OUT For use, 001000023 OUT No return (whitelisted); PO QAPO521908 (APPROVED); stock take ST00000014 (Aborted); storage location 00006 "QA room 061718"; user QAUSER107393 (Role User, password in .env HLW_QAUSER_*); registered unprinted items 001000031, 002000017, 003000025 ("QA print ... 42609") waiting for a printer; Box6 alert still open (BUG-005).
 - Audit Trail entries of the above, one failed USER2 login (11:34:52).
