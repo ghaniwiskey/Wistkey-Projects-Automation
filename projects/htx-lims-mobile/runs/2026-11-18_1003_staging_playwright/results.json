@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "htx-lims-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1003_staging_playwright",
+  "workers": [
+    "htx-lims-mobile"
+  ],
+  "startedAt": "2026-11-18T03:03:38.751Z",
+  "finishedAt": "2026-11-18T03:07:29.582Z",
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "HLM-001",
+      "title": "app opens on the Dashboard with every task tile",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/htx-lims-mobile/tests/e2e/smoke/dashboard.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-11-18T03:03:38.751Z",
+      "durationMs": 47409,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Launch the app (signed in with the .env account when needed)",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. The Data update card and every task tile are shown",
+          "pass": true
+        },
+        {
+          "label": "Step: Last updated: ...",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "HLM-002",
+      "title": "sign in with the .env account downloads the device data and opens the Dashboard",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/htx-lims-mobile/tests/e2e/auth/login.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-11-18T03:03:38.751Z",
+      "durationMs": 177265,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the app signed out (logs out only when the Upload queue is empty)",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Sign in: \"Data downloaded\" dialog, OK, Dashboard",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.pressButton()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeHidden()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: 3. The bottom bar shows the signed-in username",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBe()",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"htx-lims-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

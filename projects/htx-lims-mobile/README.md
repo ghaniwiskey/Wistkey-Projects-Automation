@@ -1,13 +1,55 @@
 # HTX LIMS Mobile
 
-HTX LIMS Mobile at https://htx-lims-mobile.invalid/ (default env `staging`). Test IDs `HLM-NNN`. **The base URL is a placeholder** (`.invalid`): set the real one in project.yaml before running. App behavior, quirks and test data go in `context.md` once there is something to write (docs/conventions.md > Knowledge files).
+Native Android handheld app of HTX LIMS: **com.htx.lims.dev** (0.1.0, Kotlin/Jetpack Compose, Chainway "rscja"
+RFID SDK, `MainActivity`), on the Android emulator (AVD `Medium_Phone`) against UAT. Test IDs `HLM-NNN`.
+`project.yaml` baseUrl is HTX LIMS web UAT (https://htx.eastus.cloudapp.azure.com:5001/, same backend and accounts),
+for tests that set up or check data in the browser.
+
+## The app
+
+- Login "Welcome back": Username, Password, Sign in. Takes the HTX LIMS web accounts (ADMIN, USER1, USER2).
+  After sign-in a "Data downloaded" dialog lists the Pre Check-in list (new + loan), storage locations and
+  stocktake lists, then the Dashboard.
+- Dashboard tiles: Pre Check-in, Check-in, Check-out, All Assets, Stocktake, Settings (RFID reader: "Connect
+  reader", "Test RFID scan"; the emulator has no reader), Upload queue. Bottom bar: name, username, Logout.
+- Offline-first: records wait in the Upload queue until the server accepts them.
+- **Logout deletes all data on the device**, including records not uploaded yet. Tests log out only when the
+  Upload queue is empty (`DashboardScreen.ensureLoggedOut`).
+- Dev build extras: Upload queue > "QA simulation" > "QA: make next upload fail" (retry testing; not in
+  release builds).
+- Compose views have no resource-ids or accessibility labels: screen objects find elements by visible text and
+  text fields by position (`tests/pages/mobile/app.screen.ts`).
+
+## Speed
+
+mobilewright's screen reads are slow on this app: every read (locator check) takes about 6 s and every tap about
+12 s, because uiautomator waits for the UI to go idle and this app never does (seen 2026-11-18 on 0.1.0; cause
+not found yet). So screen objects check many texts in one view-tree read (`AppScreen.expectTexts`,
+`textsOnScreen`) instead of one assertion per element, and the test timeout is 6 minutes.
+While mobilewright runs, `adb shell uiautomator dump` is killed (it holds UI automation), so plain adb reads
+return stale files.
+
+## Accounts
+
+From `.env` only: the app logs in with the env's `mobileAccount` prefix (default `HLW_ADMIN` ->
+`HLW_ADMIN_USER` / `HLW_ADMIN_PASS`, the htx-lims-web accounts).
 
 ## Run
 
+Start the emulator first (Android Studio > Device Manager > Medium_Phone). Then, from the repo root:
+
 ```powershell
-.\qa test --project=htx-lims-mobile
+.\qa test -c projects/htx-lims-mobile/playwright.config.ts                     # every HLM test
+.\qa test -c projects/htx-lims-mobile/playwright.config.ts --grep "HLM-001:"   # one test
+.\qa auto -c projects/htx-lims-mobile/playwright.config.ts                     # with Test Manager's heal flow
 ```
+
+Own config like mha-mobile (mobilewright's global setup starts mobilecli on port 13000, see
+projects/mha-mobile/README.md > Setup notes); the root config skips this project. One automation tool on the
+emulator at a time.
 
 ## Testing permissions
 
-Not set yet: ask the user what may be written on which env (records, orders, payments, messages to people) and about rate or session limits, then write the answers here.
+Not set yet: ask the user what may be written on UAT from the app (pre check-in tagging, check-in/out,
+stocktake submissions, uploads) and about rate or session limits, then write the answers here. Until then the
+env is read-only (`allowWrites: false`). Signing in and out is allowed only with an empty Upload queue.

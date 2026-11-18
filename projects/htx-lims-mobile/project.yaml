@@ -1,26 +1,36 @@
 name: HTX LIMS Mobile
 slug: htx-lims-mobile
 testIdPrefix: HLM
-description: "HTX LIMS (Laboratory Information Management System), mobile. Set up as mobile web (Pixel 7 emulation) until it is known whether this is a native app (then switch to runner: mobilewright like mha-mobile). baseUrl is a placeholder (.invalid)."
+description: "HTX LIMS handheld app (native Android, com.htx.lims.dev, Kotlin/Compose, Chainway RFID SDK) on the Android emulator, automated with mobilewright. baseUrl is HTX LIMS web (UAT), same accounts, for setup and checks."
 
 # Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with HLM_BASE_URL.
 # allowWrites: false skips tests tagged @writes on that env.
+# The app is native; baseUrl is HTX LIMS web on the same UAT backend (the tests may use Playwright `page` to set
+# up or check data). Never production.
+#   mobileAccount   prefix of the .env login vars for the app (<prefix>_USER / <prefix>_PASS); the app takes the
+#                   web accounts (htx-lims-web: HLW_ADMIN, HLW_USER1, HLW_USER2)
 defaultEnv: staging
 envs:
   staging:
-    baseUrl: https://htx-lims-mobile.invalid/
+    baseUrl: https://htx.eastus.cloudapp.azure.com:5001/
     allowWrites: false
+    mobileAccount: HLW_ADMIN
 
-# Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
+# Playwright settings (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
 # A test links to a test case when its title starts with the ID: test('HLM-001: ...').
+# runner mobilewright: the tests drive the app on the emulator and run with projects/htx-lims-mobile/playwright.config.ts;
+# the root playwright.config.ts skips this project. See README.md.
 playwright:
+  runner: mobilewright
   testDir: tests/e2e
-  browsers: [mobile]           # chromium | firefox | webkit | mobile; first one is the "htx-lims-mobile" Playwright project
-  fullyParallel: true
 
-# Test accounts: usernames only. Passwords go in .env as HLM_<ROLE>_USER / HLM_<ROLE>_PASS.
+# Test accounts come from .env only (the htx-lims-web accounts, see .env.example > htx-lims-web).
 auth:
-  accounts: []
+  accounts:
+    - roles: [administrator]
+      notes: Default app login (envs.<env>.mobileAccount).
+      envUser: HLW_ADMIN_USER
+      envPass: HLW_ADMIN_PASS
 
 suites:
   smoke: { tags: [smoke], description: Fast checks of the main journeys }

@@ -1,21 +1,35 @@
-import { test as base } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
+import { test as base, expect } from '@mobilewright/test';
+import { DashboardScreen } from '../pages/mobile/dashboard.screen';
+import { LoginScreen } from '../pages/mobile/login.screen';
+import { appAccount } from '../utils/test-data';
 
-type PageFixtures = {
-  homePage: HomePage;
+type Fixtures = {
+  loginScreen: LoginScreen;
+  dashboardScreen: DashboardScreen;
+  /**
+   * The app signed in, on the Dashboard. Reuses the app's session when it is already signed in (logging out
+   * deletes the device data); otherwise signs in with the .env account.
+   */
+  appDashboard: DashboardScreen;
 };
 
-/**
- * Page objects as fixtures: specs ask for what they need instead of constructing it.
- *
- * Once the app has a login page object, add a session option so tests that only need a logged-in
- * user start logged in (log in once, reuse): copy the `loggedIn` option and `storageState` override
- * from projects/scg-store/tests/fixtures/pages.fixture.ts (helper: @shared/auth/session).
- */
-export const test = base.extend<PageFixtures>({
-  homePage: async ({ page }, use) => {
-    await use(new HomePage(page));
+export const test = base.extend<Fixtures>({
+  loginScreen: async ({ screen }, use) => {
+    await use(new LoginScreen(screen));
+  },
+  dashboardScreen: async ({ screen }, use) => {
+    await use(new DashboardScreen(screen));
+  },
+  appDashboard: async ({ loginScreen, dashboardScreen }, use) => {
+    await expect(dashboardScreen.title.or(loginScreen.title)).toBeVisible({ timeout: 60_000 });
+    if (!(await dashboardScreen.isShown())) {
+      const account = appAccount();
+      await loginScreen.login(account.username, account.password);
+    }
+    await dashboardScreen.expectLoaded();
+    await use(dashboardScreen);
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect };
+export { DASHBOARD_TILES, appAccount } from '../utils/test-data';
