@@ -1,0 +1,207 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-mobile",
+  "env": "staging",
+  "suite": "handheld-flows-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1516_staging_manual",
+  "startedAt": "2026-11-18T08:16:12.612Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLM-003",
+      "title": "Pre check-in a printed item by tag ID on the handheld",
+      "priority": "P0",
+      "feature": "pre-check-in",
+      "file": "projects/htx-lims-mobile/cases/pre-check-in/HLM-003-pre-check-in-a-printed-item-by-tag-id.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Pre check-in\n\nVerify that a registered item with a printed tag can be pre checked-in on the handheld and then shows as NOT CHECKED IN on the web.",
+      "preconditions": [
+        "A registered item whose tag is printed and that is not pre checked-in yet"
+      ],
+      "data": [
+        "The item's 24-digit chip code"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld Dashboard tap Update all data, then Pre Check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the chip code under Or enter EPC / Tag ID and tap Add tag",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify the tag (scan it, or Simulate verify read on a device without a reader), tap Next · Review items",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Count the items (Burst scan or Simulate burst scan) and tap Upload pre check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the web open Check In / Out > Tagged Not Checked In and Count Item",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The card shows the item number, type, category and New item",
+          "status": null
+        },
+        {
+          "text": "Upload shows \"Pre check-in uploaded - All 1 tag(s) were pre checked-in.\"",
+          "status": null
+        },
+        {
+          "text": "The web lists the item under Tagged Not Checked In and Count Item with status NOT CHECKED IN",
+          "status": null
+        },
+        {
+          "text": "Audit Trail: \"Handheld register ... PUT /api/Raid/mobile/singleregister\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Emulator, ADMIN: 4 items pre checked-in by chip code (Add tag, Simulate verify read, Simulate burst scan, Upload): \"All <n> tag(s) were pre checked-in.\"; web Tagged Not Checked In + Count Item NOT CHECKED IN; audit Handheld register. Upload refused until counted (\"Count all items first\")."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:12.725Z"
+    },
+    {
+      "id": "HLM-004",
+      "title": "Check in pre checked-in items on the handheld with a location per item",
+      "priority": "P0",
+      "feature": "check-in",
+      "file": "projects/htx-lims-mobile/cases/check-in/HLM-004-check-in-pre-checked-in-items-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Handheld check-in\n\nVerify that pre checked-in items are checked in on the handheld at the chosen storage location and become IN.",
+      "preconditions": [
+        "Items with status NOT CHECKED IN"
+      ],
+      "data": [
+        "Locations: Airlock 1 (default) and Chemistry for one item"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld tap Check-in and Refresh items",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "For each item enter its number, tap Find item, then Add to check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify each item (scan or Simulate verify read) and change one item's Location to Chemistry",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap Next · Review items, count (Burst scan) and Upload check-in",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Checked in - <n> item(s) checked in.\"",
+          "status": null
+        },
+        {
+          "text": "On the web each item is IN at its chosen location (Item Information)",
+          "status": null
+        },
+        {
+          "text": "Audit Trail: \"Handheld check-in ... Location: <code>\" per item",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Check-in by item number (Find item, Add to check-in, verify, per-item Location, count, Upload): \"<n> item(s) checked in.\"; web IN at Airlock 1 / Chemistry; audit Handheld check-in with location code (text says \"2 tag(s)\" for one tag)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:12.835Z"
+    },
+    {
+      "id": "HLM-005",
+      "title": "Scan a stock take on the handheld and upload the results",
+      "priority": "P0",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-mobile/cases/stocktake/HLM-005-scan-a-stock-take-on-the-handheld-and.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Handheld stock take\n\nVerify that an In Progress stock take can be selected and scanned on the handheld and its results uploaded.",
+      "preconditions": [
+        "A stock take commenced on the web (In Progress)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld tap Update all data, then Stocktake > Select stocktake, choose the stock take and tap OK",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Scan the items (Auto or the trigger; QA: simulate located scan on a device without a reader)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap Upload, review and confirm (Upload anyway when items are missing)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Before scanning all items are Unlocated with their current location",
+          "status": null
+        },
+        {
+          "text": "Scanned items turn Located and the counters update",
+          "status": null
+        },
+        {
+          "text": "Missing items prompt \"Some items were not located\" with Upload anyway / Cancel",
+          "status": null
+        },
+        {
+          "text": "\"Stocktake uploaded\"; the web stock take shows the scanned items as Located",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ST00000015 selected on the handheld, QA: simulate located scan (1 of 2), Upload anyway after \"Some items were not located\": \"Stocktake uploaded\"; web shows 002000017 Located."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:12.944Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T08:16:13.059Z",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

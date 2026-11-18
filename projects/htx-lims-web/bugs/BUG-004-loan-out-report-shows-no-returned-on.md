@@ -5,7 +5,7 @@ severity: minor
 status: open
 env: staging
 url: "https://htx.eastus.cloudapp.azure.com:5001/loanoutreport"
-updated: 2026-11-18T03:56:54.458Z
+updated: 2026-11-18T08:10:39.088Z
 found: 2026-11-18T03:56:54.458Z
 foundBy: "explorations/2026-11-18-web-testing.md"
 tests: [HLW-014]
@@ -34,3 +34,4 @@ Returned On shows the check-in date and time.
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-web-testing.md in the Test Manager app.
+- 2026-11-18: Web-only: a loan returned through the handheld (pre check-in + check-in) shows Returned On (001000031: Returned 18/11/2026 16:09)..

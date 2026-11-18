@@ -50,6 +50,20 @@ emulator at a time.
 
 ## Testing permissions
 
-Not set yet: ask the user what may be written on UAT from the app (pre check-in tagging, check-in/out,
-stocktake submissions, uploads) and about rate or session limits, then write the answers here. Until then the
-env is read-only (`allowWrites: false`). Signing in and out is allowed only with an empty Upload queue.
+UAT writes are allowed (user, 2026-11-18, same as htx-lims-web): pre check-in, check-in, check-out, stocktake
+uploads; undoing is not required. Use QA items (printed from htx-lims-web, "QA ..." descriptions) and note what
+is left behind. Signing out only with an empty Upload queue.
+
+## Driving the app without a reader (emulator)
+
+- Data first: Dashboard > Update all data (or Refresh items on the screen), else a new tag is "not found in the
+  downloaded items".
+- Pre Check-in: type the 24-digit chip code under "Or enter EPC / Tag ID" > Add tag; each typed tag needs
+  "Simulate verify read"; Next > Review items > "Simulate burst scan" (Burst scan alone counts nothing) > Upload
+  pre check-in. The review also does the Count step (web Count Item). A returned loan shows as "Loan".
+- Check-in: type the item number > Find item > Add to check-in > Simulate verify read; Location per item
+  (default Airlock 1); Next > Simulate burst scan > Upload check-in.
+- Stocktake: Select stocktake > pick > OK > "QA: simulate located scan" (locates one item) or "QA: simulate auto
+  scan" > Upload > Upload anyway when items are missing.
+- Check-in on the handheld removes a returned loan from the gantry whitelist and is audited (the web Check In
+  page does neither: htx-lims-web BUG-001, BUG-002).

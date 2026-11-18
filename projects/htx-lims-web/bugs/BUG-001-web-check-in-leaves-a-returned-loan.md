@@ -5,7 +5,7 @@ severity: critical
 status: open
 env: staging
 url: "https://htx.eastus.cloudapp.azure.com:5001/checkin"
-updated: 2026-11-18T03:56:54.057Z
+updated: 2026-11-18T08:10:38.938Z
 found: 2026-11-18T03:56:54.057Z
 foundBy: "explorations/2026-11-18-web-testing.md"
 tests: [HLW-014, HLW-033]
@@ -37,3 +37,4 @@ Status IN, exhibitStatus still LOAN, and the item is still on the whitelist (Gan
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-web-testing.md in the Test Manager app.
+- 2026-11-18: Web-only: the handheld check-in (PUT /api/Raid/mobile/singlecheckin) of a returned loan removes it from the whitelist and clears the purpose (001000031, 18/11/2026 16:09). Only the web Check In page (Manual Check-In) leaves it whitelisted..

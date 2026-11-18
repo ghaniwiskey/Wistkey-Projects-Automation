@@ -5,7 +5,7 @@ severity: major
 status: open
 env: staging
 url: "https://htx.eastus.cloudapp.azure.com:5001/audittrail"
-updated: 2026-11-18T03:56:54.190Z
+updated: 2026-11-18T08:10:39.241Z
 found: 2026-11-18T03:56:54.190Z
 foundBy: "explorations/2026-11-18-web-testing.md"
 tests: [HLW-027]
@@ -34,3 +34,4 @@ No check-in entry: the 40 newest rows (11:30-11:48 on 18/11/2026) contain both l
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-web-testing.md in the Test Manager app.
+- 2026-11-18: Web-only: handheld check-ins are audited ('Handheld check-in ... PUT /api/Raid/mobile/singlecheckin')..

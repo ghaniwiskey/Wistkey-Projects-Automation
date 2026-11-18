@@ -56,3 +56,13 @@ Also seen: deleted item numbers are reused (Q-007); a new item type defaults to 
 - Deleted again (round 1): items 003000025, 002000017..019; PO QA-PO-3781642; item type "QA type 126550".
 - Round 2, kept: 001000025 OUT For use, 001000023 OUT No return (whitelisted); PO QAPO521908 (APPROVED); stock take ST00000014 (Aborted); storage location 00006 "QA room 061718"; user QAUSER107393 (Role User, password in .env HLW_QAUSER_*); printed items 001000031 (reprinted), 002000017, 003000025 ("QA print ... 42609"), NOT PRE CHECK IN; Box6 alert still open (BUG-005).
 - Audit Trail entries of the above, one failed USER2 login (11:34:52).
+
+## Round 4: handheld flows (emulator) and stock take
+
+Runs `htx-lims-web/runs/2026-11-18_1516_staging_manual` (6 pass) and `htx-lims-mobile/runs/2026-11-18_1516_staging_manual` (3 pass).
+
+- Handheld pre check-in (chip code typed, simulated verify and count) -> NOT CHECKED IN, Tagged Not Checked In, Count Item (HLM-003); gantry 1a before check-in, no alert (HLW-032); handheld check-in with a location per item (HLM-004).
+- FEFO: second Toluene batch 003000032 (expiry 13/12/2026) -> Chemical Usage "Use next" (HLW-024); checking out the later batch shows the FEFO warning (HLW-041).
+- Loan return on the handheld: off the whitelist, Returned On filled, audited (HLW-034). BUG-001, BUG-002, BUG-004 are web-only.
+- Stock take ST00000015: commence, handheld scan, complete (HLW-047, HLM-005); stock-take adjustment 003000032 -> DISPOSED (HLW-048, answers Q-004).
+- Left behind: 001000031 IN Airlock 1, 002000017 IN Airlock 1, 003000025 OUT For use, 003000032 DISPOSED; ST00000015 Completed; loan 27 Returned.

@@ -1,0 +1,377 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "handheld-flows-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1516_staging_manual",
+  "startedAt": "2026-11-18T08:16:10.688Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-024",
+      "title": "Chemical Usage lists chemicals first expiry first",
+      "priority": "P1",
+      "feature": "inventory",
+      "file": "projects/htx-lims-web/cases/inventory/HLW-024-chemical-usage-lists-chemicals-first.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "First expiry, first use\n\nVerify that Chemical Usage orders chemicals so the one that expires first is used first.",
+      "preconditions": [
+        "At least two chemicals of the same kind with different expiry dates"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Inventory > Chemical Usage",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search for a chemical name that has several batches",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Use order 1, 2, 3 ... follows the expiry date from earliest to latest",
+          "status": null
+        },
+        {
+          "text": "Each row shows CAS, classification, batch, production, expiry and delivery dates, room and item number",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Two batches of \"QA print chem 42609\" in Chemistry: 003000032 (expiry 13/12/2026) \"Use next\", 003000025 (15/01/2027) second."
+      ],
+      "evidence": [
+        "screenshots/HLW-024-m01-hlw-024.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:10.826Z"
+    },
+    {
+      "id": "HLW-032",
+      "title": "A new item passes gantry 1a before check-in without an alert",
+      "priority": "P1",
+      "feature": "gantry",
+      "file": "projects/htx-lims-web/cases/gantry/HLW-032-a-new-item-passes-gantry-1a-before.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Gantry 1a before check-in\n\nVerify that a pre checked-in item (status NOT CHECKED IN) passing gantry 1a is logged as NOT CHECKED IN, moves to Airlock 1 and raises no alert.",
+      "preconditions": [
+        "An item with status NOT CHECKED IN (pre checked in and counted on the handheld)"
+      ],
+      "data": [
+        "Gantry: 1a EXIT"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account and note the Dashboard alert count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send a read of the item at gantry 1a (real gantry, or Swagger POST /api/Gantry/authorizerfid)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry > Gantry Log and refresh the Dashboard after one minute",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Gantry Log lists the item with Gantry 1a EXIT, Status NOT CHECKED IN, Location Airlock 1",
+          "status": null
+        },
+        {
+          "text": "No alert is raised for the item",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "002000017 (NOT CHECKED IN after handheld pre check-in) read at gantry 1a via API: Gantry Log \"1a EXIT / NOT CHECKED IN / Airlock 1 / Authorized\", item moved to Airlock 1, no new alert."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:11.106Z"
+    },
+    {
+      "id": "HLW-034",
+      "title": "A loaned item that comes back goes through pre check-in, count and check-in again",
+      "priority": "P1",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-034-a-loaned-item-that-comes-back-goes.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Loan return\n\nVerify that a returned loan item is pre checked in and counted on the handheld and checked in again, without a new tag, and ends IN and off the whitelist.",
+      "preconditions": [
+        "An item checked out on Loan",
+        "The handheld app signed in"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld, pre check-in the returned item (scan its tag) and count it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Carry it through gantry 1a (or send the read through Swagger)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account and check the item in at its storage location",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After pre check-in the item's status is NOT CHECKED IN and it is listed under Tagged Not Checked In",
+          "status": null
+        },
+        {
+          "text": "After check-in the status is IN and the item can be checked out again",
+          "status": null
+        },
+        {
+          "text": "The item is no longer on the gantry whitelist",
+          "status": null
+        },
+        {
+          "text": "No tag reprint was needed (same chip code)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "001000031 loaned (loan 27, whitelisted) -> handheld pre check-in shows \"Loan\" -> NOT CHECKED IN -> gantry 1a NOT CHECKED IN -> handheld check-in -> IN, purpose cleared, off the whitelist; Loan Out Report Returned 18/11/2026 16:09."
+      ],
+      "evidence": [
+        "screenshots/HLW-034-m01-hlw-034-loanreport.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:11.242Z"
+    },
+    {
+      "id": "HLW-041",
+      "title": "Checking out a chemical out of FEFO order shows a warning",
+      "priority": "P2",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-041-checking-out-a-chemical-out-of-fefo.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "FEFO: order\n\nVerify that checking out a batch of a chemical while an earlier-expiring batch is still in stock shows a FEFO warning but allows the check-out.",
+      "preconditions": [
+        "Two IN batches of the same chemical with different expiry dates"
+      ],
+      "data": [
+        "Purpose: For use"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Inventory > Chemical Usage and note which batch is Use order 1",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check Out, tick the later-expiring batch and check it out For use",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A warning says an earlier-expiring batch should be used first",
+          "status": null
+        },
+        {
+          "text": "After confirming, the item is checked out (status OUT)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Check Out 003000025 For use while 003000032 expires earlier: confirmation \"First expiry, first use - ... Instead of 003000025 ..., use 003000032 ...\"; after OK checked out."
+      ],
+      "evidence": [
+        "screenshots/HLW-041-m01-hlw-041.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:11.514Z"
+    },
+    {
+      "id": "HLW-047",
+      "title": "A stock take goes from Draft to Completed with handheld scan results",
+      "priority": "P0",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-web/cases/stocktake/HLW-047-a-stock-take-goes-from-draft-to.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Stock take cycle\n\nVerify that a stock take created on the web can be commenced, scanned on the handheld and completed, and that the results show which items were located.",
+      "preconditions": [
+        "Two IN items that are not in another stock take for the chosen period",
+        "The handheld app signed in"
+      ],
+      "data": [
+        "Title: QA ST <unique>",
+        "Proposed dates: today to today + 7 days"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create a stock take with the two items and open it from Stock Take List > Show",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Commence and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the handheld: Update all data, open Stocktake, select the stock take, scan only the first item and Upload anyway",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the web: open the stock take again and click Complete, confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Stock Take Progress Report and Stock Take Report for the stock take number",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "After Commence the status is In Progress with a commencement date",
+          "status": null
+        },
+        {
+          "text": "The handheld lists both items as Unlocated before the scan, and 1 Located / 1 Unlocated after it",
+          "status": null
+        },
+        {
+          "text": "After Complete the status is Completed; the first item is Located (scanned by the user, time), the second Not located",
+          "status": null
+        },
+        {
+          "text": "The progress report shows Completed, Total Item 2, Total Scanned 1",
+          "status": null
+        },
+        {
+          "text": "Completing does not change the status of the not-located item (still IN)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ST00000015: Draft -> Commence (In Progress) -> handheld scan 1 of 2 -> Complete; Located 002000017, Not located 003000032 (still IN); progress report Completed 2/1."
+      ],
+      "evidence": [
+        "screenshots/HLW-047-m01-stocktake-flow.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:11.788Z"
+    },
+    {
+      "id": "HLW-048",
+      "title": "Stock-take adjustment disposes an item that was not located",
+      "priority": "P1",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-web/cases/stocktake/HLW-048-stock-take-adjustment-disposes-an-item.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Stock adjustment\n\nVerify that after a completed stock take an administrator can set a not-located item to DISPOSED, which takes it out of stock and tracking.",
+      "preconditions": [
+        "A completed stock take with at least one Not located item"
+      ],
+      "data": [
+        "New status: DISPOSED",
+        "Reason: QA test <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the stock take from Stock Take List > Show",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Under Stock-take adjustment tick the not-located item, choose New status DISPOSED, enter the reason and click Adjust 1 selected",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The message \"1 tag(s) adjusted.\" is shown",
+          "status": null
+        },
+        {
+          "text": "Item Information shows the item with status DISPOSED",
+          "status": null
+        },
+        {
+          "text": "The item is no longer offered in Check Out or Chemical Usage",
+          "status": null
+        },
+        {
+          "text": "Audit Trail has \"Stock adjustment ... Status: IN → DISPOSED\" with the reason",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Stock-take adjustment 003000032 -> DISPOSED: \"1 tag(s) adjusted.\"; DISPOSED in the API, gone from Check Out and Chemical Usage; Audit \"Stock adjustment ... IN -> DISPOSED\"."
+      ],
+      "evidence": [
+        "screenshots/HLW-048-m01-stock-adjustment.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:16:12.059Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T08:16:12.335Z",
+  "summary": {
+    "total": 6,
+    "pass": 6,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
