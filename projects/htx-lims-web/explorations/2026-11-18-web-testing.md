@@ -34,7 +34,7 @@ Run `runs/2026-11-18_1115_staging_manual`: 4 pass, 2 fail, 4 blocked.
 | HLW-020 Acknowledge alert | fail: Acknowledge does nothing (BUG-005) |
 | HLW-030 Add user | fail: Save does nothing until Role is picked again (BUG-006); QAUSER107393 created after that, logs in as User |
 | HLW-009 Approve PO | blocked: new POs are APPROVED at once; Approve says 'PO is already approved' (Q-001) |
-| HLW-013, 038, 039 Printing | blocked: no printer on UAT (Q-009) |
+| HLW-013, 038, 039 Printing | re-run with printer "test" (runs/2026-11-18_1120_staging_manual): HLW-013 and 039 pass (new chip code on reprint, old one 404); HLW-038 blocked: tag type not visible |
 
 Also seen: deleted item numbers are reused (Q-007); a new item type defaults to Min 1 and raises a Low stock alert (Q-008, another tester's 'Type Asset New 1').
 
@@ -54,5 +54,5 @@ Also seen: deleted item numbers are reused (Q-007); a new item type defaults to 
 
 - 001000029 (Box Description 1, Chemistry) and 001000027 (test_item, Airlock 2): loaned and checked in again; now IN but still on the gantry whitelist with purpose LOAN (BUG-001). Loans 23 and 24 show Returned. Left as they are for the developers; remove them from Gantry Whitelist once BUG-001 is looked at.
 - Deleted again (round 1): items 003000025, 002000017..019; PO QA-PO-3781642; item type "QA type 126550".
-- Round 2, kept: 001000025 OUT For use, 001000023 OUT No return (whitelisted); PO QAPO521908 (APPROVED); stock take ST00000014 (Aborted); storage location 00006 "QA room 061718"; user QAUSER107393 (Role User, password in .env HLW_QAUSER_*); registered unprinted items 001000031, 002000017, 003000025 ("QA print ... 42609") waiting for a printer; Box6 alert still open (BUG-005).
+- Round 2, kept: 001000025 OUT For use, 001000023 OUT No return (whitelisted); PO QAPO521908 (APPROVED); stock take ST00000014 (Aborted); storage location 00006 "QA room 061718"; user QAUSER107393 (Role User, password in .env HLW_QAUSER_*); printed items 001000031 (reprinted), 002000017, 003000025 ("QA print ... 42609"), NOT PRE CHECK IN; Box6 alert still open (BUG-005).
 - Audit Trail entries of the above, one failed USER2 login (11:34:52).

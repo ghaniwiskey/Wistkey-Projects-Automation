@@ -1,0 +1,190 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "tag-printing-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1120_staging_manual",
+  "startedAt": "2026-11-18T04:20:18.934Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-013",
+      "title": "Print RFID tags for a newly registered item",
+      "priority": "P0",
+      "feature": "tag-printing",
+      "file": "projects/htx-lims-web/cases/tag-printing/HLW-013-print-rfid-tags-for-a-newly-registered.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Asset Tag Printing\n\nVerify that a registered item can be sent to tag printing and then shows a tag printed time.",
+      "preconditions": [
+        "A registered item without a printed tag",
+        "A printer configured in Asset Tag Printing"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Asset Tag Printing",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick the printer and label size, select the new item under Print new tags",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Print 1 selected",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown",
+          "status": null
+        },
+        {
+          "text": "Item Register > Registered items not checked in yet shows a Tag printed time for the item",
+          "status": null
+        },
+        {
+          "text": "Check In / Out > Printed lists the item with Tag Printed On",
+          "status": null
+        },
+        {
+          "text": "The item has a 24-digit chip code (encoded RFID) and can no longer be deleted",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Printer \"test\", label size By category, 3 QA items: \"3 tag(s) sent to the printer: 001000031, 002000017, 003000025.\"; each got a 24-digit chip code (e.g. 010020000000000001000031), Tag printed 18/11/2026 12:18 in Item Register (Edit only, no Delete), listed under Printed; Audit \"Tag code issued ... First print\" + \"Tag printed\"."
+      ],
+      "evidence": [
+        "screenshots/HLW-013-m01-hlw-013.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:20:19.066Z"
+    },
+    {
+      "id": "HLW-038",
+      "title": "Label size By category picks the tag type of the item's category",
+      "priority": "P2",
+      "feature": "tag-printing",
+      "file": "projects/htx-lims-web/cases/tag-printing/HLW-038-label-size-by-category-picks-the-tag.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "Tag type by category\n\nVerify that printing with label size By category uses Anti-Liquid for chemicals, Metal for assets and Paper (box tag) for other categories.",
+      "preconditions": [
+        "Registered unprinted items of category Chemical, Asset and Consumable",
+        "The Zebra printer available"
+      ],
+      "data": [
+        "Label size: By category"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Asset Tag Printing, pick the printer and label size By category",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select one Chemical, one Asset and one Consumable item and print",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The Label details column (or printed labels) show Anti-Liquid 46 x 40 mm for the chemical, Metal 50 x 15 mm for the asset and Paper 73 x 20 mm for the consumable",
+          "status": null
+        },
+        {
+          "text": "Each item gets a 24-digit chip code",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Printed By category on printer \"test\", but the tag type used is not shown in the web (Label details, Printed list) or the Audit Trail, so Anti-Liquid / Metal / Paper cannot be checked without the printer output. Chip codes: asset 01002..., chemical and consumable 01001... (meaning not documented)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:20:19.328Z"
+    },
+    {
+      "id": "HLW-039",
+      "title": "Reprinting a tag issues a new chip code and retires the old tag",
+      "priority": "P1",
+      "feature": "tag-printing",
+      "file": "projects/htx-lims-web/cases/tag-printing/HLW-039-reprinting-a-tag-issues-a-new-chip-code.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Reprint\n\nVerify that reprinting an item's tag gives it a new 24-digit chip code and that the old code is no longer recognised.",
+      "preconditions": [
+        "An item with a printed tag",
+        "The printer available"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account and note the item's chip code (Item Information details or tag history)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Asset Tag Printing > Reprint tags, select the item and reprint",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look the item up by the old and the new chip code",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The item has a new chip code different from the old one",
+          "status": null
+        },
+        {
+          "text": "A gantry read or lookup with the old code no longer finds the item; the new one does",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Reprint 001000031 on printer \"test\": \"1 tag(s) sent to the printer: 001000031. The old tags of these items no longer work.\"; chip code 010020000000000001000031 -> 010030000000000001000031; GET /api/Item/byencodedrfid old -> 404, new -> 001000031; encodedtaghistory: First print (deleted) + Reprint."
+      ],
+      "evidence": [
+        "screenshots/HLW-039-m01-hlw-039.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T04:20:19.452Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T04:20:19.714Z",
+  "summary": {
+    "total": 3,
+    "pass": 2,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 1,
+    "skipped": 0
+  }
+}

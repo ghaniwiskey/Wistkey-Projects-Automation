@@ -43,7 +43,7 @@ Master Data (Item Category: 4 built-in categories Asset, Chemical, Consumable, F
 - Item Type: Min. stock defaults to 1, and a type with 0 items would then raise a Low stock alert: leave Min empty for QA types.
 - Create Stock Take: pick the Storage Location, Search, tick items, Move to Selected, then tick them again under Selected Items (BUG-007). An item already in a stock take with an overlapping period is refused ("Can't submit item that already exists on the same period"), so QA stock takes use a future period. Show > Commence / Complete / Abort; completing unscanned items marks them NOT FOUND (stock adjustment), so abort QA stock takes.
 - Add User: pick Role in its dropdown even when it shows User, or Save does nothing (BUG-006). Password: 6+ characters with upper, lower, digit and symbol.
-- Dashboard Acknowledge currently does nothing (BUG-005). Asset Tag Printing has no printer on UAT (Q-009).
+- Dashboard Acknowledge currently does nothing (BUG-005). Asset Tag Printing on UAT: use printer "test" (user). Print: "<n> tag(s) sent to the printer: <numbers>."; each print issues a chip code (Audit "Tag code issued"); a reprint issues a new one, the old code no longer resolves (GET /api/Item/byencodedrfid -> 404; GET /api/Item/{id}/encodedtaghistory). The tag type used is not shown anywhere in the web.
 - Audit Trail: logins (API logins show as "Login Handheld"), failed logins, item registered / number assigned / deleted, check-outs (no workstation IP), stock adjustments, handheld stock take scans.
 
 ## UI behavior
