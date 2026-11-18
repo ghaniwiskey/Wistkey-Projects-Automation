@@ -6,9 +6,9 @@ askedTo: "user"
 env: staging
 found: 2026-11-18T03:21:10.708Z
 foundBy: "explorations/2026-11-18-critical-flows.md"
-tests: []
+tests: [HLW-009, HLW-007]
 bugs: []
-updated: 2026-11-18T03:21:43.695Z
+updated: 2026-11-18T03:21:58.588Z
 answered: ""
 ---
 ## Question

@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "exploratory-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1021_staging_manual",
+  "startedAt": "2026-11-18T03:21:58.730Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-002",
+      "title": "Administrator logs in and lands on the Dashboard",
+      "priority": "P0",
+      "feature": "auth",
+      "file": "projects/htx-lims-web/cases/auth/HLW-002-administrator-logs-in-and-lands-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Log in to HTX LIMS web\n\nVerify that an administrator can log in with username and password and lands on the Dashboard with the full menu.",
+      "preconditions": [
+        "An administrator account"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open the HTX LIMS web home page and click Login",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the administrator username and password and click Login",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The Dashboard opens with the heading HTX - LIMS and the sections Alerts requiring acknowledgement and Latest location",
+          "status": null
+        },
+        {
+          "text": "The menu shows Dashboard, Inventory, Registration, Purchase Order, Check In / Out, Stock Take, Gantry, Report, Master Data, System and My Account",
+          "status": null
+        },
+        {
+          "text": "The user button at the top shows the user's name and Role: Administrator",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ADMIN logs in, Dashboard with alerts and latest location, full menu, Role: Administrator."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:21:58.853Z"
+    },
+    {
+      "id": "HLW-005",
+      "title": "User role sees only the operations menu",
+      "priority": "P0",
+      "feature": "access",
+      "file": "projects/htx-lims-web/cases/access/HLW-005-user-role-sees-only-the-operations-menu.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Menu for the User role\n\nVerify that an account with the User role sees only the operations and gantry log pages in the menu.",
+      "preconditions": [
+        "An account with the User role"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open each menu group",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The menu shows Dashboard, Inventory (Chemical Usage, Item Information), Registration (Item Register, Asset Tag Printing), Purchase Order (PO Creation, PO Management), Check In / Out (Printed, Tagged Not Checked In, Count Item, Check In, Check Out), Gantry (Gantry Log only) and My Account",
+          "status": null
+        },
+        {
+          "text": "Stock Take, Report, Master Data and System are not in the menu",
+          "status": null
+        },
+        {
+          "text": "The user button shows Role: User",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1 and USER2: Role User; menu without Stock Take, Report, Master Data, System; Gantry shows Gantry Log only."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:21:58.980Z"
+    },
+    {
+      "id": "HLW-006",
+      "title": "User role cannot open administrator pages by address",
+      "priority": "P0",
+      "feature": "access",
+      "file": "projects/htx-lims-web/cases/access/HLW-006-user-role-cannot-open-administrator.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Admin pages blocked for the User role\n\nVerify that a User-role account typing the address of an administrator page gets the Not Authorized page and no data.",
+      "preconditions": [
+        "An account with the User role"
+      ],
+      "data": [
+        "Addresses: /usermanagement, /stocktake, /stocktakelist, /itemcategory, /gantrysetup, /gantrywhitelist, /audittrail, /stockreport/level"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open each address in the data list",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Every address shows \"You're Not Authorized! Your account does not have access to this page.\"",
+          "status": null
+        },
+        {
+          "text": "No table, button or record of the page is shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1: usermanagement, stocktake, stocktakelist, itemcategory, gantrysetup, gantrywhitelist, audittrail, stockreport/level all show You're Not Authorized."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:21:59.100Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T03:21:59.223Z",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
