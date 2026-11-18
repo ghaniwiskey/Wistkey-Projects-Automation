@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_0946_staging_playwright",
+  "workers": [
+    "htx-lims-web"
+  ],
+  "startedAt": "2026-11-18T02:46:28.256Z",
+  "finishedAt": "2026-11-18T02:46:35.128Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "HLW-001",
+      "title": "home page loads",
+      "status": "pass",
+      "source": "playwright",
+      "file": "projects/htx-lims-web/tests/e2e/smoke/home.spec.ts",
+      "tags": [
+        "@smoke"
+      ],
+      "startedAt": "2026-11-18T02:46:28.256Z",
+      "durationMs": 5501,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Open the home page",
+          "pass": true
+        },
+        {
+          "label": "./ responds without an HTTP error",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Page has a title and visible content",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveTitle\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        }
+      ],
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "notes": "Playwright project \"htx-lims-web\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

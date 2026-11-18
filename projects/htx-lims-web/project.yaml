@@ -1,14 +1,14 @@
 name: HTX LIMS Web
 slug: htx-lims-web
 testIdPrefix: HLW
-description: "HTX LIMS (Laboratory Information Management System), web app. baseUrl is a placeholder (.invalid) until the real UAT URL is known."
+description: "HTX LIMS (Laboratory Inventory Management System for the Home Team Science and Technology Agency): inventory, registration, purchase orders, check in/out, stock take, RFID gantry, reports, master data (UAT on Azure)."
 
 # Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with HLW_BASE_URL.
 # allowWrites: false skips tests tagged @writes on that env.
 defaultEnv: staging
 envs:
   staging:
-    baseUrl: https://htx-lims-web.invalid/
+    baseUrl: https://htx.eastus.cloudapp.azure.com:5001/
     allowWrites: false
 
 # Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
@@ -17,10 +17,25 @@ playwright:
   testDir: tests/e2e
   browsers: [chromium]        # chromium | firefox | webkit | mobile; first one is the "htx-lims-web" Playwright project
   fullyParallel: true
+  use:
+    ignoreHTTPSErrors: true # UAT serves a self-signed certificate (ERR_CERT_AUTHORITY_INVALID)
 
-# Test accounts: usernames only. Passwords go in .env as HLW_<ROLE>_USER / HLW_<ROLE>_PASS.
+# Test accounts: everything comes from .env (see .env.example > htx-lims-web), nothing is fixed here.
+# `roles` only documents what each account is (Test Manager overview); the tests read the role from the app.
 auth:
-  accounts: []
+  accounts:
+    - roles: [administrator]
+      notes: Full menu (Stock Take, Report, Master Data, System included).
+      envUser: HLW_ADMIN_USER
+      envPass: HLW_ADMIN_PASS
+    - roles: [user]
+      notes: Dashboard, Inventory, Registration, Purchase Order, Check In / Out, Gantry, My Account.
+      envUser: HLW_USER1_USER
+      envPass: HLW_USER1_PASS
+    - roles: [user]
+      notes: Second User-role account (same menu as USER1), e.g. for two-user flows.
+      envUser: HLW_USER2_USER
+      envPass: HLW_USER2_PASS
 
 suites:
   smoke: { tags: [smoke], description: Fast checks of the main journeys }
