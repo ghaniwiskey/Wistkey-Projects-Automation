@@ -28,8 +28,9 @@ Verify that an item with status OUT can be checked in on the web and becomes IN.
 
 ## Expected
 - A success message is shown and the item leaves the Check In list
-- Inventory > Item Information shows the item with Status IN
+- Inventory > Item Information shows the item with Status IN at the chosen storage location
+- If it was on the gantry whitelist (returned loan), it is no longer listed
 - The item appears in Check In / Out > Check Out under Checked-In Items
 
 ## Notes
-Clean-up: check the item out again with the same purpose it had (Check In Out Report shows it).
+Per the workflow, new and returned items are pre checked in and counted on the handheld (status NOT CHECKED IN) before check-in; the web Check In list also shows OUT items. Clean-up: check the item out again with the same purpose it had (Check In Out Report shows it).

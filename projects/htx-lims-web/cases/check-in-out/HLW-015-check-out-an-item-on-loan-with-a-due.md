@@ -34,6 +34,7 @@ Verify that a checked-in item can be checked out on loan with a due date and sho
 - Item Information shows the item with Status OUT
 - Report > Loan Out Report lists the item with the due date
 - Report > Check In Out Report shows a LOAN check-out by the user
+- Gantry > Gantry Whitelist lists the item, and Report > Stock Level Report shows it under On loan with the item type's Stock unchanged
 
 ## Notes
 Clean-up: check the item in again.

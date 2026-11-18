@@ -30,6 +30,7 @@ Verify that the For use and No return purposes check items out and are recorded 
 ## Expected
 - Both items have Status OUT
 - Check In Out Report shows FOR USE for the first and NO RETURN for the second
+- Gantry > Gantry Whitelist lists the No return item but not the For use item
 
 ## Notes
-No return probably takes the item out of stock for good (stock level drops): confirm before running.
+For use: not whitelisted, stock goes down. No return: whitelisted, stock goes down (workflow). Both take the item out of stock: confirm before running.

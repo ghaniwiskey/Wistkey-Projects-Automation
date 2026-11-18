@@ -2,6 +2,8 @@
 
 ## Item lifecycle (the critical flow)
 
+Source: the user's workflow document "HTX LIMS Workflow" (2026-11-18). Gantry details and the API: [context/gantry.md](context/gantry.md).
+
 Each item (one RFID tag per unit) moves through these states; the pages and cases for each step:
 
 | Step | Where | Item status after | Cases |
@@ -9,13 +11,20 @@ Each item (one RFID tag per unit) moves through these states; the pages and case
 | 1. Purchase order | Purchase Order > PO Creation, PO Management (Approve, Edit, Delete) | - | HLW-007..009 |
 | 2. Register | Registration > Item Register (category, type, description, Number of units = one item per unit; optional PO, lot, expiry, CoA PDF) | NOT PRE CHECK IN | HLW-010..012 |
 | 3. Print RFID tag | Registration > Asset Tag Printing (printer, label size; print new / reprint) -> Check In / Out > Printed | NOT PRE CHECK IN, tag printed | HLW-013 |
-| 4. Pre check-in | handheld app (htx-lims-mobile, Pre Check-in "Store · tag new items") -> Check In / Out > Tagged Not Checked In | NOT CHECKED IN | mobile |
-| 5. Check in | Check In / Out > Check In (web, per row) or the app's Check-in | IN | HLW-014 |
-| 6. Check out | Check In / Out > Check Out: tick items, Purpose Loan (Due Date required; may pass the exit gantry) / For use / No return, optional new Storage Location, Remarks | OUT | HLW-015..017 |
-| 7. Gantry | RFID gantries (Gantry Setup: IP, location, Exit Gantry flag). Authorized Log / Unauthorized Log / Gantry Log; Gantry Whitelist items pass | - | HLW-021, 022 |
-| 8. Alerts | Dashboard "Alerts requiring acknowledgement": Unauthorized removal, Expiring, Expired, Low stock (stock <= item type Min). Acknowledge; Report > Alert History | - | HLW-020 |
+| 4. Stick the tag on the item | physical: Paper (box tag) 73x20 for cartons/consumables, Metal 50x15 for assets, Anti-Liquid 46x40 for chemicals (By category picks these), Jewelry and 60x25 by hand | | HLW-038 |
+| 5. Pre check-in | handheld (PUT api/raid/mobile/singleregister); can complete empty fields (lot, expiry, CAS) -> Check In / Out > Tagged Not Checked In | NOT CHECKED IN | mobile |
+| 6. Count | handheld (PUT api/raid/mobile/countitem) at the receiving point -> Check In / Out > Count Item; from now on gantries record the item | NOT CHECKED IN | mobile |
+| 7. In through gantry 1a | gantry: logged NOT CHECKED IN, location Airlock 1, no alert | NOT CHECKED IN | HLW-032 |
+| 8. Check in | Check In / Out > Check In (web) or the app (mobile/singlecheckin, location code required); no PO needed. Counted in stock, expiry alerts apply | IN | HLW-014 |
+| 9. Moves between rooms | inner gantries 1b, 2a, 2b, 3a set the location, never the status | IN | HLW-031 |
+| 10. Check out | Check In / Out > Check Out (or PUT api/raid/mobile/checkout): Loan (due date required, not in the past; Loan record; whitelisted; stock unchanged), For use (not whitelisted; stock down), No return (whitelisted; stock down). FEFO for chemicals/consumables: expired refused, other order only warns. One failing item = nothing saved | OUT | HLW-015..017, 033, 040..044 |
+| 11. Exit gantry 1a / 3b | whitelisted (Loan, No return) pass with no alert; anything else (For use, IN without check-out) = Unauthorized removal alert with a sound + Unauthorized Log | OUT / IN | HLW-021, 022 |
+| 12. Loan comes back | pre check-in, count, gantry 1a, check in again (no new tag, no Return purpose); leaves the whitelist | IN | HLW-034 |
+| Alerts | Dashboard "Alerts requiring acknowledgement" (checked every minute): Unauthorized removal, Expiring (IN, within 30 days), Expired, Low / High stock (item type stock <= Min / >= Max). Acknowledge records who and when; Report > Alert History | - | HLW-020, 045, 046 |
 | 9. Stock take | Stock Take > Create Stock Take (search by location/type, move items to Selected, title, proposed dates) -> Stock Take List (Draft, In Progress, Completed, Aborted; Show, Edit); scanned on the handheld | - | HLW-018, 019 |
 | 10. Reports | Stock Level (Low flag), Received & Utilised, Transactions, Expiry (within N days), Check In Out, Loan Out, Stock Take Progress, Stock Take, Alert History, Audit Trail | - | HLW-019, 023..027 |
+
+Statuses: NOT PRE CHECK IN (registered, steps 2-4), NOT CHECKED IN (5-7), IN (8), OUT (10), DISPOSED (Stock Adjustment, out of stock and tracking; no Stock Adjustment page in the menu: Q-004). Stock per item type = IN + OUT on Loan. Item Number = category ID (3 digits) + running number (6), e.g. 003000002 (HLW-035); printing gives a 24-digit chip code, a reprint a new one (old tag dead, HLW-039); an item can be deleted only until its tag is printed (HLW-037). CAS number is required for chemicals (HLW-036).
 
 Master Data (Item Category: 4 built-in categories Asset, Chemical, Consumable, Fixed Asset with Min. check-out unit; Item Type with Min/Max stock; Storage Location) and System > User Management (roles Administrator, User; "Extra permissions") feed the lists above (HLW-028..030). Inventory > Chemical Usage orders chemicals first expiry, first use (HLW-024).
 

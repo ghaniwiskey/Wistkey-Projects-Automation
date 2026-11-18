@@ -29,6 +29,7 @@ Verify that a registered item can be sent to tag printing and then shows a tag p
 - A success message is shown
 - Item Register > Registered items not checked in yet shows a Tag printed time for the item
 - Check In / Out > Printed lists the item with Tag Printed On
+- The item has a 24-digit chip code (encoded RFID) and can no longer be deleted
 
 ## Notes
 Printing sends a job to a real RFID printer: run only when the printer may be used.

@@ -1,0 +1,207 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "gantry-api-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1033_staging_manual",
+  "startedAt": "2026-11-18T03:33:36.724Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-021",
+      "title": "An IN item carried out through an exit gantry raises an unauthorized removal alert",
+      "priority": "P0",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-021-removing-an-item-that-is-not-checked.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Unauthorized removal\n\nVerify that an item with status IN that is not whitelisted and passes an exit gantry (1a or 3b) is logged as unauthorized, moves to the gantry's room, keeps status IN and raises an Unauthorized removal alert on the Dashboard.",
+      "preconditions": [
+        "An item with status IN that is not on the gantry whitelist",
+        "The exit gantries in Gantry > Gantry Setup (1a EXIT in Airlock 1, 3b EXIT in Airlock 2)",
+        "Access to the HTX API Swagger page (/swagger) to send the gantry read, when no real gantry is available"
+      ],
+      "data": [
+        "Gantry: 3b EXIT (its IP from Gantry Setup)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account and note the Dashboard alert count, the item's number and its location (Inventory > Item Information)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the gantry read: carry the tag through gantry 3b, or in Swagger call POST /api/Gantry/unauthorizerfid with the gantry IP and the item's 24-digit chip code (rfids: rfidTag, readStrength)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait one minute and refresh the Dashboard",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry > Unauthorized Log and Gantry > Gantry Log",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Move the item back: send an authorized read at an inner gantry of its original room (e.g. 1b for Airlock 1)",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The Dashboard count goes up by 1 and the newest alert reads \"Unauthorized removal: <description> (Item Number <number>) passed exit gantry 3b EXIT.\" with the read time",
+          "status": null
+        },
+        {
+          "text": "Unauthorized Log lists the item with Gantry 3b EXIT, Status IN, Location Airlock 2 and the time",
+          "status": null
+        },
+        {
+          "text": "Item Information shows the item in Airlock 2 with status IN (a gantry never changes the status)",
+          "status": null
+        },
+        {
+          "text": "After step 5 the item is back in its original room",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "API unauthorizerfid at 3b EXIT for 001000006 (IN): Unauthorized Log 3b EXIT / Airlock 2 / IN, Dashboard alert 18/11/2026 11:28:56. Item moved back via 1b. Alert left unacknowledged."
+      ],
+      "evidence": [
+        "screenshots/HLW-021-m01-2026-11-18-gantry-alert.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:33:36.845Z"
+    },
+    {
+      "id": "HLW-022",
+      "title": "A whitelisted item passes the exit gantry without an alert",
+      "priority": "P0",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-022-whitelisted-and-loaned-items-pass-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Authorized exit\n\nVerify that an item checked out on Loan or No return (whitelisted) passes an exit gantry as Authorized, moves to the gantry's room and raises no alert.",
+      "preconditions": [
+        "An item with status OUT and purpose Loan or No return that is on the gantry whitelist (Gantry > Gantry Whitelist)",
+        "Access to the HTX API Swagger page (/swagger) when no real gantry is available"
+      ],
+      "data": [
+        "Gantry: 1a EXIT (its IP from Gantry Setup)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account and note the Dashboard alert count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the gantry read: carry the tag through gantry 1a, or in Swagger call POST /api/Gantry/authorizerfid with the gantry IP and the item's 24-digit chip code",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait one minute and refresh the Dashboard, then open Gantry > Authorized Log",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Authorized Log lists the item with Gantry 1a EXIT, Status OUT, Location Airlock 1 and the time",
+          "status": null
+        },
+        {
+          "text": "The Dashboard alert count is unchanged and there is no Unauthorized removal alert for the item",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "API authorizerfid at 1a EXIT for 001000003 (OUT, Loan, whitelisted): Authorized Log 1a EXIT / Airlock 1, no alert."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:33:37.085Z"
+    },
+    {
+      "id": "HLW-031",
+      "title": "An inner gantry updates the item's location without changing its status",
+      "priority": "P1",
+      "feature": "gantry",
+      "file": "projects/htx-lims-web/cases/gantry/HLW-031-an-inner-gantry-updates-the-item-s.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Location tracking\n\nVerify that an item passing an inner gantry (1b, 2a, 2b, 3a) moves to that gantry's room, keeps its status and raises no alert.",
+      "preconditions": [
+        "An item with status IN",
+        "Access to the HTX API Swagger page (/swagger) when no real gantry is available"
+      ],
+      "data": [
+        "Gantry: 2a (Chemistry)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account and note the item's location in Inventory > Item Information",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send a read at gantry 2a: carry the tag through it, or in Swagger call POST /api/Gantry/authorizerfid with gantry 2a's IP and the item's chip code",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry > Gantry Log and Dashboard > Latest location",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Move the item back with a read at an inner gantry of its original room",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Gantry Log lists the item with Gantry 2a, Location Chemistry, Log Type Authorized",
+          "status": null
+        },
+        {
+          "text": "Item Information and Latest location show the item in Chemistry with its status unchanged",
+          "status": null
+        },
+        {
+          "text": "No new alert on the Dashboard",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "API authorizerfid at 2a for 001000009 (IN): location Chemistry, status IN, no alert; moved back via 1b."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T03:33:37.213Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T03:33:37.335Z",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
