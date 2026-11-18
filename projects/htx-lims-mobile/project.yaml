@@ -1,0 +1,27 @@
+name: HTX LIMS Mobile
+slug: htx-lims-mobile
+testIdPrefix: HLM
+description: "HTX LIMS (Laboratory Information Management System), mobile. Set up as mobile web (Pixel 7 emulation) until it is known whether this is a native app (then switch to runner: mobilewright like mha-mobile). baseUrl is a placeholder (.invalid)."
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with HLM_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: https://htx-lims-mobile.invalid/
+    allowWrites: false
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
+# A test links to a test case when its title starts with the ID: test('HLM-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [mobile]           # chromium | firefox | webkit | mobile; first one is the "htx-lims-mobile" Playwright project
+  fullyParallel: true
+
+# Test accounts: usernames only. Passwords go in .env as HLM_<ROLE>_USER / HLM_<ROLE>_PASS.
+auth:
+  accounts: []
+
+suites:
+  smoke: { tags: [smoke], description: Fast checks of the main journeys }
+  regression: { tags: [regression, smoke], description: Full regression }

@@ -1,0 +1,27 @@
+name: HTX LIMS Web
+slug: htx-lims-web
+testIdPrefix: HLW
+description: "HTX LIMS (Laboratory Information Management System), web app. baseUrl is a placeholder (.invalid) until the real UAT URL is known."
+
+# Environments. Pick one with QA_ENV=<name> (default: defaultEnv). Override the URL with HLW_BASE_URL.
+# allowWrites: false skips tests tagged @writes on that env.
+defaultEnv: staging
+envs:
+  staging:
+    baseUrl: https://htx-lims-web.invalid/
+    allowWrites: false
+
+# Playwright settings for this project (POM suite in tests/, see .agents/skills/qa-write-tests Part B).
+# A test links to a test case when its title starts with the ID: test('HLW-001: ...').
+playwright:
+  testDir: tests/e2e
+  browsers: [chromium]        # chromium | firefox | webkit | mobile; first one is the "htx-lims-web" Playwright project
+  fullyParallel: true
+
+# Test accounts: usernames only. Passwords go in .env as HLW_<ROLE>_USER / HLW_<ROLE>_PASS.
+auth:
+  accounts: []
+
+suites:
+  smoke: { tags: [smoke], description: Fast checks of the main journeys }
+  regression: { tags: [regression, smoke], description: Full regression }
