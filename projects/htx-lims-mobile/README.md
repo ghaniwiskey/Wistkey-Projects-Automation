@@ -63,6 +63,8 @@ is left behind. Signing out only with an empty Upload queue.
   pre check-in. The review also does the Count step (web Count Item). A returned loan shows as "Loan".
 - Check-in: type the item number > Find item > Add to check-in > Simulate verify read; Location per item
   (default Airlock 1); Next > Simulate burst scan > Upload check-in.
+- Check-out: enter the item number > Find item > Select type (Loan / For Use / No Return), due date (Loan) and remarks > Add to list > QA: simulate verify scan > Review check-out > Confirm check-out. A refused check-out is shown as a connection failure (BUG-001): delete it from the Upload queue.
+- Offline: `adb shell svc wifi disable` + `svc data disable` (and `enable` afterwards); the queue keeps the records, Upload all sends them. "QA: make next upload fail" does not work for check-outs (BUG-005).
 - Stocktake: Select stocktake > pick > OK > "QA: simulate located scan" (locates one item) or "QA: simulate auto
   scan" > Upload > Upload anyway when items are missing.
 - Check-in on the handheld removes a returned loan from the gantry whitelist and is audited (the web Check In

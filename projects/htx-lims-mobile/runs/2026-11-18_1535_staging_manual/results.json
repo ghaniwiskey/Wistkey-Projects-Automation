@@ -1,0 +1,307 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-mobile",
+  "env": "staging",
+  "suite": "handheld-flows-2-2026-11-18",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1535_staging_manual",
+  "startedAt": "2026-11-18T08:35:27.124Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLM-006",
+      "title": "Check out an item on loan on the handheld",
+      "priority": "P0",
+      "feature": "check-out",
+      "file": "projects/htx-lims-mobile/cases/check-out/HLM-006-check-out-an-item-on-loan-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Handheld check-out\n\nVerify that an IN item can be checked out on loan on the handheld with a due date and remarks, and is then OUT on loan and whitelisted.",
+      "preconditions": [
+        "An item with status IN"
+      ],
+      "data": [
+        "Type: Loan",
+        "Due date: one week ahead",
+        "Remarks: QA loan <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld tap Check-out, enter the item number and tap Find item",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select type Loan, pick the due date, enter remarks and tap Add to list",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify the tag (scan, or QA: simulate verify scan), tap Review check-out, then Confirm check-out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the web open Report > Loan Out Report and Gantry > Gantry Whitelist",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Past days are disabled in the due date picker",
+          "status": null
+        },
+        {
+          "text": "\"Check-out uploaded - All 1 item(s) were checked out.\"",
+          "status": null
+        },
+        {
+          "text": "The web shows the item OUT, on loan, with the due date and remarks, and on the gantry whitelist",
+          "status": null
+        },
+        {
+          "text": "Audit Trail: \"Check-out Item <n> (Handheld) Loan\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "002000017 Loan due 25/11/2026 (past days disabled): \"Check-out uploaded - All 1 item(s) were checked out.\"; web OUT/LOAN, whitelisted, Loan Out Report \"On loan\"; audit Check-out Item 28 (Handheld). Add to list without due date/remarks: no message (BUG-006)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:35:27.242Z"
+    },
+    {
+      "id": "HLM-007",
+      "title": "The handheld refuses to check out an expired chemical and says why",
+      "priority": "P1",
+      "feature": "check-out",
+      "file": "projects/htx-lims-mobile/cases/check-out/HLM-007-the-handheld-refuses-to-check-out-an.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Expired check-out on the handheld\n\nVerify that checking out an expired chemical on the handheld is refused with the reason, and the item stays IN.",
+      "preconditions": [
+        "A chemical with status IN that is past its expiry date"
+      ],
+      "data": [
+        "Type: For Use"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld tap Check-out, find the expired chemical, choose For Use, enter remarks, Add to list",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify, Review check-out, Confirm check-out",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The app says the item is expired and cannot be checked out",
+          "status": null
+        },
+        {
+          "text": "The record is not kept in the Upload queue for retry",
+          "status": null
+        },
+        {
+          "text": "On the web the item is still IN",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "003000012 (expired) For Use: \"Check-out failed ... kept in the Upload queue for retry\"; queue \"Upload did not complete or the result is unknown\"; Retry \"retry when the connection is stable\". Server refused (400), item stays IN."
+      ],
+      "evidence": [
+        "screenshots/HLM-007-m01-hlm-expired-queue.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:35:27.354Z",
+      "failureType": "product-bug",
+      "bug": "BUG-001"
+    },
+    {
+      "id": "HLM-008",
+      "title": "Records made offline wait in the Upload queue and upload when the connection is back",
+      "priority": "P0",
+      "feature": "upload-queue",
+      "file": "projects/htx-lims-mobile/cases/upload-queue/HLM-008-records-made-offline-wait-in-the-upload.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Offline-first\n\nVerify that a pre check-in done without a connection is kept on the device and uploaded once, without duplicates, when the connection returns.",
+      "preconditions": [
+        "An item that can be pre checked-in (new, or a returned loan)",
+        "A way to turn the device's network off (airplane mode)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Turn the handheld's network off",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pre check-in the item and upload",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Upload queue",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Turn the network on and tap Upload all",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the web open Check In / Out > Tagged Not Checked In",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Offline the upload fails and the record is kept: \"kept in the Upload queue for retry\"",
+          "status": null
+        },
+        {
+          "text": "The Upload queue shows the record (item, saved time, attempt) and that there is no connection",
+          "status": null
+        },
+        {
+          "text": "After Upload all: \"Upload complete - 1 record(s) uploaded to the server and removed from this device.\"",
+          "status": null
+        },
+        {
+          "text": "The web lists the item once under Tagged Not Checked In",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Network off: pre check-in of 001000031 kept (\"kept in the Upload queue for retry\"); network on, Upload all: \"Upload complete - 1 record(s) uploaded\"; web Tagged Not Checked In once, audit register + count item. Queue said \"Connection available\" while offline (BUG-004). QA fail switch did not fail a check-out (BUG-005)."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:35:27.592Z"
+    },
+    {
+      "id": "HLM-009",
+      "title": "All Assets shows each item's status, category and room",
+      "priority": "P1",
+      "feature": "assets",
+      "file": "projects/htx-lims-mobile/cases/assets/HLM-009-all-assets-shows-each-item-s-status.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "All Assets\n\nVerify that All Assets on the handheld finds items by number and shows the same status, category and room as the web.",
+      "preconditions": [
+        "Items in different states (IN, OUT, DISPOSED) and categories (Asset, Chemical, Consumable)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld tap All Assets and Refresh list",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search each item by its number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare with Inventory > Item Information on the web",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each item shows its number, type, chip code, status and room",
+          "status": null
+        },
+        {
+          "text": "Status and category match the web (a DISPOSED item is not shown as Checked in; Asset items are not shown as Fixed asset)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "003000032 (DISPOSED) shown as \"Checked in · Chemistry\" after Refresh list; Asset items (001000029, 001000031) shown as \"Fixed asset\" (BUG-003)."
+      ],
+      "evidence": [
+        "screenshots/HLM-009-m01-hlm-allassets-disposed.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:35:27.710Z",
+      "failureType": "product-bug",
+      "bug": "BUG-002"
+    },
+    {
+      "id": "HLM-010",
+      "title": "A User-role account signs in on the handheld",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/htx-lims-mobile/cases/auth/HLM-010-a-user-role-account-signs-in-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "User role on the handheld\n\nVerify that an account with the User role can sign in on the handheld, downloads the device data and sees its name in the bottom bar.",
+      "preconditions": [
+        "An account with the User role",
+        "Upload queue empty (signing out deletes device data)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld check that the Upload queue is empty, then Logout > Log out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Sign in with the User account and tap OK on Data downloaded",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Data downloaded lists the Pre Check-in list, storage locations and stocktake lists",
+          "status": null
+        },
+        {
+          "text": "The Dashboard shows the user's name and username in the bottom bar and the task tiles",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1 signed in after logout (queue empty): Data downloaded (16 pre check-in, 6 locations, 3 stocktake lists); bottom bar User1 / USER1; all 7 tiles incl. Stocktake. Signed back in as ADMIN."
+      ],
+      "evidence": [
+        "screenshots/HLM-010-m01-hlm-user1-stocktake.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-18T08:35:27.937Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-18T08:35:28.166Z",
+  "summary": {
+    "total": 5,
+    "pass": 3,
+    "fail": 2,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
