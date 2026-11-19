@@ -1,0 +1,300 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-mobile",
+  "env": "staging",
+  "suite": "manual",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-19_1332_staging_manual",
+  "startedAt": "2026-11-19T06:32:02.992Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLM-002",
+      "title": "Sign in with the .env account downloads the device data and opens the Dashboard",
+      "priority": "P0",
+      "feature": "auth",
+      "file": "projects/htx-lims-mobile/cases/auth/HLM-002-sign-in-downloads-device-data.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The app accepts an HTX LIMS web account, downloads the device data and opens the Dashboard for that user.",
+      "preconditions": [
+        "Upload queue empty (logging out deletes every record on the device that is not uploaded)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "If signed in: check the Upload queue is empty, then Logout > Log out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On \"Welcome back\", enter the .env username and password, tap Sign in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap OK on the \"Data downloaded\" dialog",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Data downloaded\" lists Pre Check-in list (new + loan), Storage locations and Stocktake lists & items with counts",
+          "status": null
+        },
+        {
+          "text": "Dashboard opens; the bottom bar shows the user's name and username",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "After the 19/11 deploy: ADMIN, QADEL539047 and ADMIN again signed in; each sign-in showed \"Data downloaded\" (Pre Check-in list 18-19, Storage locations 6, Stocktake 3 lists / 7 items) and the Dashboard."
+      ],
+      "evidence": [
+        "screenshots/HLM-002-m01-hlm-002.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:32:03.122Z"
+    },
+    {
+      "id": "HLM-003",
+      "title": "Pre check-in a printed item by tag ID on the handheld",
+      "priority": "P0",
+      "feature": "pre-check-in",
+      "file": "projects/htx-lims-mobile/cases/pre-check-in/HLM-003-pre-check-in-a-printed-item-by-tag-id.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Pre check-in\n\nVerify that a registered item with a printed tag can be pre checked-in on the handheld and then shows as NOT CHECKED IN on the web.",
+      "preconditions": [
+        "A registered item whose tag is printed and that is not pre checked-in yet"
+      ],
+      "data": [
+        "The item's 24-digit chip code"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld Dashboard tap Update all data, then Pre Check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the chip code under Or enter EPC / Tag ID and tap Add tag",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify the tag (scan it, or Simulate verify read on a device without a reader), tap Next · Review items",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Count the items (Burst scan or Simulate burst scan) and tap Upload pre check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the web open Check In / Out > Tagged Not Checked In and Count Item",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The card shows the item number, type, category and New item",
+          "status": null
+        },
+        {
+          "text": "Upload shows \"Pre check-in uploaded - All 1 tag(s) were pre checked-in.\"",
+          "status": null
+        },
+        {
+          "text": "The web lists the item under Tagged Not Checked In and Count Item with status NOT CHECKED IN",
+          "status": null
+        },
+        {
+          "text": "Audit Trail: \"Handheld register ... PUT /api/Raid/mobile/singleregister\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Pre check-in by typed chip code: 002000025 (10:39) and 002000026 (14:12): \"New item\" card, Simulate verify read, review, Simulate burst scan -> Counted, Upload -> \"All 1 tag(s) were pre checked-in.\"; web Tagged Not Checked In lists them."
+      ],
+      "evidence": [
+        "screenshots/HLM-003-m01-hlm-003.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:32:03.365Z"
+    },
+    {
+      "id": "HLM-004",
+      "title": "Check in pre checked-in items on the handheld with a location per item",
+      "priority": "P0",
+      "feature": "check-in",
+      "file": "projects/htx-lims-mobile/cases/check-in/HLM-004-check-in-pre-checked-in-items-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Handheld check-in\n\nVerify that pre checked-in items are checked in on the handheld at the chosen storage location and become IN.",
+      "preconditions": [
+        "Items with status NOT CHECKED IN"
+      ],
+      "data": [
+        "Locations: Airlock 1 (default) and Chemistry for one item"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld tap Check-in and Refresh items",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "For each item enter its number, tap Find item, then Add to check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify each item (scan or Simulate verify read) and change one item's Location to Chemistry",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap Next · Review items, count (Burst scan) and Upload check-in",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "\"Checked in - <n> item(s) checked in.\"",
+          "status": null
+        },
+        {
+          "text": "On the web each item is IN at its chosen location (Item Information)",
+          "status": null
+        },
+        {
+          "text": "Audit Trail: \"Handheld check-in ... Location: <code>\" per item",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Check-in by item number with location Airlock 1: 002000025 and 002000026 -> \"1 item(s) checked in.\"; web Item Information IN at Airlock 1, Audit Trail Handheld check-in with Location 00001."
+      ],
+      "evidence": [
+        "screenshots/HLM-004-m01-hlm-004.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:32:03.599Z"
+    },
+    {
+      "id": "HLM-010",
+      "title": "A User-role account signs in on the handheld",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/htx-lims-mobile/cases/auth/HLM-010-a-user-role-account-signs-in-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "User role on the handheld\n\nVerify that an account with the User role can sign in on the handheld, downloads the device data and sees its name in the bottom bar.",
+      "preconditions": [
+        "An account with the User role",
+        "Upload queue empty (signing out deletes device data)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld check that the Upload queue is empty, then Logout > Log out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Sign in with the User account and tap OK on Data downloaded",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Data downloaded lists the Pre Check-in list, storage locations and stocktake lists",
+          "status": null
+        },
+        {
+          "text": "The Dashboard shows the user's name and username in the bottom bar and the task tiles",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QADEL539047 (Role User, created 19/11) signed in on the handheld and downloaded the data; name and username shown on the Dashboard. (After the user was deleted, the open session kept syncing: htx-lims-web BUG-014.)"
+      ],
+      "evidence": [
+        "screenshots/HLM-010-m01-hlm-010.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:32:03.834Z"
+    },
+    {
+      "id": "HLM-020",
+      "title": "The handheld shows the item type name for an item of a newly added type",
+      "priority": "P3",
+      "feature": "check-out",
+      "file": "projects/htx-lims-mobile/cases/check-out/HLM-020-the-handheld-shows-the-item-type-name.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Items of an item type created after the handheld last downloaded its lists still show the type name, not its id.",
+      "preconditions": [
+        "An item type added in Master Data > Item Type today, with one item IN (QA data)",
+        "The handheld signed in"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld tap Update all data",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Check-out, enter the item number and tap Find item",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look at the item card, then Add to list",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The card shows \"Type: <type name> · Consumable\" (as in Pre Check-in and Check-in), not a number",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Check-out of 002000026 showed \"102 · Consumable · Checked in\" instead of the type name."
+      ],
+      "evidence": [
+        "screenshots/HLM-020-m01-hlm-020.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:32:04.071Z",
+      "failureType": "product-bug",
+      "bug": "BUG-007"
+    }
+  ],
+  "notes": "Not a mobile test pass: handheld steps done while testing htx-lims-web on 19/11 (after the deploy), emulator Medium_Phone, recorded for traceability. HLM-013 only partly (No Return, not For Use): not recorded.",
+  "finishedAt": "2026-11-19T06:32:04.325Z",
+  "summary": {
+    "total": 5,
+    "pass": 4,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
