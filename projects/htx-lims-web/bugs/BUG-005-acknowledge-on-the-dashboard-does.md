@@ -36,3 +36,4 @@ Nothing happens; count stays 12; GET /api/inventory/alerts?includeAcknowledged=t
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-web-testing.md in the Test Manager app.
+- 2026-11-19: retested after the deploy with QA alert 27 (High stock, QA high 373230): Acknowledge still does nothing (count 23, acknowledgedOn null).

@@ -7,7 +7,7 @@ tags: [smoke]
 envs: [all]
 automated: false
 created: 2026-11-18
-updated: 2026-11-18
+updated: 2026-11-19
 ---
 
 ## Goal
@@ -29,3 +29,5 @@ Verify that an account with the User role sees only the operations and gantry lo
 
 ## Notes
 Checked by hand 2026-11-18 with USER1 and USER2.
+
+2026-11-19: after the deploy the User role sees Report (10 reports, not Audit Trail) and Check In / Out has Registered Not Printed / Printed Not Pre-Checked In instead of Printed / Count Item: waiting on Q-011 before changing the expected menu.

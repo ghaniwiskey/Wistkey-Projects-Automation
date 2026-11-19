@@ -1,0 +1,1137 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "manual",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-19_1327_staging_manual",
+  "startedAt": "2026-11-19T06:27:26.356Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-005",
+      "title": "User role sees only the operations menu",
+      "priority": "P0",
+      "feature": "access",
+      "file": "projects/htx-lims-web/cases/access/HLW-005-user-role-sees-only-the-operations-menu.md",
+      "status": "blocked",
+      "source": "manual",
+      "goal": "Menu for the User role\n\nVerify that an account with the User role sees only the operations and gantry log pages in the menu.",
+      "preconditions": [
+        "An account with the User role"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open each menu group",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The menu shows Dashboard, Inventory (Chemical Usage, Item Information), Registration (Item Register, Asset Tag Printing), Purchase Order (PO Creation, PO Management), Check In / Out (Printed, Tagged Not Checked In, Count Item, Check In, Check Out), Gantry (Gantry Log only) and My Account",
+          "status": null
+        },
+        {
+          "text": "Stock Take, Report, Master Data and System are not in the menu",
+          "status": null
+        },
+        {
+          "text": "The user button shows Role: User",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "After the 19/11 deploy the User menu has Report (10 reports, all but Audit Trail; /loanoutreport opens) and Check In / Out shows Registered Not Printed / Printed Not Pre-Checked In instead of Printed / Count Item. Stock Take, Master Data, System still hidden. Waiting on Q-011."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:26.515Z"
+    },
+    {
+      "id": "HLW-007",
+      "title": "Create a purchase order",
+      "priority": "P0",
+      "feature": "purchase-order",
+      "file": "projects/htx-lims-web/cases/purchase-order/HLW-007-create-a-purchase-order.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "PO Creation\n\nVerify that a user can create a purchase order and find it in PO Management.",
+      "preconditions": [
+        "At least one PO location and item type exist in the PO Creation lists"
+      ],
+      "data": [
+        "PO Number and PO Name: QA-PO-<unique>",
+        "Supplier: QA Supplier",
+        "PO Date: today, Delivery Date: today + 7 days"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Creation",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Fill PO Number, PO Name, Address, Supplier, Department, Team In Charge, Contact Person, Contact Number",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick a PO Location and an Item Type, set PO Date and Delivery Date",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Management and search for the PO Number",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown after Submit",
+          "status": null
+        },
+        {
+          "text": "PO Management lists the PO with its PO Number, PO Name and status",
+          "status": null
+        },
+        {
+          "text": "The Manager column shows the user who created it",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "PO Creation after the deploy: 6 Submits with all required fields (ADMIN x4, USER1 x2), only QAPODEL812171 saved, and it appeared in PO Management only after a new login; no success or error message ever. No Audit Trail entry."
+      ],
+      "evidence": [
+        "screenshots/HLW-007-m01-hlw-052-po-create.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:26.659Z",
+      "failureType": "product-bug",
+      "bug": "BUG-011"
+    },
+    {
+      "id": "HLW-020",
+      "title": "Acknowledge an alert on the Dashboard",
+      "priority": "P0",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-020-acknowledge-an-alert-on-the-dashboard.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Alert acknowledgement\n\nVerify that acknowledging an alert removes it from the Dashboard and Alert History shows it as acknowledged.",
+      "preconditions": [
+        "At least one alert requiring acknowledgement"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the Dashboard note the count of alerts requiring acknowledgement and the first alert's text",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Acknowledge on that alert",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The alert disappears from the list and the count drops by 1",
+          "status": null
+        },
+        {
+          "text": "Report > Alert History shows the alert as acknowledged with the user and time",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Retest after the deploy with QA alert 27 (High stock, QA high 373230): Acknowledge does nothing, count stays 23, acknowledgedOn null."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:26.952Z",
+      "failureType": "product-bug",
+      "bug": "BUG-005"
+    },
+    {
+      "id": "HLW-050",
+      "title": "Edit a registered item's details",
+      "priority": "P1",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-050-edit-a-registered-item-s-details.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Edit on Registered items not checked in yet saves the changed details, before and after the tag is printed, without changing the item number or chip code.",
+      "preconditions": [
+        "A registered item without a printed tag (register one with QA data)",
+        "A registered item with a printed tag"
+      ],
+      "data": [
+        "New item description: QA edited <unique>",
+        "New serial number: QA-SN-<unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register, click Edit on the unprinted item, change the description and serial number and save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Edit on the printed item, change its description and save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Inventory > Item Information for both items",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Both items show the new description (and serial) in the Item Register list and in Edit (Item Information lists items only once IN, BUG-017)",
+          "status": null
+        },
+        {
+          "text": "The item numbers are unchanged and the printed item keeps its chip code and Tag printed time",
+          "status": null
+        },
+        {
+          "text": "Audit Trail has an entry for each edit with the user and time",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "001000038 (Asset/Box, QA edit 446283): Edit before printing -> description QA edited 446283, serial QA-SN2-446283, team \"QA team\", \"Item saved.\"; printed it (chip 010020000000000001000038) and edited again -> saved, same item number and chip code; Audit Trail \"Item register edited\" twice. Item Information does not list the item before check-in (BUG-017)."
+      ],
+      "evidence": [
+        "screenshots/HLW-050-m01-hlw-050-edited.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:27.093Z"
+    },
+    {
+      "id": "HLW-051",
+      "title": "Edit a purchase order",
+      "priority": "P1",
+      "feature": "purchase-order",
+      "file": "projects/htx-lims-web/cases/purchase-order/HLW-051-edit-a-purchase-order.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Edit PO in PO Management saves changed PO details and keeps the PO number.",
+      "preconditions": [
+        "A QA purchase order (create one with HLW-007)"
+      ],
+      "data": [
+        "New PO Name: QA-PO-edit-<unique>",
+        "New Delivery Date: today + 14 days"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Management, search for the QA PO and click Edit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Change PO Name, Supplier and Delivery Date, fill Manager and Officer if empty, and click Submit",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search for the PO again and open Edit",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A success message is shown",
+          "status": null
+        },
+        {
+          "text": "PO Management lists the PO with the new PO Name, same PO Number and status",
+          "status": null
+        },
+        {
+          "text": "Edit shows the saved Supplier and Delivery Date",
+          "status": null
+        },
+        {
+          "text": "Audit Trail has an entry for the change",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Edit PO QAPO521908 (and PO001): changed PO Name / Supplier, Submit does nothing; Manager and Officer are required but both lists show \"No Result\"; only a hidden tooltip \"SelectedItemManager is required.\". No PO can be edited."
+      ],
+      "evidence": [
+        "screenshots/HLW-051-m01-hlw-051-submit-no-manager.png",
+        "screenshots/HLW-051-m02-hlw-051-officer-list.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:27.377Z",
+      "failureType": "product-bug",
+      "bug": "BUG-012"
+    },
+    {
+      "id": "HLW-052",
+      "title": "Delete a purchase order",
+      "priority": "P1",
+      "feature": "purchase-order",
+      "file": "projects/htx-lims-web/cases/purchase-order/HLW-052-delete-a-purchase-order.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Delete in PO Management asks for confirmation and removes the PO.",
+      "preconditions": [
+        "A QA purchase order made for this test (create one with HLW-007)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with the administrator account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Purchase Order > PO Management, search for the QA PO and click Delete",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Cancel the confirmation, then click Delete again and confirm",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Search for the PO Number",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Delete asks for confirmation; Cancel keeps the PO",
+          "status": null
+        },
+        {
+          "text": "After confirming, the PO is no longer listed",
+          "status": null
+        },
+        {
+          "text": "Audit Trail has an entry for the deletion",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Delete on QAPODEL812171: confirmation \"Are you sure you want to perform this operation?\", Cancel keeps the PO, Ok removes it (gone after reload). No Audit Trail entry for the deletion (BUG-015). A fresh QA PO could not be created first (BUG-011), so the one saved attempt was used."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:27.799Z",
+      "failureType": "product-bug",
+      "bug": "BUG-015"
+    },
+    {
+      "id": "HLW-053",
+      "title": "A deleted user can no longer log in",
+      "priority": "P1",
+      "feature": "users",
+      "file": "projects/htx-lims-web/cases/users/HLW-053-a-deleted-user-can-no-longer-log-in.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Deleting a user in User Management removes their access, including a session that is already open.",
+      "preconditions": [
+        "A QA user with the User role made for this test (HLW-030)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA user in one browser and keep the session open",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In another browser log in as administrator, open System > User Management and Delete the QA user (confirm)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "In the QA user's browser open Check Out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log out and try to log in again as the QA user",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The user is no longer listed in User Management",
+          "status": null
+        },
+        {
+          "text": "The open session is refused within a minute (login page or not authorized)",
+          "status": null
+        },
+        {
+          "text": "Logging in again is refused",
+          "status": null
+        },
+        {
+          "text": "Audit Trail records the deletion",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QADEL539047 (User) created, handheld signed in as it; ADMIN deleted the user (Cancel keeps it, Ok deletes). 1 min later the handheld \"Update all data\" still succeeded as the deleted user (BUG-014). New sign-in refused on handheld (\"Username or password is incorrect\") and web (\"Invalid login attempt.\"). No Audit Trail entry for add/delete (BUG-015)."
+      ],
+      "evidence": [
+        "screenshots/HLW-053-m01-hlw-053-deleted-user-still-syncs.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:27.945Z",
+      "failureType": "product-bug",
+      "bug": "BUG-014"
+    },
+    {
+      "id": "HLW-054",
+      "title": "Changing a user's role takes effect at the next login",
+      "priority": "P1",
+      "feature": "users",
+      "file": "projects/htx-lims-web/cases/users/HLW-054-changing-a-user-s-role-takes-effect-at.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Raising a User to Administrator (and back) in Edit User changes the menu and access as the dialog says (\"Takes effect within a minute; the user may need to login again\").",
+      "preconditions": [
+        "A QA user with the User role (HLW-030)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as administrator, open System > User Management, Edit the QA user, set Role Administrator and Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in as the QA user and open Report > Audit Trail by address (/audittrail)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "As administrator set the QA user back to Role User and Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Log in again as the QA user and open /audittrail",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "User Management shows the new role after each save",
+          "status": null
+        },
+        {
+          "text": "As Administrator the QA user sees the full menu and can open Audit Trail",
+          "status": null
+        },
+        {
+          "text": "Back as User the menu has no Report, Stock Take, Master Data or System and /audittrail shows \"You're Not Authorized!\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QAUSER107393 set to Administrator: full menu, /audittrail opens. Set back to User (first save did not stick when the option was picked by text; picked from the list it saved; the Refresh button showed the old role until a page reload): menu without Stock Take / Master Data / System, /audittrail and /stocktakelist Not Authorized. No Audit Trail entry for the role changes (BUG-015)."
+      ],
+      "evidence": [
+        "screenshots/HLW-054-m01-hlw-054-admin.png",
+        "screenshots/HLW-054-m02-hlw-054-user-blocked.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:28.244Z"
+    },
+    {
+      "id": "HLW-055",
+      "title": "The Stock adjustment extra permission lets a User adjust stock take results",
+      "priority": "P1",
+      "feature": "users",
+      "file": "projects/htx-lims-web/cases/users/HLW-055-the-stock-adjustment-extra-permission.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A User with the extra permission Stock adjustment can adjust not-located items of a completed stock take; a User without it cannot.",
+      "preconditions": [
+        "A QA user with the User role (HLW-030)",
+        "A completed stock take with a not-located QA item (HLW-047)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as the QA user and try to open the completed stock take's Stock Take Detail (Stock Take List by address /stocktakelist)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "As administrator, Edit the QA user, tick Extra permissions > Stock adjustment and Save",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "After a minute, log in again as the QA user and open the same Stock Take Detail",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Adjust the not-located QA item to NOT FOUND with a reason",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Without the permission the user cannot reach or use the stock adjustment",
+          "status": null
+        },
+        {
+          "text": "With the permission the adjustment is offered and the item becomes NOT FOUND",
+          "status": null
+        },
+        {
+          "text": "User Management shows Stock adjustment under Extra permissions for the user",
+          "status": null
+        },
+        {
+          "text": "Audit Trail records the adjustment under the QA user",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Without the permission QAUSER107393 opens /stocktakedetail/ST00000015 but sees no adjustment section. Granted Extra permissions > Stock adjustment (saves when the label is clicked). With it the user adjusted 002000017 OUT -> IN (\"1 tag(s) adjusted.\"), Audit Trail \"Stock adjustment ... QAUSER107393 ... OUT -> IN\". Found: the item stays on the gantry whitelist with purpose LOAN (BUG-016)."
+      ],
+      "evidence": [
+        "screenshots/HLW-055-m01-hlw-055-no-permission.png",
+        "screenshots/HLW-055-m02-hlw-055-adjusted.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:28.651Z"
+    },
+    {
+      "id": "HLW-056",
+      "title": "A loan past its due date shows as Overdue in the Loan Out Report",
+      "priority": "P1",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-056-a-loan-past-its-due-date-shows-as.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "A loan that is still out after its due date is reported as Overdue.",
+      "preconditions": [
+        "An item with status IN"
+      ],
+      "data": [
+        "Purpose: Loan, Due Date: tomorrow, Remarks: QA overdue <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account and check the item out on Loan due tomorrow",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Two days later open Report > Loan Out Report and set Loan status Overdue",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look at the Dashboard",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The loan is listed under Overdue with its due date and no Returned On",
+          "status": null
+        },
+        {
+          "text": "It is also listed under On loan (incl. overdue)",
+          "status": null
+        },
+        {
+          "text": "The Dashboard shows an \"Overdue loan\" alert: \"Overdue loan: <description> (Item Number <number>) was due back on <date> (<n> days overdue).\"",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Existing overdue loans used (no 2-day wait): Loan Out Report > Overdue lists 001000020, 001000019, 001000003, 002000003 with due dates and no Returned On; all also under On loan (incl. overdue). Dashboard shows \"Overdue loan: ... was due back on ... (n days overdue).\" alerts."
+      ],
+      "evidence": [
+        "screenshots/HLW-056-m01-hlw-056-overdue.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:29.045Z"
+    },
+    {
+      "id": "HLW-057",
+      "title": "Stock at or above maximum raises a High stock alert",
+      "priority": "P2",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-057-stock-at-or-above-maximum-raises-a-high.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An item type whose stock reaches its Max. stock raises a High stock alert on the Dashboard.",
+      "preconditions": [
+        "A QA item type with Max. stock equal to its current stock + 1 (Master Data > Item Type), Min empty (Q-008)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as administrator and note the Dashboard alert count",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Bring one more item of that type to IN (receive one, or check a loaned one back in)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait one minute and refresh the Dashboard",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Stock Level Report for the type",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "A High stock alert names the item type, its stock and the maximum",
+          "status": null
+        },
+        {
+          "text": "Stock Level Report shows the type at or above Max",
+          "status": null
+        },
+        {
+          "text": "Report > Alert History lists the alert",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QA type \"QA high 373230\" (Consumable, Min empty, Max 1); item 002000026 registered, printed, pre checked in and checked in on the handheld -> within a minute Dashboard \"High stock: Stock for QA high 373230 is 1 item(s), at or above maximum 1.\" (alert 27); Stock Level Report Level High."
+      ],
+      "evidence": [
+        "screenshots/HLW-057-m01-hlw-057-stock-level.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:29.318Z"
+    },
+    {
+      "id": "HLW-058",
+      "title": "Register a chemical with Certificate of Analysis, SDS file and photo",
+      "priority": "P2",
+      "feature": "registration",
+      "file": "projects/htx-lims-web/cases/registration/HLW-058-register-a-chemical-with-certificate-of.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The files attached at registration are saved with the item and can be opened later.",
+      "preconditions": [],
+      "data": [
+        "Category: Chemical, CAS number 64-17-5, lot QA-LOT-<unique>, production / delivery / expiry dates",
+        "CoA and SDS: small QA PDF files; Photo: a PNG under 2048 KB",
+        "SDS link, SDS issue date, License required with a license agency"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Registration > Item Register, pick Chemical and fill the required fields and the SDS and license fields",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Attach the CoA PDF, the SDS PDF and the photo and click Register",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open the item in Inventory > Item Information > Details",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The item is registered",
+          "status": null
+        },
+        {
+          "text": "Details shows the photo and lets you open the CoA and SDS PDFs with the content uploaded",
+          "status": null
+        },
+        {
+          "text": "SDS link, SDS issue date and license details are shown as entered",
+          "status": null
+        },
+        {
+          "text": "A photo over 2048 KB or a non-PDF CoA is refused with a message",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "003000033 (Chemical/Toluene, CAS 108-88-3) with CoA PDF, SDS PDF, PNG photo, SDS link, SDS issue date 03/11/2026, License required SCDF: registered; Edit shows View uploaded CoA / photo / SDS; the files download (application/pdf, image/png) with the uploaded content. A 2.2 MB photo is refused (\"The file size exceeds the maximum allowed size of 2048 KB.\") and a .txt CoA (\"CoA file must be a PDF.\")."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:29.597Z"
+    },
+    {
+      "id": "HLW-059",
+      "title": "Stock Received & Utilised Report counts received and used items",
+      "priority": "P2",
+      "feature": "reports",
+      "file": "projects/htx-lims-web/cases/reports/HLW-059-stock-received-utilised-report-counts.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Items received into stock and items checked out For use / No return are counted for their item type and period.",
+      "preconditions": [
+        "An item type with items received and used in the chosen period (e.g. after HLW-016 and HLW-049)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as administrator and open Report > Stock Received & Utilised Report",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Pick the period covering today and search",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Compare the item type's figures with the Check In Out Report for the same period",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Received counts the items by delivery date (registration date when there is no delivery date) in the period, as the report text says",
+          "status": null
+        },
+        {
+          "text": "Utilised (checked out) counts every check-out in the period, Loans included (handheld, web and exit gantry)",
+          "status": null
+        },
+        {
+          "text": "In lab now matches the items of that description that are IN",
+          "status": null
+        },
+        {
+          "text": "Export downloads the columns shown",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Expectations corrected to the report text (Received by delivery/registration date, Utilised = all check-outs incl. loans). QA receive 789896: 1 / 0 / 1; QA print asset 42609: 1 / 2 (two loans) / 1; QA hlm 997823: 1 / 2 / 0."
+      ],
+      "evidence": [
+        "screenshots/HLW-059-m01-hlw-059-received.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:29.732Z"
+    },
+    {
+      "id": "HLW-060",
+      "title": "Stock Transaction Report lists an item's check-out and check-in",
+      "priority": "P2",
+      "feature": "reports",
+      "file": "projects/htx-lims-web/cases/reports/HLW-060-stock-transaction-report-lists-an-item.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Each stock movement of an item appears in the Stock Transaction Report with type, user and time.",
+      "preconditions": [
+        "An item with status IN"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as administrator, check the item out on Loan and check it in again on the handheld",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Report > Stock Transaction Report and search for the item number",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The report lists the check-out and the check-in in time order with the purpose, user and time",
+          "status": null
+        },
+        {
+          "text": "The item type and location are shown for each row",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "QA print asset 42609 (001000031): loans and handheld check-ins listed in time order with event and user. Location empty on check-in/out rows; handheld pre check-in shown as \"Registered to PO\" (BUG-019)."
+      ],
+      "evidence": [
+        "screenshots/HLW-060-m01-hlw-060-transactions.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:30.000Z",
+      "failureType": "product-bug",
+      "bug": "BUG-019"
+    },
+    {
+      "id": "HLW-061",
+      "title": "Aborting a stock take leaves item statuses unchanged and frees its items",
+      "priority": "P2",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-web/cases/stocktake/HLW-061-aborting-a-stock-take-leaves-item.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An aborted stock take changes no item status and its items can be put in a new stock take for the same period.",
+      "preconditions": [
+        "A QA stock take in Draft or In Progress with IN items (HLW-018)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as administrator, open Stock Take List, Show the QA stock take and click Abort (confirm)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Item Information for its items",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Create a new stock take with the same items and an overlapping period",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The stock take shows status Aborted",
+          "status": null
+        },
+        {
+          "text": "Its items keep their status (no NOT FOUND)",
+          "status": null
+        },
+        {
+          "text": "The new stock take is accepted (no \"Can't submit item that already exists on the same period\")",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ST00000018 (002000025, 15-16/12/2026) aborted (by USER1, see HLW-065): status Aborted, 002000025 stays IN; ST00000019 with the same item and period accepted, then aborted as ADMIN."
+      ],
+      "evidence": [
+        "screenshots/HLW-061-m01-bug-user-aborts-stocktake.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:30.263Z"
+    },
+    {
+      "id": "HLW-062",
+      "title": "Two users checking out the same item at the same time: only one succeeds",
+      "priority": "P2",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-062-two-users-checking-out-the-same-item-at.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Concurrent check-outs of one item do not create two loans or count the item twice.",
+      "preconditions": [
+        "Two User accounts",
+        "An item with status IN"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as USER1 and USER2 in two browsers and open Check Out in both",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Both tick the same item; USER1 checks it out on Loan",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Without refreshing, USER2 checks it out For use",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "USER2 cannot check the item out: the Check Out list drops it (the page refreshes on its own) or the check-out is refused with a message",
+          "status": null
+        },
+        {
+          "text": "Check In Out Report has one check-out for the item and Loan Out Report one loan",
+          "status": null
+        },
+        {
+          "text": "Stock Level Report counts the item once",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Web (ADMIN) ticked 002000026 For use, not submitted; handheld checked it out No Return; the web Check Out list refreshed on its own, dropped the item and the selection (button disabled), so the stale check-out could not be sent. One check-out recorded. Check In Out Report check-in row shows NO RETURN (BUG-020). Handheld and web as the same account (no second web session available)."
+      ],
+      "evidence": [
+        "screenshots/HLW-062-m01-hlw-062-web-refreshed.png",
+        "screenshots/HLW-062-m02-hlw-062-checkinout.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:30.535Z"
+    },
+    {
+      "id": "HLW-064",
+      "title": "Gantry menu links open the matching pages",
+      "priority": "P2",
+      "feature": "gantry",
+      "file": "projects/htx-lims-web/cases/gantry/HLW-064-gantry-menu-links-open-the-matching.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Each Gantry menu entry opens the page it names.",
+      "preconditions": [
+        "An administrator account"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web as administrator",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry and click Gantry Log, Authorized Log, Unauthorized Log and Gantry Whitelist in turn",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open System > Gantry Setup",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each link opens the page with the same heading (Gantry Log, Authorized Log, Unauthorized Log, Gantry Whitelist)",
+          "status": null
+        },
+        {
+          "text": "Gantry Whitelist lists the whitelisted chip codes, not the gantry setup",
+          "status": null
+        },
+        {
+          "text": "System > Gantry Setup opens Gantry Setup",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Gantry > Gantry Whitelist opens /gantrysetup (Gantry Setup); /gantrywhitelist works by address."
+      ],
+      "evidence": [
+        "screenshots/HLW-064-m01-bug-gantry-whitelist-link.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:30.943Z",
+      "failureType": "product-bug",
+      "bug": "BUG-018"
+    },
+    {
+      "id": "HLW-065",
+      "title": "The User role cannot commence, complete or abort a stock take by address",
+      "priority": "P1",
+      "feature": "access",
+      "file": "projects/htx-lims-web/cases/access/HLW-065-the-user-role-cannot-commence-complete.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Stock takes are administrator-only: a User who opens /stocktakedetail/<number> by address cannot change its state.",
+      "preconditions": [
+        "A QA stock take in Draft for a future period (HLW-018)",
+        "A User account without extra permissions"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web with a User account",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open /stocktakedetail/<QA stock take number> by address",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Click Abort and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The page shows \"You're Not Authorized!\" or Commence / Complete / Abort are not offered",
+          "status": null
+        },
+        {
+          "text": "The stock take keeps its status (Stock Take List as administrator)",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "USER1 (User, no extra permissions) opened /stocktakedetail/ST00000018: Commence and Abort enabled; Abort > confirm set it to Aborted."
+      ],
+      "evidence": [
+        "screenshots/HLW-065-m01-bug-user-aborts-stocktake.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:31.211Z",
+      "failureType": "product-bug",
+      "bug": "BUG-013"
+    },
+    {
+      "id": "HLW-066",
+      "title": "A stock adjustment that sets a loaned item IN takes it off the gantry whitelist",
+      "priority": "P1",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-web/cases/stocktake/HLW-066-a-stock-adjustment-that-sets-a-loaned.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "An item set back to IN through the stock-take adjustment is no longer whitelisted and its loan is closed, like a normal check-in.",
+      "preconditions": [
+        "A completed stock take where a QA item checked out on Loan was located (proposed IN)"
+      ],
+      "data": [
+        "Reason: QA adjust <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in as administrator, open the stock take's Stock Take Detail",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tick the item under Stock-take adjustment, keep New status IN, enter the reason and click Adjust",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry > Gantry Whitelist and Report > Loan Out Report",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The item is IN",
+          "status": null
+        },
+        {
+          "text": "It is no longer on the gantry whitelist",
+          "status": null
+        },
+        {
+          "text": "The loan shows Returned with a Returned On date",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "002000017 adjusted OUT -> IN in ST00000015: Item status IN but exhibitStatus LOAN and GantryWhitelist/status true; Loan Out Report Returned with no Returned On."
+      ],
+      "evidence": [
+        "screenshots/HLW-066-m01-hlw-055-adjusted.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T06:27:31.481Z",
+      "failureType": "product-bug",
+      "bug": "BUG-016"
+    }
+  ],
+  "notes": "Never-run web cases HLW-050..062 plus HLW-064..066 (found today), HLW-007 / HLW-020 retests and HLW-005 after the 19/11 deploy. Web as ADMIN / USER1 / QAUSER107393 / QADEL539047, handheld on emulator Medium_Phone.",
+  "finishedAt": "2026-11-19T06:27:31.748Z",
+  "summary": {
+    "total": 19,
+    "pass": 9,
+    "fail": 9,
+    "flaky": 0,
+    "blocked": 1,
+    "skipped": 0
+  }
+}

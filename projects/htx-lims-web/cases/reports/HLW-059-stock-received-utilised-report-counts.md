@@ -22,9 +22,10 @@ Items received into stock and items checked out For use / No return are counted 
 3. Compare the item type's figures with the Check In Out Report for the same period
 
 ## Expected
-- Received matches the items of the type checked in for the first time in the period
-- Utilised matches the For use and No return check-outs; Loans are not counted as utilised
+- Received counts the items by delivery date (registration date when there is no delivery date) in the period, as the report text says
+- Utilised (checked out) counts every check-out in the period, Loans included (handheld, web and exit gantry)
+- In lab now matches the items of that description that are IN
 - Export downloads the columns shown
 
 ## Notes
-Coverage review 2026-11-19: this report had no case. Confirm the meaning of Received / Utilised with the user if the figures differ.
+Coverage review 2026-11-19: this report had no case. Expectations follow the report's own help text (seen 2026-11-19).

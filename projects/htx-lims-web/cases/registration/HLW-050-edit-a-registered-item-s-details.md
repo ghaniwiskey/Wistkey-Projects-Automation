@@ -28,7 +28,7 @@ Edit on Registered items not checked in yet saves the changed details, before an
 4. Open Inventory > Item Information for both items
 
 ## Expected
-- Both items show the new description (and serial) in the Item Register list and Item Information
+- Both items show the new description (and serial) in the Item Register list and in Edit (Item Information lists items only once IN, BUG-017)
 - The item numbers are unchanged and the printed item keeps its chip code and Tag printed time
 - Audit Trail has an entry for each edit with the user and time
 

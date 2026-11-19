@@ -61,3 +61,20 @@ Master Data (Item Category: 4 built-in categories Asset, Chemical, Consumable, F
 ## Test data
 
 Shared UAT data (items, POs, stock takes, open alerts) is used by others: tests find records at runtime and create their own with a `QA` prefix. Storage locations, item types, users and unprinted items have Delete; acknowledging alerts is permanent. The user allows irreversible test steps on UAT (README > Testing permissions).
+
+## Changes seen after the 19/11/2026 deploy
+
+- Menu: Check In / Out = Registered Not Printed, Printed Not Pre-Checked In, Tagged Not Checked In, Check In, Check Out (Count Item only by address /countitem); Gantry Setup moved to System; Gantry > Gantry Whitelist points to /gantrysetup (BUG-018, page still at /gantrywhitelist). The User role now sees Report (all reports but Audit Trail) (Q-011).
+- PO Creation saves rarely and silently (BUG-011); Edit PO needs Manager and Officer, whose lists are empty (BUG-012). Admin changes (POs, users, roles) are not in the Audit Trail (BUG-015).
+- Item Register: Edit works before and after printing (number and chip code kept); Item type options read "<type> (min x / max y)" when limits are set; Chemical form has SDS link / issue date / file and License required + agency; uploads: CoA and SDS PDF only, photo JPG/PNG max 2048 KB, files served at /coa/<guid>.pdf, /sds/<guid>.pdf, /images/<item>.png.
+- Item Information lists items only once IN (BUG-017).
+- Stock Take Detail opens for the User role by address with Commence / Abort enabled (BUG-013); the adjustment section needs Extra permissions > Stock adjustment. Adjust OUT -> IN leaves a loan whitelisted (BUG-016).
+- Check Out list refreshes on its own: an item checked out elsewhere disappears and the selection is cleared (HLW-062).
+- High stock alert: "Stock for <type> is n item(s), at or above maximum m." within a minute (HLW-057). Overdue loan alerts exist.
+- Reports: Received counts by delivery (or registration) date, Utilised counts every check-out incl. loans (report text). Stock Transaction Report labels handheld pre check-in "Registered to PO" (BUG-019).
+
+## Test-tool notes (19/11)
+
+- User Management dialogs: the Role list opens on the second click; pick the option from the list, and tick Extra permissions by clicking its label (Playwright check() on the box is not bound). The list's Refresh button can show the old role: reload the page.
+- Screenshots of the full page sometimes time out (CDP): screenshot the `main` element instead.
+- Two emulators run on this PC: pick the phone by AVD name (`adb -s <serial> emu avd name` = Medium_Phone); the serials swap between boots.

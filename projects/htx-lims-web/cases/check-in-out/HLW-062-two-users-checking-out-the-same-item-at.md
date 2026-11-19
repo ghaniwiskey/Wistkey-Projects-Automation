@@ -23,7 +23,7 @@ Concurrent check-outs of one item do not create two loans or count the item twic
 3. Without refreshing, USER2 checks it out For use
 
 ## Expected
-- USER2's check-out is refused with a message that the item is no longer IN
+- USER2 cannot check the item out: the Check Out list drops it (the page refreshes on its own) or the check-out is refused with a message
 - Check In Out Report has one check-out for the item and Loan Out Report one loan
 - Stock Level Report counts the item once
 
