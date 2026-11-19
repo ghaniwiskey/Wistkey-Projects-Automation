@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "web-pos-membership-discount",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-11-20_0659_staging_manual",
+  "startedAt": "2026-11-19T23:59:24.020Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-185",
+      "title": "Web POS applies the percentage discount only for the configured membership level",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-185-web-pos-applies-the-percentage-discount.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Verify that selecting an eligible member applies the configured basket discount and removing the member removes that offer.",
+      "preconditions": [
+        "An active membership basket promotion, an eligible member and a member at another level."
+      ],
+      "data": [
+        "For example, 10% off for Level 3 and an eligible HKD 100 item."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Storeberry with a staff account.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Web POS for the store covered by the offer.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add an eligible item as a guest and disable competing basket discounts in this cart if needed.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Select the eligible member.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove the member, then select a member at a different level.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear the test cart.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The named offer is absent for the guest.",
+          "status": null
+        },
+        {
+          "text": "The eligible member receives the exact configured discount. A 10% offer on HKD 100 deducts HKD 10.",
+          "status": null
+        },
+        {
+          "text": "Removing the member removes that offer; it remains absent for a member at another level.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "KN, promotion 679: HKD 100 basket discounted HKD 10 for Level 3 after disabling competing Gold offer. Guest and two verified Level 2 members did not receive level3."
+      ],
+      "evidence": [
+        "screenshots/SCRM-185-m01-01-level-3-discount.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T23:59:24.200Z"
+    },
+    {
+      "id": "SCRM-186",
+      "title": "Web POS excludes products flagged against whole-order promotions from the membership discount",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-186-web-pos-excludes-products-flagged.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Verify that a membership basket discount does not discount a product excluded from whole-order promotions.",
+      "preconditions": [
+        "An active membership basket offer and an eligible member. One product is excluded from whole-order promotions and another is eligible."
+      ],
+      "data": [
+        "One excluded product and one eligible item."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Storeberry with a staff account.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Web POS for a participating store.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add the excluded product and select an eligible member.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add the eligible item.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear the test cart.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The excluded product by itself stays at full price.",
+          "status": null
+        },
+        {
+          "text": "After an eligible item is added, the discount applies to the eligible amount only, not the excluded product.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Pinky Star1 has Excluded from whole order promotions checked. HKD 480 alone stayed HKD 480. In a mixed basket only the HKD 100 eligible snack contributed to the discount base (HKD 80 after Gold; level3 HKD 8)."
+      ],
+      "evidence": [
+        "screenshots/SCRM-186-m01-02-pinky-mixed-cart.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T23:59:24.383Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-19T23:59:24.890Z",
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

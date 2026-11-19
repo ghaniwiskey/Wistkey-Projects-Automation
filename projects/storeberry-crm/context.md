@@ -32,6 +32,8 @@ Current facts by topic (docs/conventions.md > Knowledge files). Session notes, e
 - Storeberry HK sells from warehouse TEST12; 偈油x10 is untracked and a quota product (needs a customer).
 - Promotion code box `input[placeholder="Promotion code"]` + Apply; codes of other shops get "Invalid promotion code.".
 
+- Membership percentage offers are basket promotions. Products with **Excluded from whole order promotions** checked (e.g. Pinky Star1) do not contribute to the discount base, even in a mixed cart. Check the offer by name: a separate basket offer can change the amount to which the member percentage applies.
+
 ## Stock: purchase orders, transfers, replenish, inventory
 - Purchase order form: picking the Supplier also filters the product picker to that supplier; reset the picker to All Suppliers before choosing products. Supplier and Warehouse are select2: click the combobox, then `.select2-results__option`. Receive qty is capped at the outstanding qty.
 - Transfer: Add Transfer Order > Submit > Confirm (Pending, source available reserved) > Transfer > OK (In-transit) > row toggle or Received All > Receive > OK (Received). Submit is a link (`a.button-save`, not the Cancel one) that opens an inline CONFIRM TRANSFER ORDER panel (Confirm button). Receive with no toggle does nothing (BUG-019, accepted); there is no receive-qty input. "Cancel Transfer" on In-transit returns it to Pending; "Cancel Transfer Orders" then cancels. After a partial receive only Receive is offered (Q-016). Transfer and receive times are overwritten by later actions (BUG-025, accepted).
