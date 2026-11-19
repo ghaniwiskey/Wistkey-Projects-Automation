@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "htx-lims-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1546_staging_playwright",
+  "workers": [
+    "htx-lims-mobile"
+  ],
+  "startedAt": "2026-11-18T08:46:04.244Z",
+  "finishedAt": "2026-11-18T08:48:40.390Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "HLM-011",
+      "title": "a new item is received on the handheld: pre check-in and check-in",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/htx-lims-mobile/tests/e2e/flows/item-lifecycle.spec.ts",
+      "tags": [
+        "@smoke",
+        "@writes"
+      ],
+      "startedAt": "2026-11-18T08:46:04.244Z",
+      "durationMs": 152348,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Web: register a Consumable and print its tag on printer \"test\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Handheld: pre check-in by chip code",
+          "pass": false,
+          "actual": "LocatorError: Locator timed out waiting for state \"visible\" after 15000ms"
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        },
+        {
+          "label": "Step: screen.swipe()",
+          "pass": true
+        }
+      ],
+      "evidence": [
+        "screenshots/HLM-011-a1-1.png",
+        "traces/HLM-011-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "LocatorError: Locator timed out waiting for state \"visible\" after 15000ms",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "Playwright project \"htx-lims-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}

@@ -13,7 +13,7 @@ defaultEnv: staging
 envs:
   staging:
     baseUrl: https://htx.eastus.cloudapp.azure.com:5001/
-    allowWrites: false
+    allowWrites: true
     mobileAccount: HLW_ADMIN
 
 # Playwright settings (POM suite in tests/, see .agents/skills/qa-write-tests Part B).

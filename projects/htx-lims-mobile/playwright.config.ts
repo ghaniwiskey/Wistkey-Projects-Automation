@@ -63,7 +63,9 @@ const config: PlaywrightTestConfig<MobilewrightUseOptions> & Pick<MobilewrightCo
     metadata: { slug: 'htx-lims-mobile', env: envName, baseUrl: baseURL, browser: 'android' },
     // mobilewright launches the app fresh before each test. ignoreHTTPSErrors: the UAT web server has a
     // self-signed certificate (for tests that also use the browser `page`).
-    use: { baseURL, ignoreHTTPSErrors: true, platform: 'android', bundleId: 'com.htx.lims.dev', animations: 'off' },
+    // launchOptions: HTX LIMS web prints through Zebra Browser Print, a local agent on http://127.0.0.1:9100; Chromium's
+    // local network access checks block a public https page from calling it, so the printer list stays empty.
+use: { baseURL, ignoreHTTPSErrors: true, launchOptions: { args: ['--disable-features=LocalNetworkAccessChecks,BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessRespectPreflightResults'] }, platform: 'android', bundleId: 'com.htx.lims.dev', animations: 'off' },
   }],
 };
 

@@ -20,6 +20,20 @@ for tests that set up or check data in the browser.
 - Compose views have no resource-ids or accessibility labels: screen objects find elements by visible text and
   text fields by position (`tests/pages/mobile/app.screen.ts`).
 
+## Automated critical flows
+
+`tests/e2e/flows/item-lifecycle.spec.ts` drives the web (browser `page`, `LimsWebPage`) and the handheld (emulator
+`screen`, `tests/pages/mobile/workflow.screen.ts`) together:
+
+- HLM-011 (~10 min): register + print on the web (printer "test") -> handheld pre check-in -> handheld check-in -> IN.
+- HLM-012 (~14 min): handheld loan check-out -> whitelisted -> handheld pre check-in + check-in -> IN, off the whitelist.
+
+Needs the emulator, the dev build's QA simulation buttons and Zebra Browser Print running on this PC (the web
+printer list comes from it: http://127.0.0.1:9100; the config turns off Chromium's local network access checks so
+the test browser can reach it). Pre Check-in / Check-in "Refresh items" shows an "Items downloaded" dialog.
+mobilewright's `scrollIntoViewIfNeeded()` misjudges visibility in this app: screens tap first and swipe only when
+the element is missing.
+
 ## Speed
 
 mobilewright's screen reads are slow on this app: every read (locator check) takes about 6 s and every tap about
@@ -69,3 +83,15 @@ is left behind. Signing out only with an empty Upload queue.
   scan" > Upload > Upload anyway when items are missing.
 - Check-in on the handheld removes a returned loan from the gantry whitelist and is audited (the web Check In
   page does neither: htx-lims-web BUG-001, BUG-002).
+
+## Why the phone tests are slow (measured 2026-11-18)
+
+| Action | HTX app | Android Settings |
+|---|---|---|
+| mobilewright screen read (viewTree / isVisible), also `mobilecli dump ui` | 5.9-6.0 s | 0.3 s |
+| tap by text (read + tap) | 11.8 s | |
+| tap by coordinates, Back | 0.0 s | 0.0 s |
+| plain `adb shell uiautomator dump` | 2.0 s | 2.1 s |
+
+The HTX app renders 0 frames while idle, so it is not a redraw loop; mobilecli's on-device agent waits ~6 s before it
+returns the tree of this Compose app (cause not found). Reads are the cost, taps are free.

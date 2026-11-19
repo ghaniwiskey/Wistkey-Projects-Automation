@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "runner": "playwright",
+  "project": "htx-lims-mobile",
+  "env": "staging",
+  "suite": "playwright",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-18_1543_staging_playwright",
+  "workers": [
+    "htx-lims-mobile"
+  ],
+  "startedAt": "2026-11-18T08:43:04.834Z",
+  "finishedAt": "2026-11-18T08:45:41.416Z",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "id": "HLM-011",
+      "title": "a new item is received on the handheld: pre check-in and check-in",
+      "status": "fail",
+      "source": "playwright",
+      "file": "projects/htx-lims-mobile/tests/e2e/flows/item-lifecycle.spec.ts",
+      "tags": [
+        "@smoke",
+        "@writes"
+      ],
+      "startedAt": "2026-11-18T08:43:04.834Z",
+      "durationMs": 152748,
+      "attempts": 1,
+      "checks": [
+        {
+          "label": "Step: 1. Web: register a Consumable and print its tag on printer \"test\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"not toHaveValue\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toHaveCount\"",
+          "pass": true
+        },
+        {
+          "label": "Expect \"toBeVisible\"",
+          "pass": true
+        },
+        {
+          "label": "Step: 2. Handheld: pre check-in by chip code",
+          "pass": false,
+          "actual": "LocatorError: Element not scrolled into view after 4 swipes"
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: expect.toBeVisible()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.tap()",
+          "pass": true
+        },
+        {
+          "label": "Step: locator.scrollIntoViewIfNeeded()",
+          "pass": false,
+          "actual": "LocatorError: Element not scrolled into view after 4 swipes"
+        }
+      ],
+      "evidence": [
+        "screenshots/HLM-011-a1-1.png",
+        "traces/HLM-011-a1-3.zip"
+      ],
+      "notes": [],
+      "error": "LocatorError: Element not scrolled into view after 4 swipes",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "Playwright project \"htx-lims-mobile\". Full Playwright HTML report: reports/playwright-html/index.html, open with npm run report (overwritten by the next run)."
+}
