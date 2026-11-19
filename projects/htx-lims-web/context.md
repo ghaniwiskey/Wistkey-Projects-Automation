@@ -8,8 +8,8 @@ Each item (one RFID tag per unit) moves through these states; the pages and case
 
 | Step | Where | Item status after | Cases |
 |---|---|---|---|
-| 1. Purchase order | Purchase Order > PO Creation, PO Management (Approve, Edit, Delete) | - | HLW-007..009 |
-| 2. Register | Registration > Item Register (category, type, description, Number of units = one item per unit; optional PO, lot, expiry, CoA PDF) | NOT PRE CHECK IN | HLW-010..012 |
+| 1. Purchase order | Purchase Order > PO Creation, PO Management (Approve, Edit, Delete) | - | HLW-007..009, 051, 052 |
+| 2. Register | Registration > Item Register (category, type, description, Number of units = one item per unit; optional lot, expiry, CoA PDF, photo; chemicals also SDS and license fields). No PO field: nothing links an item to its PO (Q-010) | NOT PRE CHECK IN | HLW-010..012, 050, 058 |
 | 3. Print RFID tag | Registration > Asset Tag Printing (printer, label size; print new / reprint) -> Check In / Out > Printed | NOT PRE CHECK IN, tag printed | HLW-013 |
 | 4. Stick the tag on the item | physical: Paper (box tag) 73x20 for cartons/consumables, Metal 50x15 for assets, Anti-Liquid 46x40 for chemicals (By category picks these), Jewelry and 60x25 by hand | | HLW-038 |
 | 5. Pre check-in | handheld (PUT api/raid/mobile/singleregister); can complete empty fields (lot, expiry, CAS) -> Check In / Out > Tagged Not Checked In | NOT CHECKED IN | mobile |
