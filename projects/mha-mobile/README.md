@@ -1,6 +1,6 @@
 # MHA Mobile
 
-> **No new automation (user, 2026-11-18):** do not add specs, screen objects or other automation for this app. Test it by hand on the emulator and record manual runs (test cases are still written). The existing specs stay and are run or fixed only when asked. Reason: htx-lims-mobile README > Why the phone tests are slow.
+> **No new automation (user, 2026-11-18):** do not add specs, screen objects or other automation for this app. Test it by hand on the emulator and record manual runs (test cases are still written). The existing specs stay and are run or fixed only when asked. Reason: htx-lims-mobile/context.md > Why the phone tests are slow.
 
 Native Android app under test: **com.iconsult.mhasgtwo** ("Asset Tracking System (ATS)", 2.0-dev) on the Android
 emulator, against UAT.

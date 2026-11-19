@@ -1,6 +1,6 @@
 # HTX LIMS Mobile
 
-> **No new automation (user, 2026-11-18):** do not add specs, screen objects or other automation for this app. Test it by hand on the emulator and record manual runs (test cases are still written). The existing specs stay and are run or fixed only when asked. Reason: htx-lims-mobile README > Why the phone tests are slow.
+> **No new automation (user, 2026-11-18):** do not add specs, screen objects or other automation for this app. Test it by hand on the emulator and record manual runs (test cases are still written). The existing specs stay and are run or fixed only when asked. Reason: htx-lims-mobile/context.md > Why the phone tests are slow.
 
 Native Android handheld app of HTX LIMS: **com.htx.lims.dev** (0.1.0, Kotlin/Jetpack Compose, Chainway "rscja"
 RFID SDK, `MainActivity`), on the Android emulator (AVD `Medium_Phone`) against UAT. Test IDs `HLM-NNN`.
