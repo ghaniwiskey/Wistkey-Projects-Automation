@@ -72,6 +72,8 @@ is left behind. Signing out only with an empty Upload queue.
 
 ## Driving the app without a reader (emulator)
 
+- Emulators on this PC: Aside tests on AVD **Medium_Phone** (usually emulator-5554); the user works on **Medium_Tablet** (emulator-5556). Always target the phone (`adb -s emulator-5554` or `ANDROID_SERIAL`) and never touch the tablet.
+
 - Data first: Dashboard > Update all data (or Refresh items on the screen), else a new tag is "not found in the
   downloaded items".
 - Pre Check-in: type the 24-digit chip code under "Or enter EPC / Tag ID" > Add tag; each typed tag needs

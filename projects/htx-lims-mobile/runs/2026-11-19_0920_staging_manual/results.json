@@ -1,0 +1,407 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-mobile",
+  "env": "staging",
+  "suite": "handheld-manual-2026-11-19",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-19_0920_staging_manual",
+  "startedAt": "2026-11-19T02:20:27.350Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLM-013",
+      "title": "Check out For Use and No Return on the handheld",
+      "priority": "P1",
+      "feature": "check-out",
+      "file": "projects/htx-lims-mobile/cases/check-out/HLM-013-check-out-for-use-and-no-return-on-the.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "For Use and No Return\n\nVerify that the handheld checks items out For Use (stays in the lab, not whitelisted) and No Return (leaves for good, whitelisted), and that stock goes down for both.",
+      "preconditions": [
+        "Two IN items of the same item type (not chemicals)"
+      ],
+      "data": [
+        "Types: For Use, No Return; remarks QA <unique>"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the web note the item type's stock (Report > Stock Level Report)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the handheld tap Check-out, find the first item, choose For Use, add remarks, Add to list",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Find the second item, choose No Return, add remarks, Add to list",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Verify both, Review check-out, Confirm check-out",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the web check both items and the stock",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "For Use reads \"Stays in the lab · Status changes to In use · Cannot pass gantry\"; No Return reads \"Leaves the lab permanently · Can pass gantry\"",
+          "status": null
+        },
+        {
+          "text": "\"Check-out uploaded - All 2 item(s) were checked out.\"",
+          "status": null
+        },
+        {
+          "text": "Web: both OUT; For Use not on the gantry whitelist, No Return on it",
+          "status": null
+        },
+        {
+          "text": "The item type's stock is 2 lower",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "002000022 For Use (not whitelisted), 002000024 No Return (whitelisted): \"All 2 item(s) were checked out.\"; Glove stock 3 -> 1."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:20:27.469Z"
+    },
+    {
+      "id": "HLM-014",
+      "title": "Pre Check-in refuses unknown, already checked-in and repeated tags",
+      "priority": "P2",
+      "feature": "pre-check-in",
+      "file": "projects/htx-lims-mobile/cases/pre-check-in/HLM-014-pre-check-in-refuses-unknown-already.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Wrong tags in Pre Check-in\n\nVerify that Pre Check-in only accepts tags of items waiting for it, does not add a tag twice, and lets the user delete a tag before uploading.",
+      "preconditions": [
+        "One item already IN and one printed item not pre checked-in yet"
+      ],
+      "data": [
+        "Unknown code: 999999999999999999999999"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld open Pre Check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the unknown code and tap Add tag",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the chip code of the IN item and tap Add tag",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the chip code of the printed item twice",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap Delete on its card and confirm",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Unknown and IN item: \"Tag not found in the downloaded items\", nothing added",
+          "status": null
+        },
+        {
+          "text": "The printed item is added once; the second entry shows \"Tag already scanned\"",
+          "status": null
+        },
+        {
+          "text": "Delete asks \"Delete this tag?\" and the list is empty again",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Unknown code and IN item 001000031: \"Tag not found in the downloaded items\"; 002000020 twice: \"Tag already scanned\"; Delete asks \"Delete this tag?\" and empties the list."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:20:27.589Z"
+    },
+    {
+      "id": "HLM-015",
+      "title": "Check-in offers only items that are pre checked-in",
+      "priority": "P2",
+      "feature": "check-in",
+      "file": "projects/htx-lims-mobile/cases/check-in/HLM-015-check-in-offers-only-items-that-are-pre.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Check-in candidates\n\nVerify that Check-in on the handheld only finds items waiting for check-in (pre checked-in), not items that are IN, OUT For Use or not pre checked-in.",
+      "preconditions": [
+        "Items in the states IN, OUT For Use, printed only, and pre checked-in"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld open Check-in",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter each item number and tap Find item",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "IN, For Use and printed-only items: \"No item waiting for check-in matches this input.\"",
+          "status": null
+        },
+        {
+          "text": "The pre checked-in item: \"Pre Check-in done · Ready for check-in\" with Add to check-in",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "001000031 (IN), 002000022 (For Use), 002000020 (printed only): \"No item waiting for check-in matches this input.\"; 002000023 (pre checked-in): \"Pre Check-in done · Ready for check-in\", checked in."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:20:27.704Z"
+    },
+    {
+      "id": "HLM-016",
+      "title": "Stocktake scan shows located, unlocated and extra tags and uploads only stocktake items",
+      "priority": "P1",
+      "feature": "stocktake",
+      "file": "projects/htx-lims-mobile/cases/stocktake/HLM-016-stocktake-scan-shows-located-unlocated.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Stocktake results\n\nVerify that a handheld stocktake scan sorts tags into Located, Unlocated and Extra, and uploads only the stocktake's items.",
+      "preconditions": [
+        "An In Progress stock take with three items",
+        "A tag that is not in the stock take (extra)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld open Stocktake, select the stock take",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Scan two of the items and one extra tag (Auto, or QA: simulate auto scan)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap Upload, review, Upload anyway",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the web open the stock take",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Counters: 2 Located, 1 Unlocated, 1 Extra; located items offer Detected location",
+          "status": null
+        },
+        {
+          "text": "Review says \"1 Extra tag(s) are shown only and are not uploaded.\"",
+          "status": null
+        },
+        {
+          "text": "The web shows the two items Located and the third Not located",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "ST00000017: 2 Located, 1 Unlocated, 1 Extra; \"1 Extra tag(s) are shown only and are not uploaded.\"; web shows 001000010/011 Located, 001000017 Not located; aborted."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:20:27.816Z"
+    },
+    {
+      "id": "HLM-017",
+      "title": "RFID reader settings without a reader and the reader test",
+      "priority": "P2",
+      "feature": "settings",
+      "file": "projects/htx-lims-mobile/cases/settings/HLM-017-rfid-reader-settings-without-a-reader.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Reader settings\n\nVerify that Settings explains a missing reader and that the reader test counts tags when a reader is connected.",
+      "preconditions": [
+        "A device without a connected RFID reader (or the dev build's simulation)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld open Settings and tap Connect reader",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Test RFID scan",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Switch to Simulation, tap Connect reader, then Start scan for a few seconds and Stop scan",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Without a reader: \"Not connected\" and \"Cannot connect to the RFID reader. Check the handheld and close other RFID apps, then retry.\"",
+          "status": null
+        },
+        {
+          "text": "Start scan stays disabled until the reader is connected",
+          "status": null
+        },
+        {
+          "text": "With the (simulated) reader connected the test shows Unique tags, Total reads, Elapsed and an EPC list, and creates no records",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "No reader: \"Cannot connect to the RFID reader ...\"; Start scan disabled until connected; Simulation + Connect reader: 8 unique tags, 112 reads in 7 s."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:20:27.933Z"
+    },
+    {
+      "id": "HLM-018",
+      "title": "All Assets filters by status",
+      "priority": "P2",
+      "feature": "assets",
+      "file": "projects/htx-lims-mobile/cases/assets/HLM-018-all-assets-filters-by-status.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "All Assets filter\n\nVerify that the All Assets status filter lists only items with the chosen status.",
+      "preconditions": [
+        "Items checked out (Loan / No Return) and in use (For Use)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "On the handheld open All Assets and Refresh list",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Choose status Checked out, then In use, then Not check-in",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Each filter shows only items with that status and the count of matching assets",
+          "status": null
+        },
+        {
+          "text": "Checked out = Loan and No Return items; In use = For Use items",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Checked out 13, In use 7, Not check-in 0; each list only shows that status."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:20:28.045Z"
+    },
+    {
+      "id": "HLM-019",
+      "title": "Logout warns about records that are not uploaded",
+      "priority": "P1",
+      "feature": "auth",
+      "file": "projects/htx-lims-mobile/cases/auth/HLM-019-logout-warns-about-records-that-are-not.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Logout with unsent records\n\nVerify that logging out with records in the Upload queue warns that they will be deleted and lets the user cancel.",
+      "preconditions": [
+        "A record waiting in the Upload queue (e.g. a pre check-in made offline)"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Turn the network off and make a pre check-in (it stays in the queue)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap Logout",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Tap Cancel",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Turn the network on and upload or delete the record",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The dialog says all data on the device will be deleted and \"1 record in the Upload queue has not been uploaded.\"",
+          "status": null
+        },
+        {
+          "text": "Cancel keeps the user signed in with the record still in the queue",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Offline pre check-in of 002000020 queued; Logout: \"... 1 record in the Upload queue has not been uploaded.\"; Cancel keeps the session; record deleted after."
+      ],
+      "evidence": [
+        "screenshots/HLM-019-m01-hlm-logout-pending.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:20:28.172Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-19T02:20:28.408Z",
+  "summary": {
+    "total": 7,
+    "pass": 7,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
