@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "web-pos-buy-two-get-one-2026-11-19",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-11-19_1551_staging_manual",
+  "startedAt": "2026-11-19T08:51:39.938Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-183",
+      "title": "Web POS makes the cheapest eligible item free when buying two and getting one free",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-183-web-pos-makes-the-cheapest-eligible.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Verify that Web POS charges for the two higher-priced units and makes the cheapest eligible unit free only when three eligible units are in the cart.",
+      "preconditions": [
+        "An active buy-two-get-one-free promotion applies to the selected POS store and covers two in-stock products with different prices. Neither product has a competing item-level promotion in that store."
+      ],
+      "data": [
+        "Two units of the higher-priced product and one unit of the lower-priced product."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Storeberry with a staff account.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Go to Physical Stores POS and open Web POS for the eligible store.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add one unit of each eligible product and note their line prices.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add one more unit of the higher-priced product.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove one unit of the higher-priced product.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear the test cart without checking out.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "With two units, neither item is free under this promotion.",
+          "status": null
+        },
+        {
+          "text": "With three units, the cheaper unit shows the promotion name and a zero line price; both higher-priced units keep their original unit price.",
+          "status": null
+        },
+        {
+          "text": "Returning to two units removes the free-item discount and restores the cheaper unit price.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Storeberry KN: snack01 HKD 100 remained paid with two units. With two HKD 520 Mix Rose units plus snack01, testss made snack01 HKD 0 and the subtotal was HKD 1040. Removing a rose restored snack01 to HKD 100. No sale submitted."
+      ],
+      "evidence": [],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T08:51:40.124Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-19T08:51:40.307Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
