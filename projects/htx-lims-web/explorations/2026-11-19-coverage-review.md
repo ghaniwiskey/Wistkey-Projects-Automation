@@ -27,6 +27,7 @@
 | Stock Transaction Report | HLW-060 |
 | Stock take Abort | HLW-061 |
 | Two users checking out the same item | HLW-062 |
+| For use item (OUT, not whitelisted) through an exit gantry | HLW-063 (P0) |
 
 ## Findings
 
