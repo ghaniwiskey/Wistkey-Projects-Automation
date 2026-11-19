@@ -33,3 +33,4 @@ The screen shows that there is no connection.
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-handheld.md in the Test Manager app.
+- 2026-11-19: still reproduces after the 19/11 deploy; the failed record also says 'Count failed on the server' although the device was offline (run 2026-11-19_1415_staging_manual).

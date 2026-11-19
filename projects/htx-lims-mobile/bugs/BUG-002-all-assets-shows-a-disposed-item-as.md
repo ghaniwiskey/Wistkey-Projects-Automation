@@ -33,3 +33,4 @@ The item shows as Disposed (or is not listed as available).
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-handheld.md in the Test Manager app.
+- 2026-11-19: still reproduces after the 19/11 deploy (DISPOSED 003000032 shown Checked in, run 2026-11-19_1415_staging_manual).

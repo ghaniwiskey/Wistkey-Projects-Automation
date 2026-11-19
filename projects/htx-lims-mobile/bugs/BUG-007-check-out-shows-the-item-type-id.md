@@ -1,6 +1,6 @@
 ---
 id: BUG-007
-title: "Check-out shows the item type id instead of its name for a new item type"
+title: "Check-out shows the item's internal id instead of its type name"
 severity: trivial
 status: open
 env: staging
@@ -33,3 +33,4 @@ Type id 102 shown, also in the Check-out list.
 
 ## History
 - 2026-11-19: filed from htx-lims-web/explorations/2026-11-19-coverage-review.md in the Test Manager app.
+- 2026-11-19: wider than a new type: every Check-out card shows the item's internal id (002000025 99, 002000027 103, 002000028 104, 003000010 33) instead of the type; All Assets shows '<id> · Category · Type' (run 2026-11-19_1415_staging_manual).

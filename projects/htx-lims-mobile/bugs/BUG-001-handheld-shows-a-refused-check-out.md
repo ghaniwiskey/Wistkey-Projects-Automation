@@ -34,3 +34,4 @@ The app says the item is expired and cannot be checked out (as the web does: 'Th
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-handheld.md in the Test Manager app.
+- 2026-11-19: still reproduces after the 19/11 deploy (003000010 For Use, run 2026-11-19_1415_staging_manual).

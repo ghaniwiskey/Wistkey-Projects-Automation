@@ -1,6 +1,6 @@
 ---
 id: HLM-020
-title: "The handheld shows the item type name for an item of a newly added type"
+title: "The handheld Check-out card shows the item type name"
 feature: check-out
 priority: P3
 tags: [regression]
@@ -11,7 +11,7 @@ updated: 2026-11-19
 ---
 
 ## Goal
-Items of an item type created after the handheld last downloaded its lists still show the type name, not its id.
+Check-out item cards show the item type name (as Pre Check-in and Check-in do), not a number.
 
 ## Preconditions
 - An item type added in Master Data > Item Type today, with one item IN (QA data)

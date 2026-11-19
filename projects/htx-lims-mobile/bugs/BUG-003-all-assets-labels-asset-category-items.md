@@ -32,3 +32,4 @@ Items of category Asset (e.g. Box) are shown as 'Fixed asset' on the handheld; t
 
 ## History
 - 2026-11-18: filed from explorations/2026-11-18-handheld.md in the Test Manager app.
+- 2026-11-19: still reproduces after the 19/11 deploy (001000031 Asset shown Fixed asset, run 2026-11-19_1415_staging_manual).
