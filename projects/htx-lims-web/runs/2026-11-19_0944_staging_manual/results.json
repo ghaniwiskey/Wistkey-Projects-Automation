@@ -1,0 +1,211 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "htx-lims-web",
+  "env": "staging",
+  "suite": "manual",
+  "baseUrl": "https://htx.eastus.cloudapp.azure.com:5001/",
+  "runId": "2026-11-19_0944_staging_manual",
+  "startedAt": "2026-11-19T02:44:37.042Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "HLW-049",
+      "title": "A newly registered item is received into stock through pre check-in, count and check-in",
+      "priority": "P0",
+      "feature": "check-in-out",
+      "file": "projects/htx-lims-web/cases/check-in-out/HLW-049-a-newly-registered-item-is-received.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "The main receiving flow end to end: a new item goes from NOT PRE CHECK IN to IN and only then counts in stock and can be checked out.",
+      "preconditions": [
+        "The handheld app signed in (emulator is fine)",
+        "Printer \"test\" in Asset Tag Printing"
+      ],
+      "data": [
+        "Item category: Consumable, first item type of that category with no Max set",
+        "Item description: QA receive <unique>, Number of units: 1"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web as administrator and note the item type's Stock in Report > Stock Level Report",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Register the item in Registration > Item Register and print its tag in Asset Tag Printing",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Look for the item in Check In / Out > Check Out and in Stock Level Report",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "On the handheld, pre check-in the item (scan its tag) and count it",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Check the item in at a storage location (handheld check-in, or web Check In if it lists the item)",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Item Information, Check Out and Stock Level Report again",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "Before check-in the item is not offered in Check Out and the Stock does not include it",
+          "status": "pass"
+        },
+        {
+          "text": "After pre check-in and count the status is NOT CHECKED IN and the item is listed under Tagged Not Checked In and Count Item",
+          "status": "pass"
+        },
+        {
+          "text": "After check-in the status is IN at the chosen storage location and the item is offered in Check Out",
+          "status": "pass"
+        },
+        {
+          "text": "The item type's Stock is 1 higher than in step 1",
+          "status": "pass"
+        },
+        {
+          "text": "Audit Trail has entries for registration, tag printing, pre check-in, count and check-in",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "Before check-in the item is not offered in Check Out and the Stock does not include it",
+          "pass": true
+        },
+        {
+          "label": "After pre check-in and count the status is NOT CHECKED IN and the item is listed under Tagged Not Checked In and Count Item",
+          "pass": true
+        },
+        {
+          "label": "After check-in the status is IN at the chosen storage location and the item is offered in Check Out",
+          "pass": true
+        },
+        {
+          "label": "The item type's Stock is 1 higher than in step 1",
+          "pass": true
+        },
+        {
+          "label": "Audit Trail has entries for registration, tag printing, pre check-in, count and check-in",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Item 002000025 \"QA receive 789896\" (Consumable / Glove), ADMIN. Registered 10:36 (NOT PRE CHECK IN), printed on printer \"test\" (chip 010010000000000002000025). Before check-in: not in Check Out, Glove Stock 2. Handheld (emulator Medium_Phone): pre check-in + count uploaded -> web Tagged Not Checked In and Count Item list it as NOT CHECKED IN; web Check In does not list it (only OUT items, Q-006), so check-in was done on the handheld (Airlock 1). After: Item Information IN at Airlock 1, Check Out offers it, Glove Stock 3 (In lab 1->2). Audit Trail: Item number assigned, Tag code issued, Tag printed, Handheld count item, Handheld register, Handheld check-in (handheld rows show \"2 tag(s)\", BUG-009). No item registration entry named as such: \"Item number assigned\" is the registration record."
+      ],
+      "evidence": [
+        "screenshots/HLW-049-m01-hlw-049-handheld-precheckin.png",
+        "screenshots/HLW-049-m02-hlw-049-handheld-checked-in.png",
+        "screenshots/HLW-049-m03-hlw-049-item-information.png",
+        "screenshots/HLW-049-m04-hlw-049-stock-level.png",
+        "screenshots/HLW-049-m05-hlw-049-audit.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:44:37.203Z"
+    },
+    {
+      "id": "HLW-063",
+      "title": "A For use item carried out through an exit gantry raises an unauthorized removal alert",
+      "priority": "P0",
+      "feature": "alerts",
+      "file": "projects/htx-lims-web/cases/alerts/HLW-063-a-for-use-item-carried-out-through-an.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "An item checked out For use is OUT but not whitelisted, so passing exit gantry 1a or 3b is logged as unauthorized and raises an Unauthorized removal alert.",
+      "preconditions": [
+        "An item checked out For use (HLW-016) and not on Gantry > Gantry Whitelist",
+        "Access to the HTX API Swagger page (/swagger) when no real gantry is available"
+      ],
+      "data": [
+        "Gantry: 3b EXIT (its IP from Gantry Setup)"
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to HTX LIMS web as administrator, note the Dashboard alert count and confirm the item is not on Gantry Whitelist",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Send the gantry read: carry the tag through gantry 3b, or in Swagger call POST /api/Gantry/unauthorizerfid with the gantry IP and the item's 24-digit chip code",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Wait one minute and refresh the Dashboard",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Gantry > Unauthorized Log",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Move the item back with an authorized read at an inner gantry of its original room",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The Dashboard count goes up by 1 with \"Unauthorized removal: <description> (Item Number <number>) passed exit gantry 3b EXIT.\"",
+          "status": "pass"
+        },
+        {
+          "text": "Unauthorized Log lists the item with Gantry 3b EXIT, Status OUT and Location Airlock 2",
+          "status": "pass"
+        },
+        {
+          "text": "The item keeps status OUT (a gantry never changes the status)",
+          "status": "pass"
+        }
+      ],
+      "checks": [
+        {
+          "label": "The Dashboard count goes up by 1 with \"Unauthorized removal: <description> (Item Number <number>) passed exit gantry 3b EXIT.\"",
+          "pass": true
+        },
+        {
+          "label": "Unauthorized Log lists the item with Gantry 3b EXIT, Status OUT and Location Airlock 2",
+          "pass": true
+        },
+        {
+          "label": "The item keeps status OUT (a gantry never changes the status)",
+          "pass": true
+        }
+      ],
+      "notes": [
+        "Item 003000025 \"QA print chem 42609\" OUT For use, not whitelisted (GantryWhitelist/status 400 false). POST /api/Gantry/unauthorizerfid at 3b EXIT (192.168.1.101) 10:34:56 -> Dashboard 21 -> 22 with \"Unauthorized removal: QA print chem 42609 (Item Number 003000025) passed exit gantry 3b EXIT.\"; Unauthorized Log: 3b EXIT, OUT, Airlock 2, Admin; item stays OUT. Moved back with an authorized read at 2a (Chemistry). Alert left unacknowledged."
+      ],
+      "evidence": [
+        "screenshots/HLW-063-m01-hlw-063-dashboard.png",
+        "screenshots/HLW-063-m02-hlw-063-unauthorized-log.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-19T02:44:37.346Z"
+    }
+  ],
+  "notes": "Untested P0s run by hand on UAT 2026-11-19 (web + handheld emulator + gantry API). Left behind: 002000025 IN Airlock 1; 003000025 OUT For use (back in Chemistry); open Unauthorized removal alert for 003000025.",
+  "finishedAt": "2026-11-19T02:44:38.496Z",
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

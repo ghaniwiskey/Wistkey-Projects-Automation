@@ -27,7 +27,7 @@ A loan that is still out after its due date is reported as Overdue.
 ## Expected
 - The loan is listed under Overdue with its due date and no Returned On
 - It is also listed under On loan (incl. overdue)
-- Whether the Dashboard raises an overdue alert is noted (no alert type for it is known)
+- The Dashboard shows an "Overdue loan" alert: "Overdue loan: <description> (Item Number <number>) was due back on <date> (<n> days overdue)."
 
 ## Notes
 Coverage review 2026-11-19: Loan Out Report has Loan status All / On loan (incl. overdue) / Overdue / Returned ("Overdue means still on loan after the due date"). Past due dates cannot be picked (HLW-043), so the test needs a 2-day wait or an existing overdue loan. Clean-up: check the item in again.

@@ -40,3 +40,12 @@
 ## QA data left behind
 
 None.
+
+## Round 2: untested P0s run by hand
+
+Run `runs/2026-11-19_0944_staging_manual` (2 pass), web as ADMIN + handheld on emulator Medium_Phone + gantry API.
+
+- HLW-049 pass: 002000025 "QA receive 789896" (Consumable / Glove) registered, printed (printer "test"), pre check-in + count and check-in on the handheld -> IN at Airlock 1, Glove Stock 2 -> 3, all steps in the Audit Trail. The web Check In page does not list NOT CHECKED IN items, so a new item can only be checked in on the handheld (Q-006).
+- HLW-063 pass: 003000025 (OUT For use, not whitelisted) through 3b EXIT via `unauthorizerfid` -> Unauthorized removal alert (Dashboard 21 -> 22), Unauthorized Log OUT / Airlock 2, status stays OUT; moved back with a read at 2a.
+- Seen: the Dashboard already raises "Overdue loan" alerts (HLW-056 updated).
+- Left behind: 002000025 IN Airlock 1; 003000025 OUT For use in Chemistry; open alert "Unauthorized removal: QA print chem 42609 (Item Number 003000025) passed exit gantry 3b EXIT." (not acknowledged).
