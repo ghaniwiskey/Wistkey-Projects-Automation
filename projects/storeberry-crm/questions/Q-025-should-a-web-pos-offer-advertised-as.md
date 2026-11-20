@@ -6,9 +6,9 @@ askedTo: "Product owner"
 env: staging
 found: 2026-11-20T00:11:12.400Z
 foundBy: "explorations/2026-11-20-web-pos-abovexcode.md"
-tests: [SCRM-188]
+tests: [SCRM-188, SCRM-190]
 bugs: []
-updated: 2026-11-20T00:11:12.400Z
+updated: 2026-11-20T00:18:10.425Z
 answered: ""
 ---
 ## Question

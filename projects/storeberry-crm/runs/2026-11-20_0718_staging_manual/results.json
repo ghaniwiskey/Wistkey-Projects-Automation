@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "web-pos-gifted",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-11-20_0718_staging_manual",
+  "startedAt": "2026-11-20T00:18:10.792Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-189",
+      "title": "Web POS deducts the fixed amount when a code meets its spending requirement",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-189-web-pos-deducts-the-fixed-amount-when-a.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Verify that the discount is a fixed amount on an above-cutoff cart.",
+      "preconditions": [
+        "An active fixed-amount minimum-spend code applies to this store. Turn off unrelated discounts in the test cart."
+      ],
+      "data": [
+        "Example: Gifted deducts HKD 23 over HKD 200. Use eligible products."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open a participating store in Web POS.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Build a basket with an eligible subtotal above the threshold.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter and apply the fixed-amount promotion code.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear the test cart without checkout.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The cart shows the promotion and deducts the configured fixed amount. A HKD 249 cart with a HKD 23 offer totals HKD 226.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "Gifted deducted a fixed HKD 23 from HKD 249, total HKD 226."
+      ],
+      "evidence": [
+        "screenshots/SCRM-189-m01-gifted-above-cutoff.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-20T00:18:10.960Z"
+    },
+    {
+      "id": "SCRM-190",
+      "title": "Web POS enforces the advertised cutoff for a fixed-amount minimum-spend code",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-190-web-pos-enforces-the-advertised-cutoff.md",
+      "status": "fail",
+      "source": "manual",
+      "goal": "Verify that neither a below-cutoff basket nor one exactly at the cutoff receives an offer described as over the cutoff.",
+      "preconditions": [
+        "An active fixed-amount minimum-spend code applies to this store. Turn off unrelated discounts in the test cart."
+      ],
+      "data": [
+        "Example: Gifted deducts HKD 23 over HKD 200. Use eligible products."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Open a participating store in Web POS.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply the code to an eligible basket below the cutoff.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Remove the code and bring the eligible subtotal to exactly the cutoff.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Apply the code again.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear the test cart without checkout.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "No discount applies below the cutoff.",
+          "status": null
+        },
+        {
+          "text": "No discount applies at the exact cutoff under the advertised wording.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "HKD 100 gave no discount although marked Applied. Exactly HKD 200 received the HKD 23 discount despite over wording. See Q-025."
+      ],
+      "evidence": [
+        "screenshots/SCRM-190-m01-gifted-at-cutoff.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-20T00:18:11.143Z",
+      "failureType": "untriaged"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-20T00:18:11.696Z",
+  "summary": {
+    "total": 2,
+    "pass": 1,
+    "fail": 1,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
