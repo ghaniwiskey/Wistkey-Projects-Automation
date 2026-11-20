@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "runner": "manual",
+  "project": "storeberry-crm",
+  "env": "staging",
+  "suite": "web-pos-abovexcode-snack01",
+  "baseUrl": "https://www.stagingl10.storeberry.xyz/",
+  "runId": "2026-11-20_0715_staging_manual",
+  "startedAt": "2026-11-20T00:15:14.798Z",
+  "inProgress": false,
+  "tester": "Aside",
+  "tests": [
+    {
+      "id": "SCRM-187",
+      "title": "Web POS takes 20% off when the cart exceeds the promo code threshold",
+      "priority": "P1",
+      "feature": "pos",
+      "file": "projects/storeberry-crm/cases/pos/SCRM-187-web-pos-takes-20-off-when-the-cart.md",
+      "status": "pass",
+      "source": "manual",
+      "goal": "Verify the discount amount on a qualifying basket.",
+      "preconditions": [
+        "An active 20% promo code advertised for spending above HKD 50 applies to the selected store. Eligible products are available."
+      ],
+      "data": [
+        "Use eligible items with no competing discount, or turn off unrelated basket offers for the cart."
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "text": "Log in to Storeberry with a staff account.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Open Web POS for a participating store.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Add eligible items totaling HKD 100.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Enter the promo code and click Apply.",
+          "status": null
+        },
+        {
+          "kind": "step",
+          "text": "Clear the test cart without checking out.",
+          "status": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "The named offer deducts HKD 20 and the cart total is HKD 80.",
+          "status": null
+        }
+      ],
+      "checks": [],
+      "notes": [
+        "KN guest cart with snack01 and Gold inactive: HKD 100 subtotal, abovexcode took HKD 20 off, HKD 80 total. HK side check: item offer lowered snack01 to HKD 50; code then took HKD 10 off with Gold inactive."
+      ],
+      "evidence": [
+        "screenshots/SCRM-187-m01-01-snack01-kn.png"
+      ],
+      "durationMs": 0,
+      "executedAt": "2026-11-20T00:15:14.976Z"
+    }
+  ],
+  "notes": "",
+  "finishedAt": "2026-11-20T00:15:15.336Z",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}
